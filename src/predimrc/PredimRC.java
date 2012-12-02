@@ -503,7 +503,7 @@ public class PredimRC extends JFrame implements KeyListener {
     }
 
     public static void play(String path) {
-        URL u = getResourceUrl("sounds/" + path);
+        URL u = getResourceUrl("Sounds/" + path);
         if (null != u) {
             Applet.newAudioClip(u).play();
         } else {
@@ -527,7 +527,7 @@ public class PredimRC extends JFrame implements KeyListener {
     }
 
     public static Image getImage(String path) {
-        URL u = getResourceUrl("images/" + path);
+        URL u = getResourceUrl("Images/" + path);
         if (null == u) {
             logln("fail to load " + path + " image");
             return java.awt.Toolkit.getDefaultToolkit().getImage("http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png");
