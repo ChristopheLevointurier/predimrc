@@ -6,8 +6,6 @@ package predimrc;
 
 import java.applet.Applet;
 import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,26 +13,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Properties;
-import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -46,34 +39,50 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
+import predimrc.gui.graphics.ConfigView;
+import predimrc.gui.graphics.MainView;
+import predimrc.gui.graphics.The3DView;
 
 /**
  *
- * @author Chris
+ * @author Christophe Levointurier 11/2012
+ * @version
+ * @see
+ * @since
  */
 public class PredimRC extends JFrame implements KeyListener {
 
-    private static final String VERSION = "Alpha 0.1";
+    private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
+    private static final String VERSION = "Alpha 0.0.2";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     private static final String configFile = "config.cfg";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static String airfoilsDirectory = System.getProperty("user.home") + "\\PredimRCFiles\\";
-    private static JMenuItem aboutbut;
+    private static JButton aboutbut, help;
     private static JMenuItem savetarget, opentarget;
     private static JMenuItem quit, openConfigRep, configProxy;
-    private static JToggleButton logbut, modelNote;
+    private static JToggleButton logbut, modelNote, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
     //  public static long threadsCount = 0;
     private static PredimRC instance;
     private static final boolean DEBUG_MODE = true;
     private static StringBuffer log = new StringBuffer();
     private static StringBuffer notes = new StringBuffer();
-
-    static {
-        //
-    }
+    public static Image icon;
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
+    /**
+     * *
+     *
+     * componentns of the main view
+     */
+    private MainView mainView = new MainView();
+    private The3DView the3DView = new The3DView();
+    private ConfigView configView = new ConfigView();
+
+    static {
+        icon = getImage("predimrc.jpg");
+    }
 
     public static PredimRC getInstance() {
         if (null == instance) {
@@ -90,12 +99,15 @@ public class PredimRC extends JFrame implements KeyListener {
         PredimRC.getInstance().addKeyListener(instance);
         loadConfiguration();
         PredimRC.getInstance().fillComponents();
+
     }
 
     private PredimRC() {
         super("PredimRC");
         log = new StringBuffer();
-        aboutbut = new JMenuItem("...");
+        aboutbut = new JButton("About...");
+        the3DViewButton = new JToggleButton("3Dimension View");
+        help = new JButton("Help!");
         logbut = new JToggleButton("log", false);
         modelNote = new JToggleButton("Notes", false);
         savetarget = new JMenuItem("Save model");
@@ -121,12 +133,64 @@ public class PredimRC extends JFrame implements KeyListener {
 
         menu.add(filemenu);
         menu.add(modelNote);
+        menu.add(the3DViewButton);
         menu.add(logbut);
+        menu.add(help);
         menu.add(aboutbut);
 
         setJMenuBar(menu);
 
 
+        help.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Runtime.getRuntime().exec("cmd /c start " + externalRefDoc);
+                } catch (IOException ex) {
+                    logln(" Fail to access to doc :" + externalRefDoc + " :" + ex.getLocalizedMessage());
+                }
+            }
+        });
+
+
+        the3DViewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!the3DViewButton.isSelected()) {
+                    the3DViewButton.setSelected(true);
+                    return;
+                }
+                setAlwaysOnTop(false);
+                final JFrame d = new JFrame("3 dimensionnal view of the model");
+                final JButton temp = new JButton("Close");
+
+                d.setLayout(new BorderLayout());
+                d.add(the3DView, BorderLayout.CENTER);
+                d.add(temp, BorderLayout.SOUTH);
+                d.pack();
+                d.setResizable(true);
+                d.setLocationRelativeTo(null);
+                d.setVisible(true);
+                d.setAlwaysOnTop(true);
+                the3DView.showDraft();
+                //  d.addKeyListener(todos);
+                temp.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        {
+                            the3DViewButton.setSelected(false);
+                            d.dispose();
+                        }
+                    }
+                });
+
+                d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                /**
+                 * d.addWindowListener(new WindowAdapter() {
+                 *
+                 * @Override public void windowClosing(final WindowEvent e) {
+                 * todos.save(); todo.setSelected(false); d.dispose();
+                 * setAlwaysOnTop(true); } });*
+                 */
+            }
+        });
 
 
 
@@ -272,10 +336,6 @@ public class PredimRC extends JFrame implements KeyListener {
 
 
 
-
-
-
-
         savetarget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PredimRC.logln("save");
@@ -285,7 +345,7 @@ public class PredimRC extends JFrame implements KeyListener {
         aboutbut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(getImage("predimrc.jpg")));
+                JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(icon));
                 setAlwaysOnTop(true);
             }
         });
@@ -295,8 +355,6 @@ public class PredimRC extends JFrame implements KeyListener {
                 quit();
             }
         });
-
-
 
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -318,49 +376,23 @@ public class PredimRC extends JFrame implements KeyListener {
     private void fillComponents() {
 
         logln("filling component...");
-        JTabbedPane tabbedPane = new JTabbedPane();
-
-        JComponent panel1 = new JPanel();
-        panel1.add(new JTextField(tabTooltip[0]));
-        tabbedPane.addTab(tabNames[0], null, panel1, tabTooltip[0]);
-        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-
-
-        JComponent panel2 = new JPanel();
-        panel2.add(new JTextField(tabTooltip[1]));
-        tabbedPane.addTab(tabNames[1], null, panel2, tabTooltip[1]);
-        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-
-        JComponent panel3 = new JPanel();
-        panel3.add(new JTextField(tabTooltip[2]));
-        tabbedPane.addTab(tabNames[2], null, panel3, tabTooltip[2]);
-        tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-
-        JComponent panel4 = new JPanel();
-        panel4.add(new JTextField(tabTooltip[3]));
-        tabbedPane.addTab(tabNames[3], null, panel4, tabTooltip[3]);
-        tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
-
-
-        JComponent panel5 = new JPanel();
-        panel5.add(new JTextField(tabTooltip[4]));
-        tabbedPane.addTab(tabNames[4], null, panel5, tabTooltip[4]);
-        tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
-
-        JComponent panel6 = new JPanel();
-        panel6.add(new JTextField(tabTooltip[5]));
-        tabbedPane.addTab(tabNames[5], null, panel6, tabTooltip[5]);
-        tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
-
-        getContentPane().add(tabbedPane);
-        setIconImage(getImage("predimrc.jpg"));
-        pack();
-        //  setSize((int) getPreferredSize().getWidth() + 75, (int) getPreferredSize().getHeight());
-        setSize(1024, 632);
-        setLocationRelativeTo(null);
+        // getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(mainView, BorderLayout.CENTER);
+         getContentPane().add(configView, BorderLayout.EAST);
+        setIconImage(icon);
         setVisible(true);
+        mainView.showDraft();
+        the3DView.showDraft();
+        configView.showDraft();
+        pack();
+      //  setSize(1024, 632);
+        setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         validate();
+
+
+
         logln("-- PredimRC " + VERSION + " started. --");
     }
 
@@ -494,10 +526,11 @@ public class PredimRC extends JFrame implements KeyListener {
         return u;
     }
 
-    private static Image getImage(String path) {
+    public static Image getImage(String path) {
         URL u = getResourceUrl("images/" + path);
         if (null == u) {
-            return java.awt.Toolkit.getDefaultToolkit().getImage("http://icones.pro/action-agt-fail-image-png.html");
+            logln("fail to load " + path + " image");
+            return java.awt.Toolkit.getDefaultToolkit().getImage("http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png");
         }
         return java.awt.Toolkit.getDefaultToolkit().getImage(u);
     }
