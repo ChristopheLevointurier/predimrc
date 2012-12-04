@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.gui.MegaLabel;
-import predimrc.gui.frame.OptimFrame;
+import predimrc.gui.frame.Optim_Frame;
 import predimrc.gui.frame.VlmFrame;
 import predimrc.gui.frame.XFoil_Frame;
 
@@ -60,7 +60,7 @@ public final class ConfigView extends JPanel {
 
         optimBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new OptimFrame(optimBut);
+                new Optim_Frame(optimBut);
             }
         });
 
