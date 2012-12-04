@@ -6,17 +6,15 @@ package predimrc.gui.graphic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import predimrc.PredimRC;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.frame.OptimFrame;
 import predimrc.gui.frame.VlmFrame;
-import predimrc.gui.frame.XFoilFrame;
+import predimrc.gui.frame.XFoil_Frame;
 
 /**
  *
@@ -69,7 +67,7 @@ public final class ConfigView extends JPanel {
 
         xFoilBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new XFoilFrame(xFoilBut);
+                new XFoil_Frame(xFoilBut);
             }
         });
 
