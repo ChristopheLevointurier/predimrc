@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 package predimrc.gui.frame;
 
 import java.awt.Image;
@@ -19,16 +18,16 @@ import predimrc.gui.ExternalFrame;
  * @see
  * @since 
  */
-public class VlmFrame extends ExternalFrame{
+public class Servos_Frame extends ExternalFrame{
 
-     public VlmFrame(AbstractButton _caller)
+     public Servos_Frame(AbstractButton _caller)
     {
         this(_caller, predimrc.PredimRC.icon, predimrc.PredimRC.DEFAULT_X_FRAME, predimrc.PredimRC. DEFAULT_Y_FRAME);
     }
 
-    public VlmFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
+    public Servos_Frame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super(_caller, _icon, _x, _y);
-        title="Vlm";
+        title="Servos";
         setTitle(title);
         getContentPane().add(new JTextArea("Zone de "+title));
     }

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.frame.Optim_Frame;
-import predimrc.gui.frame.VlmFrame;
+import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
 
 /**
@@ -53,7 +53,7 @@ public final class ConfigView extends JPanel {
 
         vlmBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new VlmFrame(vlmBut);
+                new Vlm_Frame(vlmBut);
             }
         });
 

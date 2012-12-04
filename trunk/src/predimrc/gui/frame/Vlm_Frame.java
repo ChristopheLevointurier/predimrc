@@ -1,8 +1,8 @@
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 
 package predimrc.gui.frame;
 
@@ -19,16 +19,16 @@ import predimrc.gui.ExternalFrame;
  * @see
  * @since 
  */
-public class OptimFrame extends ExternalFrame{
+public class Vlm_Frame extends ExternalFrame{
 
-     public OptimFrame(AbstractButton _caller)
+     public Vlm_Frame(AbstractButton _caller)
     {
         this(_caller, predimrc.PredimRC.icon, predimrc.PredimRC.DEFAULT_X_FRAME, predimrc.PredimRC. DEFAULT_Y_FRAME);
     }
 
-    public OptimFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
+    public Vlm_Frame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super(_caller, _icon, _x, _y);
-        title="Optim";
+        title="Vlm";
         setTitle(title);
         getContentPane().add(new JTextArea("Zone de "+title));
     }
