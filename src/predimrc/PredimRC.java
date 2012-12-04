@@ -39,9 +39,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
-import predimrc.gui.graphics.ConfigView;
-import predimrc.gui.graphics.MainView;
-import predimrc.gui.graphics.The3DView;
+import predimrc.gui.graphic.ConfigView;
+import predimrc.gui.graphic.MainView;
+import predimrc.gui.graphic.The3DView;
 
 /**
  *
@@ -69,6 +69,9 @@ public class PredimRC extends JFrame implements KeyListener {
     private static StringBuffer log = new StringBuffer();
     private static StringBuffer notes = new StringBuffer();
     public static Image icon;
+    public static ImageIcon imageIcon;
+   public static final int DEFAULT_X_FRAME=800;
+    public static final int DEFAULT_Y_FRAME=600;
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
     /**
@@ -82,6 +85,7 @@ public class PredimRC extends JFrame implements KeyListener {
 
     static {
         icon = getImage("predimrc.jpg");
+        imageIcon = new ImageIcon(icon);
     }
 
     public static PredimRC getInstance() {
@@ -379,14 +383,14 @@ public class PredimRC extends JFrame implements KeyListener {
         // getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(mainView, BorderLayout.CENTER);
-         getContentPane().add(configView, BorderLayout.EAST);
+        getContentPane().add(configView, BorderLayout.EAST);
         setIconImage(icon);
         setVisible(true);
         mainView.showDraft();
         the3DView.showDraft();
         configView.showDraft();
         pack();
-      //  setSize(1024, 632);
+        //  setSize(1024, 632);
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         validate();
