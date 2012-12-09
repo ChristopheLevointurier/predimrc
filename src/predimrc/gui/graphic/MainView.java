@@ -4,15 +4,16 @@
  */
 package predimrc.gui.graphic;
 
-import java.awt.Toolkit;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import predimrc.PredimRC;
+import predimrc.gui.MegaLabel;
+import predimrc.model.Model;
 
 /**
  *
- * This is the top view from the main frame.
+ * This is the main view from the main frame.
  *
  * @author Christophe Levointurier 2 déc. 2012
  * @version
@@ -21,11 +22,22 @@ import predimrc.PredimRC;
  */
 public class MainView extends JPanel {
 
+    private MegaLabel modelTitle;
+
     public MainView() {
         super();
-     }
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        modelTitle = new MegaLabel("Model name:", "undefined");
+        add(modelTitle);
+        
+    }
 
     public void showDraft() {
         add(new JButton(PredimRC.getImageIcon("draftMainView.png")));
+    }
+
+    public void setModel(Model m) {
+        modelTitle.setValue(m.getName());
+
     }
 }
