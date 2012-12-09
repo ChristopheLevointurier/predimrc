@@ -53,14 +53,14 @@ import predimrc.gui.graphic.The3DView;
 public class PredimRC extends JFrame implements KeyListener {
 
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
-    private static final String VERSION = "Alpha 0.0.2";
+    private static final String VERSION = "Alpha 0.0.3";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     private static final String configFile = "config.cfg";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static String airfoilsDirectory = System.getProperty("user.home") + "\\PredimRCFiles\\";
     private static JButton aboutbut, help;
     private static JMenuItem savetarget, opentarget;
-    private static JMenuItem quit, openConfigRep, configProxy;
+    private static JMenuItem quit, openConfigRep;
     private static JToggleButton logbut, modelNote, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
     //  public static long threadsCount = 0;
@@ -70,8 +70,8 @@ public class PredimRC extends JFrame implements KeyListener {
     private static StringBuffer notes = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
-   public static final int DEFAULT_X_FRAME=800;
-    public static final int DEFAULT_Y_FRAME=600;
+    public static final int DEFAULT_X_FRAME = 800;
+    public static final int DEFAULT_Y_FRAME = 600;
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
     /**
@@ -174,7 +174,6 @@ public class PredimRC extends JFrame implements KeyListener {
                 d.setLocationRelativeTo(null);
                 d.setVisible(true);
                 d.setAlwaysOnTop(true);
-                the3DView.showDraft();
                 //  d.addKeyListener(todos);
                 temp.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -386,16 +385,11 @@ public class PredimRC extends JFrame implements KeyListener {
         getContentPane().add(configView, BorderLayout.EAST);
         setIconImage(icon);
         setVisible(true);
-        mainView.showDraft();
-        the3DView.showDraft();
-        configView.showDraft();
         pack();
         //  setSize(1024, 632);
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         validate();
-
-
 
         logln("-- PredimRC " + VERSION + " started. --");
     }
