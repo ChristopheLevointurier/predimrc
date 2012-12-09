@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import predimrc.PredimRC;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.frame.Optim_Frame;
@@ -27,9 +28,9 @@ public final class ConfigView extends JPanel {
 
     private JPanel mainWing = new JPanel();
     private JPanel mainWingButtons = new JPanel();
-    private JButton vlmBut = new JButton("VLM");
-    private JButton optimBut = new JButton("Optim");
-    private JButton xFoilBut = new JButton("xFoil");
+    private JToggleButton vlmBut = new JToggleButton("VLM");
+    private JToggleButton optimBut = new JToggleButton("Optim");
+    private JToggleButton xFoilBut = new JToggleButton("xFoil");
 
     public ConfigView() {
         super();
@@ -74,6 +75,8 @@ public final class ConfigView extends JPanel {
 
         add(mainWing);
         add(mainWingButtons);
+        
+        showDraft();
 
     }
 
