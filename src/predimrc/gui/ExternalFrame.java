@@ -4,11 +4,13 @@
  */
 package predimrc.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -18,7 +20,7 @@ import javax.swing.JFrame;
  * @author Christophe Levointurier 2 déc. 2012
  * @version
  * @see
- * @since 
+ * @since
  */
 public class ExternalFrame extends JFrame {
 
@@ -27,11 +29,12 @@ public class ExternalFrame extends JFrame {
     protected int x = predimrc.PredimRC.DEFAULT_X_FRAME;
     protected int y = predimrc.PredimRC.DEFAULT_Y_FRAME;
     protected AbstractButton caller;
+    protected JButton closer;
 
- 
     public ExternalFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super();
         caller = _caller;
+        closer = new JButton("Save and Close");
         icon = _icon;
         x = _x;
         y = _y;
@@ -42,10 +45,12 @@ public class ExternalFrame extends JFrame {
         setVisible(true);
         setAlwaysOnTop(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        getContentPane().add(closer, BorderLayout.SOUTH);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 caller.setSelected(false);
+                closer.doClick();
                 dispose();
                 setAlwaysOnTop(false);
             }
