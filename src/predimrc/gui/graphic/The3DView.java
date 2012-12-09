@@ -20,9 +20,10 @@ public class The3DView extends JPanel {
 
     public The3DView() {
         super();
+        showDraft();
     }
 
-    public void showDraft() {
+    private void showDraft() {
         add(new JButton(PredimRC.getImageIcon("draft3DView.png")));
     }
 }

@@ -29,10 +29,10 @@ public class MainView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         modelTitle = new MegaLabel("Model name:", "undefined");
         add(modelTitle);
-        
+        showDraft();
     }
 
-    public void showDraft() {
+    private void showDraft() {
         add(new JButton(PredimRC.getImageIcon("draftMainView.png")));
     }
 
