@@ -6,12 +6,15 @@ package predimrc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import predimrc.gui.frame.Compare_Frame;
 
 /**
  *
@@ -22,7 +25,7 @@ import javax.swing.JFrame;
  * @see
  * @since
  */
-public class ExternalFrame extends JFrame {
+public abstract class ExternalFrame extends JFrame {
 
     protected String title = "unknown";
     protected Image icon = null;
@@ -55,5 +58,21 @@ public class ExternalFrame extends JFrame {
                 setAlwaysOnTop(false);
             }
         });
+
+
+
+        closer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                caller.setSelected(false);
+                save();
+                dispose();
+                setAlwaysOnTop(false);
+            }
+        });
+
+
     }
+
+   
+    public abstract void save();
 }

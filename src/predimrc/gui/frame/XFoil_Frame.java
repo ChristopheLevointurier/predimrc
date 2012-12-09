@@ -28,4 +28,9 @@ public class XFoil_Frame extends ExternalFrame {
         setTitle(title);
         getContentPane().add(new JTextArea("Zone de " + title));
     }
+
+    @Override
+    public void save() {
+        predimrc.PredimRC.logDebugln("Save de " + title);
+    }
 }
