@@ -16,7 +16,9 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import predimrc.PredimRC;
 import predimrc.gui.frame.Compare_Frame;
+import predimrc.model.Model;
 
 /**
  *
@@ -34,13 +36,13 @@ public abstract class ExternalFrame extends JFrame {
     protected int x = predimrc.PredimRC.DEFAULT_X_FRAME;
     protected int y = predimrc.PredimRC.DEFAULT_Y_FRAME;
     protected AbstractButton caller;
-    protected JButton closer;
+    protected Model model;
 
     public ExternalFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super();
         caller = _caller;
-        closer = new JButton("Save and Close");
         icon = _icon;
+        model = PredimRC.getInstance().getModel();
         x = _x;
         y = _y;
         setSize(x, y);
@@ -50,21 +52,9 @@ public abstract class ExternalFrame extends JFrame {
         setVisible(true);
         setAlwaysOnTop(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        getContentPane().add(closer, BorderLayout.SOUTH);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
-                caller.setSelected(false);
-                closer.doClick();
-                dispose();
-                setAlwaysOnTop(false);
-            }
-        });
-
-
-
-        closer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
                 caller.setSelected(false);
                 save();
                 dispose();
@@ -72,27 +62,19 @@ public abstract class ExternalFrame extends JFrame {
             }
         });
 
-        
-        /** TODO 
 
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
 
-            @Override
-            public void keyPressed(KeyEvent keyEvent) {
-                if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    closer.doClick();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-       **/
-
+        /**
+         * TODO * addKeyListener(new KeyListener() {
+         *
+         * @Override public void keyTyped(KeyEvent e) { }
+         *
+         * @Override public void keyPressed(KeyEvent keyEvent) { if
+         * (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) { closer.doClick(); } }
+         *
+         * @Override public void keyReleased(KeyEvent e) { } });
+         *
+         */
     }
 
     public abstract void save();
