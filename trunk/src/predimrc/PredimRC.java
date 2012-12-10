@@ -19,13 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractButton;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -34,15 +30,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import predimrc.gui.frame.Note_Frame;
+import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.graphic.ConfigView;
 import predimrc.gui.graphic.MainView;
-import predimrc.gui.graphic.The3DView;
 import predimrc.model.Model;
 
 /**
@@ -56,7 +50,7 @@ public class PredimRC extends JFrame implements KeyListener {
 
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key. Old version file problem";
-    private static final String VERSION = "Alpha 0.0.3";
+    private static final String VERSION = "Alpha 0.0.4";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     private static final String configFile = "config.cfg";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
@@ -77,15 +71,12 @@ public class PredimRC extends JFrame implements KeyListener {
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
     private Model model;
-    
-    public static boolean warnClosePopup=true;
-    
+    public static boolean warnClosePopup = true;
     /**
      *
      * componentns of the main view
      */
     private MainView mainView = new MainView();
-    private The3DView the3DView = new The3DView();
     private ConfigView configView = new ConfigView();
 
     static {
@@ -164,40 +155,7 @@ public class PredimRC extends JFrame implements KeyListener {
 
         the3DViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!the3DViewButton.isSelected()) {
-                    the3DViewButton.setSelected(true);
-                    return;
-                }
-                //  setAlwaysOnTop(false);
-                final JFrame d = new JFrame("3 dimensionnal view of the model");
-                final JButton temp = new JButton("Close");
-
-                d.setLayout(new BorderLayout());
-                d.add(the3DView, BorderLayout.CENTER);
-                d.add(temp, BorderLayout.SOUTH);
-                d.pack();
-                d.setResizable(true);
-                d.setLocationRelativeTo(null);
-                d.setVisible(true);
-                // d.setAlwaysOnTop(true);
-                //  d.addKeyListener(todos);
-                temp.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        {
-                            the3DViewButton.setSelected(false);
-                            d.dispose();
-                        }
-                    }
-                });
-
-                d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                /**
-                 * d.addWindowListener(new WindowAdapter() {
-                 *
-                 * @Override public void windowClosing(final WindowEvent e) {
-                 * todos.save(); todo.setSelected(false); d.dispose();
-                 * setAlwaysOnTop(true); } });*
-                 */
+                new The3D_Frame(the3DViewButton);
             }
         });
 
@@ -206,10 +164,6 @@ public class PredimRC extends JFrame implements KeyListener {
 
         modelNoteBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!modelNoteBut.isSelected()) {
-                    modelNoteBut.setSelected(true);
-                    return;
-                }
                 new Note_Frame(modelNoteBut);
             }
         });
