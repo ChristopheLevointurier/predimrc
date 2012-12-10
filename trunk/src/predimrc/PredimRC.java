@@ -77,8 +77,10 @@ public class PredimRC extends JFrame implements KeyListener {
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
     private Model model;
+    
+    public static boolean warnClosePopup=true;
+    
     /**
-     * *
      *
      * componentns of the main view
      */

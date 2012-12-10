@@ -36,15 +36,9 @@ public class Note_Frame extends ExternalFrame {
         title = "Note";
         setTitle(title);
         area = new JTextArea(model.getNote(), 10, 50);
-        JPanel todos = new JPanel();
-        todos.add(area);
+        //JPanel todos = new JPanel();        todos.add(area);
         setLayout(new BorderLayout());
-        getContentPane().add(todos, BorderLayout.CENTER);
-        pack();
-        setResizable(true);
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setAlwaysOnTop(true);
+        getContentPane().add(area, BorderLayout.CENTER);
     }
 
     @Override
@@ -53,5 +47,5 @@ public class Note_Frame extends ExternalFrame {
         model.setNote(area.getText());
         caller.setSelected(false);
         dispose();
-     }
+    }
 }

@@ -16,6 +16,7 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import predimrc.PredimRC;
 import predimrc.gui.frame.Compare_Frame;
 import predimrc.model.Model;
@@ -50,15 +51,23 @@ public abstract class ExternalFrame extends JFrame {
         setLocationRelativeTo(null);
         setIconImage(icon);
         setVisible(true);
-        setAlwaysOnTop(true);
+        //  setAlwaysOnTop(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 caller.setSelected(false);
+                if (PredimRC.warnClosePopup) {
+                    Object[] options = {"OK", "OMG DONT TELL ME AGAIN -_-"};
+                    int ret = JOptionPane.showOptionDialog(null, "Closing a pop-up automatically save its content", "Warning",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                            null, options, options[0]);
+                    PredimRC.warnClosePopup = (ret != 1);
+
+                }
                 save();
                 dispose();
-                setAlwaysOnTop(false);
+                //      setAlwaysOnTop(false);
             }
         });
 
