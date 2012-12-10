@@ -39,9 +39,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
+import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.graphic.ConfigView;
 import predimrc.gui.graphic.MainView;
 import predimrc.gui.graphic.The3DView;
+import predimrc.model.Model;
 
 /**
  *
@@ -53,6 +55,7 @@ import predimrc.gui.graphic.The3DView;
 public class PredimRC extends JFrame implements KeyListener {
 
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
+    private static final String DEFAULT_KEY_VALUE = "Unknown Key. Old version file problem";
     private static final String VERSION = "Alpha 0.0.3";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     private static final String configFile = "config.cfg";
@@ -61,19 +64,19 @@ public class PredimRC extends JFrame implements KeyListener {
     private static JButton aboutbut, help;
     private static JMenuItem savetarget, opentarget;
     private static JMenuItem quit, openConfigRep;
-    private static JToggleButton logbut, modelNote, the3DViewButton;
+    private static JToggleButton logbut, modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
     //  public static long threadsCount = 0;
     private static PredimRC instance;
     private static final boolean DEBUG_MODE = true;
     private static StringBuffer log = new StringBuffer();
-    private static StringBuffer notes = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
     public static final int DEFAULT_X_FRAME = 800;
     public static final int DEFAULT_Y_FRAME = 600;
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
+    private Model model;
     /**
      * *
      *
@@ -102,18 +105,19 @@ public class PredimRC extends JFrame implements KeyListener {
         // JokerParser.test();
         PredimRC.getInstance().addKeyListener(instance);
         loadConfiguration();
-        PredimRC.getInstance().fillComponents();
+        PredimRC.getInstance().setUpAndFillComponents();
 
     }
 
     private PredimRC() {
         super("PredimRC");
         log = new StringBuffer();
+        model = new Model();
         aboutbut = new JButton("About...");
         the3DViewButton = new JToggleButton("3Dimension View");
         help = new JButton("Help!");
         logbut = new JToggleButton("log", false);
-        modelNote = new JToggleButton("Notes", false);
+        modelNoteBut = new JToggleButton("Notes", false);
         savetarget = new JMenuItem("Save model");
         opentarget = new JMenuItem("Open model");
         quit = new JMenuItem("Quit");
@@ -136,7 +140,7 @@ public class PredimRC extends JFrame implements KeyListener {
         filemenu.add(quit);
 
         menu.add(filemenu);
-        menu.add(modelNote);
+        menu.add(modelNoteBut);
         menu.add(the3DViewButton);
         menu.add(logbut);
         menu.add(help);
@@ -162,7 +166,7 @@ public class PredimRC extends JFrame implements KeyListener {
                     the3DViewButton.setSelected(true);
                     return;
                 }
-                setAlwaysOnTop(false);
+                //  setAlwaysOnTop(false);
                 final JFrame d = new JFrame("3 dimensionnal view of the model");
                 final JButton temp = new JButton("Close");
 
@@ -173,7 +177,7 @@ public class PredimRC extends JFrame implements KeyListener {
                 d.setResizable(true);
                 d.setLocationRelativeTo(null);
                 d.setVisible(true);
-                d.setAlwaysOnTop(true);
+                // d.setAlwaysOnTop(true);
                 //  d.addKeyListener(todos);
                 temp.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -198,46 +202,13 @@ public class PredimRC extends JFrame implements KeyListener {
 
 
 
-        modelNote.addActionListener(new ActionListener() {
+        modelNoteBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!modelNote.isSelected()) {
-                    modelNote.setSelected(true);
+                if (!modelNoteBut.isSelected()) {
+                    modelNoteBut.setSelected(true);
                     return;
                 }
-                setAlwaysOnTop(false);
-                final JFrame d = new JFrame("Notes");
-                final JButton temp = new JButton("Save & Close");
-                final JPanel todos = new JPanel();
-                final JTextArea area = new JTextArea(notes.toString(), 10, 50);
-                todos.add(area);
-                d.setLayout(new BorderLayout());
-                d.add(todos, BorderLayout.CENTER);
-                d.add(temp, BorderLayout.SOUTH);
-                d.pack();
-                d.setResizable(true);
-                d.setLocationRelativeTo(null);
-                d.setVisible(true);
-                d.setAlwaysOnTop(true);
-                //  d.addKeyListener(todos);
-                temp.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        {
-                            notes = new StringBuffer(area.getText());
-                            modelNote.setSelected(false);
-                            d.dispose();
-                            setAlwaysOnTop(true);
-                        }
-                    }
-                });
-
-                d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                /**
-                 * d.addWindowListener(new WindowAdapter() {
-                 *
-                 * @Override public void windowClosing(final WindowEvent e) {
-                 * todos.save(); todo.setSelected(false); d.dispose();
-                 * setAlwaysOnTop(true); } });*
-                 */
+                new Note_Frame(modelNoteBut);
             }
         });
 
@@ -252,7 +223,7 @@ public class PredimRC extends JFrame implements KeyListener {
                     logbut.setSelected(true);
                     return;
                 }
-                setAlwaysOnTop(false);
+                // setAlwaysOnTop(false);
                 final JFrame d = new JFrame("Log de l'exécution");
                 final JTextArea tf = new JTextArea(log.toString(), 45, 55);
                 d.setLayout(new BorderLayout());
@@ -272,7 +243,7 @@ public class PredimRC extends JFrame implements KeyListener {
                 ts.updateUI();
                 d.setLocationRelativeTo(null);
                 d.setVisible(true);
-                d.setAlwaysOnTop(true);
+                //  d.setAlwaysOnTop(true);
                 d.addKeyListener(new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
@@ -296,7 +267,7 @@ public class PredimRC extends JFrame implements KeyListener {
                         {
                             logbut.setSelected(false);
                             d.dispose();
-                            setAlwaysOnTop(true);
+                            //      setAlwaysOnTop(true);
                         }
                     }
                 });
@@ -325,7 +296,7 @@ public class PredimRC extends JFrame implements KeyListener {
                     public void windowClosing(final WindowEvent e) {
                         logbut.setSelected(false);
                         d.dispose();
-                        setAlwaysOnTop(true);
+                        //        setAlwaysOnTop(true);
                     }
                 });
             }
@@ -347,9 +318,9 @@ public class PredimRC extends JFrame implements KeyListener {
 
         aboutbut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                setAlwaysOnTop(false);
+                //  setAlwaysOnTop(false);
                 JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(icon));
-                setAlwaysOnTop(true);
+                //   setAlwaysOnTop(true);
             }
         });
 
@@ -376,10 +347,13 @@ public class PredimRC extends JFrame implements KeyListener {
         System.exit(0);
     }
 
-    private void fillComponents() {
+    private void setUpAndFillComponents() {
 
-        logln("filling component...");
-        // getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
+        logln("set up components...");
+
+        mainView.setModel(getModel());
+
+        logln("filling components...");
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(mainView, BorderLayout.CENTER);
         getContentPane().add(configView, BorderLayout.EAST);
@@ -388,7 +362,7 @@ public class PredimRC extends JFrame implements KeyListener {
         pack();
         //  setSize(1024, 632);
         setLocationRelativeTo(null);
-        setAlwaysOnTop(true);
+        // setAlwaysOnTop(true);
         validate();
 
         logln("-- PredimRC " + VERSION + " started. --");
@@ -399,7 +373,7 @@ public class PredimRC extends JFrame implements KeyListener {
         final JFileChooser chooser = new JFileChooser(airfoilsDirectory);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Select a Directory to load airfoils.");
-        f.setAlwaysOnTop(true);
+        //f.setAlwaysOnTop(true);
         f.setVisible(true);
         final int returnVal = chooser.showOpenDialog(f);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -469,8 +443,9 @@ public class PredimRC extends JFrame implements KeyListener {
         Properties config = new Properties();
         try {
             config.load(new FileInputStream(appRep + configFile));
-            airfoilsDirectory = config.getProperty("AIRFOILS");
-            notes = new StringBuffer(config.getProperty("NOTES"));
+            airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
+            PredimRC.getInstance().getModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
+            PredimRC.getInstance().getModel().setName(config.getProperty("NAME", DEFAULT_KEY_VALUE));
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
         } catch (final Throwable t) {
             logln("IOException while attempting to load File " + appRep + configFile + "...\n" + t.getLocalizedMessage());
@@ -486,7 +461,8 @@ public class PredimRC extends JFrame implements KeyListener {
         logln("\n*******************************************\n**** Saving  configuration... ****");
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + airfoilsDirectory);
-        config.setProperty("NOTES", "" + notes);
+        config.setProperty("NOTES", "" + PredimRC.getInstance().getModel().getNote());
+        config.setProperty("NAME", "" + PredimRC.getInstance().getModel().getName());
         try {
             File fout = new File(appRep);
             if (!fout.exists()) {
@@ -564,5 +540,9 @@ public class PredimRC extends JFrame implements KeyListener {
         j.setBorder(null);
         j.setMargin(null);
         return j;
+    }
+
+    public Model getModel() {
+        return model;
     }
 }
