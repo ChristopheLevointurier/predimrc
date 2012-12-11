@@ -39,7 +39,7 @@ public final class ConfigView extends JPanel {
     private JToggleButton optimBut = new JToggleButton("Optim");
     private JToggleButton xFoilBut = new JToggleButton("xFoil");
     /**
-     *
+     * Buttons
      */
     private JToggleButton vrillageBut = new JToggleButton("vrillage");
     private JToggleButton vlmStabBut = new JToggleButton("VLM");
@@ -49,6 +49,31 @@ public final class ConfigView extends JPanel {
     private JToggleButton compareBut = new JToggleButton("Compare Models");
     private JCheckBox stabCheck = new JCheckBox("Stabilisateur");
     private JCheckBox fuselageCheck = new JCheckBox("Fuselage");
+    /**
+     * Labels for wing data
+     */
+    private MegaLabel wingspan_label = makeLabel("wing span");
+    private MegaLabel wingarea_label = makeLabel("wing area");
+    private MegaLabel airFoil_label = makeLabel("airFoil");
+    private MegaLabel wingratio_label = makeLabel("aspect ratio");
+    private MegaLabel wingcorde_label = makeLabel("corde moyenne");
+    private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
+    private MegaLabel wingCm0_label = makeLabel("Cm0");
+    private MegaLabel wingCalage_label = makeLabel("Calage aile");
+    private MegaLabel wingCzCalage_label = makeLabel("Cz Calage aile");
+    private MegaLabel wingIncidence_label = makeLabel("Incidence aile");
+    private MegaLabel wingDiedre_label = makeLabel("Diedre aile");
+    /**
+     * Labels for stab data
+     */
+    private MegaLabel stabspan_label = makeLabel("stab span");
+    private MegaLabel stabarea_label = makeLabel("stab area");
+    private MegaLabel stabFoil_label = makeLabel("stab airFoil");
+    private MegaLabel stabratio_label = makeLabel("stab aspect ratio");
+    private MegaLabel stabcorde_label = makeLabel("stab corde moyenne");
+    private MegaLabel stablevier_label = makeLabel("Bras de levier");
+    private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
+    private MegaLabel vstab_label = makeLabel("vstab ");
 
     public ConfigView() {
         super();
@@ -56,13 +81,17 @@ public final class ConfigView extends JPanel {
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
         mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
-        mainWing.add(new MegaLabel("wing span", "20", true));
-        mainWing.add(new MegaLabel("wing area", "100", true));
-        mainWing.add(new MegaLabel("airFoil", "trucmuch", true));
-        mainWing.add(new MegaLabel("aspect ratio", "x", true));
-        mainWing.add(new MegaLabel("corde moyenne", "xx", true));
-        mainWing.add(new MegaLabel("Alpha0", "xx", true));
-        mainWing.add(new MegaLabel("Cm0", "xx", true));
+        mainWing.add(wingspan_label);
+        mainWing.add(wingarea_label);
+        mainWing.add(airFoil_label);
+        mainWing.add(wingratio_label);
+        mainWing.add(wingcorde_label);
+        mainWing.add(wingAlpha0_label);
+        mainWing.add(wingCm0_label);
+        mainWing.add(wingCalage_label);
+        mainWing.add(wingCzCalage_label);
+        mainWing.add(wingIncidence_label);
+        mainWing.add(wingDiedre_label);
         mainWingButtons.add(vlmBut);
         mainWingButtons.add(optimBut);
         mainWingButtons.add(xFoilBut);
@@ -76,14 +105,14 @@ public final class ConfigView extends JPanel {
 
         stab.setLayout(new BoxLayout(stab, BoxLayout.Y_AXIS));
         stab.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Stabilisateur:"));
-        stab.add(new MegaLabel("stab span", "5", true));
-        stab.add(new MegaLabel("stab area", "10", true));
-        stab.add(new MegaLabel("airFoil", "trucmuch", true));
-        stab.add(new MegaLabel("aspect ratio", "x", true));
-        stab.add(new MegaLabel("corde moyenne", "xx", true));
-        stab.add(new MegaLabel("Bras de levier", "xx", true));
-        stab.add(new MegaLabel("Ouverture", "xx", true));
-        stab.add(new MegaLabel("Vstab", "xx", true));
+        stab.add(stabspan_label);
+        stab.add(stabarea_label);
+        stab.add(stabFoil_label);
+        stab.add(stabratio_label);
+        stab.add(stabcorde_label);
+        stab.add(stablevier_label);
+        stab.add(stabouverture_label);
+        stab.add(vstab_label);
         stab.add(vlmStabBut);
         add(stab);
 
@@ -113,7 +142,6 @@ public final class ConfigView extends JPanel {
         });
 
 
-
         vlmBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new Vlm_Frame(vlmBut);
@@ -139,5 +167,77 @@ public final class ConfigView extends JPanel {
             }
         });
 
+    }
+
+    private MegaLabel makeLabel(String str) {
+        return new MegaLabel(str, PredimRC.defaultLabelContent, false);
+    }
+
+    public MegaLabel getWingspan_label() {
+        return wingspan_label;
+    }
+
+    public MegaLabel getWingarea_label() {
+        return wingarea_label;
+    }
+
+    public MegaLabel getAirFoil_label() {
+        return airFoil_label;
+    }
+
+    public MegaLabel getWingratio_label() {
+        return wingratio_label;
+    }
+
+    public MegaLabel getWingcorde_label() {
+        return wingcorde_label;
+    }
+
+    public MegaLabel getWingAlpha0_label() {
+        return wingAlpha0_label;
+    }
+
+    public MegaLabel getWingCm0_label() {
+        return wingCm0_label;
+    }
+
+    public MegaLabel getWingCalage_label() {
+        return wingCalage_label;
+    }
+
+    public MegaLabel getWingCzCalage_label() {
+        return wingCzCalage_label;
+    }
+
+    public MegaLabel getWingIncidence_label() {
+        return wingIncidence_label;
+    }
+
+    public MegaLabel getWingDiedre_label() {
+        return wingDiedre_label;
+    }
+
+    public MegaLabel getStabspan_label() {
+        return stabspan_label;
+    }
+
+    public MegaLabel getStabarea_label() {
+        return stabarea_label;
+    }
+
+    public MegaLabel getStabFoil_label() {
+        return stabFoil_label;
+    }
+
+    public MegaLabel getStabratio_label() {
+        return stabratio_label;
+    }
+
+    public MegaLabel getStabcorde_label() {
+        return stabcorde_label;
+    }
+
+    public MegaLabel getStabouverture_label() {
+        return stabouverture_label;
     }
 }
