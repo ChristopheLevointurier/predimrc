@@ -4,6 +4,7 @@
  */
 package predimrc.gui.graphic;
 
+import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.gui.MegaLabel;
+import predimrc.gui.graphic.drawable.CalagePanel;
+import predimrc.gui.graphic.drawable.DiedrePanel;
 import predimrc.model.Model;
 
 /**
@@ -32,7 +35,14 @@ public class MainView extends JPanel implements FocusListener, MouseMotionListen
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         modelTitle = new MegaLabel("Model name:", "undefined");
+
         add(modelTitle);
+        JPanel topDraw = new JPanel();
+
+        topDraw.add(new DiedrePanel(), BorderLayout.WEST);
+        topDraw.add(new CalagePanel(), BorderLayout.EAST);
+
+        add(topDraw);
         addFocusListener(this);
         addMouseMotionListener(this);
         showDraft();
@@ -60,11 +70,11 @@ public class MainView extends JPanel implements FocusListener, MouseMotionListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-      //  PredimRC.logDebugln("mousemdrag in main");
+        //  PredimRC.logDebugln("mousemdrag in main");
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-      //  PredimRC.logDebugln("mousemmvoe in main");
+        //  PredimRC.logDebugln("mousemmvoe in main");
     }
 }
