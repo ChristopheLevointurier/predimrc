@@ -34,7 +34,7 @@ public final class ConfigView extends JPanel {
     private JPanel mainWing = new JPanel();
     private JPanel stab = new JPanel();
     private JPanel mainWingButtons = new JPanel();
-    private JPanel fuselageButtons = new JPanel();
+    private JPanel fuseButtons = new JPanel();
     private JToggleButton vlmBut = new JToggleButton("VLM");
     private JToggleButton optimBut = new JToggleButton("Optim");
     private JToggleButton xFoilBut = new JToggleButton("xFoil");
@@ -48,7 +48,7 @@ public final class ConfigView extends JPanel {
     private JToggleButton vxBut = new JToggleButton("Vx cste");
     private JToggleButton compareBut = new JToggleButton("Compare Models");
     private JCheckBox stabCheck = new JCheckBox("Stabilisateur");
-    private JCheckBox fuselageCheck = new JCheckBox("Fuselage");
+    private JCheckBox fuseCheck = new JCheckBox("Fuse");
     /**
      * Labels for wing data
      */
@@ -77,7 +77,13 @@ public final class ConfigView extends JPanel {
 
     public ConfigView() {
         super();
+        
+           
+          
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        
+        
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
         mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
@@ -119,12 +125,12 @@ public final class ConfigView extends JPanel {
 
 
 
-        fuselageButtons.setLayout(new BoxLayout(fuselageButtons, BoxLayout.X_AXIS));
-        fuselageButtons.add(engineBut);
-        // fuselageButtons.add(rzBut);
-        //  fuselageButtons.add(vxBut);
-        fuselageButtons.add(compareBut);
-        add(fuselageButtons);
+        fuseButtons.setLayout(new BoxLayout(fuseButtons, BoxLayout.X_AXIS));
+        fuseButtons.add(engineBut);
+        // fuseButtons.add(rzBut);
+        //  fuseButtons.add(vxBut);
+        fuseButtons.add(compareBut);
+        add(fuseButtons);
 
 
 

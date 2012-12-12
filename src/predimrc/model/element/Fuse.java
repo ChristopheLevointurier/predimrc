@@ -14,6 +14,6 @@ import predimrc.model.ModelElement;
  * @see
  * @since 
  */
-public class Fuselage extends ModelElement{
+public class Fuse extends ModelElement{
 
 }
