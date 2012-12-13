@@ -6,17 +6,24 @@ package predimrc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import predimrc.PredimRC;
 import predimrc.gui.frame.Compare_Frame;
 import predimrc.model.Model;
@@ -42,6 +49,7 @@ public abstract class ExternalFrame extends JFrame {
     public ExternalFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super();
         caller = _caller;
+        caller.setEnabled(false);
         icon = _icon;
         model = PredimRC.getInstance().getModel();
         x = _x;
@@ -51,12 +59,24 @@ public abstract class ExternalFrame extends JFrame {
         setLocationRelativeTo(null);
         setIconImage(icon);
         setVisible(true);
-        //  setAlwaysOnTop(true);
+        final ExternalFrame frame = this;
+        Action actionListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                PredimRC.logDebugln("Esc from" + title);
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        };
+        JPanel content = (JPanel) getContentPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+
+        InputMap inputMap = content.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "CLOSE");
+        content.getActionMap().put("CLOSE", actionListener);
+
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
-                caller.setSelected(false);
                 if (PredimRC.warnClosePopup) {
                     Object[] options = {"OK", "OMG DONT TELL ME AGAIN -_-"};
                     int ret = JOptionPane.showOptionDialog(null, "Closing a pop-up automatically save its content", "Warning",
@@ -66,8 +86,9 @@ public abstract class ExternalFrame extends JFrame {
 
                 }
                 save();
+                caller.setEnabled(true);
+                caller.setSelected(false);
                 dispose();
-                //      setAlwaysOnTop(false);
             }
         });
 
@@ -87,4 +108,8 @@ public abstract class ExternalFrame extends JFrame {
     }
 
     public abstract void save();
+
+    public String getTitle() {
+        return title;
+    }
 }

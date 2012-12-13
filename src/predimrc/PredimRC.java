@@ -33,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
+import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.graphic.ConfigView;
@@ -46,14 +47,14 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public class PredimRC extends JFrame implements KeyListener {
+public class PredimRC extends JFrame {
 
     /**
      * consts
      */
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key. Old version file problem";
-    private static final String VERSION = "Alpha 0.0.4";
+    private static final String VERSION = "Alpha 0.0.5";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final int DEFAULT_X_FRAME = 800;
@@ -103,7 +104,7 @@ public class PredimRC extends JFrame implements KeyListener {
      */
     public static void main(String[] args) {
         // JokerParser.test();
-        PredimRC.getInstance().addKeyListener(instance);
+        PredimRC.getInstance();
         loadConfiguration();
         PredimRC.getInstance().setUpAndFillComponents();
 
@@ -162,7 +163,9 @@ public class PredimRC extends JFrame implements KeyListener {
 
         the3DViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new The3D_Frame(the3DViewButton);
+                if (the3DViewButton.isEnabled()) {
+                    new The3D_Frame(the3DViewButton);
+                }
             }
         });
 
@@ -207,6 +210,7 @@ public class PredimRC extends JFrame implements KeyListener {
                 d.setLocationRelativeTo(null);
                 d.setVisible(true);
                 //  d.setAlwaysOnTop(true);
+                d.requestFocusInWindow();
                 d.addKeyListener(new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
@@ -223,8 +227,6 @@ public class PredimRC extends JFrame implements KeyListener {
                     public void keyReleased(KeyEvent e) {
                     }
                 });
-                d.requestFocusInWindow();
-
                 temp.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         {
@@ -327,7 +329,6 @@ public class PredimRC extends JFrame implements KeyListener {
         setLocationRelativeTo(null);
         // setAlwaysOnTop(true);
         validate();
-
         logln("-- PredimRC " + VERSION + " started. --");
     }
 
@@ -344,38 +345,6 @@ public class PredimRC extends JFrame implements KeyListener {
             logln(" Selected rep:" + airfoilsDirectory);
         }
         f.dispose();
-    }
-
-    /**
-     * Implementation of KeyListener.
-     */
-    public void keyPressed(final KeyEvent arg0) {
-        // unused
-        if (arg0.getKeyCode() == 86)// && ctrl)
-        {
-            logln("pres");
-        }
-    }
-
-    /**
-     * Implementation of KeyListener.
-     */
-    public void keyReleased(final KeyEvent arg0) {
-        boolean ctrl = (arg0.getModifiers() == (KeyEvent.CTRL_MASK));
-        if (arg0.getKeyCode() == 86 && ctrl) // if (arg0.getKeyCode() == KeyEvent.VK_V)
-        {
-            logln("add from clipboard");
-            //tableModel.addVid(this.getClipboardContents());
-        }
-
-    }
-
-    /**
-     * Implementation of KeyListener.
-     */
-    public void keyTyped(final KeyEvent arg0) {
-        logln("typ");
-        // unused
     }
 
     public static void log(String t) {
