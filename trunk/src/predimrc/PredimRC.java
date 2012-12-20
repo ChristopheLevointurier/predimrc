@@ -6,6 +6,7 @@ package predimrc;
 
 import java.applet.Applet;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.Properties;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -33,6 +35,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
+import jglcore.JGL_3DMesh;
+import jglcore.JGL_3DTriangle;
+import jglcore.JGL_3DVector;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
@@ -54,7 +59,7 @@ public class PredimRC extends JFrame {
      */
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key. Old version file problem";
-    private static final String VERSION = "Alpha 0.0.5";
+    private static final String VERSION = "Alpha 0.0.6";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final int DEFAULT_X_FRAME = 800;
@@ -476,5 +481,44 @@ public class PredimRC extends JFrame {
 
     public Model getModel() {
         return model;
+    }
+
+    public static final JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, int r, int g, int b) {
+        JGL_3DMesh mesh = new JGL_3DMesh();
+        Color color = new Color(r, g, b);
+        mesh.addFace(new JGL_3DTriangle(p1, p2, p3, color));
+        mesh.addFace(new JGL_3DTriangle(p1, p3, p4, color));
+        return mesh;
+    }
+
+    public static final JGL_3DMesh mergeMesh(JGL_3DMesh m1, JGL_3DMesh m2) {
+        JGL_3DMesh mesh = new JGL_3DMesh();
+        Enumeration e1 = m1.getFaces().elements();
+        while (e1.hasMoreElements()) {
+            mesh.addFace((JGL_3DTriangle) e1.nextElement());
+        }
+        Enumeration e2 = m2.getFaces().elements();
+        while (e2.hasMoreElements()) {
+            mesh.addFace((JGL_3DTriangle) e2.nextElement());
+        }
+        return mesh;
+    }
+
+    public static final JGL_3DVector getNearestVertex(JGL_3DMesh m, JGL_3DVector p) {
+        JGL_3DVector temp = new JGL_3DVector(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        Enumeration e = m.getPoints().elements();
+        while (e.hasMoreElements()) {
+            JGL_3DVector temp2 = (JGL_3DVector) e.nextElement();
+            if (distance(p, temp2) < distance(p, temp)) {
+                temp = temp2;
+            }
+        }
+        return temp;
+    }
+
+    public static final double distance(JGL_3DVector p1, JGL_3DVector p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
+                + (p1.y - p2.y) * (p1.y - p2.y)
+                + (p1.z - p2.z) * (p1.z - p2.z));
     }
 }
