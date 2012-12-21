@@ -51,8 +51,10 @@ public class RawElement {
                         }
 
                     }
-                    PredimRC.logDebugln("new point:(" + f1 + "," + f2 + "," + f3);
-                    vertices.add(new JGL_3DVector(f1, f2, f2));
+                    if (cpt > 1) {
+                        PredimRC.logDebugln("new point:(" + f1 + "," + f2 + "," + f3);
+                        vertices.add(new JGL_3DVector(f1, f2, f2));
+                    }
                 }
             } catch (Exception ex) {
                 predimrc.PredimRC.log(ex.getLocalizedMessage());
