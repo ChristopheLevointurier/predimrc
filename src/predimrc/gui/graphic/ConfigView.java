@@ -36,7 +36,7 @@ import predimrc.model.Model;
 public final class ConfigView extends JPanel implements IModelReact {
 
     private JPanel mainWing = new JPanel();
-    private JPanel stab = new JPanel();
+    private JPanel tail = new JPanel();
     private JPanel mainWingButtons = new JPanel();
     private JPanel fuseButtons = new JPanel();
     private JToggleButton vlmBut = new JToggleButton("VLM");
@@ -67,7 +67,7 @@ public final class ConfigView extends JPanel implements IModelReact {
     private MegaLabel wingIncidence_label = makeLabel("Incidence aile");
     private MegaLabel wingDiedre_label = makeLabel("Diedre aile");
     /**
-     * Labels for stab data
+     * Labels for tail data
      */
     private MegaLabel stabspan_label = makeLabel("stab span");
     private MegaLabel stabarea_label = makeLabel("stab area");
@@ -81,7 +81,7 @@ public final class ConfigView extends JPanel implements IModelReact {
      * widgets for structure config
      */
     private JPanel structure_panel = new JPanel();
-    private JCheckBox stabCheck = new JCheckBox("Stabilisateur", true);
+    private JCheckBox tailCheck = new JCheckBox("Stabilisateur", true);
     private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
     private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3");
 
@@ -93,6 +93,16 @@ public final class ConfigView extends JPanel implements IModelReact {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
+
+
+        structure_panel.setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
+        structure_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Structure:"));
+        structure_panel.add(tailCheck);
+        structure_panel.add(wingCombo);
+        structure_panel.add(tailCombo);
+        add(structure_panel);
+
+        
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
         mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
@@ -118,18 +128,18 @@ public final class ConfigView extends JPanel implements IModelReact {
 
 
 
-        stab.setLayout(new BoxLayout(stab, BoxLayout.Y_AXIS));
-        stab.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Stabilisateur:"));
-        stab.add(stabspan_label);
-        stab.add(stabarea_label);
-        stab.add(stabFoil_label);
-        stab.add(stabratio_label);
-        stab.add(stabcorde_label);
-        stab.add(stablevier_label);
-        stab.add(stabouverture_label);
-        stab.add(vstab_label);
-        stab.add(vlmStabBut);
-        add(stab);
+        tail.setLayout(new BoxLayout(tail, BoxLayout.Y_AXIS));
+        tail.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Stabilisateur:"));
+        tail.add(stabspan_label);
+        tail.add(stabarea_label);
+        tail.add(stabFoil_label);
+        tail.add(stabratio_label);
+        tail.add(stabcorde_label);
+        tail.add(stablevier_label);
+        tail.add(stabouverture_label);
+        tail.add(vstab_label);
+        tail.add(vlmStabBut);
+        add(tail);
 
 
 
@@ -139,15 +149,6 @@ public final class ConfigView extends JPanel implements IModelReact {
         //  fuseButtons.add(vxBut);
         fuseButtons.add(compareBut);
         add(fuseButtons);
-
-
-
-        structure_panel.setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
-        structure_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Structure:"));
-        structure_panel.add(stabCheck);
-        structure_panel.add(wingCombo);
-        structure_panel.add(tailCombo);
-        add(structure_panel);
 
         compareBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -187,6 +188,29 @@ public final class ConfigView extends JPanel implements IModelReact {
                 new XFoil_Frame(xFoilBut);
             }
         });
+
+
+
+
+        wingCombo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.getInstance().getModel().setWingNumber(Integer.parseInt(wingCombo.getValue()));
+            }
+        });
+
+
+        tailCheck.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.getInstance().getModel().getTail().setExist(tailCheck.isSelected());
+            }
+        });
+
+        tailCombo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.getInstance().getModel().getTail().setTailWingNumber(Integer.parseInt(tailCombo.getValue()));
+            }
+        });
+
 
     }
 
@@ -264,7 +288,7 @@ public final class ConfigView extends JPanel implements IModelReact {
 
     @Override
     public void changeModel(Model m) {
-        stabCheck.setEnabled(m.getTail().isExist());
+        tailCheck.setSelected(m.getTail().isExist());
         wingCombo.setValue("" + m.getWings().size());
         tailCombo.setEnabled(m.getTail().isExist());
         tailCombo.setValue("" + m.getTail().getHorizontal().size());
