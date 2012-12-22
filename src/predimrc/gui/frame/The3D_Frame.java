@@ -64,10 +64,10 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
         mouseX = 0f;
         mouseY = 0f;
-        angleX = 180f;
+        angleX = 192f;
         angleY = 18f;
         angleZ = 175f;
-        zoom = 2;
+        zoom = 3;
 
         setBackground(new Color(0, 0, 0));
         loadData();
@@ -110,8 +110,8 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             public final void mouseDragged(MouseEvent e) {
 
                 if (moveVertex) {
-                    toMove.x += (float) (e.getY() - mouseY) * 0.5f;
-                    toMove.y += (float) (e.getX() - mouseX) * 0.5f;
+                    toMove.x += (float) (e.getY() - mouseY) * 0.005f;
+                    toMove.y += (float) (e.getX() - mouseX) * 0.005f;
 
                     mouseX = e.getX();
                     mouseY = e.getY();
