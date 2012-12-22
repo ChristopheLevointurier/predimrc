@@ -29,34 +29,45 @@ import predimrc.gui.frame.XFoil_Frame;
  */
 public final class Config3DView extends JPanel {
 
-    private JPanel config3DPanel = new JPanel();
-    private JCheckBox cull_check = new JCheckBox("CullFacing", true);
-    private JCheckBox solid_check = new JCheckBox("Solid", true);
-    private JCheckBox lighting_check = new JCheckBox("Lightnings", true);
+    private JPanel write_panel = new JPanel();
+    private JPanel read_panel = new JPanel();
+    private JCheckBox cull_check = new JCheckBox("CullFacing", false);
+    private JCheckBox solid_check = new JCheckBox("Solid", false);
+    private JCheckBox lighting_check = new JCheckBox("Lightnings", false);
     private JCheckBox rotX_check = new JCheckBox("RotationX", true);
     private JCheckBox rotY_check = new JCheckBox("RotationY", false);
     private JCheckBox rotZ_check = new JCheckBox("RotationZ", false);
+    private MegaLabel zoom_label = new MegaLabel("Zoom factor:", "xx", false);
+    private MegaLabel degX_label = new MegaLabel("x angle:", "xx", false);
+    private MegaLabel degY_label = new MegaLabel("x angle:", "xx", false);
+    private MegaLabel degZ_label = new MegaLabel("x angle:", "xx", false);
 
     public Config3DView() {
         super();
 
 
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
-
-        config3DPanel.setLayout(new BoxLayout(config3DPanel, BoxLayout.Y_AXIS));
-        config3DPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Config"));
-        config3DPanel.add(cull_check);
-        config3DPanel.add(solid_check);
-        config3DPanel.add(lighting_check);
-        config3DPanel.add(rotX_check);
-        config3DPanel.add(rotY_check);
-        config3DPanel.add(rotZ_check);
-        add(config3DPanel);
+        write_panel.setLayout(new BoxLayout(write_panel, BoxLayout.Y_AXIS));
+        write_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Config"));
+        write_panel.add(cull_check);
+        write_panel.add(solid_check);
+        write_panel.add(lighting_check);
+        write_panel.add(rotX_check);
+        write_panel.add(rotY_check);
+        write_panel.add(rotZ_check);
 
 
+        read_panel.setLayout(new BoxLayout(read_panel, BoxLayout.Y_AXIS));
+        read_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Status"));
+        read_panel.add(zoom_label);
+        read_panel.add(degX_label);
+        read_panel.add(degY_label);
+        read_panel.add(degZ_label);
+
+        add(write_panel);
+        add(read_panel);
     }
 
     public JCheckBox getCull_check() {
@@ -81,5 +92,21 @@ public final class Config3DView extends JPanel {
 
     public JCheckBox getRotZ_check() {
         return rotZ_check;
+    }
+
+    public MegaLabel getZoom_label() {
+        return zoom_label;
+    }
+
+    public MegaLabel getDegX_label() {
+        return degX_label;
+    }
+
+    public MegaLabel getDegY_label() {
+        return degY_label;
+    }
+
+    public MegaLabel getDegZ_label() {
+        return degZ_label;
     }
 }
