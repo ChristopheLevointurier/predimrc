@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.model.element.raw;
+package predimrc.model.element.loader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
