@@ -26,9 +26,7 @@ import javax.swing.JPanel;
 public class CalagePanel extends JPanel {
 
     private Point wingPos = new Point(100, 50);
-    final static float dash1[] = {10.0f};
-    final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-
+  
     public CalagePanel() {
 
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -68,7 +66,7 @@ public class CalagePanel extends JPanel {
         g.drawRect((int) wingPos.getX(), (int) wingPos.getY(), 20, 12);
         g.setColor(Color.BLACK);
         Line2D.Double l = new Line2D.Double();
-        ((Graphics2D) g).setStroke(dashed);
+        ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
         g.drawLine(0, 60, 400, 60);
         g.setColor(Color.BLACK);
     }
