@@ -51,6 +51,7 @@ import predimrc.model.Model;
  * @version
  * @see
  * @since
+ * TODO detect and popup if javagl missing
  */
 public class PredimRC extends JFrame {
 
@@ -59,7 +60,7 @@ public class PredimRC extends JFrame {
      */
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key. Old version file problem";
-    private static final String VERSION = "Alpha 0.0.6";
+    private static final String VERSION = "Alpha 0.0.7";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final int DEFAULT_X_FRAME = 800;
@@ -482,6 +483,8 @@ public class PredimRC extends JFrame {
     public Model getModel() {
         return model;
     }
+    
+    
 
     public static final JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, int r, int g, int b) {
         JGL_3DMesh mesh = new JGL_3DMesh();
