@@ -4,15 +4,10 @@
  */
 package predimrc.model.element.raw;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 
@@ -31,7 +26,7 @@ public class RawElement {
     protected String file;
 
     public RawElement(String file) {
-        vertices = new ArrayList<JGL_3DVector>();
+        vertices = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
             String line;
@@ -39,25 +34,26 @@ public class RawElement {
                 title = reader.readLine();
                 PredimRC.logln("opening" + file + ":" + title);
                 while ((line = reader.readLine()) != null) {
-                    float f1 = 0, f2 = 0, f3 = 0;
+                    float f1 = 0f, f2 = 0f, f3 = 0f;
                     int cpt = 0;
                     String[] data = line.split(" ");
                     for (String d : data) {
                         if (d.length() > 0) {
-                            f1 = cpt == 0 ? f1 : Float.parseFloat(d);
-                            f2 = cpt == 1 ? f2 : Float.parseFloat(d);
-                            f3 = cpt == 2 ? f3 : Float.parseFloat(d);
+                            f1 = cpt == 0 ? Float.parseFloat(d) : f1;
+                            f2 = cpt == 1 ? Float.parseFloat(d) : f2;
+                            f3 = cpt == 2 ? Float.parseFloat(d) : f3;
                             cpt++;
                         }
-
                     }
                     if (cpt > 1) {
                         PredimRC.logDebugln("new point:(" + f1 + "," + f2 + "," + f3);
-                        vertices.add(new JGL_3DVector(f1, f2, f2));
+                        vertices.add(new JGL_3DVector(f1, f2, f3));
                     }
                 }
-            } catch (Exception ex) {
-                predimrc.PredimRC.log(ex.getLocalizedMessage());
+            } catch (IOException ex) {
+                predimrc.PredimRC.log("IOException:" + ex.getLocalizedMessage());
+            } catch (NumberFormatException ex) {
+                predimrc.PredimRC.log("NumberFormatException, non data line in file:" + ex.getLocalizedMessage());
             } finally {
                 reader.close();
             }
