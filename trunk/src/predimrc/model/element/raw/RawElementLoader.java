@@ -1,9 +1,21 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package predimrc.model.element.raw;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,14 +31,31 @@ import predimrc.PredimRC;
  * @see
  * @since
  */
-public class RawElement {
+public class RawElementLoader {
 
     protected ArrayList<JGL_3DVector> vertices;
     protected String title;
     protected String file;
+    protected Color color = Color.WHITE;
 
-    public RawElement(String file) {
-        vertices = new ArrayList<>();
+    public RawElementLoader(String file, int r, int b, int g) {
+        this(file);
+        setRGB(r, g, b);
+    }
+
+    public RawElementLoader(String file) {
+        vertices = loadVertices(file);
+    }
+
+    /**
+     * This method loads the data point fro the file to an array list of
+     * vertices
+     *
+     * @param file
+     * @return
+     */
+     protected ArrayList<JGL_3DVector> loadVertices(String file) {
+        ArrayList<JGL_3DVector> vertices_temp = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
             String line;
@@ -47,7 +76,7 @@ public class RawElement {
                     }
                     if (cpt > 1) {
                         PredimRC.logDebugln("new point:(" + f1 + "," + f2 + "," + f3);
-                        vertices.add(new JGL_3DVector(f1, f2, f3));
+                        vertices_temp.add(new JGL_3DVector(f1, f2, f3));
                     }
                 }
             } catch (IOException ex) {
@@ -57,20 +86,29 @@ public class RawElement {
             } finally {
                 reader.close();
             }
-        } catch (IOException ex) {
-            predimrc.PredimRC.log(ex.getLocalizedMessage());
+        } catch (IOException | NullPointerException ex) {
+            predimrc.PredimRC.log("IOException|NullPointerException:" + ex.getLocalizedMessage());
         }
+        return vertices_temp;
+    }
+
+    final public void setRGB(int r, int g, int b) {
+        color = new Color(r, g, b);
     }
 
     public ArrayList<JGL_3DVector> getVertices() {
         return vertices;
     }
 
-    public String getTitle() {
+    final public String getTitle() {
         return title;
     }
 
     public String getFile() {
         return file;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
