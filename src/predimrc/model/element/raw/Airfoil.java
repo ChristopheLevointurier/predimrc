@@ -18,7 +18,7 @@ import jglcore.JGL_3DVector;
 public class Airfoil extends RawElement {
 
     public Airfoil(String file) {
-        super("AirFoils//" + file);
+        super("AirFoils/" + file);
     }
 
     public JGL_3DMesh getWingPart(float width, float height, int r, int g, int b) {
