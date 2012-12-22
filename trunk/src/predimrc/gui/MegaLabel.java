@@ -17,9 +17,11 @@ package predimrc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -35,7 +37,7 @@ public class MegaLabel extends JPanel {
     private boolean editable = false;
 
     public MegaLabel(String _name, boolean _editable) {
-        name = new JLabel(_name+" : ");
+        name = new JLabel(_name + " : ");
         value = new JTextField("***");
         value.setBackground(new Color(195, 220, 235));
         editable = _editable;
@@ -76,5 +78,9 @@ public class MegaLabel extends JPanel {
     public void setEditable(boolean editable) {
         editable = editable;
         value.setEditable(editable);
+    }
+
+    public void addDocumentListener(DocumentListener d) {
+        value.getDocument().addDocumentListener(d);
     }
 }
