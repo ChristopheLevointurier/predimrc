@@ -32,6 +32,7 @@ public class Tail extends ModelElement {
     private float vertical_height_1, vertical_height_2;
     //vertical_length_1 is nearest the fuselage
     private float vertical_length_1, vertical_length_2;
+    private boolean exist;
 
     public Tail() {
         horizontal = new ArrayList<Wing>();
@@ -40,6 +41,18 @@ public class Tail extends ModelElement {
         vertical_height_2 = 2f;
         vertical_length_1 = 2f;
         vertical_length_2 = 2f;
+        exist = true;
+    }
+
+    public Tail makeEmptyTail() {
+        Tail t = new Tail();
+        t.setHorizontal(new ArrayList<Wing>());
+        t.setVertical_height_1(0f);
+        t.setVertical_height_2(0f);
+        t.setVertical_length_1(0f);
+        t.setVertical_length_2(0f);
+        exist = false;
+        return t;
     }
 
     public Tail(ArrayList<Wing> horizontal, float vertical_height_1, float vertical_height_2, float vertical_length_1, float vertical_length_2) {
@@ -89,4 +102,15 @@ public class Tail extends ModelElement {
     public void setVertical_length_2(float vertical_length_2) {
         this.vertical_length_2 = vertical_length_2;
     }
+
+    public boolean isExist() {
+        return exist;
+    }
+
+    public void setExist(boolean exist) {
+        this.exist = exist;
+    }
+    
+    
+    
 }
