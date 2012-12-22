@@ -12,6 +12,8 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import predimrc.PredimRC;
 import predimrc.gui.IModelReact;
 import predimrc.gui.MegaLabel;
@@ -36,6 +38,24 @@ public class MainView extends JPanel implements MouseMotionListener, IModelReact
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         modelTitle = new MegaLabel("Model name:", "undefined", true);
+
+        modelTitle.addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                PredimRC.getInstance().getModel().setName(modelTitle.getValue());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+             }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+
+
+
 
         add(modelTitle);
         JPanel topDraw = new JPanel();
