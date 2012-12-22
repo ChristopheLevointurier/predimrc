@@ -15,6 +15,8 @@
  */
 package predimrc.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Christophe Levointurier, 12 déc. 2012
@@ -22,7 +24,7 @@ package predimrc.model;
  * @see
  * @since
  */
-public class ModelElement {
+public class ModelElement implements Serializable {
 
     float xPos, Ypox, Zpos;
 }
