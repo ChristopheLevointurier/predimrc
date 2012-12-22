@@ -194,7 +194,7 @@ public final class ConfigView extends JPanel implements IModelReact {
 
         wingCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().setWingNumber(Integer.parseInt(wingCombo.getValue()));
+                PredimRC.getInstance().getModel().setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
             }
         });
 

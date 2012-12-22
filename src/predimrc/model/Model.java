@@ -43,8 +43,8 @@ public class Model implements Serializable {
         wings = new ArrayList<>();
         wings.add(new Wing(1, 15, 10, 40));
         wings.add(new Wing(1, 10, 8, 25));
-        tail=new Tail();
-        fuselage= new Fuselage();
+        tail = new Tail();
+        fuselage = new Fuselage();
     }
 
     public String getName() {
@@ -86,6 +86,16 @@ public class Model implements Serializable {
     public void setFuselage(Fuselage fuselage) {
         this.fuselage = fuselage;
     }
-  
-    
+
+    public void setWingSectionNumber(int _i) {
+        ArrayList<Wing> wingsTemp = new ArrayList<>();
+        for (int i = 0; i < _i; i++) {
+            if (!wings.isEmpty()) {
+                wingsTemp.add(wings.remove(0));
+            } else {
+                wingsTemp.add(new Wing(1, 10, 10, 25));
+            }
+        }
+        wings = wingsTemp;
+    }
 }
