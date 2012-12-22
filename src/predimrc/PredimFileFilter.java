@@ -59,7 +59,7 @@ public class PredimFileFilter extends FileFilter {
             if (i > 0 && i < filename.length() - 1) {
                 selectedExtension = filename.substring(i + 1).toLowerCase();
             }
-            if (selectedExtension == extension) {
+            if (selectedExtension.equals(extension)) {
                 return true;
             }
         }
