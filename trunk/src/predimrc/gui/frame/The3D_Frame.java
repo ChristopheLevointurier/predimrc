@@ -32,6 +32,7 @@ import jglcore.JGL_Time;
 import jglcore.JGL_Util;
 import jglload.JGL_Data3D;
 import predimrc.gui.graphic.Config3DView;
+import predimrc.model.element.raw.Airfoil;
 
 /**
  *
@@ -48,30 +49,31 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     private float mouseX, mouseY;
     private float angleX, angleY, angleZ;
     private float zoom;
-    private boolean rotationX = true, rotationY = false, rotationZ = false, move = true, moveVertex = false;
+    private boolean rotationX = false, rotationY = true, rotationZ = false, move = true, moveVertex = false;
+    private boolean cullface = false, solid = false, light = true;
     private JGL_3DVector toMove;
     private Config3DView config;
 
     public The3D_Frame(AbstractButton _caller) {
-        this(_caller, predimrc.PredimRC.icon, predimrc.PredimRC.DEFAULT_X_FRAME, predimrc.PredimRC.DEFAULT_Y_FRAME);
+        this(_caller, predimrc.PredimRC.icon, 1024, 800);
     }
 
     public The3D_Frame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super(_caller, _icon, _x, _y);
         title = "3D";
 
-
         mouseX = 0f;
         mouseY = 0f;
-        angleX = 0f;
-        angleY = 0f;
-        zoom = 60f;
+        angleX = 180f;
+        angleY = 18f;
+        angleZ = 175f;
+        zoom = 2;
 
         setBackground(new Color(0, 0, 0));
         loadData();
 
         Canvas screen = new Canvas();
-        screen.setBackground(new Color(50, 50, 50));
+        screen.setBackground(new Color(75, 75, 75));
         screen.setVisible(true);
 
         screen.addMouseListener(new MouseListener() {
@@ -108,15 +110,15 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             public final void mouseDragged(MouseEvent e) {
 
                 if (moveVertex) {
-                    toMove.x += (float) (e.getY() - mouseY) * 0.8f;
-                    toMove.y += (float) (e.getX() - mouseX) * 0.8f;
+                    toMove.x += (float) (e.getY() - mouseY) * 0.5f;
+                    toMove.y += (float) (e.getX() - mouseX) * 0.5f;
 
                     mouseX = e.getX();
                     mouseY = e.getY();
 
                 } else {
-                    angleX += (float) (e.getY() - mouseY) * 0.8f;
-                    angleY += (float) (e.getX() - mouseX) * 0.8f;
+                    angleX += (float) (e.getY() - mouseY) * 0.5f;
+                    angleY += (float) (e.getX() - mouseX) * 0.5f;
 
                     mouseX = e.getX();
                     mouseY = e.getY();
@@ -129,10 +131,11 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
                 if (notches < 0) {
-                    zoom += 1;
+                    zoom += 0.1;
                     JGL.setPerspective(zoom);
                 } else {
-                    zoom -= 1;
+                    zoom -= 0.1;
+                    zoom = zoom < 0 ? 0 : zoom;
                     JGL.setPerspective(zoom);
                 }
             }
@@ -162,20 +165,23 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
         config.getCull_check().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JGL.setCullFacing(config.getCull_check().isSelected());
+                cullface = config.getCull_check().isSelected();
+                JGL.setCullFacing(cullface);
             }
         });
 
 
         config.getSolid_check().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JGL.setSolidFace(config.getSolid_check().isSelected());
+                solid = config.getSolid_check().isSelected();
+                JGL.setSolidFace(solid);
             }
         });
 
         config.getLighting_check().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JGL.setLighting(config.getLighting_check().isSelected());
+                light = config.getLighting_check().isSelected();
+                JGL.setLighting(light);
             }
         });
 
@@ -187,18 +193,26 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
         pack();
         JGL.setDisplayTarget(screen);
         JGL.setPerspective(zoom);
-        JGL.setCullFacing(true);
-        JGL.setSolidFace(true);
-        JGL.setLighting(true);
-        JGL.setShininess(85f);
+        JGL.setCullFacing(cullface);
+        JGL.setSolidFace(solid);
+        JGL.setLighting(light);
+        JGL.setShininess(50f);
 
+        config.getRotX_check().setSelected(rotationX);
+        config.getRotY_check().setSelected(rotationY);
+        config.getRotZ_check().setSelected(rotationZ);
+        config.getLighting_check().setSelected(light);
+        config.getSolid_check().setSelected(solid);
+        config.getCull_check().setSelected(cullface);
         stop = false;
         new Thread(this).start();
     }
 
     private void loadData() {
         //    data = new JGL_3DMovable(new JGL_3DBsp(new JGL_Data3D(PredimRC.getResourceUrl(filename), JGL_Data3D.MILKSHAPE_ASCII).mesh));
-        data = PredimRC.mergeMesh(JGL_Util.getGeosphere(4f, 1, 0, 255, 0), PredimRC.getRectangle(new JGL_3DVector(10f, 12f, 0f), new JGL_3DVector(12f, 12f, 0f), new JGL_3DVector(12f, 10f, 0f), new JGL_3DVector(10f, 10f, 0f), 200, 200, 10));
+        //   data = PredimRC.mergeMesh(JGL_Util.getGeosphere(4f, 1, 0, 255, 0), PredimRC.getRectangle(new JGL_3DVector(10f, 12f, 0f), new JGL_3DVector(12f, 12f, 0f), new JGL_3DVector(12f, 10f, 0f), new JGL_3DVector(10f, 10f, 0f), 200, 200, 10));
+        Airfoil a = new Airfoil("fad05.dat");
+        data = a.getWingPart(2, 2, 175, 175, 255);
         world = new JGL_Sorter();
     }
 
@@ -210,7 +224,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
     @Override
     public void run() {
-        float depth = -85f;
+        float depth = -50f;
 
         // Initializes an eye position
         JGL_3DVector eye = new JGL_3DVector();
@@ -250,6 +264,10 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             temp.rotate(angleX, 1f, 0f, 0f, true);
             temp.rotate(angleY, 0f, 1f, 0f, true);
             temp.rotate(angleZ, 0f, 0f, 1f, true);
+            config.getDegX_label().setValue((int) angleX + "°");
+            config.getDegY_label().setValue((int) angleY + "°");
+            config.getDegZ_label().setValue((int) angleZ + "°");
+            config.getZoom_label().setValue((int) zoom + " ");
 
 
             world.display(eye);
