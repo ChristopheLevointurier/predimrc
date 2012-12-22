@@ -38,9 +38,9 @@ public final class Config3DView extends JPanel {
     private JCheckBox rotY_check = new JCheckBox("RotationY", false);
     private JCheckBox rotZ_check = new JCheckBox("RotationZ", false);
     private MegaLabel zoom_label = new MegaLabel("Zoom factor:", "xx", false);
-    private MegaLabel degX_label = new MegaLabel("x angle:", "xx", false);
-    private MegaLabel degY_label = new MegaLabel("x angle:", "xx", false);
-    private MegaLabel degZ_label = new MegaLabel("x angle:", "xx", false);
+    private MegaLabel degX_label = new MegaLabel("X angle:", "xx", false);
+    private MegaLabel degY_label = new MegaLabel("Y angle:", "xx", false);
+    private MegaLabel degZ_label = new MegaLabel("Z angle:", "xx", false);
 
     public Config3DView() {
         super();
