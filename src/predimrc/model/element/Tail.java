@@ -112,5 +112,16 @@ public class Tail extends ModelElement {
     }
     
     
+     public void setTailWingNumber(int _i) {
+        ArrayList<Wing> wingsTemp = new ArrayList<>();
+        for (int i = 0; i < _i; i++) {
+            if (!horizontal.isEmpty()) {
+                wingsTemp.add(horizontal.remove(0));
+            } else {
+                wingsTemp.add(new Wing(1, 10, 10, 25));
+            }
+        }
+        horizontal = wingsTemp;
+    }
     
 }
