@@ -1,7 +1,17 @@
-
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package predimrc.gui.frame;
 
@@ -32,7 +42,8 @@ import jglcore.JGL_Time;
 import jglcore.JGL_Util;
 import jglload.JGL_Data3D;
 import predimrc.gui.graphic.Config3DView;
-import predimrc.model.element.raw.Airfoil;
+import predimrc.model.element.loader.AirfoilLoader;
+import predimrc.model.element.loader.FuselageLoader;
 
 /**
  *
@@ -118,7 +129,9 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
                 } else {
                     angleX += (float) (e.getY() - mouseY) * 0.5f;
-                    angleY += (float) (e.getX() - mouseX) * 0.5f;
+                    angleY -= (float) (e.getX() - mouseX) * 0.5f;
+                    angleY %= 360;
+                    angleX %= 360;
 
                     mouseX = e.getX();
                     mouseY = e.getY();
@@ -211,8 +224,11 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     private void loadData() {
         //    data = new JGL_3DMovable(new JGL_3DBsp(new JGL_Data3D(PredimRC.getResourceUrl(filename), JGL_Data3D.MILKSHAPE_ASCII).mesh));
         //   data = PredimRC.mergeMesh(JGL_Util.getGeosphere(4f, 1, 0, 255, 0), PredimRC.getRectangle(new JGL_3DVector(10f, 12f, 0f), new JGL_3DVector(12f, 12f, 0f), new JGL_3DVector(12f, 10f, 0f), new JGL_3DVector(10f, 10f, 0f), 200, 200, 10));
-        Airfoil a = new Airfoil("fad05.dat");
-        data = a.getWingPart(2, 2, 175, 175, 255);
+        //Airfoil a = new AirfoilLoader("fad05.dat", 175, 175, 255);
+        //  data = a.getWingPart(0.5f, 0.45f, 2);
+        FuselageLoader a = new FuselageLoader("Glider1", 105, 175, 255);
+        //  FuselageLoader a = new FuselageLoader("Glider1_top.dat", 105, 175, 255);
+        data = a.getFuselage(5);
         world = new JGL_Sorter();
     }
 
@@ -267,7 +283,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             config.getDegX_label().setValue((int) angleX + "°");
             config.getDegY_label().setValue((int) angleY + "°");
             config.getDegZ_label().setValue((int) angleZ + "°");
-            config.getZoom_label().setValue((int) zoom + " ");
+            config.getZoom_label().setValue((int) (zoom * 10) + " ");
 
 
             world.display(eye);
