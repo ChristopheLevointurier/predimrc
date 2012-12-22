@@ -17,6 +17,7 @@ package predimrc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -63,5 +64,9 @@ public class MegaCombo extends JPanel {
     public void setEditable(boolean editable) {
         editable = editable;
         value.setEditable(editable);
+    }
+
+    public void addActionListener(ActionListener a) {
+        value.addActionListener(a);
     }
 }
