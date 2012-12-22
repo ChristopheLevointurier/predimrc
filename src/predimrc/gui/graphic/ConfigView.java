@@ -10,10 +10,13 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import predimrc.PredimRC;
+import predimrc.gui.IModelReact;
+import predimrc.gui.MegaCombo;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.frame.Compare_Frame;
 import predimrc.gui.frame.Engine_Frame;
@@ -21,6 +24,7 @@ import predimrc.gui.frame.Optim_Frame;
 import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
+import predimrc.model.Model;
 
 /**
  *
@@ -29,7 +33,7 @@ import predimrc.gui.frame.XFoil_Frame;
  * @see
  * @since
  */
-public final class ConfigView extends JPanel {
+public final class ConfigView extends JPanel implements IModelReact {
 
     private JPanel mainWing = new JPanel();
     private JPanel stab = new JPanel();
@@ -47,7 +51,6 @@ public final class ConfigView extends JPanel {
     private JToggleButton rzBut = new JToggleButton("Rz cste");
     private JToggleButton vxBut = new JToggleButton("Vx cste");
     private JToggleButton compareBut = new JToggleButton("Compare Models");
-    private JCheckBox stabCheck = new JCheckBox("Stabilisateur");
     private JCheckBox fuseCheck = new JCheckBox("Fuse");
     /**
      * Labels for wing data
@@ -74,16 +77,22 @@ public final class ConfigView extends JPanel {
     private MegaLabel stablevier_label = makeLabel("Bras de levier");
     private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
+    /**
+     * widgets for structure config
+     */
+    private JPanel structure_panel = new JPanel();
+    private JCheckBox stabCheck = new JCheckBox("Stabilisateur", true);
+    private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
+    private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3");
 
     public ConfigView() {
         super();
-        
-           
-          
+
+
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
-        
-        
+
+
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
         mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
@@ -124,7 +133,6 @@ public final class ConfigView extends JPanel {
 
 
 
-
         fuseButtons.setLayout(new BoxLayout(fuseButtons, BoxLayout.X_AXIS));
         fuseButtons.add(engineBut);
         // fuseButtons.add(rzBut);
@@ -133,6 +141,13 @@ public final class ConfigView extends JPanel {
         add(fuseButtons);
 
 
+
+        structure_panel.setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
+        structure_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Structure:"));
+        structure_panel.add(stabCheck);
+        structure_panel.add(wingCombo);
+        structure_panel.add(tailCombo);
+        add(structure_panel);
 
         compareBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -245,5 +260,13 @@ public final class ConfigView extends JPanel {
 
     public MegaLabel getStabouverture_label() {
         return stabouverture_label;
+    }
+
+    @Override
+    public void changeModel(Model m) {
+        stabCheck.setEnabled(m.getTail().isExist());
+        wingCombo.setValue("" + m.getWings().size());
+        tailCombo.setEnabled(m.getTail().isExist());
+        tailCombo.setValue("" + m.getTail().getHorizontal().size());
     }
 }

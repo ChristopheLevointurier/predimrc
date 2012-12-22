@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
+import predimrc.gui.IModelReact;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.graphic.drawable.CalagePanel;
 import predimrc.gui.graphic.drawable.DiedrePanel;
@@ -27,14 +28,14 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public class MainView extends JPanel implements FocusListener, MouseMotionListener {
+public class MainView extends JPanel implements MouseMotionListener, IModelReact {
 
     private MegaLabel modelTitle;
 
     public MainView() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        modelTitle = new MegaLabel("Model name:", "undefined");
+        modelTitle = new MegaLabel("Model name:", "undefined", true);
 
         add(modelTitle);
         JPanel topDraw = new JPanel();
@@ -43,29 +44,12 @@ public class MainView extends JPanel implements FocusListener, MouseMotionListen
         topDraw.add(new CalagePanel(), BorderLayout.EAST);
 
         add(topDraw);
-        addFocusListener(this);
         addMouseMotionListener(this);
         showDraft();
     }
 
     private void showDraft() {
         add(new JButton(PredimRC.getImageIcon("draftMainView.png")));
-    }
-
-    public void setModel(Model m) {
-        modelTitle.setValue(m.getName());
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        modelTitle.setEditable(true);
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
-        PredimRC.getInstance().getModel().setName(modelTitle.getValue());
-        PredimRC.logDebugln("new model title:" + modelTitle.getValue());
-        modelTitle.setEditable(false);
     }
 
     @Override
@@ -76,5 +60,10 @@ public class MainView extends JPanel implements FocusListener, MouseMotionListen
     @Override
     public void mouseMoved(MouseEvent e) {
         //  PredimRC.logDebugln("mousemmvoe in main");
+    }
+
+    @Override
+    public void changeModel(Model m) {
+        modelTitle.setValue(m.getName());
     }
 }
