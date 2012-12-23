@@ -37,8 +37,6 @@ public class ModelController {
         listeners = new ArrayList<>();
     }
 
-    
-
     public static void addModelListener(IModelListener l) {
         listeners.add(l);
     }
@@ -46,16 +44,20 @@ public class ModelController {
     public static void removeModelListener(IModelListener l) {
         listeners.remove(l);
     }
-    
-    public static void applyChange()
-    {
-        for (IModelListener l:listeners)
+
+    public static void applyChange() {
+        for (IModelListener l : listeners) {
             l.updateModel();
+        }
     }
-    
-      public static void changeModel(Model m)
-    {
-        for (IModelListener l:listeners)
+
+    public static void changeModel() {
+        changeModel(predimrc.PredimRC.getInstance().getModel());
+    }
+
+    public static void changeModel(Model m) {
+        for (IModelListener l : listeners) {
             l.changeModel(m);
+        }
     }
 }

@@ -35,7 +35,7 @@ public class Model implements Serializable {
 
     /**
      * *
-     * Elements of the model 
+     * Elements of the model
      *
      */
     private String name;
@@ -104,6 +104,6 @@ public class Model implements Serializable {
             }
         }
         wings = wingsTemp;
-        ModelController.applyChange();
+        ModelController.changeModel();
     }
 }

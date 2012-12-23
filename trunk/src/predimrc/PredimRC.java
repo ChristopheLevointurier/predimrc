@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -551,6 +552,14 @@ public class PredimRC extends JFrame {
                 + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
+      public static final double distance(Point p1, Point p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
+                + (p1.y - p2.y) * (p1.y - p2.y));
+    }
+
+    
+    
+    
     public static void loadModel() {
         PredimRC.log("load of :" + filename);
         try {
