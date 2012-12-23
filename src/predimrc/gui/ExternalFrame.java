@@ -67,10 +67,8 @@ public abstract class ExternalFrame extends JFrame {
             }
         };
         JPanel content = (JPanel) getContentPane();
-        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
-
         InputMap inputMap = content.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        inputMap.put(stroke, "CLOSE");
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "CLOSE");
         content.getActionMap().put("CLOSE", actionListener);
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

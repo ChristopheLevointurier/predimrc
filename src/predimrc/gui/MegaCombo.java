@@ -35,12 +35,13 @@ public class MegaCombo extends JPanel {
     private final JLabel name;
     private JComboBox value;
     private boolean editable = false;
+    public final Color backColor = new Color(175, 220, 235);
 
     public MegaCombo(String _name, boolean _editable, String... val) {
         name = new JLabel(_name + " : ");
         editable = _editable;
         value = new JComboBox(val);
-        value.setBackground(new Color(195, 220, 235));
+        value.setBackground(backColor);
         value.setEnabled(editable);
         this.setLayout(new BorderLayout());
         add(name, BorderLayout.WEST);
