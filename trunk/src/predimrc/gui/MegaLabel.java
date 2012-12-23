@@ -18,9 +18,15 @@ package predimrc.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 
 /**
@@ -35,11 +41,12 @@ public class MegaLabel extends JPanel {
     private final JLabel name;
     private JTextField value;
     private boolean editable = false;
+    public final Color backColor = new Color(175, 220, 235);
 
     public MegaLabel(String _name, boolean _editable) {
         name = new JLabel(_name + " : ");
         value = new JTextField("***");
-        value.setBackground(new Color(195, 220, 235));
+        value.setBackground(backColor);
         editable = _editable;
         value.setEditable(editable);
         this.setLayout(new BorderLayout());
@@ -63,7 +70,7 @@ public class MegaLabel extends JPanel {
         setValue(_value);
     }
 
-    public void setValue(String _value) {
+    public final void setValue(final String _value) {
         value.setText(_value);
     }
 
@@ -80,7 +87,21 @@ public class MegaLabel extends JPanel {
         value.setEditable(editable);
     }
 
+    public void addKeyListener(String key, Action l) {
+        InputMap inputMap = value.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke(key), "SAVE");
+        value.getActionMap().put("SAVE", l);
+    }
+
     public void addDocumentListener(DocumentListener d) {
         value.getDocument().addDocumentListener(d);
+    }
+
+    public void setDefaultColor() {
+        value.setBackground(backColor);
+    }
+
+    public void setValueBackground(Color color) {
+        value.setBackground(color);
     }
 }
