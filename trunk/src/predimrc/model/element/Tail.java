@@ -16,6 +16,7 @@
 package predimrc.model.element;
 
 import java.util.ArrayList;
+import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
 
 /**
@@ -67,16 +68,13 @@ public class Tail extends ModelElement {
         return horizontal;
     }
 
-    public void setHorizontal(ArrayList<Wing> horizontal) {
-        this.horizontal = horizontal;
-    }
-
     public float getVertical_height_1() {
         return vertical_height_1;
     }
 
     public void setVertical_height_1(float vertical_height_1) {
         this.vertical_height_1 = vertical_height_1;
+        ModelController.applyChange();
     }
 
     public float getVertical_height_2() {
@@ -85,6 +83,7 @@ public class Tail extends ModelElement {
 
     public void setVertical_height_2(float vertical_height_2) {
         this.vertical_height_2 = vertical_height_2;
+        ModelController.applyChange();
     }
 
     public float getVertical_length_1() {
@@ -93,6 +92,7 @@ public class Tail extends ModelElement {
 
     public void setVertical_length_1(float vertical_length_1) {
         this.vertical_length_1 = vertical_length_1;
+        ModelController.applyChange();
     }
 
     public float getVertical_length_2() {
@@ -101,6 +101,7 @@ public class Tail extends ModelElement {
 
     public void setVertical_length_2(float vertical_length_2) {
         this.vertical_length_2 = vertical_length_2;
+        ModelController.applyChange();
     }
 
     public boolean isExist() {
@@ -109,10 +110,10 @@ public class Tail extends ModelElement {
 
     public void setExist(boolean exist) {
         this.exist = exist;
+        ModelController.applyChange();
     }
-    
-    
-     public void setTailWingNumber(int _i) {
+
+    public void setTailWingNumber(int _i) {
         ArrayList<Wing> wingsTemp = new ArrayList<>();
         for (int i = 0; i < _i; i++) {
             if (!horizontal.isEmpty()) {
@@ -122,6 +123,10 @@ public class Tail extends ModelElement {
             }
         }
         horizontal = wingsTemp;
+        ModelController.applyChange();
     }
-    
+
+    private void setHorizontal(ArrayList<Wing> arrayList) {
+        horizontal = arrayList;
+    }
 }
