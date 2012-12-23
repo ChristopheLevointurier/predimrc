@@ -110,7 +110,7 @@ public class Tail extends ModelElement {
 
     public void setExist(boolean exist) {
         this.exist = exist;
-        ModelController.applyChange();
+        ModelController.changeModel();
     }
 
     public void setTailWingNumber(int _i) {
@@ -123,7 +123,7 @@ public class Tail extends ModelElement {
             }
         }
         horizontal = wingsTemp;
-        ModelController.applyChange();
+        ModelController.changeModel();
     }
 
     private void setHorizontal(ArrayList<Wing> arrayList) {
