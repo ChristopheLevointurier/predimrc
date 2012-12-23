@@ -12,7 +12,7 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui;
+package predimrc.controller;
 
 import predimrc.model.Model;
 
@@ -23,6 +23,7 @@ import predimrc.model.Model;
  * @see
  * @since 
  */
-public interface IModelReact {
+public interface IModelListener {
 public void changeModel(Model m);
+public void updateModel();
 }
