@@ -63,6 +63,7 @@ public class Wing extends ModelElement {
 
     public void setDiedre(float diedre) {
         this.diedre = diedre;
+        //TODO calc and apply new coord for the rest of the wing
         ModelController.applyChange();
     }
 

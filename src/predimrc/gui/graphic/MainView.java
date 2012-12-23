@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package predimrc.gui.graphic;
 
@@ -23,7 +34,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
-import predimrc.gui.MegaLabel;
+import predimrc.controller.ModelController;
+import predimrc.gui.widget.MegaLabel;
 import predimrc.gui.graphic.drawable.CalagePanel;
 import predimrc.gui.graphic.drawable.DiedrePanel;
 import predimrc.model.Model;
@@ -40,6 +52,8 @@ import predimrc.model.Model;
 public class MainView extends JPanel implements MouseMotionListener, IModelListener {
 
     private MegaLabel modelTitle;
+    private DiedrePanel diedrepanel;
+    private CalagePanel calagepanel;
 
     public MainView() {
         super();
@@ -73,9 +87,12 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
 
         add(modelTitle);
         JPanel topDraw = new JPanel();
-
-        topDraw.add(new DiedrePanel(), BorderLayout.WEST);
-        topDraw.add(new CalagePanel(), BorderLayout.EAST);
+        diedrepanel = new DiedrePanel();
+        calagepanel = new CalagePanel();
+        ModelController.addModelListener(diedrepanel);
+        ModelController.addModelListener(calagepanel);
+        topDraw.add(diedrepanel, BorderLayout.WEST);
+        topDraw.add(calagepanel, BorderLayout.EAST);
 
         add(topDraw);
         addMouseMotionListener(this);
