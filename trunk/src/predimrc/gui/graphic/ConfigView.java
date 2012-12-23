@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import predimrc.PredimRC;
-import predimrc.gui.IModelReact;
+import predimrc.controller.IModelListener;
 import predimrc.gui.MegaCombo;
 import predimrc.gui.MegaLabel;
 import predimrc.gui.frame.Compare_Frame;
@@ -33,7 +33,7 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public final class ConfigView extends JPanel implements IModelReact {
+public final class ConfigView extends JPanel implements IModelListener {
 
     private JPanel mainWing = new JPanel();
     private JPanel tail = new JPanel();
@@ -81,7 +81,7 @@ public final class ConfigView extends JPanel implements IModelReact {
      * widgets for structure config
      */
     private JPanel structure_panel = new JPanel();
-    private JCheckBox tailCheck = new JCheckBox("Stabilisateur", true);
+    private JCheckBox tailCheck = new JCheckBox("Tail", true);
     private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
     private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3");
 
@@ -292,5 +292,10 @@ public final class ConfigView extends JPanel implements IModelReact {
         wingCombo.setValue("" + m.getWings().size());
         tailCombo.setEnabled(m.getTail().isExist());
         tailCombo.setValue("" + m.getTail().getHorizontal().size());
+    }
+
+    @Override
+    public void updateModel() {
+       changeModel(PredimRC.getInstance().getModel());
     }
 }
