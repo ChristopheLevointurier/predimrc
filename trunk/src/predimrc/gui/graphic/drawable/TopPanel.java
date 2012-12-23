@@ -20,6 +20,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
+import predimrc.gui.graphic.DrawablePanel;
+import predimrc.model.Model;
 
 /**
  *
@@ -30,42 +32,15 @@ import javax.swing.JPanel;
  */
 
 
-public class TopPanel extends JPanel implements MouseListener,MouseMotionListener {
+public class TopPanel extends DrawablePanel {
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void changeModel(Model m) {
+   //
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
 
 
