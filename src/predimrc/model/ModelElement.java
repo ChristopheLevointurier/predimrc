@@ -16,6 +16,7 @@
 package predimrc.model;
 
 import java.io.Serializable;
+import predimrc.controller.ModelController;
 
 /**
  *
@@ -27,4 +28,11 @@ import java.io.Serializable;
 public class ModelElement implements Serializable {
 
     float xPos, Ypox, Zpos;
+
+    public void setPos(float _xPos, float _Ypox, float _Zpos) {
+        xPos = _xPos;
+        Ypox = _Ypox;
+        Zpos = _Zpos;
+        ModelController.applyChange();
+    }
 }

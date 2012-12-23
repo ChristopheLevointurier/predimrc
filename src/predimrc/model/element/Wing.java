@@ -15,30 +15,27 @@
  */
 package predimrc.model.element;
 
+import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
 
 /**
  *
- * @author Christophe Levointurier,  12 déc. 2012
+ * @author Christophe Levointurier, 12 déc. 2012
  * @version
  * @see
- * @since 
+ * @since
  */
-public class Wing  extends ModelElement{
+public class Wing extends ModelElement {
 
-    
     float diedre;
     //width_1 is nearest the fuselage
-    float width_1, width_2,lenght;
-    
-    
-    
-    public Wing()
-    {
-        diedre=2f;
-        width_1=13f;
-        width_2=10f;
-        lenght=30f;
+    float width_1, width_2, lenght;
+
+    public Wing() {
+        diedre = 2f;
+        width_1 = 13f;
+        width_2 = 10f;
+        lenght = 30f;
     }
 
     public Wing(float _diedre, float _width_1, float _width_2, float _lenght) {
@@ -66,18 +63,21 @@ public class Wing  extends ModelElement{
 
     public void setDiedre(float diedre) {
         this.diedre = diedre;
+        ModelController.applyChange();
     }
 
     public void setWidth_1(float width_1) {
         this.width_1 = width_1;
+        ModelController.applyChange();
     }
 
     public void setWidth_2(float width_2) {
         this.width_2 = width_2;
+        ModelController.applyChange();
     }
 
     public void setLenght(float lenght) {
         this.lenght = lenght;
+        ModelController.applyChange();
     }
-    
 }

@@ -17,6 +17,8 @@ package predimrc.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import predimrc.controller.IModelListener;
+import predimrc.controller.ModelController;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Tail;
 import predimrc.model.element.Wing;
@@ -31,6 +33,11 @@ import predimrc.model.element.Wing;
  */
 public class Model implements Serializable {
 
+    /**
+     * *
+     * Elements of the model 
+     *
+     */
     private String name;
     private String note;
     private ArrayList<Wing> wings;
@@ -53,6 +60,7 @@ public class Model implements Serializable {
 
     public void setName(String _name) {
         name = _name;
+        ModelController.applyChange();
     }
 
     public String getNote() {
@@ -61,14 +69,11 @@ public class Model implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+        ModelController.applyChange();
     }
 
     public ArrayList<Wing> getWings() {
         return wings;
-    }
-
-    public void setWings(ArrayList<Wing> wings) {
-        this.wings = wings;
     }
 
     public Tail getTail() {
@@ -77,6 +82,7 @@ public class Model implements Serializable {
 
     public void setTail(Tail tail) {
         this.tail = tail;
+        ModelController.applyChange();
     }
 
     public Fuselage getFuselage() {
@@ -85,6 +91,7 @@ public class Model implements Serializable {
 
     public void setFuselage(Fuselage fuselage) {
         this.fuselage = fuselage;
+        ModelController.applyChange();
     }
 
     public void setWingSectionNumber(int _i) {
@@ -97,5 +104,6 @@ public class Model implements Serializable {
             }
         }
         wings = wingsTemp;
+        ModelController.applyChange();
     }
 }

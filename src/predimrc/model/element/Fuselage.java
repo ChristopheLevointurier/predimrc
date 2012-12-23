@@ -15,6 +15,7 @@
  */
 package predimrc.model.element;
 
+import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
 
 /**
@@ -31,8 +32,8 @@ public class Fuselage extends ModelElement {
     public Fuselage(float length) {
         this.length = length;
     }
-    
-     public Fuselage() {
+
+    public Fuselage() {
         length = 80f;
     }
 
@@ -42,7 +43,6 @@ public class Fuselage extends ModelElement {
 
     public void setLength(float length) {
         this.length = length;
+        ModelController.applyChange();
     }
-     
-     
 }
