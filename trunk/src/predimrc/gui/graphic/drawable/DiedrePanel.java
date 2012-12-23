@@ -45,7 +45,7 @@ import predimrc.model.element.Wing;
 public class DiedrePanel extends DrawablePanel {
 
     private ArrayList<Point> points = new ArrayList<>();
-    private Point connection = new Point(300, 125);
+    private Point connection = new Point(380, 125);
     /**
      * field used while interact with gui
      */
@@ -82,7 +82,7 @@ public class DiedrePanel extends DrawablePanel {
                 }
 
                 currentDiedre = calcDiedre(ref, new Point(e.getX(), e.getY()));
-                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()*2));
             }
         });
 
@@ -120,10 +120,11 @@ public class DiedrePanel extends DrawablePanel {
         points = new ArrayList<>();
         Point previous = connection;
         for (Wing w : m.getWings()) {
-            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
+            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght()*2);
             points.add(newpoint);
             previous = newpoint;
         }
+        repaint();
     }
 
     private Point getCoordOnCircle(Point center, float deg, float radius) {
