@@ -49,7 +49,6 @@ public class DiedrePanel extends DrawablePanel {
     /**
      * field used while interact with gui
      */
-    private Point tomove;
     private float currentDiedre;
     private int indexWing = 0;
 
@@ -60,7 +59,6 @@ public class DiedrePanel extends DrawablePanel {
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
                 getNearestPoint(e.getX(), e.getY());
-                tomove = points.get(indexWing);
             }
 
             @Override
@@ -82,7 +80,7 @@ public class DiedrePanel extends DrawablePanel {
                 }
 
                 currentDiedre = calcDiedre(ref, new Point(e.getX(), e.getY()));
-                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()*2));
+                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght() * 2));
             }
         });
 
@@ -90,7 +88,7 @@ public class DiedrePanel extends DrawablePanel {
     }
 
     private void movePoint(Point g) {
-        tomove.setLocation(g.x, g.y);
+        PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
         repaint();
     }
 
@@ -104,10 +102,12 @@ public class DiedrePanel extends DrawablePanel {
         super.paintComponent(g);
         g.setColor(Color.blue);
         g.drawString("Diedre draw " + indexWing + points.size() + PredimRC.getInstance().getModel().getWings().size() + " diedre:" + currentDiedre, 10, 20);
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY.brighter());
         Point previous = connection;
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(12));
         for (Point p : points) {
-            g.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
+            g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
             previous = p;
         }
         g.setColor(Color.GRAY.brighter());
@@ -120,7 +120,7 @@ public class DiedrePanel extends DrawablePanel {
         points = new ArrayList<>();
         Point previous = connection;
         for (Wing w : m.getWings()) {
-            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght()*2);
+            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght() * 2);
             points.add(newpoint);
             previous = newpoint;
         }
@@ -135,7 +135,11 @@ public class DiedrePanel extends DrawablePanel {
     }
 
     private float calcDiedre(Point ref, Point point) {
-        return ((float) (Math.atan2(point.y - ref.y, point.x - ref.x) * 180.0d / Math.PI) - 180);
+        float d = ((float) (Math.atan2(point.y - ref.y, point.x - ref.x) * 180.0d / Math.PI) - 180);
+        if (d < 0) {
+            d += 360;
+        }
+        return d;
     }
 
     private void getNearestPoint(int x, int y) {
@@ -145,7 +149,6 @@ public class DiedrePanel extends DrawablePanel {
             double temp = PredimRC.distance(p, new Point(x, y));
             if (temp < dist) {
                 dist = temp;
-                tomove = p;
                 indexWing = index;
             }
             index++;

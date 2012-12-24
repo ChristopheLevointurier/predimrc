@@ -34,7 +34,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.white);
+        g.setColor(new Color(220, 220, 255));
         g.fillRect(0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight());
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
