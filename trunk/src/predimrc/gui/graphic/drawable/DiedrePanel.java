@@ -45,7 +45,10 @@ import predimrc.model.element.Wing;
 public class DiedrePanel extends DrawablePanel {
 
     private ArrayList<Point> points = new ArrayList<>();
+    private ArrayList<Point> tailPoints = new ArrayList<>();
     private Point connection = new Point(380, 125);
+    private Point tailConnection = new Point(400, 55);
+    private boolean onTail = false;
     /**
      * field used while interact with gui
      */
@@ -63,7 +66,12 @@ public class DiedrePanel extends DrawablePanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+                if (onTail) {
+                    PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
+                } else {
+                    PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+                }
+
             }
         });
 
@@ -74,13 +82,18 @@ public class DiedrePanel extends DrawablePanel {
 
             public void mouseDragged(MouseEvent e) {
 
-                Point ref = connection;
+                Point ref = onTail ? tailConnection : connection;
                 if (indexWing > 0) {
-                    ref = points.get(indexWing - 1);
+                    ref = onTail ? tailPoints.get(indexWing - 1) : points.get(indexWing - 1);
                 }
 
                 currentDiedre = calcDiedre(ref, new Point(e.getX(), e.getY()));
-                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+                if (onTail) {
+                    movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getLenght()));
+                } else {
+                    movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+                }
+
             }
         });
 
@@ -88,7 +101,8 @@ public class DiedrePanel extends DrawablePanel {
     }
 
     private void movePoint(Point g) {
-        PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+      if (onTail)  PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
+      else  PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
         repaint();
     }
 
@@ -101,10 +115,14 @@ public class DiedrePanel extends DrawablePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.blue);
-        g.drawString("Diedre draw " + indexWing + points.size() + PredimRC.getInstance().getModel().getWings().size() + " diedre:" + currentDiedre, 10, 20);
+        if (onTail) {
+            g.drawString("Tail Diedre draw " + indexWing + tailPoints.size() + PredimRC.getInstance().getModel().getTail().getHorizontal().size() + " diedre:" + currentDiedre, 10, 20);
+        } else {
+            g.drawString("Diedre draw " + indexWing + points.size() + PredimRC.getInstance().getModel().getWings().size() + " diedre:" + currentDiedre, 10, 20);
+        }
         g.setColor(Color.GRAY.brighter());
-        Point previous = connection;
         Graphics2D g2 = (Graphics2D) g;
+        Point previous = connection;
         g2.setStroke(new BasicStroke(12));
         for (Point p : points) {
             g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
@@ -112,8 +130,19 @@ public class DiedrePanel extends DrawablePanel {
             previous = p;
         }
 
+        previous = tailConnection;
+        for (Point p : tailPoints) {
+            g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
+            g.drawOval(p.x, p.y, 2, 2);
+            previous = p;
+        }
+
         g.setColor(Color.BLUE);
         for (Point p : points) {
+            g.drawOval(p.x, p.y, 2, 2);
+            previous = p;
+        }
+        for (Point p : tailPoints) {
             g.drawOval(p.x, p.y, 2, 2);
             previous = p;
         }
@@ -129,6 +158,14 @@ public class DiedrePanel extends DrawablePanel {
         for (Wing w : m.getWings()) {
             Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             points.add(newpoint);
+            previous = newpoint;
+        }
+
+        tailPoints = new ArrayList<>();
+        previous = tailConnection;
+        for (Wing w : m.getTail().getHorizontal()) {
+            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
+            tailPoints.add(newpoint);
             previous = newpoint;
         }
         repaint();
@@ -155,9 +192,23 @@ public class DiedrePanel extends DrawablePanel {
             double temp = PredimRC.distance(p, new Point(x, y));
             if (temp < dist) {
                 dist = temp;
+                onTail = false;
                 indexWing = index;
             }
             index++;
         }
+        index = 0;
+        for (Point p : tailPoints) {
+            double temp = PredimRC.distance(p, new Point(x, y));
+            if (temp < dist) {
+                dist = temp;
+                onTail = true;
+                indexWing = index;
+            }
+            index++;
+        }
+
+
+
     }
 }
