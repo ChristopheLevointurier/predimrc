@@ -30,6 +30,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,6 +38,8 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -79,7 +82,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.2";
+    private static final String VERSION = "Alpha 0.1.3";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -351,7 +354,10 @@ public class PredimRC extends JFrame {
     private void setUpAndFillComponents() {
 
         logln("set up components...");
-        loadModel();
+        try {
+            loadModel();
+        } catch (IOException ex) {
+        }
         logln("filling components...");
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(mainView, BorderLayout.CENTER);
@@ -552,34 +558,27 @@ public class PredimRC extends JFrame {
                 + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
-      public static final double distance(Point p1, Point p2) {
+    public static final double distance(Point p1, Point p2) {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
                 + (p1.y - p2.y) * (p1.y - p2.y));
     }
 
-    
-    
-    
-    public static void loadModel() {
+    public static void loadModel() throws FileNotFoundException, IOException {
         PredimRC.log("load of :" + filename);
+        FileInputStream in_pute = new FileInputStream(filename);
         try {
-            FileInputStream in_pute = new FileInputStream(filename);
-            try {
-                ObjectInputStream p = new ObjectInputStream(in_pute);
-                PredimRC.getInstance().model = ((Model) p.readObject());
-                PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
-                PredimRC.logln(" success.");
-            } catch (IOException | ClassNotFoundException p) {
-                PredimRC.logln(" failed!");
-                JOptionPane.showMessageDialog(null, "error while opening file", null, JOptionPane.ERROR_MESSAGE);
-            } finally {
-                in_pute.close();
-                ModelController.changeModel(getInstance().getModel());
-            }
-        } catch (HeadlessException | IOException p) {
+            ObjectInputStream p = new ObjectInputStream(in_pute);
+            PredimRC.getInstance().model = ((Model) p.readObject());
+            PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
+            PredimRC.logln(" success.");
+        } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
-            JOptionPane.showMessageDialog(null, "error while opening file", null, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "error while opening file " + filename, null, JOptionPane.ERROR_MESSAGE);
+        } finally {
+            in_pute.close();
+            ModelController.changeModel(getInstance().getModel());
         }
+
     }
 
     public static void loadModelWithChooser() {
@@ -599,7 +598,12 @@ public class PredimRC extends JFrame {
                 extension = fich.substring(i + 1).toLowerCase();
                 if (extension.equals(FILE_EXTENSION)) {
                     filename = selectedFile.getAbsolutePath();
-                    loadModel();
+                    try {
+                        loadModel();
+                    } catch (HeadlessException | IOException p) {
+                        PredimRC.logln(" failed!");
+                        JOptionPane.showMessageDialog(null, "error while opening file", null, JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selected file is not a PredimRC model", null, JOptionPane.ERROR_MESSAGE);
                 }

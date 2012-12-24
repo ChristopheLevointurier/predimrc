@@ -80,7 +80,7 @@ public class DiedrePanel extends DrawablePanel {
                 }
 
                 currentDiedre = calcDiedre(ref, new Point(e.getX(), e.getY()));
-                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght() * 2));
+                movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
             }
         });
 
@@ -108,9 +108,16 @@ public class DiedrePanel extends DrawablePanel {
         g2.setStroke(new BasicStroke(12));
         for (Point p : points) {
             g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
+            g.drawOval(p.x, p.y, 2, 2);
             previous = p;
         }
-        g.setColor(Color.GRAY.brighter());
+
+        g.setColor(Color.BLUE);
+        for (Point p : points) {
+            g.drawOval(p.x, p.y, 2, 2);
+            previous = p;
+        }
+        g.setColor(Color.GRAY);
         ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
         g.drawLine(0, 125, 390, 125);
     }
@@ -120,7 +127,7 @@ public class DiedrePanel extends DrawablePanel {
         points = new ArrayList<>();
         Point previous = connection;
         for (Wing w : m.getWings()) {
-            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght() * 2);
+            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             points.add(newpoint);
             previous = newpoint;
         }
@@ -136,9 +143,8 @@ public class DiedrePanel extends DrawablePanel {
 
     private float calcDiedre(Point ref, Point point) {
         float d = ((float) (Math.atan2(point.y - ref.y, point.x - ref.x) * 180.0d / Math.PI) - 180);
-        if (d < 0) {
-            d += 360;
-        }
+        d = d < 0 ? d + 360 : d;
+        d = d > 180 ? d - 360 : d;
         return d;
     }
 

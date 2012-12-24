@@ -35,7 +35,7 @@ public class Wing extends ModelElement {
         diedre = 2f;
         width_1 = 13f;
         width_2 = 10f;
-        lenght = 30f;
+        lenght = 60f;
     }
 
     public Wing(float _diedre, float _width_1, float _width_2, float _lenght) {
