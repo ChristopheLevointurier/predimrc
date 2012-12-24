@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import javax.swing.BorderFactory;
+import predimrc.PredimRC;
 import predimrc.gui.graphic.DrawablePanel;
 import predimrc.model.Model;
 
@@ -53,7 +54,8 @@ public class CalagePanel extends DrawablePanel {
                 movePoint(e.getX(), e.getY());
             }
         });
-
+       backgroundImage = PredimRC.getImage("left.png");
+ 
     }
 
     private void movePoint(int x, int y) {
@@ -63,14 +65,13 @@ public class CalagePanel extends DrawablePanel {
         repaint(0, 0, 400, 100);
     }
 
+     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(400, 100);
+        return new Dimension(400, 200);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.white);
-        g.fillRect(0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight());
         g.setColor(Color.blue);
         g.drawString("Calage draw", 10, 20);
         g.setColor(Color.gray);
