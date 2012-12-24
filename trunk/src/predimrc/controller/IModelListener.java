@@ -17,7 +17,7 @@ package predimrc.controller;
 import predimrc.model.Model;
 
 /**
- * interface to force the implementation of changeModel(Model m);
+ * interface to force the implementation of changeModel(Model m) and updateModel();
  * @author Christophe Levointurier,  22 déc. 2012, (UTF-8)
  * @version
  * @see
