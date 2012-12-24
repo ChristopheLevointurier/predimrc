@@ -77,9 +77,9 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
     private MegaLabel wingCalage_label = makeLabel("Calage aile");
-    private MegaLabel wingCzCalage_label = makeLabel("Cz Calage aile");
-    private MegaLabel wingIncidence_label = makeLabel("Incidence aile");
-    private MegaLabel wingDiedre_label = makeLabel("Diedre aile");
+    private MegaLabel wingCzCalage_label = makeLabel("Cz Calage wing");
+    private MegaLabel wingIncidence_label = makeLabel("Incidence wing");
+    private MegaLabel wingDiedre_label = makeLabel("Diedre wing");
     /**
      * Labels for tail data
      */
@@ -91,6 +91,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stablevier_label = makeLabel("Bras de levier");
     private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
+    private MegaLabel tailDiedre_label = makeLabel("Diedre tail");
     /**
      * widgets for structure config
      */
@@ -152,6 +153,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         tail.add(stablevier_label);
         tail.add(stabouverture_label);
         tail.add(vstab_label);
+        tail.add(tailDiedre_label);
         tail.add(vlmStabBut);
         add(tail);
 
@@ -311,6 +313,12 @@ public final class ConfigView extends JPanel implements IModelListener {
             diedre += "#" + df.format(w.getDiedre());
         }
         wingDiedre_label.setValue(diedre);
+
+        diedre = "";
+        for (Wing w : m.getTail().getHorizontal()) {
+            diedre += "#" + df.format(w.getDiedre());
+        }
+        tailDiedre_label.setValue(diedre);
     }
 
     @Override

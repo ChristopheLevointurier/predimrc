@@ -37,7 +37,7 @@ public class Tail extends ModelElement {
 
     public Tail() {
         horizontal = new ArrayList<Wing>();
-        horizontal.add(new Wing(0, 5, 6, 5));
+        horizontal.add(new Wing(0, 5, 6, 25));
         vertical_height_1 = 2f;
         vertical_height_2 = 2f;
         vertical_length_1 = 2f;
@@ -119,7 +119,7 @@ public class Tail extends ModelElement {
             if (!horizontal.isEmpty()) {
                 wingsTemp.add(horizontal.remove(0));
             } else {
-                wingsTemp.add(new Wing(1, 10, 10, 25));
+                wingsTemp.add(new Wing(1, 10, 10, 20));
             }
         }
         horizontal = wingsTemp;
