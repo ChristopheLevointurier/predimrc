@@ -17,6 +17,7 @@ package predimrc.gui.graphic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -36,6 +37,7 @@ import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.model.Model;
+import predimrc.model.element.Wing;
 
 /**
  *
@@ -46,6 +48,7 @@ import predimrc.model.Model;
  */
 public final class ConfigView extends JPanel implements IModelListener {
 
+    private static DecimalFormat df = new DecimalFormat();
     private JPanel mainWing = new JPanel();
     private JPanel tail = new JPanel();
     private JPanel mainWingButtons = new JPanel();
@@ -99,7 +102,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     public ConfigView() {
         super();
 
-
+        df.setMaximumFractionDigits(2);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -113,7 +116,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         structure_panel.add(tailCombo);
         add(structure_panel);
 
-        
+
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
         mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
@@ -303,10 +306,15 @@ public final class ConfigView extends JPanel implements IModelListener {
         wingCombo.setValue("" + m.getWings().size());
         tailCombo.setEnabled(m.getTail().isExist());
         tailCombo.setValue("" + m.getTail().getHorizontal().size());
+        String diedre = "";
+        for (Wing w : m.getWings()) {
+            diedre += "#" + df.format(w.getDiedre());
+        }
+        wingDiedre_label.setValue(diedre);
     }
 
     @Override
     public void updateModel() {
-       changeModel(PredimRC.getInstance().getModel());
+        changeModel(PredimRC.getInstance().getModel());
     }
 }
