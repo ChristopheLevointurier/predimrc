@@ -38,6 +38,7 @@ import predimrc.controller.ModelController;
 import predimrc.gui.widget.MegaLabel;
 import predimrc.gui.graphic.drawable.CalagePanel;
 import predimrc.gui.graphic.drawable.DiedrePanel;
+import predimrc.gui.graphic.drawable.TopPanel;
 import predimrc.model.Model;
 
 /**
@@ -54,6 +55,7 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
     private MegaLabel modelTitle;
     private DiedrePanel diedrepanel;
     private CalagePanel calagepanel;
+    private TopPanel toppanel;
 
     public MainView() {
         super();
@@ -84,23 +86,19 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
         });
 
 
-
         add(modelTitle);
         JPanel topDraw = new JPanel();
         diedrepanel = new DiedrePanel();
         calagepanel = new CalagePanel();
+        toppanel = new TopPanel();
         ModelController.addModelListener(diedrepanel);
         ModelController.addModelListener(calagepanel);
+        ModelController.addModelListener(toppanel);
         topDraw.add(diedrepanel, BorderLayout.WEST);
         topDraw.add(calagepanel, BorderLayout.EAST);
-
         add(topDraw);
+        add(toppanel, BorderLayout.SOUTH);
         addMouseMotionListener(this);
-        showDraft();
-    }
-
-    private void showDraft() {
-        add(new JButton(PredimRC.getImageIcon("draftMainView.png")));
     }
 
     @Override
