@@ -147,7 +147,6 @@ public class DiedrePanel extends DrawablePanel {
             } else {
                 g.drawOval(p.x, p.y, 2, 2);
             }
-            previous = p;
             i++;
         }
         i = 0;
@@ -160,7 +159,6 @@ public class DiedrePanel extends DrawablePanel {
             } else {
                 g.drawOval(p.x, p.y, 2, 2);
             }
-            previous = p;
             i++;
         }
         g.setColor(Color.GRAY);
