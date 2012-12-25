@@ -53,7 +53,7 @@ public class DiedrePanel extends DrawablePanel {
      * field used while interact with gui
      */
     private float currentDiedre;
-    private int indexWing = 0;
+    private int indexWing = -1;
 
     public DiedrePanel() {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -62,16 +62,12 @@ public class DiedrePanel extends DrawablePanel {
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
                 getNearestPoint(e.getX(), e.getY());
+                currentDiedre = onTail ? PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getDiedre() : PredimRC.getInstance().getModel().getWings().get(indexWing).getDiedre();
+                repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (onTail) {
-                    PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
-                } else {
-                    PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
-                }
-
             }
         });
 
@@ -101,8 +97,11 @@ public class DiedrePanel extends DrawablePanel {
     }
 
     private void movePoint(Point g) {
-      if (onTail)  PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
-      else  PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+        if (onTail) {
+            PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
+        } else {
+            PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+        }
         repaint();
     }
 
@@ -115,10 +114,12 @@ public class DiedrePanel extends DrawablePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.blue);
-        if (onTail) {
-            g.drawString("Tail Diedre draw " + indexWing + tailPoints.size() + PredimRC.getInstance().getModel().getTail().getHorizontal().size() + " diedre:" + currentDiedre, 10, 20);
-        } else {
-            g.drawString("Diedre draw " + indexWing + points.size() + PredimRC.getInstance().getModel().getWings().size() + " diedre:" + currentDiedre, 10, 20);
+        if (indexWing > -1) {
+            if (onTail) {
+                g.drawString("Tail diedre, section:" + (indexWing + 1) + " : " + currentDiedre, 10, 20);
+            } else {
+                g.drawString("Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre, 10, 20);
+            }
         }
         g.setColor(Color.GRAY.brighter());
         Graphics2D g2 = (Graphics2D) g;
@@ -126,25 +127,41 @@ public class DiedrePanel extends DrawablePanel {
         g2.setStroke(new BasicStroke(12));
         for (Point p : points) {
             g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
-            g.drawOval(p.x, p.y, 2, 2);
             previous = p;
         }
 
         previous = tailConnection;
         for (Point p : tailPoints) {
             g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
-            g.drawOval(p.x, p.y, 2, 2);
             previous = p;
         }
 
+        int i = 0;
         g.setColor(Color.BLUE);
         for (Point p : points) {
-            g.drawOval(p.x, p.y, 2, 2);
+            if (!onTail && i == indexWing) {
+                g.setColor(Color.RED);
+                g.drawOval(p.x, p.y, 2, 2);
+                g.setColor(Color.BLUE.brighter());
+
+            } else {
+                g.drawOval(p.x, p.y, 2, 2);
+            }
             previous = p;
+            i++;
         }
+        i = 0;
         for (Point p : tailPoints) {
-            g.drawOval(p.x, p.y, 2, 2);
+            if (onTail && i == indexWing) {
+                g.setColor(Color.RED);
+                g.drawOval(p.x, p.y, 2, 2);
+                g.setColor(Color.BLUE.brighter());
+
+            } else {
+                g.drawOval(p.x, p.y, 2, 2);
+            }
             previous = p;
+            i++;
         }
         g.setColor(Color.GRAY);
         ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
