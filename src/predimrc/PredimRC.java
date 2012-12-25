@@ -82,12 +82,14 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.3";
+    private static final String VERSION = "Alpha 0.1.4";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
     public static final int DEFAULT_X_FRAME = 800;
     public static final int DEFAULT_Y_FRAME = 600;
+    public static final int MAIN_FRAME_SIZE_X = 1120;
+    public static final int MAIN_FRAME_SIZE_Y = 760;
     private static final boolean DEBUG_MODE = true;
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
@@ -365,7 +367,7 @@ public class PredimRC extends JFrame {
         setIconImage(icon);
         setVisible(true);
         //pack();
-        setSize(1200, 1000);
+        setSize(MAIN_FRAME_SIZE_X, MAIN_FRAME_SIZE_Y);
         setLocationRelativeTo(null);
         // setAlwaysOnTop(true);
         validate();
