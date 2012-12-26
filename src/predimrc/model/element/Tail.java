@@ -37,7 +37,7 @@ public class Tail extends ModelElement {
 
     public Tail() {
         horizontal = new ArrayList<Wing>();
-        horizontal.add(new Wing(0, 5, 6, 25));
+        horizontal.add(new Wing(0, 15, 20, 25));
         vertical_height_1 = 2f;
         vertical_height_2 = 2f;
         vertical_length_1 = 2f;
