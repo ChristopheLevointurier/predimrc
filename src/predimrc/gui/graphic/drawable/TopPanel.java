@@ -42,14 +42,14 @@ import predimrc.model.element.Wing;
  */
 public class TopPanel extends DrawablePanel {
 
-    private ArrayList<Point> points = new ArrayList<>();
-    private ArrayList<Point> tailPoints = new ArrayList<>();
-    private Point connection1 = new Point(380, 125);
-    private Point connection2 = new Point(380, 225);
-    private Point tailConnection1 = new Point(400, 355);
-    private Point tailConnection2 = new Point(400, 405);
-    private Point selectedPoint;
-    private boolean onTail = false;
+    private ArrayList<DrawableWingPart> wingParts = new ArrayList<>();
+    //  private ArrayList<DrawablePoint> wingPoints2 = new ArrayList<>();
+    //   private ArrayList<DrawablePoint> tailPoints = new ArrayList<>();
+    //  private ArrayList<DrawablePoint> tailPoints2 = new ArrayList<>();
+    private DrawablePoint wingConnection = new DrawablePoint(380, 125);
+    //  private DrawablePoint tailConnection = new DrawablePoint(395, 355);
+    private DrawablePoint selectedPoint = new DrawablePoint(0, 0);
+    //   private boolean onTail = false;
     /**
      * field used while interact with gui
      */
@@ -78,6 +78,7 @@ public class TopPanel extends DrawablePanel {
 
             public void mouseDragged(MouseEvent e) {
                 movePoint(e.getX(), e.getY());
+                repaint();
             }
 
             private void movePoint(int x, int y) {
@@ -101,53 +102,33 @@ public class TopPanel extends DrawablePanel {
             g.drawString("Change Wing , section:" + (indexWing + 1) + ": " + currentPos, 10, 20);
 
         }
-        g.setColor(Color.GRAY.brighter());
-        Graphics2D g2 = (Graphics2D) g;
-        int i = 0;
-        g.setColor(Color.BLUE);
-        for (Point p : points) {
-            if (!onTail && i == indexWing) {
-                g.setColor(Color.RED);
-                g.drawOval(p.x, p.y, 2, 2);
-                g.setColor(Color.BLUE.brighter());
-
-            } else {
-                g.drawOval(p.x, p.y, 2, 2);
-            }
-            i++;
+        ((Graphics2D) g).setStroke(new BasicStroke(10));
+         for (DrawableWingPart p : wingParts) {
+            p.draw(g);
         }
-        i = 0;
-        for (Point p : tailPoints) {
-            if (onTail && i == indexWing) {
-                g.setColor(Color.RED);
-                g.drawOval(p.x, p.y, 2, 2);
-                g.setColor(Color.BLUE.brighter());
-
-            } else {
-                g.drawOval(p.x, p.y, 2, 2);
-            }
-            i++;
-        }
+      
+         
         g.setColor(Color.GRAY);
-        ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
-        g.drawLine(0, 175, 800, 175);
+     //   ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
+     //   g.drawLine(0, 175, 800, 175);
     }
 
     @Override
     public void changeModel(Model m) {
-        points = new ArrayList<>();
+        wingParts = new ArrayList<>();
+        DrawableWingPart previous = DrawableWingPart.makeRoot(wingConnection, m.getWings().get(0));
+        for (Wing w : m.getWings()) {
+            DrawableWingPart d = new DrawableWingPart(w, previous);
+            wingParts.add(d);
+            previous = d;
+        }
+
+
         /**
-         * Point previous = connection; for (Wing w : m.getWings()) { Point
-         * newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
-         * points.add(newpoint); previous = newpoint;
-        }*
-         */
-        tailPoints = new ArrayList<>();
-        /**
-         * previous = tailConnection; for (Wing w : m.getTail().getHorizontal())
-         * { Point newpoint = getCoordOnCircle(previous, w.getDiedre(),
-         * w.getLenght()); tailPoints.add(newpoint); previous = newpoint;
-        }*
+         * tailPoints = new ArrayList<>(); previous = tailConnection; for (Wing
+         * w : m.getTail().getHorizontal()) { Point newpoint =
+         * getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
+         * tailPoints.add(newpoint); previous = newpoint; }*
          */
         repaint();
     }
@@ -155,26 +136,25 @@ public class TopPanel extends DrawablePanel {
     private void getNearestPoint(int x, int y) {
         double dist = Integer.MAX_VALUE;
         int index = 0;
-        for (Point p : points) {
-            double temp = PredimRC.distance(p, new Point(x, y));
+        for (DrawableWingPart d : wingParts) {
+            double temp = PredimRC.distance(d.getFrontPoint(), new DrawablePoint(x, y));
             if (temp < dist) {
                 dist = temp;
-                onTail = false;
+                //    onTail = false;
                 indexWing = index;
-                selectedPoint = p;
+                selectedPoint.setSelected(false);
+                selectedPoint = d.getFrontPoint();
+                d.getFrontPoint().setSelected(true);
+            } else {
+                d.getFrontPoint().setSelected(false);
             }
             index++;
         }
-        index = 0;
-        for (Point p : tailPoints) {
-            double temp = PredimRC.distance(p, new Point(x, y));
-            if (temp < dist) {
-                dist = temp;
-                onTail = true;
-                indexWing = index;
-            }
-            index++;
-        }
-
+        /**
+         * *
+         * index = 0; for (Point p : tailPoints) { double temp =
+         * PredimRC.distance(p, new Point(x, y)); if (temp < dist) { dist =
+         * temp; onTail = true; indexWing = index; } index++; }
+         */
     }
 }
