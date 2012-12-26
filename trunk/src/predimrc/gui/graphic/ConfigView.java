@@ -98,7 +98,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private JPanel structure_panel = new JPanel();
     private JCheckBox tailCheck = new JCheckBox("Tail", true);
     private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
-    private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3");
+    private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3", "4", "5");
 
     public ConfigView() {
         super();
