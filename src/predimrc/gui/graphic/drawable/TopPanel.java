@@ -78,10 +78,11 @@ public class TopPanel extends DrawablePanel {
 
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
-                //       System.out.println(e.getX() + ":" + e.getY());
+             //          System.out.println(e.getX() + ":" + e.getY());
             }
 
             public void mouseDragged(MouseEvent e) {
+          
                 if (indexWing > -1) {
                     if (!selectedwing.isOntail()) {
                         if (selectedPoint.equals(selectedwing.getFrontPoint())) {//resize length
@@ -114,12 +115,6 @@ public class TopPanel extends DrawablePanel {
                         changeModel(PredimRC.getInstance().getModel());
                     }
                 }
-            }
-
-            private void movePoint(int x, int y) {
-
-
-                selectedPoint.setLocation(x, selectedPoint.getIntY());
             }
         });
 
