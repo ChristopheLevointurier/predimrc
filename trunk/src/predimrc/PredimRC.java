@@ -63,6 +63,7 @@ import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.graphic.ConfigView;
 import predimrc.gui.graphic.MainView;
+import predimrc.gui.graphic.drawable.DrawablePoint;
 import predimrc.model.Model;
 
 /**
@@ -82,14 +83,14 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.4";
+    private static final String VERSION = "Alpha 0.1.5";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
     public static final int DEFAULT_X_FRAME = 800;
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1120;
-    public static final int MAIN_FRAME_SIZE_Y = 760;
+    public static final int MAIN_FRAME_SIZE_Y = 758;
     private static final boolean DEBUG_MODE = true;
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
@@ -563,6 +564,11 @@ public class PredimRC extends JFrame {
     public static final double distance(Point p1, Point p2) {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
                 + (p1.y - p2.y) * (p1.y - p2.y));
+    }
+
+    public static final double distance(DrawablePoint p1, DrawablePoint p2) {
+        return Math.sqrt((p1.getFloatX() - p2.getFloatX()) * (p1.getFloatX() - p2.getFloatX())
+                + (p1.getFloatY() - p2.getFloatY()) * (p1.getFloatY() - p2.getFloatY()));
     }
 
     public static void loadModel() throws FileNotFoundException, IOException {
