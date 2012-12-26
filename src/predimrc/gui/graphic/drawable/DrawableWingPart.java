@@ -30,19 +30,20 @@ public class DrawableWingPart implements IDrawableObject {
     public static DrawableWingPart makeRoot(DrawablePoint wingConnection, Wing get) {
         return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()));
     }
-    DrawablePoint frontPoint;
-    DrawablePoint backPoint;
-    DrawablePoint previousFrontPoint;
-    DrawablePoint previousBackPoint;
-    float viewableLength;
+    private DrawablePoint frontPoint;
+    private DrawablePoint backPoint;
+    private DrawablePoint previousFrontPoint;
+    private DrawablePoint previousBackPoint;
+    private float viewableLength;
+    private boolean ontail;
 
     private DrawableWingPart(DrawablePoint _frontPoint, DrawablePoint _backPoint) {
         frontPoint = _frontPoint;
         backPoint = _backPoint;
     }
 
-    public DrawableWingPart(Wing w, DrawableWingPart previous) {
-
+    public DrawableWingPart(Wing w, DrawableWingPart previous, boolean _ontail) {
+        ontail = _ontail;
         previousFrontPoint = previous.getFrontPoint();  //comment this does not npe!!
         previousBackPoint = previous.getBackPoint();    //comment this does not npe!!
         double angleRad = Math.toRadians(w.getDiedre());
@@ -58,6 +59,10 @@ public class DrawableWingPart implements IDrawableObject {
         g.drawLine(previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), frontPoint.getIntX(), frontPoint.getIntY());
         g.drawLine(frontPoint.getIntX(), frontPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
         g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
+    //miror
+        g.drawLine(800-previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), 800-frontPoint.getIntX(), frontPoint.getIntY());
+        g.drawLine(800-frontPoint.getIntX(), frontPoint.getIntY(),800- backPoint.getIntX(), backPoint.getIntY());
+        g.drawLine(800-previousBackPoint.getIntX(), previousBackPoint.getIntY(),800- backPoint.getIntX(), backPoint.getIntY());
         frontPoint.draw(g);
         backPoint.draw(g);
         previousFrontPoint.draw(g);
@@ -68,7 +73,19 @@ public class DrawableWingPart implements IDrawableObject {
         return frontPoint;
     }
 
+    public DrawablePoint getPreviousFrontPoint() {
+        return previousFrontPoint;
+    }
+
+    public DrawablePoint getPreviousBackPoint() {
+        return previousBackPoint;
+    }
+
     public DrawablePoint getBackPoint() {
         return backPoint;
+    }
+
+    public boolean isOntail() {
+        return ontail;
     }
 }

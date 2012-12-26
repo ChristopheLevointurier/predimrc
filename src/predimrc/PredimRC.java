@@ -83,7 +83,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.5";
+    private static final String VERSION = "Alpha 0.1.6";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -569,6 +569,11 @@ public class PredimRC extends JFrame {
     public static final double distance(DrawablePoint p1, DrawablePoint p2) {
         return Math.sqrt((p1.getFloatX() - p2.getFloatX()) * (p1.getFloatX() - p2.getFloatX())
                 + (p1.getFloatY() - p2.getFloatY()) * (p1.getFloatY() - p2.getFloatY()));
+    }
+
+    public static final double distance(DrawablePoint p1, int x, int y) {
+        return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x)
+                + (p1.getFloatY() - y) * (p1.getFloatY() - y));
     }
 
     public static void loadModel() throws FileNotFoundException, IOException {
