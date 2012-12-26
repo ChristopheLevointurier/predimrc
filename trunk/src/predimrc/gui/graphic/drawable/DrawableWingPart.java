@@ -27,6 +27,10 @@ import predimrc.model.element.Wing;
  */
 public class DrawableWingPart implements IDrawableObject {
 
+    
+    
+    private final int MID_SCREEN=820;
+    
     public static DrawableWingPart makeRoot(DrawablePoint wingConnection, Wing get) {
         return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()));
     }
@@ -60,9 +64,9 @@ public class DrawableWingPart implements IDrawableObject {
         g.drawLine(frontPoint.getIntX(), frontPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
         g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
     //miror
-        g.drawLine(800-previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), 800-frontPoint.getIntX(), frontPoint.getIntY());
-        g.drawLine(800-frontPoint.getIntX(), frontPoint.getIntY(),800- backPoint.getIntX(), backPoint.getIntY());
-        g.drawLine(800-previousBackPoint.getIntX(), previousBackPoint.getIntY(),800- backPoint.getIntX(), backPoint.getIntY());
+        g.drawLine(MID_SCREEN-previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), MID_SCREEN-frontPoint.getIntX(), frontPoint.getIntY());
+        g.drawLine(MID_SCREEN-frontPoint.getIntX(), frontPoint.getIntY(),MID_SCREEN- backPoint.getIntX(), backPoint.getIntY());
+        g.drawLine(MID_SCREEN-previousBackPoint.getIntX(), previousBackPoint.getIntY(),MID_SCREEN- backPoint.getIntX(), backPoint.getIntY());
         frontPoint.draw(g);
         backPoint.draw(g);
         previousFrontPoint.draw(g);
