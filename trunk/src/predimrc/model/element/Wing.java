@@ -33,8 +33,8 @@ public class Wing extends ModelElement {
 
     public Wing() {
         diedre = 2f;
-        width_1 = 13f;
-        width_2 = 10f;
+        width_1 = 55f;
+        width_2 = 65f;
         lenght = 60f;
     }
 
