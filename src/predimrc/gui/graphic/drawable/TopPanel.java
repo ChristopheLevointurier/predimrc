@@ -119,7 +119,7 @@ public class TopPanel extends DrawablePanel {
                         }
 
                         if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
-                            int newlenght = e.getY() - wingConnection.getIntY();
+                            int newlenght = e.getY() - tailConnection.getIntY();
                             if (newlenght > 1) {
                                 PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing - PredimRC.getInstance().getModel().getWings().size()).setWidth_1(newlenght);
                             }
