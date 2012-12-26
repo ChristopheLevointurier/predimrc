@@ -122,17 +122,16 @@ public class DiedrePanel extends DrawablePanel {
             }
         }
         g.setColor(Color.GRAY.brighter());
-        Graphics2D g2 = (Graphics2D) g;
+        ((Graphics2D) g).setStroke(new BasicStroke(12));
         Point previous = connection;
-        g2.setStroke(new BasicStroke(12));
         for (Point p : points) {
-            g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
+            g.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
             previous = p;
         }
 
         previous = tailConnection;
         for (Point p : tailPoints) {
-            g2.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
+            g.drawLine((int) previous.x, (int) previous.y, p.x, p.y);
             previous = p;
         }
 
