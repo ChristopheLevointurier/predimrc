@@ -30,6 +30,7 @@ import predimrc.controller.IModelListener;
 public abstract class DrawablePanel extends JPanel implements IModelListener {
 
     protected Image backgroundImage;
+    protected String info = "Select an object."; //TODO change to StringBuffer in the future.
 
     @Override
     public void paintComponent(Graphics g) {
