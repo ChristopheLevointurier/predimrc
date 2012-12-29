@@ -14,7 +14,6 @@
  */
 package predimrc.gui.graphic.drawable;
 
-import java.awt.Point;
 
 /**
  *
@@ -25,15 +24,15 @@ import java.awt.Point;
  */
 public class Utils {
 
-    public static Point getCoordOnCircle(Point center, float deg, float radius) {
+    public static DrawablePoint getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg + 180);
         double x = center.getX() + radius * Math.cos(angleRad);
         double y = center.getY() + radius * Math.sin(angleRad);
-        return new Point((int) x, (int) y);
+        return new DrawablePoint((int) x, (int) y);
     }
 
-    public static float calcAngle(Point ref, Point point) {
-        float d = (float) (Math.atan2(point.y - ref.y, point.x - ref.x) * 180.0 / Math.PI) - 180;
+    public static float calcAngle(DrawablePoint ref, DrawablePoint point) {
+        float d = (float) (Math.atan2(point.getFloatY() - ref.getFloatY(), point.getFloatX() - ref.getFloatX()) * 180.0 / Math.PI) - 180;
         d = d < 0 ? d + 360 : d;
         d = d > 180 ? d - 360 : d;
         return d;
