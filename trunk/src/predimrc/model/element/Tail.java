@@ -18,6 +18,7 @@ package predimrc.model.element;
 import java.util.ArrayList;
 import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
+import predimrc.model.element.Wing.USED_FOR;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Tail extends ModelElement {
     public Tail() {
         horizontal = new ArrayList<Wing>();
 
-        Wing first = new Wing(0, 0, 20, 20, 35);
+        Wing first = new Wing(0, 0, 20, 20, 35,USED_FOR.HORIZONTAL_PLAN);
         first.setPosXY(405, 355);
         horizontal.add(first);
         vertical_height_1 = 2f;
@@ -122,7 +123,7 @@ public class Tail extends ModelElement {
             if (!horizontal.isEmpty()) {
                 wingsTemp.add(horizontal.remove(0));
             } else {
-                wingsTemp.add(new Wing(1, 0, 10, 10, 20));
+                wingsTemp.add(new Wing(1, 0, 10, 10, 20,USED_FOR.HORIZONTAL_PLAN));
             }
         }
         horizontal = wingsTemp;
