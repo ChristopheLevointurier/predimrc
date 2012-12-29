@@ -29,9 +29,10 @@ public class Wing extends ModelElement {
 
     //position x,y,z of the wing is the front first point.
     //diedre & fleche are in degree.
-    float diedre, fleche;
+    protected float diedre, fleche;
     //width_1 is nearest the fuselage
-    float width_1, width_2, lenght;
+    protected float width_1, width_2, lenght;
+    protected USED_FOR used_for;
 
     public Wing() {
         fleche = 0f;
@@ -41,12 +42,13 @@ public class Wing extends ModelElement {
         lenght = 60f;
     }
 
-    public Wing(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght) {
+    public Wing(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght, USED_FOR _used_for) {
         diedre = _diedre;
         fleche = _fleche;
         width_1 = _width_1;
         width_2 = _width_2;
         lenght = _lenght;
+        used_for = _used_for;
     }
 
     public float getDiedre() {
@@ -98,5 +100,18 @@ public class Wing extends ModelElement {
     @Override
     public void computePositions() {
         //TODO calc each point for 3D view with new params
+    }
+
+    public USED_FOR getUsed_for() {
+        return used_for;
+    }
+
+    public void setUsed_for(USED_FOR used_for) {
+        this.used_for = used_for;
+    }
+
+    public static enum USED_FOR {
+
+        MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
     }
 }
