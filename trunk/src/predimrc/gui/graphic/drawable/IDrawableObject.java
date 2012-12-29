@@ -5,6 +5,7 @@
 package predimrc.gui.graphic.drawable;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -12,5 +13,5 @@ import java.awt.Graphics;
  */
 public interface IDrawableObject {
 
-    public void draw(Graphics g);
+    public void draw(Graphics2D g);
 }
