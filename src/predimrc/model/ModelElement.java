@@ -37,6 +37,17 @@ public abstract class ModelElement implements Serializable {
         ModelController.applyChange();
     }
 
+    public void setPosXY(float _xPos, float _Ypox) {
+        xPos = _xPos;
+        yPos = _Ypox;
+        ModelController.applyChange();
+    }
+
+    public void setPosZ(float _Zpos) {
+        zPos = _Zpos;
+        ModelController.applyChange();
+    }
+
     public JGL_3DVector getPosition() {
         return new JGL_3DVector(xPos, yPos, zPos);
     }
@@ -45,25 +56,26 @@ public abstract class ModelElement implements Serializable {
         return xPos;
     }
 
+    public float getyPos() {
+        return yPos;
+    }
+
+    public float getzPos() {
+        return zPos;
+    }
+
     public void setxPos(float xPos) {
         this.xPos = xPos;
     }
 
-    public float getYpox() {
-        return yPos;
+    public void setyPos(float yPos) {
+        this.yPos = yPos;
     }
 
-    public void setYpox(float ypox) {
-        this.yPos = ypox;
+    public void setzPos(float zPos) {
+        this.zPos = zPos;
     }
 
-    public float getZpos() {
-        return zPos;
-    }
-
-    public void setZpos(float zpos) {
-        this.zPos = zpos;
-    }
-
+    
     abstract public void computePositions();
 }
