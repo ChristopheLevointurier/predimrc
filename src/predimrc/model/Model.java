@@ -48,8 +48,8 @@ public class Model implements Serializable {
         name = "";
         note = "";
         wings = new ArrayList<>();
-        wings.add(new Wing(1, 70, 60, 100));
-        wings.add(new Wing(1, 60, 50, 80));
+        wings.add(new Wing(1, 2, 70, 60, 100));
+        wings.add(new Wing(1, 0, 60, 50, 80));
         tail = new Tail();
         fuselage = new Fuselage();
     }
@@ -100,10 +100,16 @@ public class Model implements Serializable {
             if (!wings.isEmpty()) {
                 wingsTemp.add(wings.remove(0));
             } else {
-                wingsTemp.add(new Wing(3, 50, 50, 60));
+                wingsTemp.add(new Wing(3, 0, 50, 50, 60));
             }
         }
         wings = wingsTemp;
         ModelController.changeModel();
+    }
+
+    public void computePositions() {
+        for (Wing w : wings) {
+            w.computePositions();
+        }
     }
 }

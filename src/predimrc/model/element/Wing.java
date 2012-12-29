@@ -27,19 +27,23 @@ import predimrc.model.ModelElement;
  */
 public class Wing extends ModelElement {
 
-    float diedre;
+    //position x,y,z of the wing is the front first point.
+    //diedre & fleche are in degree.
+    float diedre, fleche;
     //width_1 is nearest the fuselage
     float width_1, width_2, lenght;
 
     public Wing() {
+        fleche = 0f;
         diedre = 2f;
         width_1 = 55f;
         width_2 = 65f;
         lenght = 60f;
     }
 
-    public Wing(float _diedre, float _width_1, float _width_2, float _lenght) {
+    public Wing(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght) {
         diedre = _diedre;
+        fleche = _fleche;
         width_1 = _width_1;
         width_2 = _width_2;
         lenght = _lenght;
@@ -80,5 +84,19 @@ public class Wing extends ModelElement {
     public void setLenght(float lenght) {
         this.lenght = lenght;
         ModelController.applyChange();
+    }
+
+    public float getFleche() {
+        return fleche;
+    }
+
+    public void setFleche(float fleche) {
+        this.fleche = fleche;
+        ModelController.applyChange();
+    }
+
+    @Override
+    public void computePositions() {
+        //TODO calc each point for 3D view with new params
     }
 }
