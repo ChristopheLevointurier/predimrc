@@ -96,6 +96,7 @@ public final class ConfigView extends JPanel implements IModelListener {
      * widgets for structure config
      */
     private JPanel structure_panel = new JPanel();
+    private JButton reset = new JButton("Reset model");
     private JCheckBox tailCheck = new JCheckBox("Tail", true);
     private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
     private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3", "4", "5");
@@ -113,6 +114,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         structure_panel.setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
         structure_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Structure:"));
         structure_panel.add(tailCheck);
+        structure_panel.add(reset);
         structure_panel.add(wingCombo);
         structure_panel.add(tailCombo);
         add(structure_panel);
@@ -207,6 +209,14 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
 
+        /**
+         * *******---structure widgets----****
+         */
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.getInstance().resetModel();
+            }
+        });
 
         wingCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
