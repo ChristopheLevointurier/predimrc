@@ -83,11 +83,11 @@ public class DiedrePanel extends DrawablePanel {
                     ref = onTail ? tailPoints.get(indexWing - 1) : points.get(indexWing - 1);
                 }
 
-                currentDiedre = calcDiedre(ref, new Point(e.getX(), e.getY()));
+                currentDiedre = Utils.calcAngle(ref, new Point(e.getX(), e.getY()));
                 if (onTail) {
-                    movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getLenght()));
+                    movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getLenght()));
                 } else {
-                    movePoint(getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+                    movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
                 }
 
             }
@@ -170,7 +170,7 @@ public class DiedrePanel extends DrawablePanel {
         points = new ArrayList<>();
         Point previous = connection;
         for (Wing w : m.getWings()) {
-            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
+            Point newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             points.add(newpoint);
             previous = newpoint;
         }
@@ -178,25 +178,11 @@ public class DiedrePanel extends DrawablePanel {
         tailPoints = new ArrayList<>();
         previous = tailConnection;
         for (Wing w : m.getTail().getHorizontal()) {
-            Point newpoint = getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
+            Point newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             tailPoints.add(newpoint);
             previous = newpoint;
         }
         repaint();
-    }
-
-    private Point getCoordOnCircle(Point center, float deg, float radius) {
-        double angleRad = Math.toRadians(deg + 180);
-        double x = (center.getX() + radius * Math.cos(angleRad));
-        double y = (center.getY() + radius * Math.sin(angleRad));
-        return new Point((int) x, (int) y);
-    }
-
-    private float calcDiedre(Point ref, Point point) {
-        float d = ((float) (Math.atan2(point.y - ref.y, point.x - ref.x) * 180.0d / Math.PI) - 180);
-        d = d < 0 ? d + 360 : d;
-        d = d > 180 ? d - 360 : d;
-        return d;
     }
 
     private void getNearestPoint(int x, int y) {
