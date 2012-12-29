@@ -14,8 +14,10 @@
  */
 package predimrc.gui.graphic.drawable;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -87,7 +89,8 @@ public class DrawablePoint extends Point2D implements IDrawableObject {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
+        g.setStroke(new BasicStroke(10));
         g.setColor(Color.BLUE.brighter());
         if (isSelected()) {
             g.setColor(Color.RED);
