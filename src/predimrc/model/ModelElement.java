@@ -16,6 +16,7 @@
 package predimrc.model;
 
 import java.io.Serializable;
+import jglcore.JGL_3DVector;
 import predimrc.controller.ModelController;
 
 /**
@@ -25,14 +26,44 @@ import predimrc.controller.ModelController;
  * @see
  * @since
  */
-public class ModelElement implements Serializable {
+public abstract class ModelElement implements Serializable {
 
-    float xPos, Ypox, Zpos;
+    float xPos, yPos, zPos;
 
     public void setPos(float _xPos, float _Ypox, float _Zpos) {
         xPos = _xPos;
-        Ypox = _Ypox;
-        Zpos = _Zpos;
+        yPos = _Ypox;
+        zPos = _Zpos;
         ModelController.applyChange();
     }
+
+    public JGL_3DVector getPosition() {
+        return new JGL_3DVector(xPos, yPos, zPos);
+    }
+
+    public float getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(float xPos) {
+        this.xPos = xPos;
+    }
+
+    public float getYpox() {
+        return yPos;
+    }
+
+    public void setYpox(float ypox) {
+        this.yPos = ypox;
+    }
+
+    public float getZpos() {
+        return zPos;
+    }
+
+    public void setZpos(float zpos) {
+        this.zPos = zpos;
+    }
+
+    abstract public void computePositions();
 }
