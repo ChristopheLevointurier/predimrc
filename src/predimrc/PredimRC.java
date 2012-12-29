@@ -38,8 +38,6 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -65,6 +63,7 @@ import predimrc.gui.graphic.ConfigView;
 import predimrc.gui.graphic.MainView;
 import predimrc.gui.graphic.drawable.DrawablePoint;
 import predimrc.model.Model;
+import predimrc.model.ModelVersion;
 
 /**
  *
@@ -83,7 +82,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.6";
+    private static final String VERSION = "Alpha 0.1.7";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -578,15 +577,18 @@ public class PredimRC extends JFrame {
 
     public static void loadModel() throws FileNotFoundException, IOException {
         PredimRC.log("load of :" + filename);
+        String versionInfile = "unknown";
         FileInputStream in_pute = new FileInputStream(filename);
         try {
             ObjectInputStream p = new ObjectInputStream(in_pute);
+            versionInfile = ((ModelVersion) p.readObject()).VERSION_MODEL;
+            PredimRC.log(", version in file to load:" + versionInfile);
             PredimRC.getInstance().model = ((Model) p.readObject());
             PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
             PredimRC.logln(" success.");
         } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
-            JOptionPane.showMessageDialog(null, "error while opening file " + filename, null, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
         } finally {
             in_pute.close();
             ModelController.changeModel(getInstance().getModel());
@@ -630,6 +632,7 @@ public class PredimRC extends JFrame {
         try {
             FileOutputStream ostream = new FileOutputStream(fichier);
             ObjectOutputStream p = new ObjectOutputStream(ostream);
+            p.writeObject(new ModelVersion());
             p.writeObject(PredimRC.getInstance().model);
             p.flush();
             ostream.close();
@@ -670,5 +673,10 @@ public class PredimRC extends JFrame {
 
     private void setFilename(String property) {
         filename = property;
+    }
+
+    public void resetModel() {
+        model = new Model();
+        ModelController.changeModel(model);
     }
 }
