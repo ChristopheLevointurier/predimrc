@@ -54,7 +54,7 @@ public class CalagePanel extends DrawablePanel {
                 movePoint(e.getX(), e.getY());
             }
         });
-       backgroundImage = PredimRC.getImage("left.png");
+       backgroundImage = PredimRC.getImage("pegleft.png");
  
     }
 
