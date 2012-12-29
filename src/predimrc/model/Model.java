@@ -48,8 +48,9 @@ public class Model implements Serializable {
         name = "";
         note = "";
         wings = new ArrayList<>();
-        wings.add(new Wing(1, 2, 70, 60, 100));
-        wings.add(new Wing(1, 0, 60, 50, 80));
+        wings.add(new Wing(6, 8, 70, 60, 100));
+        wings.add(new Wing(3, -6, 60, 50, 140));
+        wings.add(new Wing(-5, -4, 60, 30, 80));
         tail = new Tail();
         fuselage = new Fuselage();
     }
