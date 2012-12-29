@@ -90,13 +90,19 @@ public class DiedrePanel extends DrawablePanel {
 
                 currentDiedre = Utils.calcAngle(ref, new DrawablePoint(e.getX(), e.getY()));
                 if (onTail) {
+                    currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
+                    currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
+                } else {
+                    currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
+                    currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
+                }
+                if (onTail) {
                     movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getLenght()));
                     info = "Tail diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
                 } else {
                     movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
                     info = "Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre;
                 }
-
             }
         });
 
@@ -162,9 +168,9 @@ public class DiedrePanel extends DrawablePanel {
         previous = tailConnection;
         for (Wing w : m.getTail().getHorizontal()) {
             DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
-            tailPoints.add(newpoint);
             previous = newpoint;
         }
+        tailPoints.add(previous);
         repaint();
     }
 
