@@ -91,52 +91,34 @@ public class TopPanel extends DrawablePanel {
             public void mouseDragged(MouseEvent e) {
 
                 if (indexWing > -1 && !tailConnection.isSelected()) {
-                    if (!selectedwing.isOntail()) {
-                        if (selectedPoint.equals(selectedwing.getFrontPoint())) {//resize length and fleche
-                            int newlenght = selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
-                            float newFleche = Utils.calcAngle(selectedwing.getPreviousFrontPoint(), new DrawablePoint(e.getX(), e.getY()));
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getWings().get(indexWing).setLenght(newlenght);
-                            }
-                            PredimRC.getInstance().getModel().getWings().get(indexWing).setFleche(newFleche);
-                            infoDetail = " Lenght=" + newlenght + ", Fleche=" + newFleche;
+                    ArrayList<Wing> toManage = selectedwing.isOntail() ? PredimRC.getInstance().getModel().getTail().getHorizontal() : PredimRC.getInstance().getModel().getWings();  //This should be private members init in mousepressed
+                    int indexForActing = selectedwing.isOntail() ? indexWing - PredimRC.getInstance().getModel().getWings().size() : indexWing; //This should be private members init in mousepressed
 
-                        }
-                        if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
-                            int newlenght = e.getY() - selectedwing.getFrontPoint().getIntY();
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getWings().get(indexWing).setWidth_2(newlenght);
-                                infoDetail = " Width2=" + newlenght;
-                            }
-                        }
 
-                        if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
-                            int newlenght = e.getY() - wingConnection.getIntY();
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getWings().get(indexWing).setWidth_1(newlenght);
-                                infoDetail = " Width1=" + newlenght;
-                            }
+                    if (selectedPoint.equals(selectedwing.getFrontPoint())) {//resize length and fleche
+                        int newlenght = selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
+                        float newFleche = Utils.calcAngle(selectedwing.getPreviousFrontPoint(), new DrawablePoint(e.getX(), e.getY()));
+                        Wing toModifiy = toManage.get(indexForActing);
+                        toModifiy.setLenght(newlenght);
+                        if (newlenght > 1) {
+                            toModifiy.setFleche(newFleche);
                         }
+                        infoDetail = " Lenght=" + newlenght + ", Fleche=" + newFleche;
 
-                    } else {
-                        if (selectedPoint.equals(selectedwing.getFrontPoint())) {//resize length
-                            int newlenght = selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing - PredimRC.getInstance().getModel().getWings().size()).setLenght(newlenght);
-                            }
+                    }
+                    if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
+                        int newlenght = e.getY() - selectedwing.getFrontPoint().getIntY();
+                        if (newlenght > 1) {
+                            toManage.get(indexForActing).setWidth_2(newlenght);
+                            infoDetail = " Width2=" + newlenght;
                         }
-                        if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
-                            int newlenght = e.getY() - selectedwing.getFrontPoint().getIntY();
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing - PredimRC.getInstance().getModel().getWings().size()).setWidth_2(newlenght);
-                            }
-                        }
+                    }
 
-                        if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
-                            int newlenght = e.getY() - tailConnection.getIntY();
-                            if (newlenght > 1) {
-                                PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing - PredimRC.getInstance().getModel().getWings().size()).setWidth_1(newlenght);
-                            }
+                    if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
+                        int newlenght = e.getY() - selectedwing.getPreviousFrontPoint().getIntY();
+                        if (newlenght > 1) {
+                            toManage.get(indexForActing).setWidth_1(newlenght);
+                            infoDetail = " Width1=" + newlenght;
                         }
                     }
 
