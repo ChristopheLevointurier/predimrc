@@ -14,8 +14,10 @@
  */
 package predimrc.gui.graphic.drawable;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import predimrc.model.element.Wing;
 
 /**
@@ -27,10 +29,6 @@ import predimrc.model.element.Wing;
  */
 public class DrawableWingPart implements IDrawableObject {
 
-    
-    
-    private final int MID_SCREEN=820;
-    
     public static DrawableWingPart makeRoot(DrawablePoint wingConnection, Wing get) {
         return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()));
     }
@@ -50,23 +48,23 @@ public class DrawableWingPart implements IDrawableObject {
         ontail = _ontail;
         previousFrontPoint = previous.getFrontPoint();  //comment this does not npe!!
         previousBackPoint = previous.getBackPoint();    //comment this does not npe!!
-        double angleRad = Math.toRadians(w.getDiedre());
-        viewableLength = (float) (w.getLenght() * (Math.cos(angleRad)));
-        frontPoint = new DrawablePoint(previousFrontPoint.getIntX() - viewableLength, previousFrontPoint.getIntY());
+        viewableLength = (float) (w.getLenght() * (Math.cos(Math.toRadians(w.getDiedre()))));
+        frontPoint = Utils.getCoordOnCircle(previousFrontPoint, w.getFleche(), viewableLength);
         backPoint = new DrawablePoint(frontPoint.getIntX(), frontPoint.getIntY() + w.getWidth_2());
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         //   System.out.println("draw:" + previousFrontPoint.getIntX() + "," + previousFrontPoint.getIntY() + " - " + frontPoint.getIntX() + "," + frontPoint.getIntY());
+        g.setStroke(new BasicStroke(6));
         g.setColor(Color.GRAY.brighter());
         g.drawLine(previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), frontPoint.getIntX(), frontPoint.getIntY());
         g.drawLine(frontPoint.getIntX(), frontPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
         g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
-    //miror
-        g.drawLine(MID_SCREEN-previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), MID_SCREEN-frontPoint.getIntX(), frontPoint.getIntY());
-        g.drawLine(MID_SCREEN-frontPoint.getIntX(), frontPoint.getIntY(),MID_SCREEN- backPoint.getIntX(), backPoint.getIntY());
-        g.drawLine(MID_SCREEN-previousBackPoint.getIntX(), previousBackPoint.getIntY(),MID_SCREEN- backPoint.getIntX(), backPoint.getIntY());
+        //miror
+        g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY());
+        g.drawLine(TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
+        g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousBackPoint.getIntX(), previousBackPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
         frontPoint.draw(g);
         backPoint.draw(g);
         previousFrontPoint.draw(g);
