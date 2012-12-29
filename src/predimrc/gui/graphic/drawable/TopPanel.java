@@ -99,9 +99,9 @@ public class TopPanel extends DrawablePanel {
                         int newlenght = selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
                         float newFleche = Utils.calcAngle(selectedwing.getPreviousFrontPoint(), new DrawablePoint(e.getX(), e.getY()));
                         Wing toModifiy = toManage.get(indexForActing);
-                        toModifiy.setLenght(newlenght);
+                        toModifiy.setFleche(newFleche);
                         if (newlenght > 1) {
-                            toModifiy.setFleche(newFleche);
+                            toModifiy.setLenght(newlenght);
                         }
                         infoDetail = " Lenght=" + newlenght + ", Fleche=" + newFleche;
 
