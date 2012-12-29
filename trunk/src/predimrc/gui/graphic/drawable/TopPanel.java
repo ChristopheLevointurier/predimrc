@@ -103,7 +103,7 @@ public class TopPanel extends DrawablePanel {
                         if (newlenght > 1) {
                             toModifiy.setLenght(newlenght);
                         }
-                        infoDetail = " Lenght=" + newlenght + ", Fleche=" + newFleche;
+                        infoDetail = " Lenght=" + newlenght + ", Fleche=" + (e.getY() - selectedwing.getPreviousFrontPoint().getFloatY());
 
                     }
                     if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
@@ -129,7 +129,7 @@ public class TopPanel extends DrawablePanel {
                         int xpos = e.getX() > MID_SCREEN_X ? MID_SCREEN_X : e.getX();
                         wingConnection.setFloatLocation(xpos, e.getY());
                         PredimRC.getInstance().getModel().getWings().get(0).setPosXY(xpos, e.getY());
-                        info = "wingConnection: (" + xpos + "," + e.getY() + ")";
+                        info = "wingConnection: (" + e.getY() + "," + xpos + ")";
                         infoDetail = "";
                         changeModel(PredimRC.getInstance().getModel());
                     }
@@ -137,7 +137,7 @@ public class TopPanel extends DrawablePanel {
                         int xpos = e.getX() > MID_SCREEN_X ? MID_SCREEN_X : e.getX();
                         tailConnection.setFloatLocation(xpos, e.getY());
                         PredimRC.getInstance().getModel().getTail().getHorizontal().get(0).setPosXY(xpos, e.getY());
-                        info = "tailConnection: (" + xpos + "," + e.getY() + ")";
+                        info = "tailConnection: (" + e.getY() + "," + xpos + ")";
                         infoDetail = "";
                         changeModel(PredimRC.getInstance().getModel());
                     }
