@@ -45,4 +45,9 @@ public class Fuselage extends ModelElement {
         this.length = length;
         ModelController.applyChange();
     }
+
+    @Override
+    public void computePositions() {
+        //TODO calc each point for 3D view with new params
+    }
 }

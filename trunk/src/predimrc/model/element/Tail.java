@@ -37,7 +37,7 @@ public class Tail extends ModelElement {
 
     public Tail() {
         horizontal = new ArrayList<Wing>();
-        horizontal.add(new Wing(0, 15, 20, 25));
+        horizontal.add(new Wing(0, 0, 15, 20, 25));
         vertical_height_1 = 2f;
         vertical_height_2 = 2f;
         vertical_length_1 = 2f;
@@ -119,7 +119,7 @@ public class Tail extends ModelElement {
             if (!horizontal.isEmpty()) {
                 wingsTemp.add(horizontal.remove(0));
             } else {
-                wingsTemp.add(new Wing(1, 10, 10, 20));
+                wingsTemp.add(new Wing(1, 0, 10, 10, 20));
             }
         }
         horizontal = wingsTemp;
@@ -128,5 +128,13 @@ public class Tail extends ModelElement {
 
     private void setHorizontal(ArrayList<Wing> arrayList) {
         horizontal = arrayList;
+    }
+
+    @Override
+    public void computePositions() {
+        //TODO calc each point for 3D view with new params
+        for (Wing w : horizontal) {
+            w.computePositions();
+        }
     }
 }
