@@ -115,14 +115,8 @@ public class DiedrePanel extends DrawablePanel {
             currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
         }
         if (onTail) {
-            PredimRC.getInstance().getModel().getTail().getHorizontal().get(0).setDiedre(currentDiedre);
-            PredimRC.getInstance().getModel().getTail().getHorizontal().get(1).setDiedre(currentDiedre);
-            //TODO c'et la merde. Propager le diedre sur tout les elements de la queue. 
-            //     for (WingSection w : PredimRC.getInstance().getModel().getTail().getHorizontal()) {
-            //         w.setDiedre(currentDiedre);
-            //     }
-            //}     movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(PredimRC.getInstance().getModel().getTail().getHorizontal().size()-1).getLenght()));
-            info = "Tail diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
+            PredimRC.getInstance().getModel().getTail().setDiedre(currentDiedre);
+            info = "Tail diedre : " + currentDiedre;
         } else {
             PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
             //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
