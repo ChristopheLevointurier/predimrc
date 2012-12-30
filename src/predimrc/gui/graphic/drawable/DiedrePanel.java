@@ -79,7 +79,7 @@ public class DiedrePanel extends DrawablePanel {
                         currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, ""));
                         applyDiedre();
                     } catch (java.lang.NumberFormatException | NullPointerException exxx) {
-                        PredimRC.logln("Invalid value typed");
+                        PredimRC.logln("Invalid diedre value typed");
                     }
                     repaint();
                 }
