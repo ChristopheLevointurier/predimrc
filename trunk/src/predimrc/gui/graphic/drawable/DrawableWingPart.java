@@ -18,7 +18,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import predimrc.model.element.Wing;
+import predimrc.model.element.WingSection;
 
 /**
  *
@@ -29,7 +29,7 @@ import predimrc.model.element.Wing;
  */
 public class DrawableWingPart implements IDrawableObject {
 
-    public static DrawableWingPart makeRoot(DrawablePoint wingConnection, Wing get) {
+    public static DrawableWingPart makeRoot(DrawablePoint wingConnection, WingSection get) {
         return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()));
     }
     private DrawablePoint frontPoint;
@@ -44,7 +44,7 @@ public class DrawableWingPart implements IDrawableObject {
         backPoint = _backPoint;
     }
 
-    public DrawableWingPart(Wing w, DrawableWingPart previous, boolean _ontail) {
+    public DrawableWingPart(WingSection w, DrawableWingPart previous, boolean _ontail) {
         ontail = _ontail;
         previousFrontPoint = previous.getFrontPoint();  //comment this does not npe!!
         previousBackPoint = previous.getBackPoint();    //comment this does not npe!!

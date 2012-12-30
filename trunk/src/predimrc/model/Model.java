@@ -21,7 +21,7 @@ import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Tail;
-import predimrc.model.element.Wing;
+import predimrc.model.element.WingSection;
 
 /**
  * This class contains all model caracteristics for I/O
@@ -40,7 +40,7 @@ public class Model implements Serializable {
      */
     private String name;
     private String note;
-    private ArrayList<Wing> wings;
+    private ArrayList<WingSection> wings;
     private Tail tail;
     private Fuselage fuselage;
 
@@ -48,11 +48,11 @@ public class Model implements Serializable {
         name = "";
         note = "";
         wings = new ArrayList<>();
-        Wing first = new Wing(6, 8, 70, 60, 100, Wing.USED_FOR.MAIN_WING);
+        WingSection first = new WingSection(6, 8, 70, 60, 100, WingSection.USED_FOR.MAIN_WING);
         first.setPosXY(385, 125);   //default wingConnection
         wings.add(first);
-        wings.add(new Wing(3, -6, 60, 50, 140, Wing.USED_FOR.MAIN_WING));
-        wings.add(new Wing(-5, -4, 60, 30, 80, Wing.USED_FOR.MAIN_WING));
+        wings.add(new WingSection(3, -6, 60, 50, 140, WingSection.USED_FOR.MAIN_WING));
+        wings.add(new WingSection(-5, -4, 60, 30, 80, WingSection.USED_FOR.MAIN_WING));
         tail = new Tail();
         fuselage = new Fuselage();
     }
@@ -75,7 +75,7 @@ public class Model implements Serializable {
         ModelController.applyChange();
     }
 
-    public ArrayList<Wing> getWings() {
+    public ArrayList<WingSection> getWings() {
         return wings;
     }
 
@@ -98,12 +98,12 @@ public class Model implements Serializable {
     }
 
     public void setWingSectionNumber(int _i) {
-        ArrayList<Wing> wingsTemp = new ArrayList<>();
+        ArrayList<WingSection> wingsTemp = new ArrayList<>();
         for (int i = 0; i < _i; i++) {
             if (!wings.isEmpty()) {
                 wingsTemp.add(wings.remove(0));
             } else {
-                wingsTemp.add(new Wing(3, 0, 50, 50, 60, Wing.USED_FOR.MAIN_WING));
+                wingsTemp.add(new WingSection(3, 0, 50, 50, 60, WingSection.USED_FOR.MAIN_WING));
             }
         }
         wings = wingsTemp;
@@ -111,7 +111,7 @@ public class Model implements Serializable {
     }
 
     public void computePositions() {
-        for (Wing w : wings) {
+        for (WingSection w : wings) {
             w.computePositions();
         }
     }

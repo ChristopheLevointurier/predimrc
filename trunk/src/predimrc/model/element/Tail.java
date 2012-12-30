@@ -18,7 +18,7 @@ package predimrc.model.element;
 import java.util.ArrayList;
 import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
-import predimrc.model.element.Wing.USED_FOR;
+import predimrc.model.element.WingSection.USED_FOR;
 
 /**
  *
@@ -29,7 +29,7 @@ import predimrc.model.element.Wing.USED_FOR;
  */
 public class Tail extends ModelElement {
 
-    private ArrayList<Wing> horizontal;
+    private ArrayList<WingSection> horizontal;
     //vertical_height_1 is nearest the cokpit
     private float vertical_height_1, vertical_height_2;
     //vertical_length_1 is nearest the fuselage
@@ -37,9 +37,9 @@ public class Tail extends ModelElement {
     private boolean exist;
 
     public Tail() {
-        horizontal = new ArrayList<Wing>();
+        horizontal = new ArrayList<>();
 
-        Wing first = new Wing(0, 0, 20, 20, 35,USED_FOR.HORIZONTAL_PLAN);
+        WingSection first = new WingSection(0, 0, 20, 20, 35,USED_FOR.HORIZONTAL_PLAN);
         first.setPosXY(405, 355);
         horizontal.add(first);
         vertical_height_1 = 2f;
@@ -51,7 +51,7 @@ public class Tail extends ModelElement {
 
     public Tail makeEmptyTail() {
         Tail t = new Tail();
-        t.setHorizontal(new ArrayList<Wing>());
+        t.setHorizontal(new ArrayList<WingSection>());
         t.setVertical_height_1(0f);
         t.setVertical_height_2(0f);
         t.setVertical_length_1(0f);
@@ -60,7 +60,7 @@ public class Tail extends ModelElement {
         return t;
     }
 
-    public Tail(ArrayList<Wing> horizontal, float vertical_height_1, float vertical_height_2, float vertical_length_1, float vertical_length_2) {
+    public Tail(ArrayList<WingSection> horizontal, float vertical_height_1, float vertical_height_2, float vertical_length_1, float vertical_length_2) {
         this.horizontal = horizontal;
         this.vertical_height_1 = vertical_height_1;
         this.vertical_height_2 = vertical_height_2;
@@ -68,7 +68,7 @@ public class Tail extends ModelElement {
         this.vertical_length_2 = vertical_length_2;
     }
 
-    public ArrayList<Wing> getHorizontal() {
+    public ArrayList<WingSection> getHorizontal() {
         return horizontal;
     }
 
@@ -118,26 +118,26 @@ public class Tail extends ModelElement {
     }
 
     public void setTailWingNumber(int _i) {
-        ArrayList<Wing> wingsTemp = new ArrayList<>();
+        ArrayList<WingSection> wingsTemp = new ArrayList<>();
         for (int i = 0; i < _i; i++) {
             if (!horizontal.isEmpty()) {
                 wingsTemp.add(horizontal.remove(0));
             } else {
-                wingsTemp.add(new Wing(1, 0, 10, 10, 20,USED_FOR.HORIZONTAL_PLAN));
+                wingsTemp.add(new WingSection(1, 0, 10, 10, 20,USED_FOR.HORIZONTAL_PLAN));
             }
         }
         horizontal = wingsTemp;
         ModelController.changeModel();
     }
 
-    private void setHorizontal(ArrayList<Wing> arrayList) {
+    private void setHorizontal(ArrayList<WingSection> arrayList) {
         horizontal = arrayList;
     }
 
     @Override
     public void computePositions() {
         //TODO calc each point for 3D view with new params
-        for (Wing w : horizontal) {
+        for (WingSection w : horizontal) {
             w.computePositions();
         }
     }
