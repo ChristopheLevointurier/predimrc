@@ -28,7 +28,7 @@ import java.awt.geom.Point2D;
  * @see
  * @since
  */
-public class DrawablePoint extends Point2D implements IDrawableObject {
+public class DrawablePoint implements IDrawableObject {
 
     private boolean selected = false;
     private float x, y;
@@ -43,12 +43,10 @@ public class DrawablePoint extends Point2D implements IDrawableObject {
         y = (float) _y;
     }
 
-    @Override
     public double getX() {
         return x;
     }
 
-    @Override
     public double getY() {
         return y;
     }
@@ -69,7 +67,6 @@ public class DrawablePoint extends Point2D implements IDrawableObject {
         return (int) y;
     }
 
-    @Override
     public void setLocation(double _x, double _y) {
         x = (float) _x;
         y = (float) _y;

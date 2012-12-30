@@ -15,23 +15,19 @@
  */
 package predimrc.gui.graphic.drawable;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.model.Model;
-import predimrc.model.element.Wing;
+import predimrc.model.element.WingSection;
 
 /**
  *
@@ -79,7 +75,18 @@ public class TopPanel extends DrawablePanel {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && indexWing > -1) {
+                    if (selectedPoint.equals(selectedwing.getFrontPoint())) {
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.LENGTH_AND_FLECHE, "");
+                    }
+                    if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH1, "");
+                    }
+                    if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH2, "");
+                    }
+                }
             }
         });
 
@@ -91,14 +98,14 @@ public class TopPanel extends DrawablePanel {
             public void mouseDragged(MouseEvent e) {
 
                 if (indexWing > -1 && !tailConnection.isSelected()) {
-                    ArrayList<Wing> toManage = selectedwing.isOntail() ? PredimRC.getInstance().getModel().getTail().getHorizontal() : PredimRC.getInstance().getModel().getWings();  //This should be private members init in mousepressed
+                    ArrayList<WingSection> toManage = selectedwing.isOntail() ? PredimRC.getInstance().getModel().getTail().getHorizontal() : PredimRC.getInstance().getModel().getWings();  //This should be private members init in mousepressed
                     int indexForActing = selectedwing.isOntail() ? indexWing - PredimRC.getInstance().getModel().getWings().size() : indexWing; //This should be private members init in mousepressed
 
 
                     if (selectedPoint.equals(selectedwing.getFrontPoint())) {//resize length and fleche
                         int newlenght = selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
                         float newFleche = Utils.calcAngle(selectedwing.getPreviousFrontPoint(), new DrawablePoint(e.getX(), e.getY()));
-                        Wing toModifiy = toManage.get(indexForActing);
+                        WingSection toModifiy = toManage.get(indexForActing);
                         toModifiy.setFleche(newFleche);
                         if (newlenght > 1) {
                             toModifiy.setLenght(newlenght);
@@ -173,7 +180,7 @@ public class TopPanel extends DrawablePanel {
         wingParts = new ArrayList<>();
         DrawableWingPart previous = DrawableWingPart.makeRoot(wingConnection, m.getWings().get(0));
         wingConnection.setFloatLocation(m.getWings().get(0).getxPos(), m.getWings().get(0).getyPos());
-        for (Wing w : m.getWings()) {
+        for (WingSection w : m.getWings()) {
             DrawableWingPart d = new DrawableWingPart(w, previous, false);
             wingParts.add(d);
             previous = d;
@@ -182,7 +189,7 @@ public class TopPanel extends DrawablePanel {
         if (m.getTail().getHorizontal().size() > 0) {
             previous = DrawableWingPart.makeRoot(tailConnection, m.getTail().getHorizontal().get(0));
             tailConnection.setFloatLocation(m.getTail().getHorizontal().get(0).getxPos(), m.getTail().getHorizontal().get(0).getyPos());
-            for (Wing w : m.getTail().getHorizontal()) {
+            for (WingSection w : m.getTail().getHorizontal()) {
                 DrawableWingPart d = new DrawableWingPart(w, previous, true);
                 wingParts.add(d);
                 previous = d;
@@ -192,8 +199,8 @@ public class TopPanel extends DrawablePanel {
 
 
         /**
-         * tailPoints = new ArrayList<>(); previous = tailConnection; for (Wing
-         * w : m.getTail().getHorizontal()) { Point newpoint =
+         * tailPoints = new ArrayList<>(); previous = tailConnection; for
+         * (WingSection w : m.getTail().getHorizontal()) { Point newpoint =
          * getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
          * tailPoints.add(newpoint); previous = newpoint; }*
          */

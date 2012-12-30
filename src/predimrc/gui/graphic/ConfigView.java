@@ -37,7 +37,7 @@ import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.model.Model;
-import predimrc.model.element.Wing;
+import predimrc.model.element.WingSection;
 
 /**
  *
@@ -319,13 +319,13 @@ public final class ConfigView extends JPanel implements IModelListener {
         tailCombo.setEnabled(m.getTail().isExist());
         tailCombo.setValue("" + m.getTail().getHorizontal().size());
         String diedre = "";
-        for (Wing w : m.getWings()) {
+        for (WingSection w : m.getWings()) {
             diedre += "#" + df.format(w.getDiedre());
         }
         wingDiedre_label.setValue(diedre);
 
         diedre = "";
-        for (Wing w : m.getTail().getHorizontal()) {
+        for (WingSection w : m.getTail().getHorizontal()) {
             diedre += "#" + df.format(w.getDiedre());
         }
         tailDiedre_label.setValue(diedre);
