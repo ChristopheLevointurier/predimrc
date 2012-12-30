@@ -32,8 +32,9 @@ import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
 import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.model.Model;
-import predimrc.model.element.Wing;
+import predimrc.model.element.WingSection;
 
 /**
  *
@@ -72,7 +73,16 @@ public class DiedrePanel extends DrawablePanel {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && indexWing > -1) {
+                    try {
+                        currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, ""));
+                        applyDiedre();
+                    } catch (java.lang.NumberFormatException exxx) {
+                        PredimRC.logln("Invalid value typed");
+                    }
+                    repaint();
+                }
             }
         });
 
@@ -89,33 +99,35 @@ public class DiedrePanel extends DrawablePanel {
                 }
 
                 currentDiedre = Utils.calcAngle(ref, new DrawablePoint(e.getX(), e.getY()));
-                if (onTail) {
-                    currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
-                    currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
-                } else {
-                    currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
-                    currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
-                }
-                if (onTail) {
-                    movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).getLenght()));
-                    info = "Tail diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
-                } else {
-                    movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
-                    info = "Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre;
-                }
+                applyDiedre();
             }
         });
 
         backgroundImage = PredimRC.getImage("front.png");
     }
 
-    private void movePoint(DrawablePoint g) {
+    private void applyDiedre() {
         if (onTail) {
-            PredimRC.getInstance().getModel().getTail().getHorizontal().get(indexWing).setDiedre(currentDiedre);
+            currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
+            currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
+        } else {
+            currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
+            currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
+        }
+        if (onTail) {
+            PredimRC.getInstance().getModel().getTail().getHorizontal().get(0).setDiedre(currentDiedre);
+            PredimRC.getInstance().getModel().getTail().getHorizontal().get(1).setDiedre(currentDiedre);
+            //TODO c'et la merde. Propager le diedre sur tout les elements de la queue. 
+            //     for (WingSection w : PredimRC.getInstance().getModel().getTail().getHorizontal()) {
+            //         w.setDiedre(currentDiedre);
+            //     }
+            //}     movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getTail().getHorizontal().get(PredimRC.getInstance().getModel().getTail().getHorizontal().size()-1).getLenght()));
+            info = "Tail diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
         } else {
             PredimRC.getInstance().getModel().getWings().get(indexWing).setDiedre(currentDiedre);
+            //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+            info = "Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre;
         }
-        repaint();
     }
 
     @Override
@@ -158,7 +170,7 @@ public class DiedrePanel extends DrawablePanel {
     public void changeModel(Model m) {
         points = new ArrayList<>();
         DrawablePoint previous = connection;
-        for (Wing w : m.getWings()) {
+        for (WingSection w : m.getWings()) {
             DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             points.add(newpoint);
             previous = newpoint;
@@ -166,7 +178,7 @@ public class DiedrePanel extends DrawablePanel {
 
         tailPoints = new ArrayList<>();
         previous = tailConnection;
-        for (Wing w : m.getTail().getHorizontal()) {
+        for (WingSection w : m.getTail().getHorizontal()) {
             DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
             previous = newpoint;
         }
