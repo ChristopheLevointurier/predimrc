@@ -39,22 +39,18 @@ public class ConfigWingSection_PopUp {
     }
 
     private String getValue() {
-
+        predimrc.PredimRC.logln("Pop up " + usedFor.name());
         switch (usedFor) {
             case LENGTH_AND_FLECHE: {
-                predimrc.PredimRC.logln("Pop up " + usedFor.name());
                 break;
             }
             case DIEDRE: {
-                predimrc.PredimRC.logln("Pop up " + usedFor.name());
                 return JOptionPane.showInputDialog(null, "Type exact diedre value here:", "x");
             }
             case WIDTH1: {
-                predimrc.PredimRC.logln("Pop up " + usedFor.name());
                 return JOptionPane.showInputDialog(null, "Type exact width1 value here:", "x");
             }
             case WIDTH2: {
-                predimrc.PredimRC.logln("Pop up " + usedFor.name());
                 return JOptionPane.showInputDialog(null, "Type exact width2 value here:", "x");
             }
         }
