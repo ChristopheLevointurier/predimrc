@@ -76,7 +76,7 @@ public class DiedrePanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && indexWing > -1) {
                     try {
-                        currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, ""));
+                        currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, "" + currentDiedre));
                         applyDiedre();
                     } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                         PredimRC.logln("Invalid diedre value typed");
