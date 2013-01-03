@@ -81,10 +81,10 @@ public class TopPanel extends DrawablePanel {
                         ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.LENGTH_AND_FLECHE, "");
                     }
                     if (selectedPoint.equals(selectedwing.getPreviousBackPoint())) {//resize width1
-                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH1, "");
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH1, "" + (selectedwing.getPreviousBackPoint().getFloatY()-selectedwing.getPreviousFrontPoint().getFloatY()));
                     }
                     if (selectedPoint.equals(selectedwing.getBackPoint())) {//resize width2
-                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH2, "");
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH2, "" + (selectedwing.getBackPoint().getFloatY()-selectedwing.getFrontPoint().getFloatY()));
                     }
                 }
             }
