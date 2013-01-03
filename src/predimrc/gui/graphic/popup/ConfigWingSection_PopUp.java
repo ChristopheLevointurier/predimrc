@@ -45,13 +45,13 @@ public class ConfigWingSection_PopUp {
                 break;
             }
             case DIEDRE: {
-                return JOptionPane.showInputDialog(null, "Type exact diedre value here:", "x");
+                return JOptionPane.showInputDialog(null, "Type exact diedre value here:", input);
             }
             case WIDTH1: {
-                return JOptionPane.showInputDialog(null, "Type exact width1 value here:", "x");
+                return JOptionPane.showInputDialog(null, "Type exact width1 value here:", input);
             }
             case WIDTH2: {
-                return JOptionPane.showInputDialog(null, "Type exact width2 value here:", "x");
+                return JOptionPane.showInputDialog(null, "Type exact width2 value here:", input);
             }
         }
         return "";
