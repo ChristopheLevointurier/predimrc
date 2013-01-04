@@ -15,6 +15,7 @@
  */
 package predimrc.model;
 
+import java.awt.Dimension;
 import java.io.Serializable;
 import jglcore.JGL_3DVector;
 import predimrc.controller.ModelController;
@@ -40,6 +41,12 @@ public abstract class ModelElement implements Serializable {
     public void setPosXY(float _xPos, float _Ypox) {
         xPos = _xPos;
         yPos = _Ypox;
+        ModelController.applyChange();
+    }
+
+    public void setPosXY(Dimension _XYpox) {
+        xPos = (float) _XYpox.getWidth();
+        yPos = (float) _XYpox.getHeight();
         ModelController.applyChange();
     }
 
@@ -76,6 +83,5 @@ public abstract class ModelElement implements Serializable {
         this.zPos = zPos;
     }
 
-    
     abstract public void computePositions();
 }
