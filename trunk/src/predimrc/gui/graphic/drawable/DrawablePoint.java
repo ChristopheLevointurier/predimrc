@@ -98,4 +98,9 @@ public class DrawablePoint implements IDrawableObject {
             g.drawOval(getIntX(), getIntY(), 2, 2);
         }
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }
