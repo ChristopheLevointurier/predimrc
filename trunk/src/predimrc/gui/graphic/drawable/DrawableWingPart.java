@@ -90,4 +90,9 @@ public class DrawableWingPart implements IDrawableObject {
     public boolean isOntail() {
         return ontail;
     }
+
+    @Override
+    public String toString() {
+        return "DrawableWingPart:" + frontPoint + "," + backPoint + ", previous= " + previousFrontPoint + "," + previousBackPoint + " l=" + viewableLength;
+    }
 }
