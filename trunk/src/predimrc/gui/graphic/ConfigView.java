@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
+import predimrc.controller.ModelController;
 import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
 import predimrc.gui.frame.Compare_Frame;
@@ -220,20 +221,22 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         wingCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
+                PredimRC.getInstance().getModel().getWings().get(0).setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
+                ModelController.applyChange();
             }
         });
 
 
         tailCheck.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().getTail().setExist(tailCheck.isSelected());
+                //TODO
             }
         });
 
         tailCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().getTail().setTailWingNumber(Integer.parseInt(tailCombo.getValue()));
+                PredimRC.getInstance().getModel().getTail().get(0).setWingSectionNumber(Integer.parseInt(tailCombo.getValue()));
+                ModelController.applyChange();
             }
         });
 
@@ -314,18 +317,18 @@ public final class ConfigView extends JPanel implements IModelListener {
 
     @Override
     public void changeModel(Model m) {
-        tailCheck.setSelected(m.getTail().isExist());
-        wingCombo.setValue("" + m.getWings().size());
-        tailCombo.setEnabled(m.getTail().isExist());
-        tailCombo.setValue("" + m.getTail().getHorizontal().size());
+        //TODO   tailCheck.setSelected(m.getTail().isExist());
+        wingCombo.setValue("" + m.getWings().get(0).getSize());
+        //TODO      tailCombo.setEnabled(m.getTail().isExist());
+        tailCombo.setValue("" + m.getTail().get(0).getSize());
         String diedre = "";
-        for (WingSection w : m.getWings()) {
+        for (WingSection w : m.getWings().get(0)) {
             diedre += "#" + df.format(w.getDiedre());
         }
         wingDiedre_label.setValue(diedre);
 
         diedre = "";
-        for (WingSection w : m.getTail().getHorizontal()) {
+        for (WingSection w : m.getTail().get(0)) {
             diedre += "#" + df.format(w.getDiedre());
         }
         tailDiedre_label.setValue(diedre);

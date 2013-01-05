@@ -47,6 +47,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
      */
     @Override
     public void updateModel() {
+        changeModel(predimrc.PredimRC.getInstanceModel());
         repaint();
     }
 }
