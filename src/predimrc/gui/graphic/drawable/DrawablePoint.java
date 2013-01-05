@@ -16,6 +16,7 @@ package predimrc.gui.graphic.drawable;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -32,6 +33,11 @@ public class DrawablePoint implements IDrawableObject {
 
     private boolean selected = false;
     private float x, y;
+
+    public DrawablePoint(Dimension xy) {
+        x = xy.width;
+        y = xy.height;
+    }
 
     public DrawablePoint(float _x, float _y) {
         x = _x;
@@ -86,7 +92,7 @@ public class DrawablePoint implements IDrawableObject {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void drawTop(Graphics2D g) {
         g.setStroke(new BasicStroke(10));
         g.setColor(Color.BLUE.brighter());
         if (isSelected()) {
@@ -101,6 +107,7 @@ public class DrawablePoint implements IDrawableObject {
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+
+        return selected ? "*(" + x + "*" + y + ")*" : " (" + x + "," + y + ") ";
     }
 }
