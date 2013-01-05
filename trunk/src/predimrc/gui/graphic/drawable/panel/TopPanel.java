@@ -15,8 +15,6 @@
  */
 package predimrc.gui.graphic.drawable.panel;
 
-import predimrc.gui.graphic.drawable.model.OldDrawableWingPart;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,10 +25,11 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.drawable.OldDrawableWingPart;
 import predimrc.gui.graphic.drawable.Utils;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.model.Model;
-import predimrc.model.element.Wing;
 import predimrc.model.element.WingSection;
 
 /**
