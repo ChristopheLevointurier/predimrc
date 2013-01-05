@@ -56,6 +56,7 @@ public class ModelController {
     }
 
     public static void changeModel(Model m) {
+        predimrc.PredimRC.logDebugln("Controller.changeModel()");
         for (IModelListener l : listeners) {
             l.changeModel(m);
         }
