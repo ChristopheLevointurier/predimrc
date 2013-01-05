@@ -32,7 +32,6 @@ public class WingSection extends ModelElement {
     protected float diedre, fleche;
     //width_1 is nearest the fuselage
     protected float width_1, width_2, lenght;
-    protected USED_FOR used_for;
 
     public WingSection() {
         fleche = 0f;
@@ -42,13 +41,20 @@ public class WingSection extends ModelElement {
         lenght = 60f;
     }
 
-    public WingSection(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght, USED_FOR _used_for) {
+    public WingSection(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght) {
         diedre = _diedre;
         fleche = _fleche;
         width_1 = _width_1;
         width_2 = _width_2;
         lenght = _lenght;
-        used_for = _used_for;
+    }
+
+    public WingSection(WingSection _in) {
+        diedre = _in.getDiedre();
+        fleche = _in.getFleche();
+        width_1 = _in.getWidth_1();
+        width_2 = _in.getWidth_2();
+        lenght = _in.getLenght();
     }
 
     public float getDiedre() {
@@ -100,18 +106,5 @@ public class WingSection extends ModelElement {
     @Override
     public void computePositions() {
         //TODO calc each point for 3D view with new params
-    }
-
-    public USED_FOR getUsed_for() {
-        return used_for;
-    }
-
-    public void setUsed_for(USED_FOR used_for) {
-        this.used_for = used_for;
-    }
-
-    public static enum USED_FOR {
-
-        MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
     }
 }

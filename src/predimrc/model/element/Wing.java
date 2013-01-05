@@ -16,6 +16,7 @@
 package predimrc.model.element;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
 
@@ -26,22 +27,28 @@ import predimrc.model.ModelElement;
  * @see
  * @since
  */
-public class Wing extends ModelElement {
+public class Wing extends ModelElement implements Iterable<WingSection> {
 
     //position x,y,z of the wing is the front first point.
-    private ArrayList<WingSection> wings;
+    private ArrayList<WingSection> wingsSection;
     protected USED_FOR used_for;
 
     public Wing() {
-        wings = new ArrayList<>();
+        this(USED_FOR.MAIN_WING);
     }
 
     public Wing(USED_FOR _used_for, int nbrSection) {
         used_for = _used_for;
-        wings = new ArrayList<>();
+        wingsSection = new ArrayList<>();
         for (int i = 0; i < nbrSection; i++) {
-            wings.add(new WingSection());
+            wingsSection.add(new WingSection());
         }
+    }
+
+    public Wing(USED_FOR _used_for) {
+        used_for = _used_for;
+        wingsSection = new ArrayList<>();
+
     }
 
     @Override
@@ -57,8 +64,49 @@ public class Wing extends ModelElement {
         this.used_for = used_for;
     }
 
+    public void add(WingSection newSection) {
+        wingsSection.add(newSection);
+    }
+
+    public void setWingSectionNumber(int _i) {
+        predimrc.PredimRC.logDebugln("setWingSectionNumber:" + _i);
+        ArrayList<WingSection> wingsTemp = new ArrayList<>();
+        for (int i = 0; i < _i; i++) {
+            if (!wingsSection.isEmpty()) {
+                wingsTemp.add(wingsSection.remove(0));
+            } else {
+                if (wingsTemp.isEmpty()) {
+                    wingsTemp.add(new WingSection(0, 0, 10, 10, 10));
+                } else {
+                    wingsTemp.add(new WingSection(wingsTemp.get(0)));
+                }
+            }
+        }
+        wingsSection = wingsTemp;
+        ModelController.changeModel();
+    }
+
+    public int getSize() {
+        return wingsSection.size();
+    }
+
+    @Override
+    public Iterator iterator() {
+        return wingsSection.iterator();
+    }
+
+    public WingSection get(int index) {
+        return wingsSection.get(index);
+    }
+
     public static enum USED_FOR {
 
         MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
+    }
+
+    public void setDiedre(float diedre) {
+        for (WingSection w : (ArrayList<WingSection>) wingsSection.clone()) {
+            w.setDiedre(diedre);
+        }
     }
 }

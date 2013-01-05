@@ -17,10 +17,10 @@ package predimrc.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.TopPanel;
 import predimrc.model.element.Fuselage;
-import predimrc.model.element.Tail;
+import predimrc.model.element.Wing;
 import predimrc.model.element.WingSection;
 
 /**
@@ -40,20 +40,27 @@ public class Model implements Serializable {
      */
     private String name;
     private String note;
-    private ArrayList<WingSection> wings;
-    private Tail tail;
+    private ArrayList<Wing> wings;
+    private ArrayList<Wing> tail;
+    private ArrayList<Wing> derive;
     private Fuselage fuselage;
 
     public Model() {
         name = "";
         note = "";
         wings = new ArrayList<>();
-        WingSection first = new WingSection(6, 8, 70, 60, 100, WingSection.USED_FOR.MAIN_WING);
-        first.setPosXY(385, 125);   //default wingConnection
-        wings.add(first);
-        wings.add(new WingSection(3, -6, 60, 50, 140, WingSection.USED_FOR.MAIN_WING));
-        wings.add(new WingSection(-5, -4, 60, 30, 80, WingSection.USED_FOR.MAIN_WING));
-        tail = new Tail();
+        Wing mainwing = new Wing(Wing.USED_FOR.MAIN_WING);
+        wings.add(mainwing);
+        mainwing.setPosXY(TopPanel.defaultWingConnection);   
+        mainwing.add(new WingSection(6, 8, 70, 60, 100));
+        mainwing.add(new WingSection(3, -6, 60, 50, 140));
+        mainwing.add(new WingSection(-5, -4, 60, 30, 80));
+
+        tail = new ArrayList<>();
+        Wing maintail = new Wing(Wing.USED_FOR.HORIZONTAL_PLAN);
+        tail.add(maintail);
+        maintail.setPosXY(TopPanel.defaultTailConnection);  
+        maintail.add(new WingSection(0, 0, 20, 20, 35));
         fuselage = new Fuselage();
     }
 
@@ -75,17 +82,12 @@ public class Model implements Serializable {
         ModelController.applyChange();
     }
 
-    public ArrayList<WingSection> getWings() {
+    public ArrayList<Wing> getWings() {
         return wings;
     }
 
-    public Tail getTail() {
+    public ArrayList<Wing> getTail() {
         return tail;
-    }
-
-    public void setTail(Tail tail) {
-        this.tail = tail;
-        ModelController.applyChange();
     }
 
     public Fuselage getFuselage() {
@@ -97,21 +99,8 @@ public class Model implements Serializable {
         ModelController.applyChange();
     }
 
-    public void setWingSectionNumber(int _i) {
-        ArrayList<WingSection> wingsTemp = new ArrayList<>();
-        for (int i = 0; i < _i; i++) {
-            if (!wings.isEmpty()) {
-                wingsTemp.add(wings.remove(0));
-            } else {
-                wingsTemp.add(new WingSection(3, 0, 50, 50, 60, WingSection.USED_FOR.MAIN_WING));
-            }
-        }
-        wings = wingsTemp;
-        ModelController.changeModel();
-    }
-
     public void computePositions() {
-        for (WingSection w : wings) {
+        for (Wing w : wings) {
             w.computePositions();
         }
     }
