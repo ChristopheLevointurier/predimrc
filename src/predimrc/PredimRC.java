@@ -66,18 +66,21 @@ import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO exploiter used for . utiliser les wings calculer les points et les
+ * TODO exploiter used for . utiliser les extensions du model. calculer les points et les
  * recuperer pour le dessin. verif pourquoi autant d'appels à
- * 
+ *
  * DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
  * DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
  * DEBUG:setWingSectionNumber:3....
- * 
  *
- * -refac getinstance()getmodel()--> getinstancemodel() -finir pop ups -ajouter
- * derive, getDerive() -faire un DrawableModel, et l'abonner a modelistener
+ *
+ * -finir pop ups -ajouter
+ *  -faire un DrawableModel, et l'abonner a modelistener
  * (verif les actions faite par IHM onchange) -ajouter l'invocation de
- * computecoord dans le gestionnaire de listeners
+ * computecoord dans le gestionnaire de listeners Mettre les combobox dans les
+ * popups.
+ *
+ * sauver config 3D. sauver dont show me again.
  *
  * @author Christophe Levointurier 11/2012
  * @version
@@ -94,7 +97,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.12";
+    private static final String VERSION = "Alpha 0.2.2";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -180,7 +183,6 @@ public class PredimRC extends JFrame {
         /**
          * register new listener of the model*
          */
-        ModelController.addModelListener(mainView);
         ModelController.addModelListener(configView);
 
 
@@ -433,9 +435,15 @@ public class PredimRC extends JFrame {
         Properties config = new Properties();
         try {
             config.load(new FileInputStream(appRep + configFile));
-            airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
-            PredimRC.getInstance().getModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
             PredimRC.getInstance().setFilename(config.getProperty("FILENAME", DEFAULT_KEY_VALUE));
+            logDebugln("config load : " + "FILENAME =" + PredimRC.getInstance().filename);
+            airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
+            logDebugln("config load : " + "AIRFOILS =" + airfoilsDirectory);
+            PredimRC.getInstanceModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
+            logDebugln("config load : " + "NOTES =" + PredimRC.getInstanceModel().getNote());
+            /**
+             * ********
+             */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
         } catch (final Throwable t) {
             logln("IOException while attempting to load File " + appRep + configFile + "...\n" + t.getLocalizedMessage());
@@ -451,7 +459,7 @@ public class PredimRC extends JFrame {
         logln("\n*******************************************\n**** Saving  configuration... ****");
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + airfoilsDirectory);
-        config.setProperty("NOTES", "" + PredimRC.getInstance().getModel().getNote());
+        config.setProperty("NOTES", "" + PredimRC.getInstanceModel().getNote());
         config.setProperty("FILENAME", "" + PredimRC.getInstance().filename);
         try {
             File fout = new File(appRep);
@@ -602,12 +610,13 @@ public class PredimRC extends JFrame {
             PredimRC.getInstance().model = ((Model) p.readObject());
             PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
             PredimRC.logln(" success.");
+            ModelController.changeModel();
         } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
             JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
+            //   PredimRC.resetModel();
         } finally {
             in_pute.close();
-            ModelController.changeModel();
         }
 
     }
