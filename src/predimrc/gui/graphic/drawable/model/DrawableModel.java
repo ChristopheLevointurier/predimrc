@@ -15,6 +15,7 @@
 package predimrc.gui.graphic.drawable.model;
 
 import java.awt.Graphics2D;
+import predimrc.controller.IModelListener;
 import predimrc.model.Model;
 
 /**
@@ -24,7 +25,7 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public class DrawableModel extends Model implements IDrawableObject {
+public class DrawableModel extends Model implements IDrawableObject, IModelListener {
 
     @Override
     public void drawTop(Graphics2D g) {
@@ -38,6 +39,16 @@ public class DrawableModel extends Model implements IDrawableObject {
 
     @Override
     public void drawFront(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void changeModel(Model m) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void updateModel() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
