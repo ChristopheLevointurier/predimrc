@@ -44,7 +44,7 @@ public class FuselageLoader extends RawElementLoader {
         JGL_3DMesh mesh = new JGL_3DMesh();
         JGL_3DVector p1, p2, p3, p4;
         if (vertices.size() == 0) {
-            PredimRC.logln("vertices empty in fuselage");
+            PredimRC.logln("vertices empty in fuselage!");
             return mesh;
         }
         if (vertices.size() != vertices_prof.size()) {

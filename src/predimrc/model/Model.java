@@ -103,5 +103,41 @@ public class Model implements Serializable {
         for (Wing w : wings) {
             w.computePositions();
         }
+        for (Wing w : tail) {
+            w.computePositions();
+        }
+        for (Wing w : derive) {
+            w.computePositions();
+        }
+    }
+
+    public void setWingNumber(int a) {
+        setNumber(wings, a, Wing.USED_FOR.MAIN_WING);
+    }
+
+    public void setTailNumber(int a) {
+        setNumber(tail, a, Wing.USED_FOR.HORIZONTAL_PLAN);
+    }
+
+    public void setDeriveNumber(int a) {
+        setNumber(derive, a, Wing.USED_FOR.VERTICAL_PLAN);
+    }
+
+    private void setNumber(ArrayList<Wing> wingList, int _i, Wing.USED_FOR usedFor) {
+        predimrc.PredimRC.logDebugln("setWingAmount:" + _i + " " + usedFor);
+        ArrayList<Wing> wingsTemp = new ArrayList<>();
+        for (int i = 0; i < _i; i++) {
+            if (!wingList.isEmpty()) {
+                wingsTemp.add(wingList.remove(0));
+            } else {
+                if (wingsTemp.isEmpty()) {
+                    wingsTemp.add(new Wing(usedFor));
+                } else {
+                    wingsTemp.add(new Wing(wingsTemp.get(0)));
+                }
+            }
+        }
+        wingList = wingsTemp;
+        ModelController.changeModel();
     }
 }
