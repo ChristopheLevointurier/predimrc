@@ -52,7 +52,7 @@ public class ModelController {
     }
 
     public static void changeModel() {
-        changeModel(predimrc.PredimRC.getInstance().getModel());
+        changeModel(predimrc.PredimRC.getInstanceModel());
     }
 
     public static void changeModel(Model m) {

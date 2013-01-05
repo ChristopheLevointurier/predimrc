@@ -66,22 +66,19 @@ import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO exploiter used for . 
- * utiliser les wings calculer les points et les recuperer pour le dessin.
- *verif pourquoi autant d'appels à 
+ * TODO exploiter used for . utiliser les wings calculer les points et les
+ * recuperer pour le dessin. verif pourquoi autant d'appels à
+ * * 
+DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
+ * DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
+ * DEBUG:setWingSectionNumber:3....
+ * 
+*
+ * -refac getinstance()getmodel()--> getinstancemodel() -finir pop ups -ajouter
+ * derive, getDerive() -faire un DrawableModel, et l'abonner a modelistener
+ * (verif les actions faite par IHM onchange) -ajouter l'invocation de
+ * computecoord dans le gestionnaire de listeners
  *
-DEBUG:setWingSectionNumber:1
-DEBUG:Controller.changeModel()
-DEBUG:setWingSectionNumber:1
-DEBUG:Controller.changeModel()
-DEBUG:setWingSectionNumber:3....
-* 
-* 
--refac getinstance()getmodel()--> getinstancemodel()
--finir pop ups
--ajouter derive, getDerive()
--faire un DrawableModel, et l'abonner a modelistener (verif les actions faite par IHM onchange)
--ajouter l'invocation de computecoord dans le gestionnaire de listeners
  * @author Christophe Levointurier 11/2012
  * @version
  * @see
@@ -97,7 +94,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.11";
+    private static final String VERSION = "Alpha 0.1.12";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -140,7 +137,7 @@ public class PredimRC extends JFrame {
         imageIcon = new ImageIcon(icon);
     }
 
-    public static PredimRC getInstance() {
+    private static PredimRC getInstance() {
         if (null == instance) {
             instance = new PredimRC();
         }
@@ -694,9 +691,9 @@ public class PredimRC extends JFrame {
         filename = property;
     }
 
-    public void resetModel() {
+    public static void resetModel() {
         logDebugln("resetModel()");
-        model = new Model();
+        getInstance().model = new Model();
         ModelController.changeModel();
 
     }

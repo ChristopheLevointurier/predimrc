@@ -68,7 +68,7 @@ public class DiedrePanel extends DrawablePanel {
 
                 double dist = getNearestPoint(Integer.MAX_VALUE, points, e.getX(), e.getY(), false);
                 getNearestPoint(dist, tailPoints, e.getX(), e.getY(), true);
-                currentDiedre = onTail ? PredimRC.getInstance().getModel().getTail().get(0).get(indexWing).getDiedre() : PredimRC.getInstance().getModel().getWings().get(0).get(indexWing).getDiedre();
+                currentDiedre = onTail ? PredimRC.getInstanceModel().getTail().get(0).get(indexWing).getDiedre() : PredimRC.getInstanceModel().getWings().get(0).get(indexWing).getDiedre();
                 info = onTail ? "Tail" : "Wing";
                 info += "diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
                 repaint();
@@ -117,10 +117,10 @@ public class DiedrePanel extends DrawablePanel {
             currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
         }
         if (onTail) {
-            PredimRC.getInstance().getModel().getTail().get(0).setDiedre(currentDiedre);
+            PredimRC.getInstanceModel().getTail().get(0).setDiedre(currentDiedre);
             info = "Tail diedre : " + currentDiedre;
         } else {
-            PredimRC.getInstance().getModel().getWings().get(0).get(indexWing).setDiedre(currentDiedre);
+            PredimRC.getInstanceModel().getWings().get(0).get(indexWing).setDiedre(currentDiedre);
             //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
             info = "Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre;
         }

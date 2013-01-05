@@ -215,13 +215,13 @@ public final class ConfigView extends JPanel implements IModelListener {
          */
         reset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().resetModel();
+                PredimRC.resetModel();
             }
         });
 
         wingCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().getWings().get(0).setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
+                PredimRC.getInstanceModel().getWings().get(0).setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
                 ModelController.applyChange();
             }
         });
@@ -235,7 +235,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         tailCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().getTail().get(0).setWingSectionNumber(Integer.parseInt(tailCombo.getValue()));
+                PredimRC.getInstanceModel().getTail().get(0).setWingSectionNumber(Integer.parseInt(tailCombo.getValue()));
                 ModelController.applyChange();
             }
         });
@@ -336,6 +336,6 @@ public final class ConfigView extends JPanel implements IModelListener {
 
     @Override
     public void updateModel() {
-        changeModel(PredimRC.getInstance().getModel());
+        changeModel(PredimRC.getInstanceModel());
     }
 }
