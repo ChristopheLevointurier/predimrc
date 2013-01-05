@@ -18,6 +18,8 @@ package predimrc.model.element;
 import java.util.ArrayList;
 import java.util.Iterator;
 import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.panel.TopPanel;
+import predimrc.model.Dimension3D;
 import predimrc.model.ModelElement;
 
 /**
@@ -34,7 +36,7 @@ public class Wing extends ModelElement implements Iterable<WingSection> {
     protected USED_FOR used_for;
 
     public Wing() {
-        this(USED_FOR.MAIN_WING);
+        this(USED_FOR.MAIN_WING, TopPanel.defaultWingConnection);
     }
 
     public Wing(USED_FOR _used_for, int nbrSection) {
@@ -53,8 +55,15 @@ public class Wing extends ModelElement implements Iterable<WingSection> {
         }
     }
 
-    public Wing(USED_FOR _used_for) {
+    public Wing(USED_FOR _used_for, Dimension3D xyz) {
+        this(_used_for, xyz.getX(), xyz.getY(), xyz.getZ());
+    }
+
+    public Wing(USED_FOR _used_for, float _x, float _y, float _z) {
         used_for = _used_for;
+        xPos = _x;
+        yPos = _y;
+        zPos = _z;
         wingsSection = new ArrayList<>();
 
     }
