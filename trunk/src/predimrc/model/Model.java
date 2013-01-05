@@ -90,6 +90,10 @@ public class Model implements Serializable {
         return tail;
     }
 
+    public ArrayList<Wing> getDerive() {
+        return derive;
+    }
+
     public Fuselage getFuselage() {
         return fuselage;
     }
