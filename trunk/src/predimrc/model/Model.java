@@ -51,7 +51,7 @@ public class Model implements Serializable {
         wings = new ArrayList<>();
         Wing mainwing = new Wing(Wing.USED_FOR.MAIN_WING);
         wings.add(mainwing);
-        mainwing.setPosXY(TopPanel.defaultWingConnection);   
+        mainwing.setPosXY(TopPanel.defaultWingConnection);
         mainwing.add(new WingSection(6, 8, 70, 60, 100));
         mainwing.add(new WingSection(3, -6, 60, 50, 140));
         mainwing.add(new WingSection(-5, -4, 60, 30, 80));
@@ -59,8 +59,8 @@ public class Model implements Serializable {
         tail = new ArrayList<>();
         Wing maintail = new Wing(Wing.USED_FOR.HORIZONTAL_PLAN);
         tail.add(maintail);
-        maintail.setPosXY(TopPanel.defaultTailConnection);  
-        maintail.add(new WingSection(0, 0, 20, 20, 35));
+        maintail.setPosXY(TopPanel.defaultTailConnection);
+        maintail.add(new WingSection(5, -20, 35, 20, 75));
         fuselage = new Fuselage();
     }
 
