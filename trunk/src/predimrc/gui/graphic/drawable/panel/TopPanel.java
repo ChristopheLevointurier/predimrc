@@ -52,7 +52,7 @@ public class TopPanel extends DrawablePanel {
     private DrawablePoint tailConnection = new DrawablePoint(defaultTailConnection);
     private DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     public static final Dimension defaultWingConnection = new Dimension(385, 125);
-    public static final Dimension defaultTailConnection = new Dimension(405, 355);
+    public static final Dimension defaultTailConnection = new Dimension(MID_SCREEN_X, 350);
     private DrawableWingPart selectedwing;
     //   private boolean onTail = false;
     /**
