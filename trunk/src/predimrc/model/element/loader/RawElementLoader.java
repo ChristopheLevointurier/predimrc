@@ -48,7 +48,7 @@ public class RawElementLoader {
     }
 
     /**
-     * This method loads the data point fro the file to an array list of
+     * This method loads the data point for the file to an array list of
      * vertices
      *
      * @param file

@@ -36,7 +36,7 @@ public class AirfoilLoader extends RawElementLoader {
     public JGL_3DMesh getWingPart(float width_1, float width_2, float length) {
         JGL_3DMesh mesh = new JGL_3DMesh();
         if (vertices.size() == 0) {
-            PredimRC.logln("vertices empty in fuselage");
+            PredimRC.logln("vertices empty in airfoil!");
             return mesh;
         }
         for (int i = 0; i < vertices.size() - 1; i++) {
