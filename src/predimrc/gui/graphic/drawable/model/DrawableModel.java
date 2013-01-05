@@ -14,13 +14,30 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
+import java.awt.Graphics2D;
+import predimrc.model.Model;
+
 /**
  *
- * @author Christophe Levointurier,  5 janv. 2013, (UTF-8)
+ * @author Christophe Levointurier, 5 janv. 2013, (UTF-8)
  * @version
  * @see
- * @since 
+ * @since
  */
-public class DrawableModel {
+public class DrawableModel extends Model implements IDrawableObject {
 
+    @Override
+    public void drawTop(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void drawLeft(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void drawFront(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

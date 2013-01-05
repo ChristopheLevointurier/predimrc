@@ -25,15 +25,23 @@ import predimrc.model.element.Wing;
  * @see
  * @since
  */
-public class DrawableWing implements IDrawableObject {
+public class DrawableWing extends Wing implements IDrawableObject {
 
-    private ArrayList<DrawableWingPart> wingParts = new ArrayList<>();
     private DrawablePoint wingConnection = new DrawablePoint(100, 100);
     private int indexWing = 0;
-    private Wing.USED_FOR usedFor; 
-
+  
     @Override
     public void drawTop(Graphics2D g) {
         //
+    }
+
+    @Override
+    public void drawLeft(Graphics2D g) {
+      //
+    }
+
+    @Override
+    public void drawFront(Graphics2D g) {
+       //
     }
 }

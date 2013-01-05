@@ -14,4 +14,8 @@ import java.awt.Graphics2D;
 public interface IDrawableObject {
 
     public void drawTop(Graphics2D g);
+
+    public void drawLeft(Graphics2D g);
+
+    public void drawFront(Graphics2D g);
 }
