@@ -75,7 +75,7 @@ public class TopPanel extends DrawablePanel {
                 if (null != selectedwing) {
                     info = selectedwing.isOntail() ? "Tail" : "Wing";
                     info += " section:";
-                    info += selectedwing.isOntail() ? (indexWing - PredimRC.getInstance().getModel().getWings().get(0).getSize() + 1) : (indexWing + 1);
+                    info += selectedwing.isOntail() ? (indexWing - PredimRC.getInstanceModel().getWings().get(0).getSize() + 1) : (indexWing + 1);
                 }
                 repaint();
             }
@@ -135,7 +135,7 @@ public class TopPanel extends DrawablePanel {
                     if (wingConnection.isSelected()) {
                         int xpos = e.getX() > MID_SCREEN_X ? MID_SCREEN_X : e.getX();
                         wingConnection.setFloatLocation(xpos, e.getY());
-                        PredimRC.getInstance().getModel().getWings().get(0).setPosXY(xpos, e.getY());
+                        PredimRC.getInstanceModel().getWings().get(0).setPosXY(xpos, e.getY());
                         info = "wingConnection: (" + e.getY() + "," + xpos + ")";
                         infoDetail = "";
                     }
@@ -143,7 +143,7 @@ public class TopPanel extends DrawablePanel {
                         System.out.println(" poifpsoijf psoidjf sopidfj sopidfjsopqij fspodij ");
                         int xpos = e.getX() > MID_SCREEN_X ? MID_SCREEN_X : e.getX();
                         tailConnection.setFloatLocation(xpos, e.getY());
-                        PredimRC.getInstance().getModel().getTail().get(0).setPosXY(xpos, e.getY());
+                        PredimRC.getInstanceModel().getTail().get(0).setPosXY(xpos, e.getY());
                         info = "tailConnection: (" + e.getY() + "," + xpos + ")";
                         infoDetail = "";
                     }
@@ -202,9 +202,9 @@ public class TopPanel extends DrawablePanel {
 
         checkDist(null, wingConnection, x, y);
         checkDist(wingParts.get(0), wingParts.get(0).getPreviousBackPoint(), x, y);
-        if (PredimRC.getInstance().getModel().getTail().get(0).getSize() > 0) {//there is tail wings
+        if (PredimRC.getInstanceModel().getTail().get(0).getSize() > 0) {//there is tail wings
             checkDist(null, tailConnection, x, y);
-            checkDist(wingParts.get(PredimRC.getInstance().getModel().getWings().get(0).getSize()), wingParts.get(PredimRC.getInstance().getModel().getWings().get(0).getSize()).getPreviousBackPoint(), x, y);
+            checkDist(wingParts.get(PredimRC.getInstanceModel().getWings().get(0).getSize()), wingParts.get(PredimRC.getInstanceModel().getWings().get(0).getSize()).getPreviousBackPoint(), x, y);
         }
         for (DrawableWingPart d : wingParts) {
             checkDist(d, d.getFrontPoint(), x, y);

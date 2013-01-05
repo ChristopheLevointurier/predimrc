@@ -62,7 +62,7 @@ public abstract class ExternalFrame extends JFrame {
         caller = _caller;
         caller.setEnabled(false);
         icon = _icon;
-        model = PredimRC.getInstance().getModel();
+        model = PredimRC.getInstanceModel();
         x = _x;
         y = _y;
         setSize(x, y);

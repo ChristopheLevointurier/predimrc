@@ -64,7 +64,7 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
         modelTitle.addKeyListener("ENTER", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstance().getModel().setName(modelTitle.getValue());
+                PredimRC.getInstanceModel().setName(modelTitle.getValue());
                 modelTitle.setDefaultColor();
             }
         });
@@ -120,6 +120,6 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
 
     @Override
     public void updateModel() {
-        changeModel(PredimRC.getInstance().getModel());
+        changeModel(PredimRC.getInstanceModel());
     }
 }
