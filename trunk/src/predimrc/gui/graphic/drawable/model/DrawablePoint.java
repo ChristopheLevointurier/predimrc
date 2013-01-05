@@ -29,7 +29,7 @@ import java.awt.geom.Point2D;
  * @see
  * @since
  */
-public class DrawablePoint implements IDrawableObject {
+public class DrawablePoint {
 
     private boolean selected = false;
     private float x, y;
@@ -91,15 +91,13 @@ public class DrawablePoint implements IDrawableObject {
         this.selected = selected;
     }
 
-    @Override
-    public void drawTop(Graphics2D g) {
+    public void draw(Graphics2D g) {
         g.setStroke(new BasicStroke(10));
         g.setColor(Color.BLUE.brighter());
         if (isSelected()) {
             g.setColor(Color.RED);
             g.drawOval(getIntX(), getIntY(), 2, 2);
             g.setColor(Color.BLUE.brighter());
-
         } else {
             g.drawOval(getIntX(), getIntY(), 2, 2);
         }

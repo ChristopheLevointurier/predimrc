@@ -30,10 +30,10 @@ import predimrc.model.element.WingSection;
  * @see
  * @since
  */
-public class DrawableWingPart implements IDrawableObject {
+public class OldDrawableWingPart implements IDrawableObject {
 
-    public static DrawableWingPart makeRoot(DrawablePoint wingConnection, WingSection get) {
-        return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()), get);
+    public static OldDrawableWingPart makeRoot(DrawablePoint wingConnection, WingSection get) {
+        return new OldDrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()), get);
     }
     private DrawablePoint frontPoint;
     private DrawablePoint backPoint;
@@ -43,13 +43,13 @@ public class DrawableWingPart implements IDrawableObject {
     private boolean ontail;
     private WingSection section;
 
-    private DrawableWingPart(DrawablePoint _frontPoint, DrawablePoint _backPoint, WingSection _section) {
+    private OldDrawableWingPart(DrawablePoint _frontPoint, DrawablePoint _backPoint, WingSection _section) {
         frontPoint = _frontPoint;
         backPoint = _backPoint;
         section = _section;
     }
 
-    public DrawableWingPart(WingSection w, DrawableWingPart previous, boolean _ontail) {
+    public OldDrawableWingPart(WingSection w, OldDrawableWingPart previous, boolean _ontail) {
         ontail = _ontail;
         section = w;
         previousFrontPoint = previous.getFrontPoint();  //comment this does not npe!!
@@ -71,10 +71,10 @@ public class DrawableWingPart implements IDrawableObject {
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY());
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousBackPoint.getIntX(), previousBackPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
-        frontPoint.drawTop(g);
-        backPoint.drawTop(g);
-        previousFrontPoint.drawTop(g);
-        previousBackPoint.drawTop(g);
+        frontPoint.draw(g);
+        backPoint.draw(g);
+        previousFrontPoint.draw(g);
+        previousBackPoint.draw(g);
     }
 
     public DrawablePoint getFrontPoint() {
@@ -106,5 +106,15 @@ public class DrawableWingPart implements IDrawableObject {
     @Override
     public String toString() {
         return "DrawableWingPart:" + frontPoint + "," + backPoint + ", previous= " + previousFrontPoint + "," + previousBackPoint + " l=" + viewableLength;
+    }
+
+    @Override
+    public void drawLeft(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void drawFront(Graphics2D g) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

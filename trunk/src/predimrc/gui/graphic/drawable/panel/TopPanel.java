@@ -15,7 +15,7 @@
  */
 package predimrc.gui.graphic.drawable.panel;
 
-import predimrc.gui.graphic.drawable.model.DrawableWingPart;
+import predimrc.gui.graphic.drawable.model.OldDrawableWingPart;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -44,7 +44,7 @@ public class TopPanel extends DrawablePanel {
 
     public static final int MID_SCREEN_X = 410;
     public static final int MID_SCREEN_Y = 150;
-    private ArrayList<DrawableWingPart> wingParts = new ArrayList<>();
+    private ArrayList<OldDrawableWingPart> wingParts = new ArrayList<>();
     //  private ArrayList<DrawablePoint> wingPoints2 = new ArrayList<>();
     //   private ArrayList<DrawablePoint> tailPoints = new ArrayList<>();
     //  private ArrayList<DrawablePoint> tailPoints2 = new ArrayList<>();
@@ -53,7 +53,7 @@ public class TopPanel extends DrawablePanel {
     private DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     public static final Dimension defaultWingConnection = new Dimension(385, 125);
     public static final Dimension defaultTailConnection = new Dimension(MID_SCREEN_X, 350);
-    private DrawableWingPart selectedwing;
+    private OldDrawableWingPart selectedwing;
     //   private boolean onTail = false;
     /**
      * field used while interact with gui
@@ -165,7 +165,7 @@ public class TopPanel extends DrawablePanel {
         g.setColor(Color.blue);
         g.drawString(info + " " + infoDetail, 10, 20);
         System.out.println("--");
-        for (DrawableWingPart p : wingParts) {
+        for (OldDrawableWingPart p : wingParts) {
             // System.out.println("drawTop of :"+p);
             p.drawTop((Graphics2D) g);
             System.out.println(p);
@@ -178,19 +178,19 @@ public class TopPanel extends DrawablePanel {
 
         System.out.println("call change model");
         wingParts = new ArrayList<>();
-        DrawableWingPart previous = DrawableWingPart.makeRoot(wingConnection, m.getWings().get(0).get(0)); //root of the wing
+        OldDrawableWingPart previous = OldDrawableWingPart.makeRoot(wingConnection, m.getWings().get(0).get(0)); //root of the wing
         wingConnection.setFloatLocation(m.getWings().get(0).getxPos(), m.getWings().get(0).getyPos());
         for (WingSection w : m.getWings().get(0)) {
-            DrawableWingPart d = new DrawableWingPart(w, previous, false);
+            OldDrawableWingPart d = new OldDrawableWingPart(w, previous, false);
             wingParts.add(d);
             previous = d;
         }
 
         if (m.getTail().get(0).getSize() > 0) {
-            previous = DrawableWingPart.makeRoot(tailConnection, m.getTail().get(0).get(0));
+            previous = OldDrawableWingPart.makeRoot(tailConnection, m.getTail().get(0).get(0));
             tailConnection.setFloatLocation(m.getTail().get(0).getxPos(), m.getTail().get(0).getyPos());
             for (WingSection w : m.getTail().get(0)) {
-                DrawableWingPart d = new DrawableWingPart(w, previous, true);
+                OldDrawableWingPart d = new OldDrawableWingPart(w, previous, true);
                 wingParts.add(d);
                 previous = d;
             }
@@ -206,13 +206,13 @@ public class TopPanel extends DrawablePanel {
             checkDist(null, tailConnection, x, y);
             checkDist(wingParts.get(PredimRC.getInstanceModel().getWings().get(0).getSize()), wingParts.get(PredimRC.getInstanceModel().getWings().get(0).getSize()).getPreviousBackPoint(), x, y);
         }
-        for (DrawableWingPart d : wingParts) {
+        for (OldDrawableWingPart d : wingParts) {
             checkDist(d, d.getFrontPoint(), x, y);
             checkDist(d, d.getBackPoint(), x, y);
         }
     }
 
-    private void checkDist(DrawableWingPart d, DrawablePoint p, int x, int y) {
+    private void checkDist(OldDrawableWingPart d, DrawablePoint p, int x, int y) {
         double temp = PredimRC.distance(p, x, y);
         if (temp < dist) {
             dist = temp;

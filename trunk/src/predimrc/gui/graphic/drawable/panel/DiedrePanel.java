@@ -152,10 +152,10 @@ public class DiedrePanel extends DrawablePanel {
 
         g.setColor(Color.BLUE);
         for (DrawablePoint p : points) {
-            p.drawTop((Graphics2D) g);
+            p.draw((Graphics2D) g);
         }
         for (DrawablePoint p : tailPoints) {
-            p.drawTop((Graphics2D) g);
+            p.draw((Graphics2D) g);
         }
         g.setColor(Color.GRAY);
         ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
