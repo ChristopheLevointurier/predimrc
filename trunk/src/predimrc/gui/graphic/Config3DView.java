@@ -15,23 +15,11 @@
  */
 package predimrc.gui.graphic;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import predimrc.PredimRC;
 import predimrc.gui.widget.MegaLabel;
-import predimrc.gui.frame.Compare_Frame;
-import predimrc.gui.frame.Engine_Frame;
-import predimrc.gui.frame.Optim_Frame;
-import predimrc.gui.frame.VlmStab_Frame;
-import predimrc.gui.frame.Vlm_Frame;
-import predimrc.gui.frame.XFoil_Frame;
 
 /**
  *
