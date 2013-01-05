@@ -12,12 +12,15 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.graphic.drawable;
+package predimrc.gui.graphic.drawable.model;
 
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import predimrc.gui.graphic.drawable.panel.TopPanel;
+import predimrc.gui.graphic.drawable.Utils;
 import predimrc.model.element.WingSection;
 
 /**

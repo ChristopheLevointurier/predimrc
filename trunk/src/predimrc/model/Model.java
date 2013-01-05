@@ -18,7 +18,7 @@ package predimrc.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import predimrc.controller.ModelController;
-import predimrc.gui.graphic.drawable.TopPanel;
+import predimrc.gui.graphic.drawable.panel.TopPanel;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Wing;
 import predimrc.model.element.WingSection;

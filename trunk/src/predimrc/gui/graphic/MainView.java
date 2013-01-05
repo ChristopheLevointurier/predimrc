@@ -36,9 +36,9 @@ import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.gui.widget.MegaLabel;
-import predimrc.gui.graphic.drawable.CalagePanel;
-import predimrc.gui.graphic.drawable.DiedrePanel;
-import predimrc.gui.graphic.drawable.TopPanel;
+import predimrc.gui.graphic.drawable.panel.CalagePanel;
+import predimrc.gui.graphic.drawable.panel.DiedrePanel;
+import predimrc.gui.graphic.drawable.panel.TopPanel;
 import predimrc.model.Model;
 
 /**

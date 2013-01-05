@@ -13,8 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.graphic.drawable;
+package predimrc.gui.graphic.drawable.panel;
 
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
 import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.drawable.Utils;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.model.Model;
 import predimrc.model.element.WingSection;
