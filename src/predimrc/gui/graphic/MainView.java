@@ -36,8 +36,8 @@ import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.gui.widget.MegaLabel;
-import predimrc.gui.graphic.drawable.panel.CalagePanel;
-import predimrc.gui.graphic.drawable.panel.DiedrePanel;
+import predimrc.gui.graphic.drawable.panel.LeftPanel;
+import predimrc.gui.graphic.drawable.panel.FrontPanel;
 import predimrc.gui.graphic.drawable.panel.TopPanel;
 import predimrc.model.Model;
 
@@ -53,8 +53,8 @@ import predimrc.model.Model;
 public class MainView extends JPanel implements MouseMotionListener, IModelListener {
 
     private MegaLabel modelTitle;
-    private DiedrePanel diedrepanel;
-    private CalagePanel calagepanel;
+    private FrontPanel diedrepanel;
+    private LeftPanel calagepanel;
     private TopPanel toppanel;
 
     public MainView() {
@@ -88,8 +88,8 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
 
         add(modelTitle);
         JPanel topDraw = new JPanel();
-        diedrepanel = new DiedrePanel();
-        calagepanel = new CalagePanel();
+        diedrepanel = new FrontPanel();
+        calagepanel = new LeftPanel();
         toppanel = new TopPanel();
         ModelController.addModelListener(diedrepanel);
         ModelController.addModelListener(calagepanel);
