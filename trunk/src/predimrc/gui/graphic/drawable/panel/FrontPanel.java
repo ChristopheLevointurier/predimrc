@@ -15,25 +15,19 @@
  */
 package predimrc.gui.graphic.drawable.panel;
 
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
-import predimrc.controller.IModelListener;
-import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.Utils;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.model.Model;
 import predimrc.model.element.WingSection;

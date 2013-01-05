@@ -24,11 +24,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
-import predimrc.gui.graphic.DrawablePanel;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.OldDrawableWingPart;
 import predimrc.gui.graphic.drawable.Utils;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
+import predimrc.model.Dimension3D;
 import predimrc.model.Model;
 import predimrc.model.element.WingSection;
 
@@ -50,8 +51,8 @@ public class TopPanel extends DrawablePanel {
     private DrawablePoint wingConnection = new DrawablePoint(defaultWingConnection);
     private DrawablePoint tailConnection = new DrawablePoint(defaultTailConnection);
     private DrawablePoint selectedPoint = new DrawablePoint(0, 0);
-    public static final Dimension defaultWingConnection = new Dimension(385, 125);
-    public static final Dimension defaultTailConnection = new Dimension(MID_SCREEN_X, 350);
+    public static final Dimension3D defaultWingConnection = new Dimension3D(385, 125, 100);
+    public static final Dimension3D defaultTailConnection = new Dimension3D(MID_SCREEN_X, 350, 100);
     private OldDrawableWingPart selectedwing;
     //   private boolean onTail = false;
     /**
