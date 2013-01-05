@@ -16,9 +16,6 @@ package predimrc.gui.graphic.drawable.model;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import predimrc.gui.graphic.drawable.DrawablePoint;
-import predimrc.gui.graphic.drawable.DrawableWingPart;
-import predimrc.gui.graphic.drawable.IDrawableObject;
 import predimrc.model.element.Wing;
 
 /**

@@ -14,6 +14,8 @@
  */
 package predimrc.gui.graphic.drawable;
 
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
+
 
 /**
  *

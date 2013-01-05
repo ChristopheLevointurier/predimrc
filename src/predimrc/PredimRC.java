@@ -61,7 +61,7 @@ import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.graphic.ConfigView;
 import predimrc.gui.graphic.MainView;
-import predimrc.gui.graphic.drawable.DrawablePoint;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
