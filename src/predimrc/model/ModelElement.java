@@ -55,7 +55,7 @@ public abstract class ModelElement implements Serializable {
         ModelController.applyChange();
     }
 
-    public JGL_3DVector getPosition() {
+    public JGL_3DVector getPosition3DVector() {
         return new JGL_3DVector(xPos, yPos, zPos);
     }
 
