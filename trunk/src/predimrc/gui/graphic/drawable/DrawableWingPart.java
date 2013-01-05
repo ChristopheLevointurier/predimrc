@@ -30,7 +30,7 @@ import predimrc.model.element.WingSection;
 public class DrawableWingPart implements IDrawableObject {
 
     public static DrawableWingPart makeRoot(DrawablePoint wingConnection, WingSection get) {
-        return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()));
+        return new DrawableWingPart(wingConnection, new DrawablePoint(wingConnection.getX(), wingConnection.getY() + get.getWidth_1()), get);
     }
     private DrawablePoint frontPoint;
     private DrawablePoint backPoint;
@@ -38,14 +38,17 @@ public class DrawableWingPart implements IDrawableObject {
     private DrawablePoint previousBackPoint;
     private float viewableLength;
     private boolean ontail;
+    private WingSection section;
 
-    private DrawableWingPart(DrawablePoint _frontPoint, DrawablePoint _backPoint) {
+    private DrawableWingPart(DrawablePoint _frontPoint, DrawablePoint _backPoint, WingSection _section) {
         frontPoint = _frontPoint;
         backPoint = _backPoint;
+        section = _section;
     }
 
     public DrawableWingPart(WingSection w, DrawableWingPart previous, boolean _ontail) {
         ontail = _ontail;
+        section = w;
         previousFrontPoint = previous.getFrontPoint();  //comment this does not npe!!
         previousBackPoint = previous.getBackPoint();    //comment this does not npe!!
         viewableLength = (float) (w.getLenght() * (Math.cos(Math.toRadians(w.getDiedre()))));
@@ -54,8 +57,8 @@ public class DrawableWingPart implements IDrawableObject {
     }
 
     @Override
-    public void draw(Graphics2D g) {
-        //   System.out.println("draw:" + previousFrontPoint.getIntX() + "," + previousFrontPoint.getIntY() + " - " + frontPoint.getIntX() + "," + frontPoint.getIntY());
+    public void drawTop(Graphics2D g) {
+        //   System.out.println("drawTop:" + previousFrontPoint.getIntX() + "," + previousFrontPoint.getIntY() + " - " + frontPoint.getIntX() + "," + frontPoint.getIntY());
         g.setStroke(new BasicStroke(6));
         g.setColor(Color.GRAY.brighter());
         g.drawLine(previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), frontPoint.getIntX(), frontPoint.getIntY());
@@ -65,10 +68,10 @@ public class DrawableWingPart implements IDrawableObject {
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousFrontPoint.getIntX(), previousFrontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY());
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - frontPoint.getIntX(), frontPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
         g.drawLine(TopPanel.MID_SCREEN_X * 2 - previousBackPoint.getIntX(), previousBackPoint.getIntY(), TopPanel.MID_SCREEN_X * 2 - backPoint.getIntX(), backPoint.getIntY());
-        frontPoint.draw(g);
-        backPoint.draw(g);
-        previousFrontPoint.draw(g);
-        previousBackPoint.draw(g);
+        frontPoint.drawTop(g);
+        backPoint.drawTop(g);
+        previousFrontPoint.drawTop(g);
+        previousBackPoint.drawTop(g);
     }
 
     public DrawablePoint getFrontPoint() {
@@ -91,6 +94,12 @@ public class DrawableWingPart implements IDrawableObject {
         return ontail;
     }
 
+    public WingSection getSection() {
+        return section;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "DrawableWingPart:" + frontPoint + "," + backPoint + ", previous= " + previousFrontPoint + "," + previousBackPoint + " l=" + viewableLength;
