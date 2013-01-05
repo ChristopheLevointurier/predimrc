@@ -29,7 +29,7 @@ import predimrc.controller.ModelController;
  */
 public abstract class ModelElement implements Serializable {
 
-    float xPos, yPos, zPos;
+    protected float xPos, yPos, zPos;
 
     public void setPos(float _xPos, float _Ypox, float _Zpos) {
         xPos = _xPos;
@@ -57,6 +57,10 @@ public abstract class ModelElement implements Serializable {
 
     public JGL_3DVector getPosition3DVector() {
         return new JGL_3DVector(xPos, yPos, zPos);
+    }
+
+    public Dimension3D getPositionDimension3D() {
+        return new Dimension3D(xPos, yPos, zPos);
     }
 
     public float getxPos() {
