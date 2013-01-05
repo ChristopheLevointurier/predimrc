@@ -66,9 +66,22 @@ import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO exploiter used for . Changer le model -virer tail() ajouter derive
+ * TODO exploiter used for . 
  * utiliser les wings calculer les points et les recuperer pour le dessin.
+ *verif pourquoi autant d'appels à 
  *
+DEBUG:setWingSectionNumber:1
+DEBUG:Controller.changeModel()
+DEBUG:setWingSectionNumber:1
+DEBUG:Controller.changeModel()
+DEBUG:setWingSectionNumber:3....
+* 
+* 
+-refac getinstance()getmodel()--> getinstancemodel()
+-finir pop ups
+-ajouter derive, getDerive()
+-faire un DrawableModel, et l'abonner a modelistener (verif les actions faite par IHM onchange)
+-ajouter l'invocation de computecoord dans le gestionnaire de listeners
  * @author Christophe Levointurier 11/2012
  * @version
  * @see
