@@ -18,6 +18,7 @@ package predimrc.gui.widget;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,9 +44,9 @@ public class MegaCombo extends JPanel {
         value = new JComboBox(val);
         value.setBackground(backColor);
         value.setEnabled(editable);
-        this.setLayout(new BorderLayout());
-        add(name, BorderLayout.WEST);
-        add(value, BorderLayout.CENTER);
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(name);
+        add(value);
         setVisible(true);
         setSize(getPreferredSize());
     }
@@ -62,8 +63,8 @@ public class MegaCombo extends JPanel {
         return editable;
     }
 
-    public void setEditable(boolean editable) {
-        editable = editable;
+    public void setEditable(boolean _editable) {
+        editable = _editable;
         value.setEditable(editable);
     }
 
