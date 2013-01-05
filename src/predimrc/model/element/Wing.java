@@ -18,6 +18,7 @@ package predimrc.model.element;
 import java.util.ArrayList;
 import java.util.Iterator;
 import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.panel.LeftPanel;
 import predimrc.gui.graphic.drawable.panel.TopPanel;
 import predimrc.model.Dimension3D;
 import predimrc.model.ModelElement;
@@ -36,7 +37,7 @@ public class Wing extends ModelElement implements Iterable<WingSection> {
     protected USED_FOR used_for;
 
     public Wing() {
-        this(USED_FOR.MAIN_WING, TopPanel.defaultWingConnection);
+        this(USED_FOR.MAIN_WING);
     }
 
     public Wing(USED_FOR _used_for, int nbrSection) {
@@ -57,6 +58,32 @@ public class Wing extends ModelElement implements Iterable<WingSection> {
 
     public Wing(USED_FOR _used_for, Dimension3D xyz) {
         this(_used_for, xyz.getX(), xyz.getY(), xyz.getZ());
+    }
+
+    public Wing(USED_FOR _used_for) {
+        used_for = _used_for;
+        wingsSection = new ArrayList<>();
+        switch (_used_for) {
+            case VERTICAL_PLAN: {
+                xPos = LeftPanel.defaultDeriveConnection.getX();
+                yPos = LeftPanel.defaultDeriveConnection.getY();
+                zPos = LeftPanel.defaultDeriveConnection.getZ();
+                break;
+            }
+            case HORIZONTAL_PLAN: {
+                xPos = TopPanel.defaultTailConnection.getX();
+                yPos = TopPanel.defaultTailConnection.getY();
+                zPos = TopPanel.defaultTailConnection.getZ();
+                break;
+            }
+            default:
+            case MAIN_WING: {
+                xPos = TopPanel.defaultWingConnection.getX();
+                yPos = TopPanel.defaultWingConnection.getY();
+                zPos = TopPanel.defaultWingConnection.getZ();
+                break;
+            }
+        }
     }
 
     public Wing(USED_FOR _used_for, float _x, float _y, float _z) {
