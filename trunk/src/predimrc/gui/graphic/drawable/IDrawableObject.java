@@ -13,5 +13,5 @@ import java.awt.Graphics2D;
  */
 public interface IDrawableObject {
 
-    public void draw(Graphics2D g);
+    public void drawTop(Graphics2D g);
 }
