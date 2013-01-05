@@ -50,43 +50,21 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public class MainView extends JPanel implements MouseMotionListener, IModelListener {
+public class MainView extends JPanel implements MouseMotionListener {
 
-    private MegaLabel modelTitle;
     private FrontPanel diedrepanel;
     private LeftPanel calagepanel;
     private TopPanel toppanel;
+    private ConfigBasicView basicConfig;
 
     public MainView() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        modelTitle = new MegaLabel("Model name (Enter to validate):", "undefined", true);
-        modelTitle.addKeyListener("ENTER", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().setName(modelTitle.getValue());
-                modelTitle.setDefaultColor();
-            }
-        });
+       
+        basicConfig = new ConfigBasicView();
+        add(basicConfig);
+        ModelController.addModelListener(basicConfig);
 
-        modelTitle.addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                modelTitle.setValueBackground(new Color(200, 150, 150));
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                modelTitle.setValueBackground(new Color(200, 150, 150));
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-            }
-        });
-
-
-        add(modelTitle);
         JPanel topDraw = new JPanel();
         diedrepanel = new FrontPanel();
         calagepanel = new LeftPanel();
@@ -109,17 +87,5 @@ public class MainView extends JPanel implements MouseMotionListener, IModelListe
     @Override
     public void mouseMoved(MouseEvent e) {
         //  PredimRC.logDebugln("mousemmvoe in main");
-    }
-
-    @Override
-    public void changeModel(Model m) {
-        modelTitle.setValue(m.getName());
-        modelTitle.setDefaultColor();
-
-    }
-
-    @Override
-    public void updateModel() {
-        changeModel(PredimRC.getInstanceModel());
     }
 }
