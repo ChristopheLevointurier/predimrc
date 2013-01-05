@@ -45,6 +45,14 @@ public class Wing extends ModelElement implements Iterable<WingSection> {
         }
     }
 
+    public Wing(Wing in) {
+        used_for = in.getUsed_for();
+        wingsSection = new ArrayList<>();
+        for (WingSection ws : in) {
+            wingsSection.add(new WingSection(ws));
+        }
+    }
+
     public Wing(USED_FOR _used_for) {
         used_for = _used_for;
         wingsSection = new ArrayList<>();
