@@ -84,7 +84,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.1.10";
+    private static final String VERSION = "Alpha 0.1.11";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -132,6 +132,10 @@ public class PredimRC extends JFrame {
             instance = new PredimRC();
         }
         return instance;
+    }
+
+    public static Model getInstanceModel() {
+        return getInstance().getModel();
     }
 
     /**
@@ -593,7 +597,7 @@ public class PredimRC extends JFrame {
             JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
         } finally {
             in_pute.close();
-            ModelController.changeModel(getInstance().getModel());
+            ModelController.changeModel();
         }
 
     }
@@ -678,7 +682,9 @@ public class PredimRC extends JFrame {
     }
 
     public void resetModel() {
+        logDebugln("resetModel()");
         model = new Model();
-        ModelController.changeModel(model);
+        ModelController.changeModel();
+
     }
 }
