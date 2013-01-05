@@ -35,11 +35,11 @@ import predimrc.model.Model;
  * @see
  * @since
  */
-public class CalagePanel extends DrawablePanel {
+public class LeftPanel extends DrawablePanel {
 
     private Point wingPos = new Point(100, 50);
 
-    public CalagePanel() {
+    public LeftPanel() {
 
         setBorder(BorderFactory.createLineBorder(Color.black));
         setSize(getPreferredSize());

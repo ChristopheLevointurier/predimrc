@@ -45,7 +45,7 @@ import predimrc.model.element.WingSection;
  * @see
  * @since
  */
-public class DiedrePanel extends DrawablePanel {
+public class FrontPanel extends DrawablePanel {
 
     private ArrayList<DrawablePoint> points = new ArrayList<>();
     private ArrayList<DrawablePoint> tailPoints = new ArrayList<>();
@@ -59,7 +59,7 @@ public class DiedrePanel extends DrawablePanel {
     private float currentDiedre;
     private int indexWing = -1;
 
-    public DiedrePanel() {
+    public FrontPanel() {
         setBorder(BorderFactory.createLineBorder(Color.black));
         addMouseListener(new MouseAdapter() {
             @Override
