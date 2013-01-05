@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import javax.swing.Action;
+import javax.swing.BoxLayout;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -49,9 +50,9 @@ public class MegaLabel extends JPanel {
         value.setBackground(backColor);
         editable = _editable;
         value.setEditable(editable);
-        this.setLayout(new BorderLayout());
-        add(name, BorderLayout.WEST);
-        add(value, BorderLayout.CENTER);
+        this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+        add(name);
+        add(value);
         setVisible(true);
         setSize(getPreferredSize());
     }
