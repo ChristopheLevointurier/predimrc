@@ -15,12 +15,9 @@
  */
 package predimrc.model.element;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import predimrc.controller.ModelController;
-import predimrc.gui.graphic.drawable.panel.LeftPanel;
-import predimrc.gui.graphic.drawable.panel.TopPanel;
-import predimrc.model.Dimension3D;
+import java.util.LinkedList;
+import predimrc.common.Utils.USED_FOR;
+import predimrc.common.Dimension3D;
 import predimrc.model.ModelElement;
 
 /**
@@ -30,127 +27,50 @@ import predimrc.model.ModelElement;
  * @see
  * @since
  */
-public class Wing extends ModelElement implements Iterable<WingSection> {
+public class Wing extends ModelElement {
 
     //position x,y,z of the wing is the front first point.
-    private ArrayList<WingSection> wingsSection;
-    protected USED_FOR used_for;
+    private LinkedList<WingSection> wingsSection;
+    private USED_FOR used_for;
+    private float width;
 
-    public Wing() {
-        this(USED_FOR.MAIN_WING);
-    }
-
-    public Wing(USED_FOR _used_for, int nbrSection) {
+    public Wing(USED_FOR _used_for, Dimension3D xyz, float _width, LinkedList<WingSection> _wingsSection) {
         used_for = _used_for;
-        wingsSection = new ArrayList<>();
-        for (int i = 0; i < nbrSection; i++) {
-            wingsSection.add(new WingSection());
-        }
+        width = _width;
+        xPos = xyz.getX();
+        yPos = xyz.getY();
+        zPos = xyz.getZ();
+        wingsSection = _wingsSection;
     }
 
-    public Wing(Wing in) {
-        used_for = in.getUsed_for();
-        wingsSection = new ArrayList<>();
-        for (WingSection ws : in) {
-            wingsSection.add(new WingSection(ws));
-        }
-    }
 
-    public Wing(USED_FOR _used_for, Dimension3D xyz) {
-        this(_used_for, xyz.getX(), xyz.getY(), xyz.getZ());
-    }
-
-    public Wing(USED_FOR _used_for) {
-        used_for = _used_for;
-        wingsSection = new ArrayList<>();
-        switch (_used_for) {
-            case VERTICAL_PLAN: {
-                xPos = LeftPanel.defaultDeriveConnection.getX();
-                yPos = LeftPanel.defaultDeriveConnection.getY();
-                zPos = LeftPanel.defaultDeriveConnection.getZ();
-                break;
-            }
-            case HORIZONTAL_PLAN: {
-                xPos = TopPanel.defaultTailConnection.getX();
-                yPos = TopPanel.defaultTailConnection.getY();
-                zPos = TopPanel.defaultTailConnection.getZ();
-                break;
-            }
-            default:
-            case MAIN_WING: {
-                xPos = TopPanel.defaultWingConnection.getX();
-                yPos = TopPanel.defaultWingConnection.getY();
-                zPos = TopPanel.defaultWingConnection.getZ();
-                break;
-            }
-        }
-    }
-
-    public Wing(USED_FOR _used_for, float _x, float _y, float _z) {
-        used_for = _used_for;
-        xPos = _x;
-        yPos = _y;
-        zPos = _z;
-        wingsSection = new ArrayList<>();
-
-    }
-
-    @Override
-    public void computePositions() {
-        //TODO calc each point for 3D view with new params
+    /**
+     * getters
+     */
+    public LinkedList<WingSection> getWingsSection() {
+        return wingsSection;
     }
 
     public USED_FOR getUsed_for() {
         return used_for;
     }
 
-    public void setUsed_for(USED_FOR used_for) {
-        this.used_for = used_for;
-    }
-
-    public void add(WingSection newSection) {
-        wingsSection.add(newSection);
-    }
-
-    public void setWingSectionNumber(int _i) {
-        predimrc.PredimRC.logDebugln("setWingSectionNumber:" + _i);
-        ArrayList<WingSection> wingsTemp = new ArrayList<>();
-        for (int i = 0; i < _i; i++) {
-            if (!wingsSection.isEmpty()) {
-                wingsTemp.add(wingsSection.remove(0));
-            } else {
-                if (wingsTemp.isEmpty()) {
-                    wingsTemp.add(new WingSection(0, 0, 10, 10, 10));
-                } else {
-                    wingsTemp.add(new WingSection(wingsTemp.get(0)));
-                }
-            }
-        }
-        wingsSection = wingsTemp;
-        ModelController.changeModel();
-    }
-
-    public int getSize() {
-        return wingsSection.size();
+    public float getWidth() {
+        return width;
     }
 
     @Override
-    public Iterator iterator() {
-        return wingsSection.iterator();
+    public String toString() {
+        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", (" + xPos + "," + yPos + "," + zPos + ") size:" + wingsSection.size());
+        return ret.toString();
     }
 
-    public WingSection get(int index) {
-        return wingsSection.get(index);
-    }
-
-    public static enum USED_FOR {
-
-        MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
-    }
-
-    public void setDiedre(float diedre) {
-        for (WingSection w : (ArrayList<WingSection>) wingsSection.clone()) {
-            w.setDiedre(diedre);
+    @Override
+    public String toStringAll() {
+        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", (" + xPos + "," + yPos + "," + zPos + ").");
+        for (WingSection w : wingsSection) {
+            ret.append(w);
         }
+        return ret.toString();
     }
 }

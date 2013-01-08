@@ -17,11 +17,8 @@ package predimrc.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import predimrc.controller.ModelController;
-import predimrc.gui.graphic.drawable.panel.TopPanel;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Wing;
-import predimrc.model.element.WingSection;
 
 /**
  * This class contains all model caracteristics for I/O
@@ -31,7 +28,7 @@ import predimrc.model.element.WingSection;
  * @see
  * @since
  */
-public class Model implements Serializable {
+public class Model extends ModelElement implements Serializable {
 
     /**
      * *
@@ -45,42 +42,27 @@ public class Model implements Serializable {
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
 
-    public Model() {
-        name = "";
-        note = "";
-        wings = new ArrayList<>();
-        Wing mainwing = new Wing(Wing.USED_FOR.MAIN_WING);
-        wings.add(mainwing);
-        mainwing.add(new WingSection(6, 8, 70, 60, 100));
-        mainwing.add(new WingSection(3, -6, 60, 50, 140));
-        mainwing.add(new WingSection(-5, -4, 60, 30, 80));
-
-        tail = new ArrayList<>();
-        Wing maintail = new Wing(Wing.USED_FOR.HORIZONTAL_PLAN);
-        tail.add(maintail);
-        maintail.add(new WingSection(5, -20, 35, 20, 75));
-
-
-        derive = new ArrayList<>();
-        fuselage = new Fuselage();
+    public Model(String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage) {
+        name = _name;
+        note = _note;
+        wings = _wings;
+        tail = _tail;
+        derive = _derive;
+        fuselage = _fuselage;
+        
     }
+    
+ 
 
+    /**
+     * Getters
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String _name) {
-        name = _name;
-        ModelController.applyChange();
-    }
-
     public String getNote() {
         return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-        ModelController.applyChange();
     }
 
     public ArrayList<Wing> getWings() {
@@ -99,50 +81,35 @@ public class Model implements Serializable {
         return fuselage;
     }
 
-    public void setFuselage(Fuselage fuselage) {
-        this.fuselage = fuselage;
-        ModelController.applyChange();
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder("Model:");
+        ret.append(name);
+        ret.append(", -->Fuselage:").append(fuselage);
+        ret.append(", -->Wings:").append(wings.size());
+        ret.append(", -->Tails:").append(tail.size());
+        ret.append(",Derive:").append(derive.size());
+        return ret.toString();
     }
 
-    public void computePositions() {
+    public String toStringAll() {
+        StringBuilder ret = new StringBuilder("Model:");
+        ret.append(name);
+        ret.append("\n -->Fuselage:").append(fuselage);
+        ret.append("\n -->Wings:");
         for (Wing w : wings) {
-            w.computePositions();
+            ret.append(w.toStringAll());
         }
+        ret.append("\n -->Tails:");
         for (Wing w : tail) {
-            w.computePositions();
+            ret.append(w.toStringAll());
         }
+        ret.append("\nDerive:");
         for (Wing w : derive) {
-            w.computePositions();
+            ret.append(w.toStringAll());
         }
-    }
-
-    public void setWingNumber(int a) {
-        setNumber(wings, a, Wing.USED_FOR.MAIN_WING);
-    }
-
-    public void setTailNumber(int a) {
-        setNumber(tail, a, Wing.USED_FOR.HORIZONTAL_PLAN);
-    }
-
-    public void setDeriveNumber(int a) {
-        setNumber(derive, a, Wing.USED_FOR.VERTICAL_PLAN);
-    }
-
-    private void setNumber(ArrayList<Wing> wingList, int _i, Wing.USED_FOR usedFor) {
-        predimrc.PredimRC.logDebugln("setWingAmount:" + _i + " " + usedFor);
-        ArrayList<Wing> wingsTemp = new ArrayList<>();
-        for (int i = 0; i < _i; i++) {
-            if (!wingList.isEmpty()) {
-                wingsTemp.add(wingList.remove(0));
-            } else {
-                if (wingsTemp.isEmpty()) {
-                    wingsTemp.add(new Wing(usedFor));
-                } else {
-                    wingsTemp.add(new Wing(wingsTemp.get(0)));
-                }
-            }
-        }
-        wingList = wingsTemp;
-        ModelController.changeModel();
+        ret.append("\n*****NOTE****\n").append(note);
+        ret.append("\n*************\n\n");
+        return ret.toString();
     }
 }

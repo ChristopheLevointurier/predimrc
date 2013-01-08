@@ -26,8 +26,7 @@ import java.awt.geom.Line2D;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.model.Dimension3D;
-import predimrc.model.Model;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
  *
@@ -39,7 +38,6 @@ import predimrc.model.Model;
 public class LeftPanel extends DrawablePanel {
 
     private Point wingPos = new Point(100, 50);
-    public static final Dimension3D defaultDeriveConnection = new Dimension3D(100, 100, 100);
 
     public LeftPanel() {
 
@@ -72,6 +70,7 @@ public class LeftPanel extends DrawablePanel {
         return new Dimension(400, 200);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.blue);
@@ -86,6 +85,7 @@ public class LeftPanel extends DrawablePanel {
     }
 
     @Override
-    public void changeModel(Model m) {
+    public void updateModel(DrawableModel m) {
+        //TODO
     }
 }

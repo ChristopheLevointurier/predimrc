@@ -41,7 +41,7 @@ import jglcore.JGL_Sorter;
 import jglcore.JGL_Time;
 import jglcore.JGL_Util;
 import jglload.JGL_Data3D;
-import predimrc.gui.graphic.Config3DView;
+import predimrc.gui.graphic.config.Config3DView;
 import predimrc.model.element.loader.AirfoilLoader;
 import predimrc.model.element.loader.FuselageLoader;
 

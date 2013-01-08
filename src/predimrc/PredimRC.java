@@ -21,13 +21,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,6 +38,8 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -59,28 +61,23 @@ import jglcore.JGL_3DVector;
 import predimrc.controller.ModelController;
 import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
-import predimrc.gui.graphic.ConfigView;
+import predimrc.gui.graphic.config.ConfigView;
 import predimrc.gui.graphic.MainView;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO exploiter used for . utiliser les extensions du model. calculer les points et les
- * recuperer pour le dessin. verif pourquoi autant d'appels à
- *
- * DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
- * DEBUG:setWingSectionNumber:1 DEBUG:Controller.changeModel()
- * DEBUG:setWingSectionNumber:3....
+ * TODO . utiliser les extensions du model. calculer les points et les recuperer
+ * pour le dessin diedre puis topview
  *
  *
- * -finir pop ups -ajouter
- *  -faire un DrawableModel, et l'abonner a modelistener
- * (verif les actions faite par IHM onchange) -ajouter l'invocation de
- * computecoord dans le gestionnaire de listeners Mettre les combobox dans les
- * popups.
+ * -finir pop ups -ajouter -faire un DrawableModel, et l'abonner a modelistener
+ * -ajouter l'invocation de computecoord dans le gestionnaire de listeners
+ * Mettre les combobox dans les popups.
  *
- * sauver config 3D. sauver dont show me again.
+ * sauver config 3D.
  *
  * @author Christophe Levointurier 11/2012
  * @version
@@ -92,12 +89,13 @@ public class PredimRC extends JFrame {
     /**
      * consts
      */
+    public static boolean initDone = false;
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key - Old version file problem";
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.2.2";
+    private static final String VERSION = "Alpha 0.3.0";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -126,7 +124,7 @@ public class PredimRC extends JFrame {
     public static ImageIcon imageIcon;
     private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
     private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
-    private Model model;
+    private DrawableModel drawableModel;
     public static boolean warnClosePopup = true;
     /**
      *
@@ -147,8 +145,8 @@ public class PredimRC extends JFrame {
         return instance;
     }
 
-    public static Model getInstanceModel() {
-        return getInstance().getModel();
+    public static DrawableModel getInstanceDrawableModel() {
+        return getInstance().getDrawableModel();
     }
 
     /**
@@ -158,13 +156,14 @@ public class PredimRC extends JFrame {
         getInstance();
         loadConfiguration();
         getInstance().setUpAndFillComponents();
-
+        initDone = true;
+        logln("-- PredimRC " + VERSION + " started. --");
     }
 
     private PredimRC() {
         super("PredimRC");
         log = new StringBuffer();
-        model = new Model();
+        drawableModel = new DrawableModel();
         mainView = new MainView();
         configView = new ConfigView();
         aboutbut = new JButton("About...");
@@ -389,7 +388,6 @@ public class PredimRC extends JFrame {
         setLocationRelativeTo(null);
         // setAlwaysOnTop(true);
         validate();
-        logln("-- PredimRC " + VERSION + " started. --");
     }
 
     public void changeDir() {
@@ -439,8 +437,10 @@ public class PredimRC extends JFrame {
             logDebugln("config load : " + "FILENAME =" + PredimRC.getInstance().filename);
             airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
             logDebugln("config load : " + "AIRFOILS =" + airfoilsDirectory);
-            PredimRC.getInstanceModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "NOTES =" + PredimRC.getInstanceModel().getNote());
+            PredimRC.getInstanceDrawableModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
+            logDebugln("config load : " + "NOTES =" + PredimRC.getInstanceDrawableModel().getNote());
+            PredimRC.getInstance().warnClosePopup = Boolean.parseBoolean(config.getProperty("WARNPOPUP", DEFAULT_KEY_VALUE));
+            logDebugln("config load : " + "WARNPOPUP =" + PredimRC.getInstance().warnClosePopup);
             /**
              * ********
              */
@@ -459,8 +459,9 @@ public class PredimRC extends JFrame {
         logln("\n*******************************************\n**** Saving  configuration... ****");
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + airfoilsDirectory);
-        config.setProperty("NOTES", "" + PredimRC.getInstanceModel().getNote());
+        config.setProperty("NOTES", "" + PredimRC.getInstanceDrawableModel().getNote());
         config.setProperty("FILENAME", "" + PredimRC.getInstance().filename);
+        config.setProperty("WARNPOPUP", "" + PredimRC.getInstance().warnClosePopup);
         try {
             File fout = new File(appRep);
             if (!fout.exists()) {
@@ -541,8 +542,8 @@ public class PredimRC extends JFrame {
         return j;
     }
 
-    public Model getModel() {
-        return model;
+    public DrawableModel getDrawableModel() {
+        return drawableModel;
     }
 
     public static final JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, int r, int g, int b) {
@@ -584,7 +585,7 @@ public class PredimRC extends JFrame {
                 + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
-    public static final double distance(Point p1, Point p2) {
+    public static final double distance(Point2D.Float p1, Point2D.Float p2) {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
                 + (p1.y - p2.y) * (p1.y - p2.y));
     }
@@ -599,7 +600,7 @@ public class PredimRC extends JFrame {
                 + (p1.getFloatY() - y) * (p1.getFloatY() - y));
     }
 
-    public static void loadModel() throws FileNotFoundException, IOException {
+    public static void loadModel() throws FileNotFoundException {
         PredimRC.log("load of :" + filename);
         String versionInfile = "unknown";
         FileInputStream in_pute = new FileInputStream(filename);
@@ -607,16 +608,24 @@ public class PredimRC extends JFrame {
             ObjectInputStream p = new ObjectInputStream(in_pute);
             versionInfile = ((ModelVersion) p.readObject()).VERSION_MODEL;
             PredimRC.log(", version in file to load:" + versionInfile);
-            PredimRC.getInstance().model = ((Model) p.readObject());
-            PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
-            PredimRC.logln(" success.");
-            ModelController.changeModel();
+            if (versionInfile.equals((new ModelVersion()).VERSION_MODEL)) {
+                PredimRC.getInstance().drawableModel = new DrawableModel((Model) p.readObject());
+                PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
+                PredimRC.logln(" success.");
+                ModelController.applyChange();
+            } else {
+                throw new IOException();
+            }
         } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
             JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
             //   PredimRC.resetModel();
         } finally {
-            in_pute.close();
+            try {
+                in_pute.close();
+            } catch (IOException ex) {
+                Logger.getLogger(PredimRC.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
@@ -658,7 +667,7 @@ public class PredimRC extends JFrame {
             FileOutputStream ostream = new FileOutputStream(fichier);
             ObjectOutputStream p = new ObjectOutputStream(ostream);
             p.writeObject(new ModelVersion());
-            p.writeObject(PredimRC.getInstance().model);
+            p.writeObject(PredimRC.getInstanceDrawableModel().generateModel());
             p.flush();
             ostream.close();
             PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
@@ -702,8 +711,8 @@ public class PredimRC extends JFrame {
 
     public static void resetModel() {
         logDebugln("resetModel()");
-        getInstance().model = new Model();
-        ModelController.changeModel();
+        getInstance().drawableModel = DrawableModel.makeDefaultModel();
+        ModelController.applyChange();
 
     }
 }

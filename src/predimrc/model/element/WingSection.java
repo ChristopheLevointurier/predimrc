@@ -15,7 +15,7 @@
  */
 package predimrc.model.element;
 
-import predimrc.controller.ModelController;
+import predimrc.common.Dimension3D;
 import predimrc.model.ModelElement;
 
 /**
@@ -30,80 +30,46 @@ public class WingSection extends ModelElement {
     //position x,y,z of the wing is the front first point.
     //diedre & fleche are in degree.
     protected float diedre, fleche;
-    //width_1 is nearest the fuselage
-    protected float width_1, width_2, lenght;
+    protected float width, lenght;
 
     public WingSection() {
         fleche = 0f;
         diedre = 2f;
-        width_1 = 55f;
-        width_2 = 65f;
+        width = 65f;
         lenght = 60f;
     }
 
-    public WingSection(float _diedre, float _fleche, float _width_1, float _width_2, float _lenght) {
+    public WingSection(Dimension3D xyz, float _diedre, float _fleche, float _width, float _lenght) {
         diedre = _diedre;
         fleche = _fleche;
-        width_1 = _width_1;
-        width_2 = _width_2;
+        width = _width;
         lenght = _lenght;
+        xPos = xyz.getX();
+        yPos = xyz.getY();
+        zPos = xyz.getZ();
     }
 
-    public WingSection(WingSection _in) {
-        diedre = _in.getDiedre();
-        fleche = _in.getFleche();
-        width_1 = _in.getWidth_1();
-        width_2 = _in.getWidth_2();
-        lenght = _in.getLenght();
-    }
-
+    /**
+     * getters
+     */
     public float getDiedre() {
         return diedre;
-    }
-
-    public float getWidth_1() {
-        return width_1;
-    }
-
-    public float getWidth_2() {
-        return width_2;
-    }
-
-    public float getLenght() {
-        return lenght;
-    }
-
-    public void setDiedre(float diedre) {
-        this.diedre = diedre;
-        ModelController.applyChange();
-    }
-
-    public void setWidth_1(float width_1) {
-        this.width_1 = width_1;
-        ModelController.applyChange();
-    }
-
-    public void setWidth_2(float width_2) {
-        this.width_2 = width_2;
-        ModelController.applyChange();
-    }
-
-    public void setLenght(float lenght) {
-        this.lenght = lenght;
-        ModelController.applyChange();
     }
 
     public float getFleche() {
         return fleche;
     }
 
-    public void setFleche(float fleche) {
-        this.fleche = fleche;
-        ModelController.applyChange();
+    public float getWidth() {
+        return width;
+    }
+
+    public float getLenght() {
+        return lenght;
     }
 
     @Override
-    public void computePositions() {
-        //TODO calc each point for 3D view with new params
+    public String toString() {
+        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght;
     }
 }

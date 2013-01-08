@@ -19,6 +19,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JPanel;
 import predimrc.controller.IModelListener;
+import predimrc.common.Dimension3D;
 
 /**
  *
@@ -31,6 +32,8 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
 
     protected Image backgroundImage;
     protected String info = "Select an object."; //TODO change to StringBuffer in the future.
+    public static final int MID_TOP_SCREEN_X = 410;
+    public static final int MID_TOP_SCREEN_Y = 150;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -40,14 +43,5 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
         }
-    }
-
-    /**
-     * paint update each frame.
-     */
-    @Override
-    public void updateModel() {
-        changeModel(predimrc.PredimRC.getInstanceModel());
-        repaint();
     }
 }

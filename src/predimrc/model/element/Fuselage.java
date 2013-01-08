@@ -15,7 +15,6 @@
  */
 package predimrc.model.element;
 
-import predimrc.controller.ModelController;
 import predimrc.model.ModelElement;
 
 /**
@@ -27,27 +26,24 @@ import predimrc.model.ModelElement;
  */
 public class Fuselage extends ModelElement {
 
-    float length;
+    private float length;
+    private String filename = "not yet defined";
 
-    public Fuselage(float length) {
-        this.length = length;
-    }
-
-    public Fuselage() {
-        length = 80f;
+    public Fuselage(String _filename, float _length) {
+        filename = _filename;
+        length = _length;
     }
 
     public float getLength() {
         return length;
     }
 
-    public void setLength(float length) {
-        this.length = length;
-        ModelController.applyChange();
+    public String getFilename() {
+        return filename;
     }
 
     @Override
-    public void computePositions() {
-        //TODO calc each point for 3D view with new params
+    public String toString() {
+        return "Fuselage " + filename + getPositionDimension3D() + ",length=" + length;
     }
 }
