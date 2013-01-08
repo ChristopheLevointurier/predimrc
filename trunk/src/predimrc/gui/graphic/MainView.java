@@ -16,30 +16,15 @@
 package predimrc.gui.graphic;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import predimrc.PredimRC;
-import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
-import predimrc.gui.widget.MegaLabel;
-import predimrc.gui.graphic.drawable.panel.LeftPanel;
+import predimrc.gui.graphic.config.ConfigBasicView;
 import predimrc.gui.graphic.drawable.panel.FrontPanel;
+import predimrc.gui.graphic.drawable.panel.LeftPanel;
 import predimrc.gui.graphic.drawable.panel.TopPanel;
-import predimrc.model.Model;
 
 /**
  *
@@ -60,7 +45,7 @@ public class MainView extends JPanel implements MouseMotionListener {
     public MainView() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-       
+
         basicConfig = new ConfigBasicView();
         add(basicConfig);
         ModelController.addModelListener(basicConfig);

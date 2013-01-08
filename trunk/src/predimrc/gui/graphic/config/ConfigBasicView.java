@@ -13,40 +13,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.graphic;
+package predimrc.gui.graphic.config;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import predimrc.PredimRC;
+import predimrc.common.Utils.USED_FOR;
 import predimrc.controller.IModelListener;
-import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
-import predimrc.gui.frame.Compare_Frame;
-import predimrc.gui.frame.Engine_Frame;
-import predimrc.gui.frame.Optim_Frame;
-import predimrc.gui.frame.VlmStab_Frame;
-import predimrc.gui.frame.Vlm_Frame;
-import predimrc.gui.frame.XFoil_Frame;
-import predimrc.model.Model;
-import predimrc.model.element.WingSection;
 
 /**
  *
- * @author Christophe Levointurier, 2 déc. 2012
+ * @author Christophe Levointurier, 5 janv. 2012
  * @version
  * @see
  * @since
@@ -58,6 +45,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
      */
     private MegaLabel modelTitle;
     private JButton reset = new JButton("Reset model");
+    private JButton compute = new JButton("reCompute");
     private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
     private MegaCombo tailCombo = new MegaCombo("Number of tail :", true, "0", "1", "2", "3", "4");
     private MegaCombo deriveCombo = new MegaCombo("Number of derive :", true, "0", "1", "2", "3", "4");
@@ -71,7 +59,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         modelTitle.addKeyListener("ENTER", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().setName(modelTitle.getValue());
+                PredimRC.getInstanceDrawableModel().setName(modelTitle.getValue());
                 modelTitle.setDefaultColor();
             }
         });
@@ -98,48 +86,54 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         add(tailCombo);
         add(deriveCombo);
         add(reset);
-
+        add(compute);
 
         /**
          * *******---structure widgets----****
          */
         reset.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 PredimRC.resetModel();
             }
         });
 
-        wingCombo.addActionListener(new ActionListener() {
+        compute.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().setWingNumber(Integer.parseInt(wingCombo.getValue()));
+                PredimRC.getInstanceDrawableModel().computePositions();
+            }
+        });
+
+        wingCombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.getInstanceDrawableModel().setWingAmount(Integer.parseInt(wingCombo.getValue()), USED_FOR.MAIN_WING);
             }
         });
 
 
         tailCombo.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().setTailNumber(Integer.parseInt(tailCombo.getValue()));
+                PredimRC.getInstanceDrawableModel().setWingAmount(Integer.parseInt(tailCombo.getValue()), USED_FOR.HORIZONTAL_PLAN);
             }
         });
 
         deriveCombo.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().setDeriveNumber(Integer.parseInt(deriveCombo.getValue()));
+                PredimRC.getInstanceDrawableModel().setWingAmount(Integer.parseInt(deriveCombo.getValue()), USED_FOR.VERTICAL_PLAN);
             }
         });
     }
 
     @Override
-    public void changeModel(Model m) {
-        wingCombo.setValue("" + m.getWings().size());
-        tailCombo.setValue("" + m.getTail().size());
-        deriveCombo.setValue("" + m.getDerive().size());
+    public void updateModel(DrawableModel m) {
+        wingCombo.setSelectedIndex(m.getWings().size() - 1, false);
+        tailCombo.setSelectedIndex(m.getTail().size(), false);
+        deriveCombo.setSelectedIndex(m.getDerive().size(), false);
         modelTitle.setValue(m.getName());
         modelTitle.setDefaultColor();
-    }
-
-    @Override
-    public void updateModel() {
-        changeModel(PredimRC.getInstanceModel());
     }
 }

@@ -35,7 +35,7 @@ public class Note_Frame extends ExternalFrame {
         super(_caller, _icon, _x, _y);
         title = "Note";
         setTitle(title);
-        area = new JTextArea(model.getNote(), 10, 50);
+        area = new JTextArea(drawableModel.getNote(), 10, 50);
         //JPanel todos = new JPanel();        todos.add(area);
         setLayout(new BorderLayout());
         getContentPane().add(area, BorderLayout.CENTER);
@@ -44,7 +44,7 @@ public class Note_Frame extends ExternalFrame {
     @Override
     public void save() {
         predimrc.PredimRC.logDebugln("Save de " + title);
-        model.setNote(area.getText());
+        drawableModel.setNote(area.getText());
         caller.setSelected(false);
         dispose();
     }

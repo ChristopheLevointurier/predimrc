@@ -15,10 +15,8 @@
  */
 package predimrc.model;
 
-import java.awt.Dimension;
 import java.io.Serializable;
-import jglcore.JGL_3DVector;
-import predimrc.controller.ModelController;
+import predimrc.common.Dimension3D;
 
 /**
  *
@@ -31,61 +29,11 @@ public abstract class ModelElement implements Serializable {
 
     protected float xPos, yPos, zPos;
 
-    public void setPos(float _xPos, float _Ypox, float _Zpos) {
-        xPos = _xPos;
-        yPos = _Ypox;
-        zPos = _Zpos;
-        ModelController.applyChange();
-    }
-
-    public void setPosXY(float _xPos, float _Ypox) {
-        xPos = _xPos;
-        yPos = _Ypox;
-        ModelController.applyChange();
-    }
-
-    public void setPosXY(Dimension _XYpox) {
-        xPos = (float) _XYpox.getWidth();
-        yPos = (float) _XYpox.getHeight();
-        ModelController.applyChange();
-    }
-
-    public void setPosZ(float _Zpos) {
-        zPos = _Zpos;
-        ModelController.applyChange();
-    }
-
-    public JGL_3DVector getPosition3DVector() {
-        return new JGL_3DVector(xPos, yPos, zPos);
+    public String toStringAll() {
+        return toString();
     }
 
     public Dimension3D getPositionDimension3D() {
         return new Dimension3D(xPos, yPos, zPos);
     }
-
-    public float getxPos() {
-        return xPos;
-    }
-
-    public float getyPos() {
-        return yPos;
-    }
-
-    public float getzPos() {
-        return zPos;
-    }
-
-    public void setxPos(float xPos) {
-        this.xPos = xPos;
-    }
-
-    public void setyPos(float yPos) {
-        this.yPos = yPos;
-    }
-
-    public void setzPos(float zPos) {
-        this.zPos = zPos;
-    }
-
-    abstract public void computePositions();
 }

@@ -12,10 +12,11 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.graphic.drawable;
+package predimrc.common;
 
+import java.awt.geom.Point2D;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
-
 
 /**
  *
@@ -26,17 +27,32 @@ import predimrc.gui.graphic.drawable.model.DrawablePoint;
  */
 public class Utils {
 
-    public static DrawablePoint getCoordOnCircle(DrawablePoint center, float deg, float radius) {
+    /**
+     * datas
+     */
+    public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 55;
+    public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 25;
+    public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
+    public static final Dimension3D defaultWingConnection = new Dimension3D(125, 385, 125);
+    public static final Dimension3D defaultTailConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 55);
+    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 35);
+
+    public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg + 180);
         double x = center.getX() + radius * Math.cos(angleRad);
         double y = center.getY() + radius * Math.sin(angleRad);
-        return new DrawablePoint((int) x, (int) y);
+        return new Point2D.Float((float) x, (float) y);
     }
 
-    public static float calcAngle(DrawablePoint ref, DrawablePoint point) {
-        float d = (float) (Math.atan2(point.getFloatY() - ref.getFloatY(), point.getFloatX() - ref.getFloatX()) * 180.0 / Math.PI) - 180;
+    public static float calcAngle(Point2D.Float ref, int x, int y) {
+        float d = (float) (Math.atan2(y - ref.getY(), x - ref.getX()) * 180.0 / Math.PI) - 180;
         d = d < 0 ? d + 360 : d;
         d = d > 180 ? d - 360 : d;
         return d;
+    }
+
+    public static enum USED_FOR {
+
+        MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
     }
 }

@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import predimrc.PredimRC;
 import predimrc.gui.frame.Compare_Frame;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.Model;
 
 /**
@@ -55,14 +56,14 @@ public abstract class ExternalFrame extends JFrame {
     protected int x = predimrc.PredimRC.DEFAULT_X_FRAME;
     protected int y = predimrc.PredimRC.DEFAULT_Y_FRAME;
     protected AbstractButton caller;
-    protected Model model;
+    protected DrawableModel drawableModel;
 
     public ExternalFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super();
         caller = _caller;
         caller.setEnabled(false);
         icon = _icon;
-        model = PredimRC.getInstanceModel();
+        drawableModel = PredimRC.getInstanceDrawableModel();
         x = _x;
         y = _y;
         setSize(x, y);

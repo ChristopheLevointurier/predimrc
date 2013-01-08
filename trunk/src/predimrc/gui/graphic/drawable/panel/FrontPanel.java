@@ -15,7 +15,6 @@
  */
 package predimrc.gui.graphic.drawable.panel;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,11 +25,14 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.gui.graphic.drawable.Utils;
+import predimrc.common.Utils;
+import predimrc.common.Utils.USED_FOR;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
-import predimrc.model.Model;
-import predimrc.model.element.WingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 
 /**
  *
@@ -42,35 +44,44 @@ import predimrc.model.element.WingSection;
 public class FrontPanel extends DrawablePanel {
 
     private ArrayList<DrawablePoint> points = new ArrayList<>();
-    private ArrayList<DrawablePoint> tailPoints = new ArrayList<>();
-    private DrawablePoint connection = new DrawablePoint(380, 125);
-    private DrawablePoint tailConnection = new DrawablePoint(400, 55);
-    private DrawablePoint selected = new DrawablePoint(0, 0);
-    private boolean onTail = false;
-    /**
-     * field used while interact with gui
-     */
+    private DrawablePoint selected = new DrawablePoint(0, 0); //to avoid NPE
+    //private DrawablePoint wingConnection = new DrawablePoint(380, 125);
+    //  private DrawablePoint tailConnection = new DrawablePoint(400, 55);
+    private USED_FOR usedFor;
     private float currentDiedre;
-    private int indexWing = -1;
 
     public FrontPanel() {
         setBorder(BorderFactory.createLineBorder(Color.black));
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
-
-                double dist = getNearestPoint(Integer.MAX_VALUE, points, e.getX(), e.getY(), false);
-                getNearestPoint(dist, tailPoints, e.getX(), e.getY(), true);
-                currentDiedre = onTail ? PredimRC.getInstanceModel().getTail().get(0).get(indexWing).getDiedre() : PredimRC.getInstanceModel().getWings().get(0).get(indexWing).getDiedre();
-                info = onTail ? "Tail" : "Wing";
-                info += "diedre, section:" + (indexWing + 1) + " : " + currentDiedre;
+                getNearestPoint(e.getX(), e.getY());
+                switch (usedFor) {
+                    case MAIN_WING: {
+                        currentDiedre = ((DrawableWingSection) selected.getBelongsTo()).getDiedre();
+                        info = "Wing (" + ((DrawableWing) selected.getBelongsTo().getBelongsTo()).getIndexInBelongsTo() + ") section:" + selected.getBelongsTo().getIndexInBelongsTo();
+                        break;
+                    }
+                    case HORIZONTAL_PLAN: {
+                        currentDiedre = ((DrawableWing) selected.getBelongsTo().getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
+                        info = "Tail (" + selected.getBelongsTo().getIndexInBelongsTo() + ") ";
+                        break;
+                    }
+                    case VERTICAL_PLAN: { //should not come here
+                        currentDiedre = 90;
+                        info = "Derive";
+                        break;
+                    }
+                }
+                info += " diedre:" + currentDiedre;
                 repaint();
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2 && indexWing > -1) {
+                if (e.getClickCount() == 2) {
                     try {
                         currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, "" + currentDiedre));
                         applyDiedre();
@@ -89,12 +100,24 @@ public class FrontPanel extends DrawablePanel {
 
             public void mouseDragged(MouseEvent e) {
 
-                DrawablePoint ref = onTail ? tailConnection : connection;
-                if (indexWing > 0) {
-                    ref = onTail ? tailPoints.get(indexWing - 1) : points.get(indexWing - 1);
+// change diedre
+                switch (usedFor) {
+                    case MAIN_WING: {
+                        int index = ((DrawableWingSection) selected.getBelongsTo()).getIndexInBelongsTo();
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selected.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
+                        break;
+                    }
+                    case HORIZONTAL_PLAN: {
+                        currentDiedre = ((DrawableWing) selected.getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selected.getBelongsTo()).getPreviousPointForDiedre(0), e.getX(), e.getY());
+                        break;
+                    }
+                    case VERTICAL_PLAN: { //TODO should not come here. See after for -90
+                        currentDiedre = 90;
+                        break;
+                    }
                 }
-
-                currentDiedre = Utils.calcAngle(ref, new DrawablePoint(e.getX(), e.getY()));
+                ((AbstractDrawableWing) selected.getBelongsTo()).setDiedre(currentDiedre);
                 applyDiedre();
             }
         });
@@ -103,20 +126,25 @@ public class FrontPanel extends DrawablePanel {
     }
 
     private void applyDiedre() {
-        if (onTail) {
-            currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
-            currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
-        } else {
-            currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
-            currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
-        }
-        if (onTail) {
-            PredimRC.getInstanceModel().getTail().get(0).setDiedre(currentDiedre);
-            info = "Tail diedre : " + currentDiedre;
-        } else {
-            PredimRC.getInstanceModel().getWings().get(0).get(indexWing).setDiedre(currentDiedre);
-            //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
-            info = "Wing diedre , section:" + (indexWing + 1) + ": " + currentDiedre;
+        switch (usedFor) {
+            case HORIZONTAL_PLAN: {
+                currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
+                currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
+                ((DrawableWing) selected.getBelongsTo()).setDiedre(currentDiedre);
+                info = "Tail " + selected.getBelongsTo().getIndexInBelongsTo() + " diedre : " + currentDiedre;
+                break;
+            }
+            case MAIN_WING: {
+                currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
+                currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
+                ((DrawableWingSection) selected.getBelongsTo()).setDiedre(currentDiedre);
+                //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
+                info = "Wing diedre , section:" + selected.getBelongsTo().getIndexInBelongsTo() + ": " + currentDiedre;
+                break;
+            }
+            case VERTICAL_PLAN: {
+                break;
+            }
         }
     }
 
@@ -131,25 +159,8 @@ public class FrontPanel extends DrawablePanel {
         g.setColor(Color.blue);
         g.drawString(info, 10, 20);
         g.setColor(Color.GRAY.brighter());
-        ((Graphics2D) g).setStroke(new BasicStroke(5));
-        DrawablePoint previous = connection;
-        for (DrawablePoint p : points) {
-            g.drawLine((int) previous.getIntX(), (int) previous.getIntY(), p.getIntX(), p.getIntY());
-            previous = p;
-        }
-
-        previous = tailConnection;
-        for (DrawablePoint p : tailPoints) {
-            g.drawLine((int) previous.getIntX(), (int) previous.getIntY(), p.getIntX(), p.getIntY());
-            previous = p;
-        }
-
-        g.setColor(Color.BLUE);
-        for (DrawablePoint p : points) {
-            p.draw((Graphics2D) g);
-        }
-        for (DrawablePoint p : tailPoints) {
-            p.draw((Graphics2D) g);
+        if (PredimRC.initDone) {
+            PredimRC.getInstanceDrawableModel().drawFront((Graphics2D) g);
         }
         g.setColor(Color.GRAY);
         ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
@@ -157,39 +168,26 @@ public class FrontPanel extends DrawablePanel {
     }
 
     @Override
-    public void changeModel(Model m) {
-        System.out.println("pokpokpokpok");
-        points = new ArrayList<>();
-        DrawablePoint previous = connection;
-        for (WingSection w : m.getWings().get(0)) {
-            DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
-            points.add(newpoint);
-            previous = newpoint;
-        }
-
-        tailPoints = new ArrayList<>();
-        previous = tailConnection;
-        for (WingSection w : m.getTail().get(0)) {
-            DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
-            previous = newpoint;
-        }
-        tailPoints.add(previous);
+    public void updateModel(DrawableModel m) {
+        PredimRC.logDebugln("changeModel in FrontPanel");
+        points = PredimRC.getInstanceDrawableModel().getFrontPoints();
+        //      DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
         repaint();
     }
 
-    private double getNearestPoint(double dist, ArrayList<DrawablePoint> list, int x, int y, boolean _onTail) {
-        int index = 0;
-        for (DrawablePoint p : list) {
+    private double getNearestPoint(int x, int y) {
+        double dist = Double.MAX_VALUE;
+        System.out.println("getNearestPoint:" + points.size());
+        for (DrawablePoint p : points) {
             double temp = PredimRC.distance(p, x, y);
-            if (temp < dist) {
+            if (p.isSelectable() && temp < dist) {
+                System.out.println("selected:" + p.toStringAll());
                 dist = temp;
-                onTail = _onTail;
-                indexWing = index;
                 selected.setSelected(false);
                 selected = p;
                 selected.setSelected(true);
+                usedFor = ((DrawableWing) (selected.getBelongsTo().getBelongsTo())).getUsed_for();
             }
-            index++;
         }
         return dist;
     }

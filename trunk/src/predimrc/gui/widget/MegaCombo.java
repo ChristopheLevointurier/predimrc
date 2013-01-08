@@ -51,8 +51,34 @@ public class MegaCombo extends JPanel {
         setSize(getPreferredSize());
     }
 
-    public void setValue(String _value) {
+    public void setValue(String _value, boolean withAction) {
+        ActionListener[] al = value.getActionListeners();
+        if (!withAction) {
+            for (ActionListener a : al) {
+                value.removeActionListener(a);
+            }
+        }
         value.setSelectedItem(_value);
+        if (!withAction) {
+            for (ActionListener a : al) {
+                value.addActionListener(a);
+            }
+        }
+    }
+
+    public void setSelectedIndex(int ind, boolean withAction) {
+        ActionListener[] al = value.getActionListeners();
+        if (!withAction) {
+            for (ActionListener a : al) {
+                value.removeActionListener(a);
+            }
+        }
+        value.setSelectedIndex(ind);
+        if (!withAction) {
+            for (ActionListener a : al) {
+                value.addActionListener(a);
+            }
+        }
     }
 
     public String getValue() {

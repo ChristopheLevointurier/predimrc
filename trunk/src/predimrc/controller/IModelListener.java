@@ -14,6 +14,7 @@
  */
 package predimrc.controller;
 
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.Model;
 
 /**
@@ -24,6 +25,5 @@ import predimrc.model.Model;
  * @since 
  */
 public interface IModelListener {
-public void changeModel(Model m);
-public void updateModel();
+public void updateModel(DrawableModel m);
 }

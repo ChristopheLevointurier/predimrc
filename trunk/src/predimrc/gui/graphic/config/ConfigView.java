@@ -13,32 +13,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.graphic;
+package predimrc.gui.graphic.config;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import predimrc.PredimRC;
 import predimrc.controller.IModelListener;
-import predimrc.controller.ModelController;
-import predimrc.gui.widget.MegaCombo;
-import predimrc.gui.widget.MegaLabel;
 import predimrc.gui.frame.Compare_Frame;
 import predimrc.gui.frame.Engine_Frame;
 import predimrc.gui.frame.Optim_Frame;
 import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
-import predimrc.model.Model;
-import predimrc.model.element.WingSection;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
+import predimrc.gui.widget.MegaLabel;
 
 /**
  *
@@ -93,15 +87,10 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
     private MegaLabel tailDiedre_label = makeLabel("Diedre tail");
+
     /**
      * widgets for structure config
      */
-    private JPanel structure_panel = new JPanel();
-    private JButton reset = new JButton("Reset model");
-    private JCheckBox tailCheck = new JCheckBox("Tail", true);
-    private MegaCombo wingCombo = new MegaCombo("Number of wing section:", true, "1", "2", "3", "4", "5");
-    private MegaCombo tailCombo = new MegaCombo("Number of horizontal tail section:", true, "0", "1", "2", "3", "4", "5");
-
     public ConfigView() {
         super();
 
@@ -110,15 +99,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
-
-
-        structure_panel.setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
-        structure_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Structure:"));
-        structure_panel.add(tailCheck);
-        structure_panel.add(reset);
-        structure_panel.add(wingCombo);
-        structure_panel.add(tailCombo);
-        add(structure_panel);
 
 
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
@@ -209,38 +189,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         });
 
 
-
-        /**
-         * *******---structure widgets----****
-         */
-        reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PredimRC.resetModel();
-            }
-        });
-
-        wingCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().getWings().get(0).setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
-                ModelController.applyChange();
-            }
-        });
-
-
-        tailCheck.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //TODO
-            }
-        });
-
-        tailCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PredimRC.getInstanceModel().getTail().get(0).setWingSectionNumber(Integer.parseInt(tailCombo.getValue()));
-                ModelController.applyChange();
-            }
-        });
-
-
     }
 
     private MegaLabel makeLabel(String str) {
@@ -316,26 +264,15 @@ public final class ConfigView extends JPanel implements IModelListener {
     }
 
     @Override
-    public void changeModel(Model m) {
-        //TODO   tailCheck.setSelected(m.getTail().isExist());
-        wingCombo.setValue("" + m.getWings().get(0).getSize());
-        //TODO      tailCombo.setEnabled(m.getTail().isExist());
-        tailCombo.setValue("" + m.getTail().get(0).getSize());
-        String diedre = "";
-        for (WingSection w : m.getWings().get(0)) {
-            diedre += "#" + df.format(w.getDiedre());
-        }
-        wingDiedre_label.setValue(diedre);
-
-        diedre = "";
-        for (WingSection w : m.getTail().get(0)) {
-            diedre += "#" + df.format(w.getDiedre());
-        }
-        tailDiedre_label.setValue(diedre);
-    }
-
-    @Override
-    public void updateModel() {
-        changeModel(PredimRC.getInstanceModel());
+    public void updateModel(DrawableModel m) {
+        /**
+         * String diedre = ""; for (WingSection w : m.getWings().get(0)) {
+         * diedre += "#" + df.format(w.getDiedre()); }
+         * wingDiedre_label.setValue(diedre);
+         *
+         * diedre = ""; for (WingSection w : m.getTail().get(0)) { diedre += "#"
+         * + df.format(w.getDiedre()); }
+        tailDiedre_label.setValue(diedre);*
+         */
     }
 }

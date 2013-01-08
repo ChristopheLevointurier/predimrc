@@ -15,8 +15,7 @@
 package predimrc.controller;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import predimrc.model.Model;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
  * Manage interactions between model and gui
@@ -46,19 +45,14 @@ public class ModelController {
     }
 
     public static void applyChange() {
-        for (IModelListener l : listeners) {
-            l.updateModel();
-        }
+        updateModel(predimrc.PredimRC.getInstanceDrawableModel());
     }
 
-    public static void changeModel() {
-        changeModel(predimrc.PredimRC.getInstanceModel());
-    }
-
-    public static void changeModel(Model m) {
+    public static void updateModel(DrawableModel m) {
         predimrc.PredimRC.logDebugln("Controller.changeModel()");
+        m.computePositions();
         for (IModelListener l : listeners) {
-            l.changeModel(m);
+            l.updateModel(m);
         }
     }
 }
