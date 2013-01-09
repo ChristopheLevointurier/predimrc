@@ -17,16 +17,13 @@ package predimrc.gui.graphic.drawable.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.gui.graphic.drawable.model.DrawableModel;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
@@ -53,30 +50,17 @@ public class TopPanel extends DrawablePanel {
      * field used while interact with gui
      */
     //   private int indexWing = -1;
-    private String infoDetail = "";
-
     /**
      * Constructor
      */
     public TopPanel() {
-        view= Utils.VIEW_TYPE.TOP_VIEW;
+        view = Utils.VIEW_TYPE.TOP_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                //detect nearest point;
-                getNearestPoint(e.getX(), e.getY());
-                 if (selectedPoint.isSelectable())
-                 { 
-                   
-                 }  
-                repaint();
-            }
-
-            @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {
+                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
                         ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
                     }
                     if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
@@ -88,12 +72,19 @@ public class TopPanel extends DrawablePanel {
 
         addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void mouseMoved(MouseEvent e) {
-                //          System.out.println(e.getX() + ":" + e.getY());
-            }
-
-            @Override
             public void mouseDragged(MouseEvent e) {
+                if (selectedElement instanceof DrawableWing) {
+                 //   System.out.println("" + selectedElement);
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointTopView())) {
+                        //move wingConnection
+                        int xpos = e.getX() > MID_TOP_SCREEN_X ? MID_TOP_SCREEN_X : e.getX();
+                        selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
+                        infoAction = " moved to : (" + selectedElement.getPositionDimension3D();
+                    }
+                }
+
+
+
                 /**
                  * if (selectedPoint.equals(selectedwing.getFrontPoint()))
                  * {//resize length and fleche int newlenght =
@@ -149,5 +140,4 @@ public class TopPanel extends DrawablePanel {
     public Dimension getPreferredSize() {
         return new Dimension(930, 400);
     }
-
 }

@@ -22,7 +22,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
-import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
@@ -39,7 +38,6 @@ import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
  */
 public class FrontPanel extends DrawablePanel {
 
-    private USED_FOR usedFor;
     private float currentDiedre;
 
     public FrontPanel() {
@@ -48,33 +46,6 @@ public class FrontPanel extends DrawablePanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
 
         addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //detect nearest point;
-                getNearestPoint(e.getX(), e.getY());
-                usedFor = ((DrawableWing) (selectedPoint.getBelongsTo().getBelongsTo())).getUsed_for();
-
-                switch (usedFor) {
-                    case MAIN_WING: {
-                        currentDiedre = ((DrawableWingSection) selectedPoint.getBelongsTo()).getDiedre();
-                        info = "Wing (" + ((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getIndexInBelongsTo() + ") section:" + selectedPoint.getBelongsTo().getIndexInBelongsTo();
-                        break;
-                    }
-                    case HORIZONTAL_PLAN: {
-                        currentDiedre = ((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
-                        info = "Tail (" + selectedPoint.getBelongsTo().getIndexInBelongsTo() + ") ";
-                        break;
-                    }
-                    case VERTICAL_PLAN: { //should not come here
-                        currentDiedre = 90;
-                        info = "Derive";
-                        break;
-                    }
-                }
-                infoAction = " diedre:" + currentDiedre;
-                repaint();
-            }
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
@@ -93,7 +64,7 @@ public class FrontPanel extends DrawablePanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 // change diedre
-                switch (usedFor) {
+                switch (((AbstractDrawableWing) selectedElement).getUsedFor()) {
                     case MAIN_WING: {
                         int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
                         currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
@@ -118,7 +89,7 @@ public class FrontPanel extends DrawablePanel {
     }
 
     private void applyDiedre() {
-        switch (usedFor) {
+        switch (((AbstractDrawableWing) selectedElement).getUsedFor()) {
             case HORIZONTAL_PLAN: {
                 currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
                 currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;

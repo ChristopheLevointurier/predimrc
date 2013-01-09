@@ -27,6 +27,7 @@ import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 
 /**
  *
@@ -49,6 +50,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
     protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     protected VIEW_TYPE view;
+    protected DrawableModelElement selectedElement;
 
     public DrawablePanel() {
         addMouseMotionListener(new MouseAdapter() {
@@ -58,6 +60,16 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 for (DrawablePoint p : points) {
                     p.draw((Graphics2D) getGraphics());
                 }
+            }
+        });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //detect nearest point;
+                getNearestPoint(e.getX(), e.getY());
+                info = selectedElement.toInfoString();
+                infoAction = "";
+                repaint();
             }
         });
     }
@@ -75,6 +87,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 selectedPoint.setSelected(true);
             }
         }
+        selectedElement = selectedPoint.getBelongsTo();
     }
 
     @Override
