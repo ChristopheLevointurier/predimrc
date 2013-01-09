@@ -86,7 +86,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         add(tailCombo);
         add(deriveCombo);
         add(reset);
-        add(compute);
+   //     add(compute);
 
         /**
          * *******---structure widgets----****
