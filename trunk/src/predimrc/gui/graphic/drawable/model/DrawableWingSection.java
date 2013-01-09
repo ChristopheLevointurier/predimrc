@@ -33,6 +33,7 @@ import predimrc.model.element.WingSection;
  */
 public class DrawableWingSection extends DrawableModelElement implements AbstractDrawableWing {
 
+    private AbstractDrawableWing previous;
     /**
      * Top view Points
      */
@@ -157,12 +158,12 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * Getters for points
      */
     @Override
-    public DrawablePoint getFrontPoint() {
+    public DrawablePoint getFrontPointTopView() {
         return frontPoint;
     }
 
     @Override
-    public DrawablePoint getBackPoint() {
+    public DrawablePoint getBackPointTopView() {
         return backPoint;
     }
 
@@ -179,12 +180,16 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         //TODO calc each point for 3D view with new params
         int index = ((DrawableWing) belongsTo).getIndexInArray(this);
         if (index > 0) {
-            DrawableWingSection previous = ((DrawableWing) belongsTo).get(index - 1);
+            previous = ((DrawableWing) belongsTo).get(index - 1);
             setyPos(previous.getDiedrePoint().getFloatX());
             setzPos(previous.getDiedrePoint().getFloatY());
+        } else {
+            previous = (AbstractDrawableWing) belongsTo;
         }
+        setxPos(frontPoint.getFloatY());
+
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
-        frontPoint = new DrawablePoint(Utils.getCoordOnCircle(((DrawableWing) belongsTo).getFrontPoint(), fleche, viewableLength), this);
+        frontPoint = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
         backPoint = new DrawablePoint(frontPoint.getFloatX(), frontPoint.getIntY() + width, this);
         diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsed_for().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
     }
@@ -209,8 +214,13 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      */
     @Override
     public void drawTop(Graphics2D g) {
-        //   System.out.println("drawTop:" + previousFrontPoint.getIntX() + "," + previousFrontPoint.getIntY() + " - " + frontPoint.getIntX() + "," + frontPoint.getIntY());
-        //will do this in Wing()
+        g.setStroke(new BasicStroke(4));
+        g.setColor(Color.GRAY.brighter());
+        Utils.drawline(frontPoint, previous.getFrontPointTopView(), g);
+        Utils.drawline(backPoint, previous.getBackPointTopView(), g);
+        Utils.drawline(frontPoint, backPoint, g);
+        frontPoint.draw(g);
+        backPoint.draw(g);
     }
 
     @Override

@@ -38,9 +38,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     /**
      * Top view Points
      */
-    private DrawablePoint frontPoint;
-    private DrawablePoint backPoint;
-    private DrawablePoint connectionPoint;
+    private DrawablePoint frontPointTopView;
+    private DrawablePoint backPointTopView;
+    private DrawablePoint connectionPointFrontView;
     private LinkedList<DrawableWingSection> drawableWingSection;
     private USED_FOR used_for;
     private float widthAtConnection;
@@ -70,8 +70,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 break;
             }
         }
-        frontPoint = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-        backPoint = new DrawablePoint(frontPoint.getFloatX(), frontPoint.getFloatY() + getWidthAtConnection(), true, this);
     }
 
     public DrawableWing(Wing w, DrawableModel m) {
@@ -83,8 +81,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (WingSection ws : w.getWingsSection()) {
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), this));
         }
-        frontPoint = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-        backPoint = new DrawablePoint(frontPoint.getFloatX(), frontPoint.getFloatY() + getWidthAtConnection(), true, this);
     }
 
     /**
@@ -92,7 +88,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
-        connectionPoint = new DrawablePoint(getyPos(), getzPos(), false, belongsTo);
+        connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
+        frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
+        backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection(), true, this);
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();
         }
@@ -156,13 +154,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     @Override
-    public DrawablePoint getFrontPoint() {
-        return frontPoint;
+    public DrawablePoint getFrontPointTopView() {
+        return frontPointTopView;
     }
 
     @Override
-    public DrawablePoint getBackPoint() {
-        return backPoint;
+    public DrawablePoint getBackPointTopView() {
+        return backPointTopView;
     }
 
     @Override
@@ -219,28 +217,29 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void drawTop(Graphics2D g) {
         System.out.println("drawTop " + this);
+        for (DrawableWingSection d : this) {
+            d.drawTop(g);
+        }
+        frontPointTopView.draw(g);
+        backPointTopView.draw(g);
 
-        /**
-         *
-         *
-         *
-         * g.setStroke(new BasicStroke(6)); g.setColor(Color.GRAY.brighter());
-         * g.drawLine(previousFrontPoint.getIntX(),
-         * previousFrontPoint.getIntY(), frontPoint.getIntX(),
-         * frontPoint.getIntY()); g.drawLine(frontPoint.getIntX(),
-         * frontPoint.getIntY(), backPoint.getIntX(), backPoint.getIntY());
+        /*      
+         
+         g.drawLine(previousFrontPoint.getIntX(),previousFrontPoint.getIntY(), frontPointTopView.getIntX(),
+         * frontPointTopView.getIntY()); g.drawLine(frontPointTopView.getIntX(),
+         * frontPointTopView.getIntY(), backPointTopView.getIntX(), backPointTopView.getIntY());
          * g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-         * backPoint.getIntX(), backPoint.getIntY()); //miror
+         * backPointTopView.getIntX(), backPointTopView.getIntY()); //miror
          * g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
          * previousFrontPoint.getIntX(), previousFrontPoint.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - frontPoint.getIntX(),
-         * frontPoint.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2
-         * - frontPoint.getIntX(), frontPoint.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPoint.getIntX(),
-         * backPoint.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
+         * DrawablePanel.MID_TOP_SCREEN_X * 2 - frontPointTopView.getIntX(),
+         * frontPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2
+         * - frontPointTopView.getIntX(), frontPointTopView.getIntY(),
+         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
+         * backPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
          * previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPoint.getIntX(),
-         * backPoint.getIntY()); frontPoint.draw(g); backPoint.draw(g);
+         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
+         * backPointTopView.getIntY()); frontPointTopView.draw(g); backPointTopView.draw(g);
          * previousFrontPoint.draw(g); previousBackPoint.draw(g);
          */
     }
@@ -252,8 +251,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     @Override
     public void drawFront(Graphics2D g) {
-        //  System.out.println("drawFront IN WINGGGGGGGGGGGGGGGGGGGGG:"+PredimRC.initDone);
-        connectionPoint.draw(g);
+        connectionPointFrontView.draw(g);
         for (DrawableWingSection d : this) {
             d.drawFront(g);
         }

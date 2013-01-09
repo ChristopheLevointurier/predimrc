@@ -219,7 +219,10 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
     @Override
     public void drawTop(Graphics2D g) {
-        System.out.println("drawTop " + this);
+        drawableFuselage.drawTop(g);
+        for (DrawableWing d : this) {
+            d.drawTop(g);
+        }
     }
 
     @Override

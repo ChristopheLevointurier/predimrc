@@ -79,11 +79,11 @@ public class TopPanel extends DrawablePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPoint())) {
+                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {
                         ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
                     }
-                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPoint())) {//resize width 
-                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPoint().getFloatY() - ((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPoint().getFloatY()));
+                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
+                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView().getFloatY() - ((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView().getFloatY()));
                     }
                 }
             }
@@ -148,7 +148,7 @@ public class TopPanel extends DrawablePanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(950, 400);
+        return new Dimension(930, 400);
     }
 
     @Override
@@ -183,6 +183,6 @@ public class TopPanel extends DrawablePanel {
     @Override
     public void updateModel(DrawableModel m) {
         PredimRC.logDebugln("changeModel in TopPanel");
-        //TODO
+        repaint();
     }
 }
