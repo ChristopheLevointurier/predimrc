@@ -101,7 +101,7 @@ public class PredimRC extends JFrame {
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
     public static final int DEFAULT_X_FRAME = 800;
     public static final int DEFAULT_Y_FRAME = 600;
-    public static final int MAIN_FRAME_SIZE_X = 1075;
+    public static final int MAIN_FRAME_SIZE_X = 1172;
     public static final int MAIN_FRAME_SIZE_Y = 756;
     private static final boolean DEBUG_MODE = true;
     private static final String configFile = "config.cfg";
