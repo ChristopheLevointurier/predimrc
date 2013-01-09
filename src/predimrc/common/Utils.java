@@ -33,9 +33,9 @@ public class Utils {
     public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 55;
     public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 25;
     public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
-    public static final Dimension3D defaultWingConnection = new Dimension3D(125, 385, 125);
-    public static final Dimension3D defaultTailConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 55);
-    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 35);
+    public static final Dimension3D defaultWingConnection = new Dimension3D(125, 435, 125);
+    public static final Dimension3D defaultTailConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 85);
+    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, DrawablePanel.MID_TOP_SCREEN_X, 135);
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg + 180);

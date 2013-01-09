@@ -148,7 +148,7 @@ public class TopPanel extends DrawablePanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(820, 400);
+        return new Dimension(950, 400);
     }
 
     @Override
