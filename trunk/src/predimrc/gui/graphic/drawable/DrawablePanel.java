@@ -31,7 +31,8 @@ import predimrc.common.Dimension3D;
 public abstract class DrawablePanel extends JPanel implements IModelListener {
 
     protected Image backgroundImage;
-    protected String info = "Select an object."; //TODO change to StringBuffer in the future.
+    protected String info = "Select an object"; //TODO change to StringBuffer in the future.
+    protected String infoAction = " to modify its value."; //TODO change to StringBuffer in the future.
     public static final int MID_TOP_SCREEN_X = 410;
     public static final int MID_TOP_SCREEN_Y = 150;
 

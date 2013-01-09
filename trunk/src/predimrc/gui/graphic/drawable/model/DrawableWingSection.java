@@ -230,7 +230,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     public ArrayList<DrawablePoint> getFrontPoints() {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         ret.add(diedrePoint);
-        System.out.print("diedrePoint:" + diedrePoint);
         return ret;
     }
 
