@@ -114,7 +114,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 if (index == 0) {
                     return new Point2D.Float(yPos, zPos);
                 } else {
-                    return new Point2D.Float(get(index - 1).getyPos(), get(index - 1).getzPos());
+                    return new Point2D.Float(get(index).getyPos(), get(index).getzPos());
                 }
             }
         }
