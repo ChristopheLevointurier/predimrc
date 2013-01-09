@@ -250,7 +250,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case TOP_VIEW: {
                 frontPointTopView.draw(g);
                 backPointTopView.draw(g);
-
                 break;
             }
             case LEFT_VIEW: {
@@ -280,6 +279,21 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (DrawableWingSection ws : this) {
             ret.addAll(ws.getPoints(view));
+        }
+
+        switch (view) {
+            case FRONT_VIEW: {
+                ret.add(connectionPointFrontView);
+                break;
+            }
+            case TOP_VIEW: {
+                ret.add(frontPointTopView);
+                ret.add(backPointTopView);
+                break;
+            }
+            case LEFT_VIEW: {
+                break;
+            }
         }
         return ret;
     }
