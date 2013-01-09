@@ -187,10 +187,18 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         } else {
             previous = (AbstractDrawableWing) belongsTo;
         }
+
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
-        frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
-        backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
-        diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+        if (!pointsCalculed) {
+            frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
+            diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+            pointsCalculed = true;
+        } else {
+            frontPointTopView.setLocation(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength));
+            backPointTopView.setLocation(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width);
+            diedrePoint.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght));
+        }
         setxPos(frontPointTopView.getFloatY());
     }
 

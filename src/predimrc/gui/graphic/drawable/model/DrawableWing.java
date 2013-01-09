@@ -89,9 +89,17 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
-        connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
-        frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-        backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection(), true, this);
+        if (!pointsCalculed) {
+            connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
+            frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection(), true, this);
+            pointsCalculed = true;
+        } else {
+            connectionPointFrontView.setFloatLocation(yPos, zPos);
+            frontPointTopView.setFloatLocation(yPos, xPos);
+            backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection());
+        }
+
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();
         }
@@ -179,6 +187,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     public void setWidthAtConnection(float widthAtConnection) {
         this.widthAtConnection = widthAtConnection;
+        apply();
     }
 
     public USED_FOR getUsedFor() {
@@ -328,7 +337,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 break;
             }
         }
-        ret += (getIndexInBelongsTo()+1);
+        ret += (getIndexInBelongsTo() + 1);
         return ret;
     }
 }
