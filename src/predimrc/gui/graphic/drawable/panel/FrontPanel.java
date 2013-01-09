@@ -17,7 +17,6 @@ package predimrc.gui.graphic.drawable.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -26,7 +25,6 @@ import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
@@ -45,6 +43,7 @@ public class FrontPanel extends DrawablePanel {
     private float currentDiedre;
 
     public FrontPanel() {
+        super();
         view = VIEW_TYPE.FRONT_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -91,14 +90,6 @@ public class FrontPanel extends DrawablePanel {
         });
 
         addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                getNearestPoint(e.getX(), e.getY());
-                for (DrawablePoint p : points) {
-                    p.draw((Graphics2D) getGraphics());
-                }
-            }
-
             @Override
             public void mouseDragged(MouseEvent e) {
                 // change diedre
