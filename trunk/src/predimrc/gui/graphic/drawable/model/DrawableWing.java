@@ -280,7 +280,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             ret.addAll(ws.getFrontPoints());
         }
-        System.out.println("Front point amount from wing:" + ret.size());
         return ret;
     }
 
