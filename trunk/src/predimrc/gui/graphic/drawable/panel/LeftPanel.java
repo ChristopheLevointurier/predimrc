@@ -17,17 +17,12 @@ package predimrc.gui.graphic.drawable.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
  *
@@ -38,57 +33,29 @@ import predimrc.gui.graphic.drawable.model.DrawableModel;
  */
 public class LeftPanel extends DrawablePanel {
 
-    private Point wingPos = new Point(100, 50);
-
     public LeftPanel() {
-view= Utils.VIEW_TYPE.LEFT_VIEW;
+        view = Utils.VIEW_TYPE.LEFT_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
         setSize(getPreferredSize());
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                movePoint(e.getX(), e.getY());
+                //
             }
         });
 
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                movePoint(e.getX(), e.getY());
+                //
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
         backgroundImage = PredimRC.getImage("left.png");
     }
 
-    private void movePoint(int x, int y) {
-
-
-        wingPos.setLocation(x, y);
-        repaint(0, 0, 400, 100);
-    }
-
     @Override
     public final Dimension getPreferredSize() {
         return new Dimension(460, 200);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.blue);
-        g.drawString("Calage draw", 10, 20);
-        g.setColor(Color.gray);
-        g.drawRect((int) wingPos.getX(), (int) wingPos.getY(), 20, 12);
-        g.setColor(Color.BLACK);
-        Line2D.Double l = new Line2D.Double();
-        ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
-        g.drawLine(0, 60, 400, 60);
-        g.setColor(Color.BLACK);
-    }
-
-    @Override
-    public void updateModel(DrawableModel m) {
-        //TODO
     }
 }

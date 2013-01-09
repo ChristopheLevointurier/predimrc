@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
@@ -47,6 +49,18 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
     protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     protected VIEW_TYPE view;
+
+    public DrawablePanel() {
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                getNearestPoint(e.getX(), e.getY());
+                for (DrawablePoint p : points) {
+                    p.draw((Graphics2D) getGraphics());
+                }
+            }
+        });
+    }
 
     protected void getNearestPoint(int x, int y) {
         double dist = Double.MAX_VALUE;
@@ -81,7 +95,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
 
     @Override
     public void updateModel(DrawableModel m) {
-        PredimRC.logDebugln("changeModel in Panel:"+view);
+        PredimRC.logDebugln("changeModel in Panel:" + view);
         points = PredimRC.getInstanceDrawableModel().getPoints(view);
         repaint();
     }
