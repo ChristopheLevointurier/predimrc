@@ -154,6 +154,11 @@ public class DrawablePoint {
         return (int) y;
     }
 
+    public void setLocation(Point2D _xy) {
+        x = (float) _xy.getX();
+        y = (float) _xy.getY();
+    }
+
     public void setLocation(double _x, double _y) {
         x = (float) _x;
         y = (float) _y;
