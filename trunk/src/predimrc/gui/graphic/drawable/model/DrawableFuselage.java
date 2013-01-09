@@ -94,4 +94,14 @@ public class DrawableFuselage extends DrawableModelElement {
     public void draw(Graphics2D g, VIEW_TYPE view) {
         //TODO
     }
+
+    @Override
+    public DrawableModel getBelongsTo() {
+        return (DrawableModel) belongsTo;
+    }
+
+    @Override
+    public String toInfoString() {
+        return "Fuselage";
+    }
 }

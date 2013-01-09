@@ -23,7 +23,6 @@ import predimrc.common.Dimension3D;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
-import predimrc.model.ModelElement;
 
 /**
  *
@@ -36,7 +35,7 @@ public abstract class DrawableModelElement {
 
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
-   
+
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
         belongsTo = _belongsTo;
@@ -105,7 +104,7 @@ public abstract class DrawableModelElement {
         return belongsTo;
     }
 
-    protected void apply() {
+    public void apply() {
         if (PredimRC.initDone) {
             ModelController.applyChange();
         }
@@ -117,6 +116,7 @@ public abstract class DrawableModelElement {
 
     abstract public int getIndexInBelongsTo();
 
-    abstract public void draw(Graphics2D g,VIEW_TYPE view);
+    abstract public void draw(Graphics2D g, VIEW_TYPE view);
 
+    abstract public String toInfoString();
 }
