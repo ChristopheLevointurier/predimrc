@@ -92,6 +92,7 @@ public class Model extends ModelElement implements Serializable {
         return ret.toString();
     }
 
+    @Override
     public String toStringAll() {
         StringBuilder ret = new StringBuilder("Model:");
         ret.append(name);
