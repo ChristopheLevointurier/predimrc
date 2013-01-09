@@ -17,17 +17,15 @@ package predimrc.gui.graphic.drawable.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
-import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
@@ -43,12 +41,11 @@ import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
  */
 public class FrontPanel extends DrawablePanel {
 
-    private ArrayList<DrawablePoint> points = new ArrayList<>();
-    private DrawablePoint selectedPoint = new DrawablePoint(MID_FRONT_SCREEN_X, MID_FRONT_SCREEN_Y);
     private USED_FOR usedFor;
     private float currentDiedre;
 
     public FrontPanel() {
+        view = VIEW_TYPE.FRONT_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
 
         addMouseListener(new MouseAdapter() {
@@ -56,6 +53,8 @@ public class FrontPanel extends DrawablePanel {
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
                 getNearestPoint(e.getX(), e.getY());
+                usedFor = ((DrawableWing) (selectedPoint.getBelongsTo().getBelongsTo())).getUsed_for();
+
                 switch (usedFor) {
                     case MAIN_WING: {
                         currentDiedre = ((DrawableWingSection) selectedPoint.getBelongsTo()).getDiedre();
@@ -94,13 +93,15 @@ public class FrontPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                //       System.out.println(e.getX() + ":" + e.getY());
+                getNearestPoint(e.getX(), e.getY());
+                for (DrawablePoint p : points) {
+                    p.draw((Graphics2D) getGraphics());
+                }
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-
-// change diedre
+                // change diedre
                 switch (usedFor) {
                     case MAIN_WING: {
                         int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
@@ -151,43 +152,5 @@ public class FrontPanel extends DrawablePanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(460, 200);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.blue);
-        g.drawString(info + infoAction, 10, 20);
-        g.setColor(Color.GRAY.brighter());
-        if (PredimRC.initDone) {
-            PredimRC.getInstanceDrawableModel().drawFront((Graphics2D) g);
-        }
-        g.setColor(Color.GRAY);
-        ((Graphics2D) g).setStroke(predimrc.PredimRC.dashed);
-        g.drawLine(0, 125, 390, 125);
-    }
-
-    @Override
-    public void updateModel(DrawableModel m) {
-        PredimRC.logDebugln("changeModel in FrontPanel");
-        points = PredimRC.getInstanceDrawableModel().getFrontPoints();
-        repaint();
-    }
-
-    private double getNearestPoint(int x, int y) {
-        double dist = Double.MAX_VALUE;
-       // System.out.println("getNearestPoint:" + points.size());
-        for (DrawablePoint p : points) {
-            double temp = PredimRC.distance(p, x, y);
-            if (p.isSelectable() && temp < dist) {
-            //    System.out.println("selectedPoint:" + p.toStringAll());
-                dist = temp;
-                selectedPoint.setSelected(false);
-                selectedPoint = p;
-                selectedPoint.setSelected(true);
-                usedFor = ((DrawableWing) (selectedPoint.getBelongsTo().getBelongsTo())).getUsed_for();
-            }
-        }
-        return dist;
     }
 }

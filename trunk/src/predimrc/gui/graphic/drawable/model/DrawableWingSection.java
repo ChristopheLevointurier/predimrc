@@ -20,6 +20,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.model.element.WingSection;
@@ -37,8 +38,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * Top view Points
      */
-    private DrawablePoint frontPoint = new DrawablePoint(0, 0);
-    private DrawablePoint backPoint = new DrawablePoint(0, 0);
+    protected DrawablePoint backPointTopView;
+    protected DrawablePoint frontPointTopView;
     /**
      * Front view Points
      */
@@ -159,12 +160,12 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      */
     @Override
     public DrawablePoint getFrontPointTopView() {
-        return frontPoint;
+        return frontPointTopView;
     }
 
     @Override
     public DrawablePoint getBackPointTopView() {
-        return backPoint;
+        return backPointTopView;
     }
 
     @Override
@@ -186,12 +187,11 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         } else {
             previous = (AbstractDrawableWing) belongsTo;
         }
-        setxPos(frontPoint.getFloatY());
-
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
-        frontPoint = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
-        backPoint = new DrawablePoint(frontPoint.getFloatX(), frontPoint.getIntY() + width, this);
+        frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
+        backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
         diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsed_for().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+        setxPos(frontPointTopView.getFloatY());
     }
 
     @Override
@@ -210,47 +210,52 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     }
 
     /**
-     * paint methods
+     * paint method
      */
     @Override
-    public void drawTop(Graphics2D g) {
+    public void draw(Graphics2D g, VIEW_TYPE view) {
         g.setStroke(new BasicStroke(4));
         g.setColor(Color.GRAY.brighter());
-        Utils.drawline(frontPoint, previous.getFrontPointTopView(), g);
-        Utils.drawline(backPoint, previous.getBackPointTopView(), g);
-        Utils.drawline(frontPoint, backPoint, g);
-        frontPoint.draw(g);
-        backPoint.draw(g);
+
+
+        switch (view) {
+            case FRONT_VIEW: {
+                g.drawLine((int) getyPos(), (int) getzPos(), diedrePoint.getIntX(), diedrePoint.getIntY());
+                diedrePoint.draw(g);
+                break;
+            }
+
+            case TOP_VIEW: {
+                Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
+                Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
+                Utils.drawline(frontPointTopView, backPointTopView, g);
+                frontPointTopView.draw(g);
+                backPointTopView.draw(g);
+                break;
+            }
+            case LEFT_VIEW:
+                break;
+        }
     }
 
     @Override
-    public void drawLeft(Graphics2D g) {
-        System.out.println("drawLeft " + this);
-    }
-
-    @Override
-    public void drawFront(Graphics2D g) {
-        g.setStroke(new BasicStroke(4));
-        g.setColor(Color.GRAY.brighter());
-        g.drawLine((int) getyPos(), (int) getzPos(), diedrePoint.getIntX(), diedrePoint.getIntY());
-        diedrePoint.draw(g);
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getFrontPoints() {
+    public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
-        ret.add(diedrePoint);
+        switch (view) {
+            case FRONT_VIEW: {
+                ret.add(diedrePoint);
+                break;
+            }
+            case TOP_VIEW: {
+                ret.add(frontPointTopView);
+                ret.add(backPointTopView);
+                break;
+            }
+            case LEFT_VIEW: {
+                break;
+            }
+        }
         return ret;
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getBackPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getTopPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public WingSection generateModel() {

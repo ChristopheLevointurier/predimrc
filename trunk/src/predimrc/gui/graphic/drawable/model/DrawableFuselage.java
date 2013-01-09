@@ -16,9 +16,8 @@ package predimrc.gui.graphic.drawable.model;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
-import predimrc.model.Model;
-import predimrc.model.ModelElement;
 import predimrc.model.element.Fuselage;
 
 /**
@@ -82,37 +81,17 @@ public class DrawableFuselage extends DrawableModelElement {
      *
      * @param g
      */
-    @Override
-    public void drawTop(Graphics2D g) {
-        System.out.println("drawTop in DrawableFuselage");
-    }
-
-    @Override
-    public void drawLeft(Graphics2D g) {
-        System.out.println("drawLeft DrawableFuselage ");
-    }
-
-    @Override
-    public void drawFront(Graphics2D g) {
-        System.out.println("drawFront in DrawableFuselage");
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getFrontPoints() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getBackPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getTopPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public Fuselage generateModel() {
         return new Fuselage(filename, length);
+    }
+
+    @Override
+    public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
+        return new ArrayList<>(); //TODO
+    }
+
+    @Override
+    public void draw(Graphics2D g, VIEW_TYPE view) {
+        //TODO
     }
 }

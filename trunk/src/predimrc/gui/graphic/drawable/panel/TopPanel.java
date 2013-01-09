@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
@@ -47,12 +48,10 @@ public class TopPanel extends DrawablePanel {
     /**
      * *
      */
-    private DrawablePoint selectedPoint = new DrawablePoint(MID_TOP_SCREEN_X, MID_TOP_SCREEN_Y);
     //   private boolean onTail = false;
     /**
      * field used while interact with gui
      */
-    double dist = Integer.MAX_VALUE;
     //   private int indexWing = -1;
     private String infoDetail = "";
 
@@ -60,19 +59,17 @@ public class TopPanel extends DrawablePanel {
      * Constructor
      */
     public TopPanel() {
+        view= Utils.VIEW_TYPE.TOP_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
                 getNearestPoint(e.getX(), e.getY());
-                /**
-                 * if (null != selectedwing) { info = selectedwing.isOntail() ?
-                 * "Tail" : "Wing"; info += " section:"; info +=
-                 * selectedwing.isOntail() ? (indexWing -
-                 * PredimRC.getInstanceDrawableModel().getWings().get(0).getSize()
-                 * + 1) : (indexWing + 1); }*
-                 */
+                 if (selectedPoint.isSelectable())
+                 { 
+                   
+                 }  
                 repaint();
             }
 
@@ -90,10 +87,12 @@ public class TopPanel extends DrawablePanel {
         });
 
         addMouseMotionListener(new MouseAdapter() {
+            @Override
             public void mouseMoved(MouseEvent e) {
                 //          System.out.println(e.getX() + ":" + e.getY());
             }
 
+            @Override
             public void mouseDragged(MouseEvent e) {
                 /**
                  * if (selectedPoint.equals(selectedwing.getFrontPoint()))
@@ -151,38 +150,4 @@ public class TopPanel extends DrawablePanel {
         return new Dimension(930, 400);
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.blue);
-        g.drawString(info + " " + infoDetail, 10, 20);
-        System.out.println("-topPanel paintComponent-");
-        PredimRC.getInstanceDrawableModel().drawTop((Graphics2D) g);
-        g.setColor(Color.GRAY);
-    }
-
-    private void getNearestPoint(int x, int y) {
-        dist = Integer.MAX_VALUE;
-        for (DrawablePoint p : PredimRC.getInstanceDrawableModel().getFrontPoints()) {
-            checkDist(p, x, y);
-        }
-    }
-
-    private void checkDist(DrawablePoint p, int x, int y) {
-        double temp = PredimRC.distance(p, x, y);
-        if (temp < dist) {
-            dist = temp;
-            selectedPoint.setSelected(false);
-            selectedPoint = p;
-            p.setSelected(true);
-        } else {
-            p.setSelected(false);
-        }
-    }
-
-    @Override
-    public void updateModel(DrawableModel m) {
-        PredimRC.logDebugln("changeModel in TopPanel");
-        repaint();
-    }
 }
