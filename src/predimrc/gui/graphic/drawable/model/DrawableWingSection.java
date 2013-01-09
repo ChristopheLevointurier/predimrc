@@ -64,7 +64,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     public DrawableWingSection(Dimension3D wingConnection, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
-        switch (((DrawableWing) belongsTo).getUsed_for()) {
+        switch (((DrawableWing) belongsTo).getUsedFor()) {
             case VERTICAL_PLAN: {
                 setValues(90, -20, 50, 50);
                 break;
@@ -190,7 +190,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
         frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
         backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
-        diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsed_for().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+        diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
         setxPos(frontPointTopView.getFloatY());
     }
 
@@ -260,5 +260,20 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     public WingSection generateModel() {
         return new WingSection(getPositionDimension3D(), diedre, fleche, width, lenght);
+    }
+
+    @Override
+    public DrawableWing getBelongsTo() {
+        return (DrawableWing) belongsTo;
+    }
+
+    @Override
+    public Utils.USED_FOR getUsedFor() {
+        return getBelongsTo().getUsedFor();
+    }
+
+    @Override
+    public String toInfoString() {
+        return belongsTo.toInfoString() + " section:" + (getIndexInBelongsTo() + 1);
     }
 }

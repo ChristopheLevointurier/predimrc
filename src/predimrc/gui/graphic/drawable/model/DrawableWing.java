@@ -181,7 +181,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         this.widthAtConnection = widthAtConnection;
     }
 
-    public USED_FOR getUsed_for() {
+    public USED_FOR getUsedFor() {
         return used_for;
     }
 
@@ -304,5 +304,31 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             wsl.add(ws.generateModel());
         }
         return new Wing(used_for, getPositionDimension3D(), widthAtConnection, wsl);
+    }
+
+    @Override
+    public DrawableModel getBelongsTo() {
+        return (DrawableModel) belongsTo;
+    }
+
+    @Override
+    public String toInfoString() {
+        String ret = "";
+        switch (getUsedFor()) {
+            case MAIN_WING: {
+                ret = "Wing ";
+                break;
+            }
+            case HORIZONTAL_PLAN: {
+                ret = "Tail ";
+                break;
+            }
+            case VERTICAL_PLAN: { //should not come here
+                ret = "Derive ";
+                break;
+            }
+        }
+        ret += (getIndexInBelongsTo()+1);
+        return ret;
     }
 }

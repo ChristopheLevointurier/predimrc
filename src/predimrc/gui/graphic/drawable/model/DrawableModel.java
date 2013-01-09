@@ -267,4 +267,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         ret.addAll(drawableDerive);
         return ret.iterator();
     }
+
+    @Override
+    public String toInfoString() { //should never be called
+        return "Model";
+    }
 }

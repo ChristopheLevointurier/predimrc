@@ -4,6 +4,7 @@
  */
 package predimrc.gui.graphic.drawable.model.abstractClasses;
 
+import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 
 /**
@@ -19,4 +20,6 @@ public interface AbstractDrawableWing {
     abstract public DrawablePoint getBackPointTopView();
 
     abstract public DrawablePoint getDiedrePoint();
+
+    abstract public Utils.USED_FOR getUsedFor();
 }
