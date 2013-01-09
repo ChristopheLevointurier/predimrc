@@ -253,7 +253,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void drawFront(Graphics2D g) {
         //  System.out.println("drawFront IN WINGGGGGGGGGGGGGGGGGGGGG:"+PredimRC.initDone);
-        //  connectionPoint.draw(g); TODO check this
+        connectionPoint.draw(g);
         for (DrawableWingSection d : this) {
             d.drawFront(g);
         }
