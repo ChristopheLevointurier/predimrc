@@ -16,9 +16,15 @@ package predimrc.gui.graphic.drawable;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import predimrc.PredimRC;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 
 /**
  *
@@ -38,6 +44,24 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     public static final int MID_LEFT_SCREEN_Y = 100;
     public static final int MID_TOP_SCREEN_X = 460;
     public static final int MID_TOP_SCREEN_Y = 150;
+    protected ArrayList<DrawablePoint> points = new ArrayList<>();
+    protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
+    protected VIEW_TYPE view;
+
+    protected void getNearestPoint(int x, int y) {
+        double dist = Double.MAX_VALUE;
+        // System.out.println("getNearestPoint:" + points.size());
+        for (DrawablePoint p : points) {
+            double temp = PredimRC.distance(p, x, y);
+            if (p.isSelectable() && temp < dist) {
+                //    System.out.println("selectedPoint:" + p.toStringAll());
+                dist = temp;
+                selectedPoint.setSelected(false);
+                selectedPoint = p;
+                selectedPoint.setSelected(true);
+            }
+        }
+    }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -47,5 +71,18 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
         }
+        g.setColor(Color.blue);
+        g.drawString(info + infoAction, 10, 20);
+        g.setColor(Color.GRAY.brighter());
+        if (PredimRC.initDone) {
+            PredimRC.getInstanceDrawableModel().draw((Graphics2D) g, view);
+        }
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        PredimRC.logDebugln("changeModel in Panel:"+view);
+        points = PredimRC.getInstanceDrawableModel().getPoints(view);
+        repaint();
     }
 }

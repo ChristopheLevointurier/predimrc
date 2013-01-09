@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.model.element.Wing;
@@ -35,15 +36,15 @@ import predimrc.model.element.WingSection;
  */
 public class DrawableWing extends DrawableModelElement implements Iterable<DrawableWingSection>, AbstractDrawableWing {
 
-    /**
-     * Top view Points
-     */
-    private DrawablePoint frontPointTopView;
-    private DrawablePoint backPointTopView;
     private DrawablePoint connectionPointFrontView;
     private LinkedList<DrawableWingSection> drawableWingSection;
     private USED_FOR used_for;
     private float widthAtConnection;
+    /**
+     * Top view Points
+     */
+    protected DrawablePoint backPointTopView;
+    protected DrawablePoint frontPointTopView;
 
     public DrawableWing(USED_FOR _used_for, DrawableModel m) {
         super(m);
@@ -210,51 +211,53 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     /**
-     * Paint methods
+     * Paint method
      *
      * @param g
      */
-    @Override
-    public void drawTop(Graphics2D g) {
-        System.out.println("drawTop " + this);
-        for (DrawableWingSection d : this) {
-            d.drawTop(g);
-        }
-        frontPointTopView.draw(g);
-        backPointTopView.draw(g);
-
-        /*      
+    /*      
          
-         g.drawLine(previousFrontPoint.getIntX(),previousFrontPoint.getIntY(), frontPointTopView.getIntX(),
-         * frontPointTopView.getIntY()); g.drawLine(frontPointTopView.getIntX(),
-         * frontPointTopView.getIntY(), backPointTopView.getIntX(), backPointTopView.getIntY());
-         * g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-         * backPointTopView.getIntX(), backPointTopView.getIntY()); //miror
-         * g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
-         * previousFrontPoint.getIntX(), previousFrontPoint.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - frontPointTopView.getIntX(),
-         * frontPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2
-         * - frontPointTopView.getIntX(), frontPointTopView.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
-         * backPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
-         * previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-         * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
-         * backPointTopView.getIntY()); frontPointTopView.draw(g); backPointTopView.draw(g);
-         * previousFrontPoint.draw(g); previousBackPoint.draw(g);
-         */
-    }
-
+     g.drawLine(previousFrontPoint.getIntX(),previousFrontPoint.getIntY(), frontPointTopView.getIntX(),
+     * frontPointTopView.getIntY()); g.drawLine(frontPointTopView.getIntX(),
+     * frontPointTopView.getIntY(), backPointTopView.getIntX(), backPointTopView.getIntY());
+     * g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(),
+     * backPointTopView.getIntX(), backPointTopView.getIntY()); //miror
+     * g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
+     * previousFrontPoint.getIntX(), previousFrontPoint.getIntY(),
+     * DrawablePanel.MID_TOP_SCREEN_X * 2 - frontPointTopView.getIntX(),
+     * frontPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2
+     * - frontPointTopView.getIntX(), frontPointTopView.getIntY(),
+     * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
+     * backPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
+     * previousBackPoint.getIntX(), previousBackPoint.getIntY(),
+     * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
+     * backPointTopView.getIntY()); frontPointTopView.draw(g); backPointTopView.draw(g);
+     * previousFrontPoint.draw(g); previousBackPoint.draw(g);
+     */
     @Override
-    public void drawLeft(Graphics2D g) {
-        System.out.println("drawLeft " + this);
-    }
-
-    @Override
-    public void drawFront(Graphics2D g) {
-        connectionPointFrontView.draw(g);
+    public void draw(Graphics2D g, VIEW_TYPE view) {
         for (DrawableWingSection d : this) {
-            d.drawFront(g);
+            d.draw(g, view);
         }
+
+
+        switch (view) {
+            case FRONT_VIEW: {
+                connectionPointFrontView.draw(g);
+                break;
+            }
+
+            case TOP_VIEW: {
+                frontPointTopView.draw(g);
+                backPointTopView.draw(g);
+
+                break;
+            }
+            case LEFT_VIEW: {
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -273,22 +276,12 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     @Override
-    public ArrayList<DrawablePoint> getFrontPoints() {
+    public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (DrawableWingSection ws : this) {
-            ret.addAll(ws.getFrontPoints());
+            ret.addAll(ws.getPoints(view));
         }
         return ret;
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getBackPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getTopPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Wing generateModel() {

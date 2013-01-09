@@ -18,6 +18,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import predimrc.common.Utils.USED_FOR;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -218,24 +219,10 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     }
 
     @Override
-    public void drawTop(Graphics2D g) {
-        drawableFuselage.drawTop(g);
+    public void draw(Graphics2D g, VIEW_TYPE view) {
+        drawableFuselage.draw(g, view);
         for (DrawableWing d : this) {
-            d.drawTop(g);
-        }
-    }
-
-    @Override
-    public void drawLeft(Graphics2D g) {
-        System.out.println("drawLeft " + this);
-    }
-
-    @Override
-    public void drawFront(Graphics2D g) {
-        // System.out.println("drawFront " + this);
-        drawableFuselage.drawFront(g);
-        for (DrawableWing d : this) {
-            d.drawFront(g);
+            d.draw(g, view);
         }
     }
 
@@ -246,24 +233,13 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
      * (DrawablePoint p : points) { p.draw((Graphics2D) g); } *
      */
     @Override
-    public ArrayList<DrawablePoint> getFrontPoints() {
+    public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (DrawableWing w : this) {
-            ret.addAll(w.getFrontPoints());
+            ret.addAll(w.getPoints(view));
         }
-        ret.addAll(drawableFuselage.getFrontPoints());
-        System.out.println("Front point amount:" + ret.size());
+        ret.addAll(drawableFuselage.getPoints(view));
         return ret;
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getBackPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ArrayList<DrawablePoint> getTopPoints() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     //TODO

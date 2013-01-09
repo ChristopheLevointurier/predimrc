@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 
@@ -40,7 +41,7 @@ public class LeftPanel extends DrawablePanel {
     private Point wingPos = new Point(100, 50);
 
     public LeftPanel() {
-
+view= Utils.VIEW_TYPE.LEFT_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
         setSize(getPreferredSize());
         addMouseListener(new MouseAdapter() {

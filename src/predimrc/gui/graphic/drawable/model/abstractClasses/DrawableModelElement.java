@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 import predimrc.common.Dimension3D;
+import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.model.ModelElement;
@@ -35,7 +36,7 @@ public abstract class DrawableModelElement {
 
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
-
+   
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
         belongsTo = _belongsTo;
@@ -110,19 +111,12 @@ public abstract class DrawableModelElement {
         }
     }
 
-    abstract public ArrayList<DrawablePoint> getFrontPoints();
-
-    abstract public ArrayList<DrawablePoint> getBackPoints();
-
-    abstract public ArrayList<DrawablePoint> getTopPoints();
+    abstract public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view);
 
     abstract public void computePositions();
 
     abstract public int getIndexInBelongsTo();
 
-    abstract public void drawTop(Graphics2D g);
+    abstract public void draw(Graphics2D g,VIEW_TYPE view);
 
-    abstract public void drawLeft(Graphics2D g);
-
-    abstract public void drawFront(Graphics2D g);
 }
