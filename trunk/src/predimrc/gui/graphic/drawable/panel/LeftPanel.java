@@ -44,18 +44,20 @@ public class LeftPanel extends DrawablePanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
         setSize(getPreferredSize());
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 movePoint(e.getX(), e.getY());
             }
         });
 
         addMouseMotionListener(new MouseAdapter() {
+            @Override
             public void mouseDragged(MouseEvent e) {
                 movePoint(e.getX(), e.getY());
             }
         });
-        backgroundImage = PredimRC.getImage("pegleft.png");
-
+        //    backgroundImage = PredimRC.getImage("pegleft.png");
+        backgroundImage = PredimRC.getImage("left.png");
     }
 
     private void movePoint(int x, int y) {
@@ -66,8 +68,8 @@ public class LeftPanel extends DrawablePanel {
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(400, 200);
+    public final Dimension getPreferredSize() {
+        return new Dimension(460, 200);
     }
 
     @Override

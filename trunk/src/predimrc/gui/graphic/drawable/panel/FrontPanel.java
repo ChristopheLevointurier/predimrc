@@ -24,15 +24,15 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import predimrc.PredimRC;
-import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
-import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
-import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
+import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 
 /**
  *
@@ -44,9 +44,7 @@ import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 public class FrontPanel extends DrawablePanel {
 
     private ArrayList<DrawablePoint> points = new ArrayList<>();
-    private DrawablePoint selected = new DrawablePoint(0, 0); //to avoid NPE
-    //private DrawablePoint wingConnection = new DrawablePoint(380, 125);
-    //  private DrawablePoint tailConnection = new DrawablePoint(400, 55);
+    private DrawablePoint selectedPoint = new DrawablePoint(MID_FRONT_SCREEN_X, MID_FRONT_SCREEN_Y);
     private USED_FOR usedFor;
     private float currentDiedre;
 
@@ -60,13 +58,13 @@ public class FrontPanel extends DrawablePanel {
                 getNearestPoint(e.getX(), e.getY());
                 switch (usedFor) {
                     case MAIN_WING: {
-                        currentDiedre = ((DrawableWingSection) selected.getBelongsTo()).getDiedre();
-                        info = "Wing (" + ((DrawableWing) selected.getBelongsTo().getBelongsTo()).getIndexInBelongsTo() + ") section:" + selected.getBelongsTo().getIndexInBelongsTo();
+                        currentDiedre = ((DrawableWingSection) selectedPoint.getBelongsTo()).getDiedre();
+                        info = "Wing (" + ((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getIndexInBelongsTo() + ") section:" + selectedPoint.getBelongsTo().getIndexInBelongsTo();
                         break;
                     }
                     case HORIZONTAL_PLAN: {
-                        currentDiedre = ((DrawableWing) selected.getBelongsTo().getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
-                        info = "Tail (" + selected.getBelongsTo().getIndexInBelongsTo() + ") ";
+                        currentDiedre = ((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
+                        info = "Tail (" + selectedPoint.getBelongsTo().getIndexInBelongsTo() + ") ";
                         break;
                     }
                     case VERTICAL_PLAN: { //should not come here
@@ -94,22 +92,24 @@ public class FrontPanel extends DrawablePanel {
         });
 
         addMouseMotionListener(new MouseAdapter() {
+            @Override
             public void mouseMoved(MouseEvent e) {
                 //       System.out.println(e.getX() + ":" + e.getY());
             }
 
+            @Override
             public void mouseDragged(MouseEvent e) {
 
 // change diedre
                 switch (usedFor) {
                     case MAIN_WING: {
-                        int index = ((DrawableWingSection) selected.getBelongsTo()).getIndexInBelongsTo();
-                        currentDiedre = Utils.calcAngle(((DrawableWing) selected.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
+                        int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
                         break;
                     }
                     case HORIZONTAL_PLAN: {
-                        currentDiedre = ((DrawableWing) selected.getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
-                        currentDiedre = Utils.calcAngle(((DrawableWing) selected.getBelongsTo()).getPreviousPointForDiedre(0), e.getX(), e.getY());
+                        currentDiedre = ((DrawableWing) selectedPoint.getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo()).getPreviousPointForDiedre(0), e.getX(), e.getY());
                         break;
                     }
                     case VERTICAL_PLAN: { //TODO should not come here. See after for -90
@@ -117,7 +117,7 @@ public class FrontPanel extends DrawablePanel {
                         break;
                     }
                 }
-                ((AbstractDrawableWing) selected.getBelongsTo()).setDiedre(currentDiedre);
+                ((AbstractDrawableWing) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
                 applyDiedre();
             }
         });
@@ -130,14 +130,14 @@ public class FrontPanel extends DrawablePanel {
             case HORIZONTAL_PLAN: {
                 currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
                 currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
-                ((DrawableWing) selected.getBelongsTo()).setDiedre(currentDiedre);
+                ((DrawableWing) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
                 infoAction = " diedre : " + currentDiedre;
                 break;
             }
             case MAIN_WING: {
                 currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
                 currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
-                ((DrawableWingSection) selected.getBelongsTo()).setDiedre(currentDiedre);
+                ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
                 //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
                 infoAction = " diedre : " + currentDiedre;
                 break;
@@ -150,7 +150,7 @@ public class FrontPanel extends DrawablePanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(400, 200);
+        return new Dimension(460, 200);
     }
 
     @Override
@@ -180,12 +180,12 @@ public class FrontPanel extends DrawablePanel {
         for (DrawablePoint p : points) {
             double temp = PredimRC.distance(p, x, y);
             if (p.isSelectable() && temp < dist) {
-            //    System.out.println("selected:" + p.toStringAll());
+            //    System.out.println("selectedPoint:" + p.toStringAll());
                 dist = temp;
-                selected.setSelected(false);
-                selected = p;
-                selected.setSelected(true);
-                usedFor = ((DrawableWing) (selected.getBelongsTo().getBelongsTo())).getUsed_for();
+                selectedPoint.setSelected(false);
+                selectedPoint = p;
+                selectedPoint.setSelected(true);
+                usedFor = ((DrawableWing) (selectedPoint.getBelongsTo().getBelongsTo())).getUsed_for();
             }
         }
         return dist;
