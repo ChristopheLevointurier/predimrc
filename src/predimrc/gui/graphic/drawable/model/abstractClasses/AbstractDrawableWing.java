@@ -14,9 +14,9 @@ public interface AbstractDrawableWing {
 
     abstract public void setDiedre(float diedre);
 
-    abstract public DrawablePoint getFrontPoint();
+    abstract public DrawablePoint getFrontPointTopView();
 
-    abstract public DrawablePoint getBackPoint();
+    abstract public DrawablePoint getBackPointTopView();
 
     abstract public DrawablePoint getDiedrePoint();
 }
