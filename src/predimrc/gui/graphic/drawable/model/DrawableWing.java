@@ -81,7 +81,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         drawableWingSection = new LinkedList<>();
 
         for (WingSection ws : w.getWingsSection()) {
-            System.out.println("###########" + ws.getPositionDimension3D() + "############");
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), this));
         }
         frontPoint = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
@@ -93,7 +92,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
-        System.out.println("Compute position in DrawableWing");
         connectionPoint = new DrawablePoint(getyPos(), getzPos(), false, belongsTo);
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();

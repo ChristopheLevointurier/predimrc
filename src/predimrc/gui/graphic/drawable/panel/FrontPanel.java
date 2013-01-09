@@ -75,7 +75,7 @@ public class FrontPanel extends DrawablePanel {
                         break;
                     }
                 }
-                info += " diedre:" + currentDiedre;
+                infoAction = " diedre:" + currentDiedre;
                 repaint();
             }
 
@@ -131,7 +131,7 @@ public class FrontPanel extends DrawablePanel {
                 currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
                 currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
                 ((DrawableWing) selected.getBelongsTo()).setDiedre(currentDiedre);
-                info = "Tail " + selected.getBelongsTo().getIndexInBelongsTo() + " diedre : " + currentDiedre;
+                infoAction = " diedre : " + currentDiedre;
                 break;
             }
             case MAIN_WING: {
@@ -139,7 +139,7 @@ public class FrontPanel extends DrawablePanel {
                 currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
                 ((DrawableWingSection) selected.getBelongsTo()).setDiedre(currentDiedre);
                 //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
-                info = "Wing diedre , section:" + selected.getBelongsTo().getIndexInBelongsTo() + ": " + currentDiedre;
+                infoAction = " diedre : " + currentDiedre;
                 break;
             }
             case VERTICAL_PLAN: {
@@ -157,7 +157,7 @@ public class FrontPanel extends DrawablePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.blue);
-        g.drawString(info, 10, 20);
+        g.drawString(info + infoAction, 10, 20);
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {
             PredimRC.getInstanceDrawableModel().drawFront((Graphics2D) g);
@@ -171,17 +171,16 @@ public class FrontPanel extends DrawablePanel {
     public void updateModel(DrawableModel m) {
         PredimRC.logDebugln("changeModel in FrontPanel");
         points = PredimRC.getInstanceDrawableModel().getFrontPoints();
-        //      DrawablePoint newpoint = Utils.getCoordOnCircle(previous, w.getDiedre(), w.getLenght());
         repaint();
     }
 
     private double getNearestPoint(int x, int y) {
         double dist = Double.MAX_VALUE;
-        System.out.println("getNearestPoint:" + points.size());
+       // System.out.println("getNearestPoint:" + points.size());
         for (DrawablePoint p : points) {
             double temp = PredimRC.distance(p, x, y);
             if (p.isSelectable() && temp < dist) {
-                System.out.println("selected:" + p.toStringAll());
+            //    System.out.println("selected:" + p.toStringAll());
                 dist = temp;
                 selected.setSelected(false);
                 selected = p;
