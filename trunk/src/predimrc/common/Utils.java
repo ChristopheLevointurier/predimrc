@@ -14,6 +14,7 @@
  */
 package predimrc.common;
 
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
@@ -54,5 +55,9 @@ public class Utils {
     public static enum USED_FOR {
 
         MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
+    }
+
+    public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
+        g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
     }
 }
