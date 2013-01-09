@@ -35,6 +35,7 @@ public abstract class DrawableModelElement {
 
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
+    protected boolean pointsCalculed = false;
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);

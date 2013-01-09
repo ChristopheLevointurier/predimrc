@@ -50,6 +50,9 @@ public class TopPanel extends DrawablePanel {
      * field used while interact with gui
      */
     //   private int indexWing = -1;
+    private boolean front = false;
+    private boolean back = false;
+
     /**
      * Constructor
      */
@@ -74,17 +77,27 @@ public class TopPanel extends DrawablePanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (selectedElement instanceof DrawableWing) {
-                 //   System.out.println("" + selectedElement);
+                      System.out.println("" + selectedElement+" "+selectedPoint);
+                    //move wingConnection
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointTopView())) {
-                        //move wingConnection
+
                         int xpos = e.getX() > MID_TOP_SCREEN_X ? MID_TOP_SCREEN_X : e.getX();
                         selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
-                        infoAction = " moved to : (" + selectedElement.getPositionDimension3D();
+                        infoAction = " moved to : " + selectedElement.getPositionDimension3D();
                     }
+
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointTopView())) {
+                        //resize width
+                        int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
+                        if (newlenght > 1) {
+                            ((DrawableWing) selectedElement).setWidthAtConnection(newlenght);
+                            infoAction = " Width=" + newlenght;
+                        }
+                    }
+
+
+
                 }
-
-
-
                 /**
                  * if (selectedPoint.equals(selectedwing.getFrontPoint()))
                  * {//resize length and fleche int newlenght =
@@ -118,15 +131,6 @@ public class TopPanel extends DrawablePanel {
                  * e.getY());
                  * PredimRC.getInstanceDrawableModel().getWings().get(0).setPosXY(xpos,
                  * e.getY()); info = "wingConnection: (" + e.getY() + "," + xpos
-                 * + ")"; infoDetail = ""; }
-                 *
-                 * //move tail if (drawablePointtailConnection.isSelected()) {
-                 * System.out.println(" poifpsoijf psoidjf sopidfj sopidfjsopqij
-                 * fspodij "); int xpos = e.getX() > MID_TOP_SCREEN_X ?
-                 * MID_TOP_SCREEN_X : e.getX();
-                 * drawablePointtailConnection.setFloatLocation(xpos, e.getY());
-                 * PredimRC.getInstanceDrawableModel().getTail().get(0).setPosXY(xpos,
-                 * e.getY()); info = "tailConnection: (" + e.getY() + "," + xpos
                  * + ")"; infoDetail = ""; }
                  *
                  */
