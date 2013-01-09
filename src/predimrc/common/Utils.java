@@ -57,6 +57,11 @@ public class Utils {
         MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
     }
 
+    public static enum VIEW_TYPE {
+
+        FRONT_VIEW, TOP_VIEW, LEFT_VIEW;
+    }
+
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
         g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
     }
