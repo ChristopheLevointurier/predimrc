@@ -92,12 +92,12 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         if (!pointsCalculed) {
             connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection(), true, this);
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth(), true, this);
             pointsCalculed = true;
         } else {
             connectionPointFrontView.setFloatLocation(yPos, zPos);
             frontPointTopView.setFloatLocation(yPos, xPos);
-            backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidthAtConnection());
+            backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth());
         }
 
         for (DrawableWingSection ds : drawableWingSection) {
@@ -181,11 +181,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      * Getters and setters
      *
      */
-    public final float getWidthAtConnection() {
+    @Override
+    public float getWidth() {
         return widthAtConnection;
     }
 
-    public void setWidthAtConnection(float widthAtConnection) {
+    @Override
+    public void setWidth(float widthAtConnection) {
         this.widthAtConnection = widthAtConnection;
         apply();
     }

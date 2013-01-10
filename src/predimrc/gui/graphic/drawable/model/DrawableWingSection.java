@@ -295,4 +295,5 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     public String toInfoString() {
         return belongsTo.toInfoString() + " section:" + (getIndexInBelongsTo() + 1);
     }
+
 }
