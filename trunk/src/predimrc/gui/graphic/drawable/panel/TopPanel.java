@@ -48,11 +48,14 @@ public class TopPanel extends DrawablePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
-                        ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
-                    }
-                    if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
-                        ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView().getFloatY() - ((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView().getFloatY()));
+
+                    if (selectedElement instanceof AbstractDrawableWing) {
+                        if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
+                            ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
+                        }
+                        if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
+                            ((AbstractDrawableWing) selectedElement).setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, ""+ (((AbstractDrawableWing) selectedElement).getWidth()))));
+                        }
                     }
                 }
             }
@@ -73,7 +76,7 @@ public class TopPanel extends DrawablePanel {
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointTopView())) {
                         int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
-                            ((DrawableWing) selectedElement).setWidthAtConnection(newlenght);
+                            ((DrawableWing) selectedElement).setWidth(newlenght);
                             infoAction = " Width=" + newlenght;
                         }
                     }
