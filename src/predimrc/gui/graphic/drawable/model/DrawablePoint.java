@@ -20,7 +20,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
-import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 
 /**
@@ -184,8 +183,12 @@ public class DrawablePoint {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setSelected(boolean _selected) {
+        selected = _selected;
+    }
+
+    public void setSelectable(boolean _selectable) {
+        selectable = _selectable;
     }
 
     public boolean isSelectable() {
