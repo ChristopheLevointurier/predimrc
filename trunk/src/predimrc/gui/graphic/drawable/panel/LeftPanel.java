@@ -23,6 +23,10 @@ import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
+import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
+import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 
 /**
  *
@@ -37,17 +41,39 @@ public class LeftPanel extends DrawablePanel {
         view = Utils.VIEW_TYPE.LEFT_VIEW;
         setBorder(BorderFactory.createLineBorder(Color.black));
         setSize(getPreferredSize());
-        addMouseListener(new MouseAdapter() {
+         addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                //
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                  /**  try {
+                        currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, "" + currentDiedre));
+                        applyDiedre();
+                    } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                        PredimRC.logln("Invalid diedre value typed");
+                    }
+                    repaint();**/
+                }
             }
         });
 
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                //
+                if (selectedElement instanceof DrawableWing) {
+                    //move wingConnection
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointLeftView())) {
+                        selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
+                        infoAction = " moved to : " + selectedElement.getPositionDimension3D();
+                    }
+                    //resize angle
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView())) {
+                     //   int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
+                     //   if (newlenght > 1) {
+                     //       ((DrawableWing) selectedElement).setWidth(newlenght);
+                     //       infoAction = " Width=" + newlenght;
+                     //   }
+                    }
+                }
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
