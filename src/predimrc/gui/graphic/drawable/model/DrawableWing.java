@@ -102,7 +102,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();
+            if (used_for.equals(USED_FOR.HORIZONTAL_PLAN)) {
+                ds.getDiedrePoint().setSelectable(ds.equals(drawableWingSection.getLast()));
+            }
         }
+
     }
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
@@ -154,7 +158,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 wingsTemp.add(drawableWingSection.remove(0));
             } else {
                 // if (wingsTemp.isEmpty()) {                    wingsTemp.add(new DrawableWingSection(0, 0, 10, 10, 10, this));                } else {
-                wingsTemp.add(new DrawableWingSection(wingsTemp.get(wingsTemp.size()-1), this));
+                wingsTemp.add(new DrawableWingSection(wingsTemp.get(wingsTemp.size() - 1), this));
                 //  }
             }
         }
@@ -202,9 +206,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     @Override
-    public void setDiedre(float diedre) {
-        for (DrawableWingSection w : (ArrayList<DrawableWingSection>) drawableWingSection.clone()) {
-            w.setDiedre(diedre);
+    public void setDiedre(float _diedre) {
+        for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
+            w.setDiedre(_diedre, true);
         }
         apply();
     }

@@ -126,11 +126,24 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     }
 
     @Override
-    public void setDiedre(float diedre) {
-        this.diedre = diedre;
+    public void setDiedre(float _diedre) {
+        if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN)) {
+            ((DrawableWing) belongsTo).setDiedre(_diedre);
+            return;
+        }
+        diedre = _diedre;
         apply();
     }
 
+    public void setDiedre(float _diedre, boolean silent) {
+        if (silent) {
+            diedre = _diedre;
+        } else {
+            setDiedre(diedre);
+        }
+    }
+
+    @Override
     public void setWidth(float _width) {
         width = _width;
         apply();
@@ -194,7 +207,9 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setzPos(previous.getDiedrePoint().getFloatY());
         } else {
             previous = (AbstractDrawableWing) belongsTo;
+            setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
+
 
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
         if (!pointsCalculed) {
@@ -295,5 +310,4 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     public String toInfoString() {
         return belongsTo.toInfoString() + " section:" + (getIndexInBelongsTo() + 1);
     }
-
 }
