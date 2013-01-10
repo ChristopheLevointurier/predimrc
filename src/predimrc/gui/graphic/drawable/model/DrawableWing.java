@@ -154,7 +154,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 wingsTemp.add(drawableWingSection.remove(0));
             } else {
                 // if (wingsTemp.isEmpty()) {                    wingsTemp.add(new DrawableWingSection(0, 0, 10, 10, 10, this));                } else {
-                wingsTemp.add(new DrawableWingSection(wingsTemp.get(wingsTemp.size()), this));
+                wingsTemp.add(new DrawableWingSection(wingsTemp.get(wingsTemp.size()-1), this));
                 //  }
             }
         }
