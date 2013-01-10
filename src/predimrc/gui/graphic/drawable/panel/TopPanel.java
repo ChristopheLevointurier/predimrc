@@ -50,11 +50,15 @@ public class TopPanel extends DrawablePanel {
                 if (e.getClickCount() == 2) {
 
                     if (selectedElement instanceof AbstractDrawableWing) {
-                        if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
-                            ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
-                        }
-                        if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
-                            ((AbstractDrawableWing) selectedElement).setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, ""+ (((AbstractDrawableWing) selectedElement).getWidth()))));
+                        try {
+                            if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
+                                ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
+                            }
+                            if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
+                                ((AbstractDrawableWing) selectedElement).setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((AbstractDrawableWing) selectedElement).getWidth()))));
+                            }
+                        } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                            PredimRC.logln("Invalid value typed");
                         }
                     }
                 }
