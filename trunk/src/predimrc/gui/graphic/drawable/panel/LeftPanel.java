@@ -56,6 +56,6 @@ public class LeftPanel extends DrawablePanel {
 
     @Override
     public final Dimension getPreferredSize() {
-        return new Dimension(460, 200);
+        return new Dimension(Utils.LEFT_SCREEN_X, Utils.LEFT_SCREEN_Y);
     }
 }

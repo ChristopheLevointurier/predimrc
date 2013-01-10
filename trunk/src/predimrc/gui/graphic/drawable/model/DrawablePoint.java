@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import predimrc.common.Dimension3D;
+import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 
@@ -132,7 +133,7 @@ public class DrawablePoint {
     }
 
     public DrawablePoint getMirrorTop() {
-        return new DrawablePoint(DrawablePanel.TOP_SCREEN_X - x, y);
+        return new DrawablePoint(Utils.TOP_SCREEN_X - x, y);
     }
 
     /**
