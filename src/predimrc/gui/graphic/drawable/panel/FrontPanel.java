@@ -65,16 +65,13 @@ public class FrontPanel extends DrawablePanel {
             public void mouseDragged(MouseEvent e) {
                 // change diedre
                 switch (((AbstractDrawableWing) selectedElement).getUsedFor()) {
-                    case MAIN_WING: {
+                    case MAIN_WING:
+                    case HORIZONTAL_PLAN: {
                         int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
                         currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
                         break;
                     }
-                    case HORIZONTAL_PLAN: {
-                        currentDiedre = ((DrawableWing) selectedPoint.getBelongsTo()).get(0).getDiedre(); //all diedre are same in tail
-                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo()).getPreviousPointForDiedre(0), e.getX(), e.getY());
-                        break;
-                    }
+
                     case VERTICAL_PLAN: { //TODO should not come here. See after for -90
                         currentDiedre = 90;
                         break;
@@ -93,22 +90,19 @@ public class FrontPanel extends DrawablePanel {
             case HORIZONTAL_PLAN: {
                 currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
                 currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
-                ((DrawableWing) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
-                infoAction = " diedre : " + currentDiedre;
                 break;
             }
             case MAIN_WING: {
                 currentDiedre = currentDiedre > 30 ? 30 : currentDiedre;
                 currentDiedre = currentDiedre < -30 ? -30 : currentDiedre;
-                ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
-                //   movePoint(Utils.getCoordOnCircle(ref, currentDiedre, PredimRC.getInstance().getModel().getWings().get(indexWing).getLenght()));
-                infoAction = " diedre : " + currentDiedre;
                 break;
             }
             case VERTICAL_PLAN: {
-                break;
+                return;
             }
         }
+        ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
+        infoAction = " diedre : " + currentDiedre;
     }
 
     @Override
