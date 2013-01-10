@@ -34,9 +34,15 @@ public class Utils {
     public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 55;
     public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 25;
     public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
-    public static final Dimension3D defaultWingConnection = new Dimension3D(125, 435, 125);
-    public static final Dimension3D defaultTailConnection = new Dimension3D(350, DrawablePanel.TOP_SCREEN_X/2, 85);
-    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, DrawablePanel.TOP_SCREEN_X/2, 135);
+    public static final int LEFT_SCREEN_X = 450;
+    public static final int TOP_SCREEN_Y = 450;
+    public static final int LEFT_SCREEN_Y = 200;
+    public static final int FRONT_SCREEN_X = 450;
+    public static final int FRONT_SCREEN_Y = 200;
+    public static final int TOP_SCREEN_X = 900;
+    public static final Dimension3D defaultWingConnection = new Dimension3D(125, TOP_SCREEN_X / 2 - 10, 125);
+    public static final Dimension3D defaultTailConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 85);
+    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 135);
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg + 180);

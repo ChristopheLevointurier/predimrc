@@ -69,12 +69,10 @@ import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO . utiliser les extensions du model. calculer les points et les recuperer
- * pour le dessin diedre puis topview
- *
- *
- * -finir pop ups -ajouter -faire un DrawableModel, et l'abonner a modelistener
- * -ajouter l'invocation de computecoord dans le gestionnaire de listeners
+ * TODO . 
+ * -check calcul diedrepoints. (use frontpoints en 3d?)
+ * 
+ * -finir pop ups -ajouter 
  * Mettre les combobox dans les popups.
  *
  * sauver config 3D.
@@ -95,7 +93,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.3.1";
+    private static final String VERSION = "Alpha 0.3.2";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";

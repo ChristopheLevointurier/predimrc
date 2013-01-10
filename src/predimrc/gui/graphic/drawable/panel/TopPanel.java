@@ -65,7 +65,7 @@ public class TopPanel extends DrawablePanel {
                     //move wingConnection
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointTopView())) {
 
-                        int xpos = e.getX() > TOP_SCREEN_X/2 ? TOP_SCREEN_X/2 : e.getX();
+                        int xpos = e.getX() > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : e.getX();
                         selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
                         infoAction = " moved to : " + selectedElement.getPositionDimension3D();
                     }
@@ -106,6 +106,6 @@ public class TopPanel extends DrawablePanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(930, 400);
+        return new Dimension(Utils.TOP_SCREEN_X, Utils.TOP_SCREEN_Y);
     }
 }

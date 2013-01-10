@@ -113,6 +113,6 @@ public class FrontPanel extends DrawablePanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(460, 200);
+        return new Dimension(Utils.FRONT_SCREEN_X, Utils.FRONT_SCREEN_Y);
     }
 }
