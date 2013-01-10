@@ -15,10 +15,7 @@
  */
 package predimrc.gui.widget;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.InputMap;
@@ -27,8 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
+import predimrc.PredimRC;
 
 /**
  *
@@ -50,7 +47,7 @@ public class MegaLabel extends JPanel {
         value.setBackground(backColor);
         editable = _editable;
         value.setEditable(editable);
-        this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(name);
         add(value);
         setVisible(true);
@@ -83,8 +80,19 @@ public class MegaLabel extends JPanel {
         return editable;
     }
 
-    public void setEditable(boolean editable) {
-        editable = editable;
+    public float getFloatValue() {
+        float ret = 0;
+        try {
+            ret = Float.parseFloat(getValue());
+        } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+            PredimRC.logln("Invalid value typed");
+            ret = Float.MIN_VALUE;
+        }
+        return ret;
+    }
+
+    public void setEditable(boolean _editable) {
+        editable = _editable;
         value.setEditable(editable);
     }
 
