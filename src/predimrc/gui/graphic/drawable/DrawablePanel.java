@@ -41,12 +41,12 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected Image backgroundImage;
     protected String info = "Select an object"; //TODO change to StringBuffer in the future.
     protected String infoAction = " to modify its value."; //TODO change to StringBuffer in the future.
-    public static final int MID_FRONT_SCREEN_X = 200;
-    public static final int MID_FRONT_SCREEN_Y = 100;
-    public static final int MID_LEFT_SCREEN_X = 200;
-    public static final int MID_LEFT_SCREEN_Y = 100;
-    public static final int MID_TOP_SCREEN_X = 460;
-    public static final int MID_TOP_SCREEN_Y = 150;
+    public static final int FRONT_SCREEN_X = 400;
+    public static final int FRONT_SCREEN_Y = 200;
+    public static final int LEFT_SCREEN_X = 400;
+    public static final int LEFT_SCREEN_Y = 200;
+    public static final int TOP_SCREEN_X = 920;
+    public static final int TOP_SCREEN_Y = 300;
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
     protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     protected VIEW_TYPE view;

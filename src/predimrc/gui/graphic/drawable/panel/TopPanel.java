@@ -24,6 +24,7 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
@@ -36,22 +37,6 @@ import predimrc.gui.graphic.popup.ConfigWing_PopUp;
  * @since
  */
 public class TopPanel extends DrawablePanel {
-
-    //  private ArrayList<DrawablePoint> wingPoints2 = new ArrayList<>();
-    //   private ArrayList<DrawablePoint> tailPoints = new ArrayList<>();
-    //  private ArrayList<DrawablePoint> tailPoints2 = new ArrayList<>();
-    //   private Point2D.Float wingConnection = new Point2D.Float(Utils.defaultWingConnection.getY(), Utils.defaultWingConnection.getX());
-    //  private Point2D.Float tailConnection = new Point2D.Float(Utils.defaultTailConnection.getY(), Utils.defaultTailConnection.getX());
-    /**
-     * *
-     */
-    //   private boolean onTail = false;
-    /**
-     * field used while interact with gui
-     */
-    //   private int indexWing = -1;
-    private boolean front = false;
-    private boolean back = false;
 
     /**
      * Constructor
@@ -77,63 +62,42 @@ public class TopPanel extends DrawablePanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (selectedElement instanceof DrawableWing) {
-                      System.out.println("" + selectedElement+" "+selectedPoint);
                     //move wingConnection
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointTopView())) {
 
-                        int xpos = e.getX() > MID_TOP_SCREEN_X ? MID_TOP_SCREEN_X : e.getX();
+                        int xpos = e.getX() > TOP_SCREEN_X/2 ? TOP_SCREEN_X/2 : e.getX();
                         selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
                         infoAction = " moved to : " + selectedElement.getPositionDimension3D();
                     }
-
+                    //resize width
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointTopView())) {
-                        //resize width
                         int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
                             ((DrawableWing) selectedElement).setWidthAtConnection(newlenght);
                             infoAction = " Width=" + newlenght;
                         }
                     }
-
-
+                }
+                if (selectedElement instanceof DrawableWingSection) {
+                    //change  length & fleche
+                    if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
+                        int newlenght = ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getIntX() - e.getX();
+                        float newFleche = Utils.calcAngle(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), e.getX(), e.getY());
+                        ((DrawableWingSection) selectedElement).setFleche(newFleche);
+                        if (newlenght > 1) {
+                            ((DrawableWingSection) selectedElement).setLenght(newlenght);
+                        }
+                        infoAction = " Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY());
+                    }
+                    if (selectedPoint.equals(((DrawableWingSection) selectedElement).getBackPointTopView())) {
+                        int newlenght = e.getY() - ((DrawableWingSection) selectedElement).getFrontPointTopView().getIntY();
+                        if (newlenght > 1) {
+                            ((DrawableWingSection) selectedElement).setWidth(newlenght);
+                            infoAction = " Width=" + newlenght;
+                        }
+                    }
 
                 }
-                /**
-                 * if (selectedPoint.equals(selectedwing.getFrontPoint()))
-                 * {//resize length and fleche int newlenght =
-                 * selectedwing.getPreviousFrontPoint().getIntX() - e.getX();
-                 * float newFleche = Utils.calcAngle(new
-                 * Point2D.Float(selectedwing.getPreviousFrontPoint().getFloatX(),
-                 * selectedwing.getPreviousFrontPoint().getFloatY()), e.getX(),
-                 * e.getY()); selectedwing.getSection().setFleche(newFleche); if
-                 * (newlenght > 1) {
-                 * selectedwing.getSection().setLenght(newlenght); } infoDetail
-                 * = " Lenght=" + newlenght + ", Fleche=" + (e.getY() -
-                 * selectedwing.getPreviousFrontPoint().getFloatY());
-                 *
-                 * }
-                 * if (selectedPoint.equals(selectedwing.getBackPoint()))
-                 * {//resize width2 int newlenght = e.getY() -
-                 * selectedwing.getFrontPoint().getIntY(); if (newlenght > 1) {
-                 * selectedwing.getSection().setWidth_2(newlenght); infoDetail =
-                 * " Width2=" + newlenght; } }
-                 *
-                 * if
-                 * (selectedPoint.equals(selectedwing.getPreviousBackPoint()))
-                 * {//resize width1 int newlenght = e.getY() -
-                 * selectedwing.getPreviousFrontPoint().getIntY(); if (newlenght
-                 * > 1) { selectedwing.getSection().setWidth_1(newlenght);
-                 * infoDetail = " Width1=" + newlenght; } }
-                 *
-                 * //move wing if (drawablePointwingConnection.isSelected()) {
-                 * int xpos = e.getX() > MID_TOP_SCREEN_X ? MID_TOP_SCREEN_X :
-                 * e.getX(); drawablePointwingConnection.setFloatLocation(xpos,
-                 * e.getY());
-                 * PredimRC.getInstanceDrawableModel().getWings().get(0).setPosXY(xpos,
-                 * e.getY()); info = "wingConnection: (" + e.getY() + "," + xpos
-                 * + ")"; infoDetail = ""; }
-                 *
-                 */
             }
         });
 

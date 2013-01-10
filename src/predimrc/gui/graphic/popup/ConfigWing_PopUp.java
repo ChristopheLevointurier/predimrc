@@ -16,6 +16,8 @@ package predimrc.gui.graphic.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.widget.MegaCombo;
 
@@ -39,6 +41,13 @@ public class ConfigWing_PopUp {
     private ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo) {
         drawableBelongsTo = _drawableBelongsTo;
         predimrc.PredimRC.logln("Pop up " + drawableBelongsTo);
+
+
+
+        if (drawableBelongsTo instanceof DrawableWing) {//config  wing
+        }
+        if (drawableBelongsTo instanceof DrawableWingSection) {// config wingsection
+        }
 
         //   setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
         //   add(nbrCombo);
