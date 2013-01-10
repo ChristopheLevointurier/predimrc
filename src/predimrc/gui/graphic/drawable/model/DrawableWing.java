@@ -14,6 +14,8 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -45,6 +47,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     protected DrawablePoint backPointTopView;
     protected DrawablePoint frontPointTopView;
+    /**
+     * Left view point
+     */
+    protected DrawablePoint backPointLeftView;
+    protected DrawablePoint frontPointLeftView;
 
     public DrawableWing(USED_FOR _used_for, DrawableModel m) {
         super(m);
@@ -93,11 +100,16 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth(), true, this);
+
+            frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
+            backPointLeftView = new DrawablePoint(frontPointLeftView.getFloatX() + getWidth(), frontPointLeftView.getFloatY(), true, this);
             pointsCalculed = true;
         } else {
             connectionPointFrontView.setFloatLocation(yPos, zPos);
             frontPointTopView.setFloatLocation(yPos, xPos);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth());
+            frontPointLeftView.setFloatLocation(xPos, zPos);
+            backPointLeftView.setFloatLocation(frontPointLeftView.getFloatX() + getWidth(), frontPointLeftView.getFloatY());
         }
 
         for (DrawableWingSection ds : drawableWingSection) {
@@ -176,6 +188,14 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         return backPointTopView;
     }
 
+    public DrawablePoint getBackPointLeftView() {
+        return backPointLeftView;
+    }
+
+    public DrawablePoint getFrontPointLeftView() {
+        return frontPointLeftView;
+    }
+
     @Override
     public DrawablePoint getDiedrePoint() {
         return drawableWingSection.getLast().getDiedrePoint();
@@ -250,6 +270,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 break;
             }
             case LEFT_VIEW: {
+                g.setStroke(new BasicStroke(4));
+                g.setColor(Color.GRAY.brighter());
+                Utils.drawline(frontPointLeftView, backPointLeftView, g);
+                frontPointLeftView.draw(g);
+                backPointLeftView.draw(g);
                 break;
             }
         }
@@ -289,6 +314,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 break;
             }
             case LEFT_VIEW: {
+                ret.add(frontPointLeftView);
+                ret.add(backPointLeftView);
                 break;
             }
         }
