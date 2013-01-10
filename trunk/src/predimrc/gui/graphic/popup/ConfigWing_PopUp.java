@@ -16,10 +16,17 @@ package predimrc.gui.graphic.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import predimrc.PredimRC;
+import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
-import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.widget.MegaCombo;
+import predimrc.gui.widget.MegaLabel;
 
 /**
  * Pop up to modify a wing config: amount of section, positionXYZ
@@ -29,39 +36,82 @@ import predimrc.gui.widget.MegaCombo;
  * @see
  * @since
  */
-public class ConfigWing_PopUp {
+public class ConfigWing_PopUp extends JFrame {
 
     private DrawableModelElement drawableBelongsTo;
     private MegaCombo nbrCombo = new MegaCombo("Number of section:", true, "1", "2", "3", "4", "5");
+    private MegaLabel xposLabel = new MegaLabel("Xpos:", true);
+    private MegaLabel yposLabel = new MegaLabel("Ypos:", true);
+    private MegaLabel zposLabel = new MegaLabel("Zpos:", true);
+    private JButton okBut = new JButton("Ok");
+    private JButton cancelBut = new JButton("Cancel");
 
     public static ConfigWing_PopUp MakePopup(DrawableModelElement _drawableBelongsTo) {
         return new ConfigWing_PopUp(_drawableBelongsTo);
     }
 
     private ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo) {
+        super("Structure and position Configuration");
         drawableBelongsTo = _drawableBelongsTo;
-        predimrc.PredimRC.logln("Pop up " + drawableBelongsTo);
+        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo);
+
+
+        JPanel pos = new JPanel();
+        pos.setLayout(new BoxLayout(pos, BoxLayout.Y_AXIS));
+        pos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Position:"));
+        xposLabel.setValue("" + drawableBelongsTo.getxPos());
+        yposLabel.setValue("" + drawableBelongsTo.getyPos());
+        zposLabel.setValue("" + drawableBelongsTo.getzPos());
+        nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
+        pos.add(xposLabel);
+        pos.add(yposLabel);
+        pos.add(zposLabel);
 
 
 
-        if (drawableBelongsTo instanceof DrawableWing) {//config  wing
-        }
-        if (drawableBelongsTo instanceof DrawableWingSection) {// config wingsection
-        }
+        JPanel but = new JPanel();
+        but.setLayout(new BoxLayout(but, BoxLayout.X_AXIS));
+        but.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder()));
+        but.add(okBut);
+        but.add(cancelBut);
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        getContentPane().add(nbrCombo);
+        getContentPane().add(pos);
+        getContentPane().add(but);
+        pack();
+        setResizable(true);
+        setLocationRelativeTo(null);
+        setIconImage(predimrc.PredimRC.icon);
+        setVisible(true);
 
-        //   setLayout(new BoxLayout(structure_panel, BoxLayout.Y_AXIS));
-        //   add(nbrCombo);
-
+        /**
+         * if (drawableBelongsTo instanceof DrawableWing) {//config wing }
+         *
+         */
         /**
          * *******---structure widgets----****
          */
         nbrCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //       PredimRC.getInstanceDrawableModel().getWings().get(0).setWingSectionNumber(Integer.parseInt(wingCombo.getValue()));
-                //       ModelController.applyChange();
+                ((DrawableWing) drawableBelongsTo).setDrawableWingSectionNumber(Integer.parseInt(nbrCombo.getValue()));
+                ModelController.applyChange();
             }
         });
 
+        okBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
+                ModelController.applyChange();
+                dispose();
+            }
+        });
+
+        cancelBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.logln("Action cancelled by user.");
+                dispose();
+            }
+        });
 
     }
 }

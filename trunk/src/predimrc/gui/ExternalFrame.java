@@ -73,6 +73,7 @@ public abstract class ExternalFrame extends JFrame {
         setVisible(true);
         final ExternalFrame frame = this;
         Action actionListener = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 PredimRC.logDebugln("Esc from" + title);
                 Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -119,6 +120,7 @@ public abstract class ExternalFrame extends JFrame {
 
     public abstract void save();
 
+    @Override
     public String getTitle() {
         return title;
     }
