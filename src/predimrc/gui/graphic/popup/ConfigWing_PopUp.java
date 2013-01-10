@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
@@ -43,6 +44,8 @@ public class ConfigWing_PopUp extends JFrame {
     private MegaLabel xposLabel = new MegaLabel("Xpos:", true);
     private MegaLabel yposLabel = new MegaLabel("Ypos:", true);
     private MegaLabel zposLabel = new MegaLabel("Zpos:", true);
+    private MegaLabel flecheLabel = new MegaLabel("Fleche:", true);
+    private MegaLabel lengthLabel = new MegaLabel("Length:", true);
     private JButton okBut = new JButton("Ok");
     private JButton cancelBut = new JButton("Cancel");
 
@@ -54,19 +57,68 @@ public class ConfigWing_PopUp extends JFrame {
         super("Structure and position Configuration");
         drawableBelongsTo = _drawableBelongsTo;
         predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo);
+        JPanel widgets = new JPanel();
+        widgets.setLayout(new BoxLayout(widgets, BoxLayout.Y_AXIS));
+
+        if (drawableBelongsTo instanceof DrawableWing) {//config wing 
+            JPanel pos = new JPanel();
+            pos.setLayout(new BoxLayout(pos, BoxLayout.Y_AXIS));
+            pos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Position:"));
+            xposLabel.setValue("" + drawableBelongsTo.getxPos());
+            yposLabel.setValue("" + drawableBelongsTo.getyPos());
+            zposLabel.setValue("" + drawableBelongsTo.getzPos());
+            nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
+            pos.add(xposLabel);
+            pos.add(yposLabel);
+            pos.add(zposLabel);
+
+            widgets.add(nbrCombo);
+            widgets.add(pos);
 
 
-        JPanel pos = new JPanel();
-        pos.setLayout(new BoxLayout(pos, BoxLayout.Y_AXIS));
-        pos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Position:"));
-        xposLabel.setValue("" + drawableBelongsTo.getxPos());
-        yposLabel.setValue("" + drawableBelongsTo.getyPos());
-        zposLabel.setValue("" + drawableBelongsTo.getzPos());
-        nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
-        pos.add(xposLabel);
-        pos.add(yposLabel);
-        pos.add(zposLabel);
+            nbrCombo.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ((DrawableWing) drawableBelongsTo).setDrawableWingSectionNumber(Integer.parseInt(nbrCombo.getValue()));
+                    ModelController.applyChange();
+                }
+            });
 
+            okBut.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
+                    ModelController.applyChange();
+                    dispose();
+                }
+            });
+
+
+
+        } else // config WingSection
+        {
+            flecheLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFleche());
+            lengthLabel.setValue("" + +((DrawableWingSection) drawableBelongsTo).getLenght());
+            widgets.add(flecheLabel);
+            widgets.add(lengthLabel);
+
+            okBut.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    ((DrawableWingSection) drawableBelongsTo).setFleche(flecheLabel.getFloatValue());
+                    ((DrawableWingSection) drawableBelongsTo).setLenght(lengthLabel.getFloatValue());
+                    ModelController.applyChange();
+                    dispose();
+                }
+            });
+
+        }
+
+
+
+        cancelBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.logln("Action cancelled by user.");
+                dispose();
+            }
+        });
 
 
         JPanel but = new JPanel();
@@ -75,43 +127,17 @@ public class ConfigWing_PopUp extends JFrame {
         but.add(okBut);
         but.add(cancelBut);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        getContentPane().add(nbrCombo);
-        getContentPane().add(pos);
+        getContentPane().add(widgets);
         getContentPane().add(but);
+
+
+
         pack();
         setResizable(true);
         setLocationRelativeTo(null);
         setIconImage(predimrc.PredimRC.icon);
         setVisible(true);
 
-        /**
-         * if (drawableBelongsTo instanceof DrawableWing) {//config wing }
-         *
-         */
-        /**
-         * *******---structure widgets----****
-         */
-        nbrCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ((DrawableWing) drawableBelongsTo).setDrawableWingSectionNumber(Integer.parseInt(nbrCombo.getValue()));
-                ModelController.applyChange();
-            }
-        });
-
-        okBut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
-                ModelController.applyChange();
-                dispose();
-            }
-        });
-
-        cancelBut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PredimRC.logln("Action cancelled by user.");
-                dispose();
-            }
-        });
 
     }
 }
