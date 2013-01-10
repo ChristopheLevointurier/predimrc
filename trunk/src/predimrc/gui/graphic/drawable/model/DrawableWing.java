@@ -190,6 +190,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         apply();
     }
 
+    @Override
     public USED_FOR getUsedFor() {
         return used_for;
     }
@@ -223,25 +224,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      * Paint method
      *
      * @param g
-     */
-    /*      
-         
-     g.drawLine(previousFrontPoint.getIntX(),previousFrontPoint.getIntY(), frontPointTopView.getIntX(),
-     * frontPointTopView.getIntY()); g.drawLine(frontPointTopView.getIntX(),
-     * frontPointTopView.getIntY(), backPointTopView.getIntX(), backPointTopView.getIntY());
-     * g.drawLine(previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-     * backPointTopView.getIntX(), backPointTopView.getIntY()); //miror
-     * g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
-     * previousFrontPoint.getIntX(), previousFrontPoint.getIntY(),
-     * DrawablePanel.MID_TOP_SCREEN_X * 2 - frontPointTopView.getIntX(),
-     * frontPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2
-     * - frontPointTopView.getIntX(), frontPointTopView.getIntY(),
-     * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
-     * backPointTopView.getIntY()); g.drawLine(DrawablePanel.MID_TOP_SCREEN_X * 2 -
-     * previousBackPoint.getIntX(), previousBackPoint.getIntY(),
-     * DrawablePanel.MID_TOP_SCREEN_X * 2 - backPointTopView.getIntX(),
-     * backPointTopView.getIntY()); frontPointTopView.draw(g); backPointTopView.draw(g);
-     * previousFrontPoint.draw(g); previousBackPoint.draw(g);
      */
     @Override
     public void draw(Graphics2D g, VIEW_TYPE view) {

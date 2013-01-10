@@ -173,6 +173,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         return diedrePoint;
     }
 
+    public DrawablePoint getPreviousFrontPointTopView() {
+        return previous.getFrontPointTopView();
+    }
+
+    public DrawablePoint getPreviousBackPointTopView() {
+        return previous.getBackPointTopView();
+    }
+
     /**
      * Compute methods
      */
@@ -237,6 +245,9 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
                 Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
                 Utils.drawline(frontPointTopView, backPointTopView, g);
+                Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
+                Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
+                Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
                 frontPointTopView.draw(g);
                 backPointTopView.draw(g);
                 break;
