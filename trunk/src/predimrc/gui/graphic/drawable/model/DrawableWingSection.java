@@ -48,7 +48,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * datas
      */
     private float viewableLength;
-    //diedre & fleche are in degree.
+    //diedre is in degree.
     private float diedre, fleche;
     private float width, lenght;
 
@@ -213,12 +213,13 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
         viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
         if (!pointsCalculed) {
-            frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
+            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche, this);
+            //   frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
             diedrePoint = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
             pointsCalculed = true;
         } else {
-            frontPointTopView.setLocation(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength));
+            frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche);
             backPointTopView.setLocation(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width);
             diedrePoint.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre, lenght));
         }
