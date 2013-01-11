@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
@@ -88,8 +89,14 @@ public class TopPanel extends DrawablePanel {
                 if (selectedElement instanceof DrawableWingSection) {
                     //change  length & fleche
                     if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
-                        int newlenght = ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getIntX() - e.getX();
-                        float newFleche = Utils.calcAngle(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), e.getX(), e.getY());
+                        //   int newlenght = ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getIntX() - e.getX();
+                        // float newFleche = Utils.calcAngle(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), e.getX(), e.getY());
+
+
+                        float newlenght = (float) PredimRC.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY()));
+                        float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - e.getY());
+
+
                         ((DrawableWingSection) selectedElement).setFleche(newFleche);
                         if (newlenght > 1) {
                             ((DrawableWingSection) selectedElement).setLenght(newlenght);
