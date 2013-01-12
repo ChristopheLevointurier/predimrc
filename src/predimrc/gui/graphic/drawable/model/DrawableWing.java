@@ -57,27 +57,29 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public DrawableWing(USED_FOR _used_for, DrawableModel m) {
         super(m);
         used_for = _used_for;
-        widthAtConnection = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
         drawableWingSection = new LinkedList<>();
         switch (_used_for) {
             case VERTICAL_PLAN: {
                 setPosXYZ(Utils.defaultDeriveConnection, true);
+                widthAtConnection = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
             case HORIZONTAL_PLAN: {
                 setPosXYZ(Utils.defaultTailConnection, true);
+                widthAtConnection = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
                 calageAngulaire = -12;
-                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), 5, -10, 45, 45, 10, this));
+                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
             default:
             case MAIN_WING: {
                 setPosXYZ(Utils.defaultWingConnection, true);
+                widthAtConnection = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
                 calageAngulaire = -8;
-                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), 6, 8, 70, 100, -10, this));
-                drawableWingSection.add(new DrawableWingSection(3, -6, 60, 140, -11, this));
-                drawableWingSection.add(new DrawableWingSection(-5, -4, 30, 80, -12, this));
+                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 3, -6, 40, 200, -11, this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, -5, -4, 30, 80, -12, this));
                 break;
             }
         }
@@ -89,8 +91,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         widthAtConnection = w.getWidth();
         drawableWingSection = new LinkedList<>();
         calageAngulaire = w.getCalageAngulaire();
+        filename = w.getFilename();
         for (WingSection ws : w.getWingsSection()) {
-            drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
+            drawableWingSection.add(new DrawableWingSection(ws.getFilename(), ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
         }
     }
 
@@ -336,7 +339,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             wsl.add(ws.generateModel());
         }
-        return new Wing(used_for, getPositionDimension3D(), widthAtConnection, calageAngulaire, wsl);
+        return new Wing("fad05.dat", used_for, getPositionDimension3D(), widthAtConnection, calageAngulaire, wsl);
     }
 
     @Override

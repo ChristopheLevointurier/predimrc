@@ -256,7 +256,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model(name, note, realWings, realTails, realDerives, drawableFuselage.generateModel());
+        return new Model("",name, note, realWings, realTails, realDerives, drawableFuselage.generateModel());
     }
 
     @Override

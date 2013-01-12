@@ -36,6 +36,7 @@ public abstract class DrawableModelElement {
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
+    protected String filename = "";
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
@@ -109,6 +110,14 @@ public abstract class DrawableModelElement {
         if (PredimRC.initDone) {
             ModelController.applyChange();
         }
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     abstract public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view);

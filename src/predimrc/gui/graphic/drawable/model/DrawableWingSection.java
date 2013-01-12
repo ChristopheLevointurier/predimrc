@@ -58,23 +58,23 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * @param _belongsTo
      */
     public DrawableWingSection(DrawableWingSection copy, DrawableWing _belongsTo) {
-        this(copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), copy.getAngle(), _belongsTo);
+        this(copy.getFilename(), copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), copy.getAngle(), _belongsTo);
     }
 
     public DrawableWingSection(Dimension3D wingConnection, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
         switch (((DrawableWing) belongsTo).getUsedFor()) {
             case VERTICAL_PLAN: {
-                setValues(90, -20, 50, 50, 5);
+                setValues(Utils.defaultDeriveFoil, 90, -20, 60, 50, 5);
                 break;
             }
             case HORIZONTAL_PLAN: {
-                setValues(1, -10, 10, 20, 5);
+                setValues(Utils.defaultTailFoil, 1, -10, 35, 80, 5);
                 break;
             }
             default:
             case MAIN_WING: {
-                setValues(2f, 0, 55, 60, 10);
+                setValues(Utils.defaultWingFoil, 2f, 0, 80, 60, 10);
                 break;
             }
         }
@@ -83,14 +83,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * Constructors
      */
-    public DrawableWingSection(Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
+    public DrawableWingSection(String _filename, Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
-        setValues(_diedre, _fleche, _width, _lenght, _calageAngulaire);
+        setValues(_filename, _diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
-    public DrawableWingSection(float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
+    public DrawableWingSection(String _filename, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(_belongsTo);
-        setValues(_diedre, _fleche, _width, _lenght, _calageAngulaire);
+        setValues(_filename, _diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
     /**
@@ -98,19 +98,19 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      */
     public DrawableWingSection(WingSection _in, DrawableWing _belongsTo) {
         super(_in.getPositionDimension3D(), _belongsTo);
-        setValues(_in.getDiedre(), _in.getFleche(), _in.getWidth(), _in.getLenght(), _in.getCalageAngulaire());
+        setValues(_in.getFilename(), _in.getDiedre(), _in.getFleche(), _in.getWidth(), _in.getLenght(), _in.getCalageAngulaire());
     }
 
     /**
      * getters and setters
      */
-    private void setValues(float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
+    private void setValues(String _filename, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
         diedre = _diedre;
         fleche = _fleche;
         width = _width;
         lenght = _lenght;
         calageAngulaire = _calageAngulaire;
-
+        filename = _filename;
     }
 
     public float getDiedre() {
@@ -309,7 +309,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     }
 
     public WingSection generateModel() {
-        return new WingSection(getPositionDimension3D(), diedre, fleche, width, lenght, calageAngulaire);
+        return new WingSection(getFilename(), getPositionDimension3D(), diedre, fleche, width, lenght, calageAngulaire);
     }
 
     @Override
