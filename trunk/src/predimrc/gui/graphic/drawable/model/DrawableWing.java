@@ -101,7 +101,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         if (!pointsCalculed) {
             connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth(), true, this);
+
+
+
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth() * Math.cos(Math.toRadians(calageAngulaire)), true, this);
 
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
 
@@ -110,7 +113,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         } else {
             connectionPointFrontView.setFloatLocation(yPos, zPos);
             frontPointTopView.setFloatLocation(yPos, xPos);
-            backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth());
+            backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + (float) (getWidth() * Math.cos(Math.toRadians(calageAngulaire))));
             frontPointLeftView.setFloatLocation(xPos, zPos);
             backPointLeftView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection));
         }

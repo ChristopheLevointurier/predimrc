@@ -88,8 +88,8 @@ public class LeftPanel extends DrawablePanel {
 
     private void applyAngle() {
         currentAngle = currentAngle > 180 ? currentAngle - 360 : currentAngle;
-        currentAngle = currentAngle > 20 ? 20 : currentAngle;
-        currentAngle = currentAngle < -20 ? -20 : currentAngle;
+        currentAngle = currentAngle > 45 ? 45 : currentAngle;
+        currentAngle = currentAngle < -45 ? -45 : currentAngle;
         /**
          * switch (((DrawableWing) selectedElement).getUsedFor()) { case
          * HORIZONTAL_PLAN: { currentDiedre = currentDiedre > 60 ? 60 :

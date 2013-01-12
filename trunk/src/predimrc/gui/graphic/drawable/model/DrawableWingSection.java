@@ -117,6 +117,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         return diedre;
     }
 
+    @Override
     public float getWidth() {
         return width;
     }
@@ -214,6 +215,10 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche, this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
             frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+            //adjust with angle      
+            applyAngle(frontPointTopView, yref, viewableWidthCoef);
+            applyAngle(backPointTopView, yref, viewableWidthCoef);
+            applyAngle(frontPointFrontView, yref, viewableWidthCoef);
             pointsCalculed = true;
         } else {
             frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche);
