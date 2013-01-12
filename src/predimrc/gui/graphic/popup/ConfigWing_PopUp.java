@@ -48,6 +48,7 @@ public class ConfigWing_PopUp extends JFrame {
     private MegaLabel angleLabel = new MegaLabel("Angle:", true);
     private MegaLabel flecheLabel = new MegaLabel("Fleche:", true);
     private MegaLabel lengthLabel = new MegaLabel("Length:", true);
+    private MegaLabel fileLabel = new MegaLabel("Filename:", true);
     private JButton okBut = new JButton("Ok");
     private JButton cancelBut = new JButton("Cancel");
 
@@ -56,7 +57,7 @@ public class ConfigWing_PopUp extends JFrame {
     }
 
     private ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo) {
-        super("Structure and position Configuration");
+        super("Wing Configuration");
         drawableBelongsTo = _drawableBelongsTo;
         predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo);
         JPanel widgets = new JPanel();
@@ -107,6 +108,7 @@ public class ConfigWing_PopUp extends JFrame {
 
             widgets.add(flecheLabel);
             widgets.add(lengthLabel);
+            widgets.add(fileLabel);
 
             okBut.addActionListener(new ActionListener() {
                 @Override
@@ -114,6 +116,7 @@ public class ConfigWing_PopUp extends JFrame {
                     ((DrawableWingSection) drawableBelongsTo).setFleche(flecheLabel.getFloatValue());
                     ((DrawableWingSection) drawableBelongsTo).setLenght(lengthLabel.getFloatValue());
                     ((DrawableWingSection) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
+                    ((DrawableWingSection) drawableBelongsTo).setFilename(fileLabel.getValue());
                     ModelController.applyChange();
                     dispose();
                 }
@@ -124,6 +127,7 @@ public class ConfigWing_PopUp extends JFrame {
 
 
         cancelBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 PredimRC.logln("Action cancelled by user.");
                 dispose();
