@@ -77,7 +77,6 @@ public class FrontPanel extends DrawablePanel {
                         break;
                     }
                 }
-                ((AbstractDrawableWing) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
                 applyDiedre();
             }
         });

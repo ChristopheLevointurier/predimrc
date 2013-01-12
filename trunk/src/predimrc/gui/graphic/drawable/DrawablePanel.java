@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
@@ -72,7 +73,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         double dist = Double.MAX_VALUE;
         // System.out.println("getNearestPoint:" + points.size());
         for (DrawablePoint p : points) {
-            double temp = PredimRC.distance(p, x, y);
+            double temp = Utils.distance(p, x, y);
             if (p.isSelectable() && temp < dist) {
                 //    System.out.println("selectedPoint:" + p.toStringAll());
                 dist = temp;

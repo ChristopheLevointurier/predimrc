@@ -41,18 +41,18 @@ public class ConfigWingSection_PopUp {
     private String getValue() {
         predimrc.PredimRC.logln("Pop up " + usedFor.name());
         switch (usedFor) {
-            case DIEDRE: {
-                return JOptionPane.showInputDialog(null, "Type exact diedre value here:", input);
+            case DIEDRE:
+            case WIDTH:
+            case ANGLE: {
+                return JOptionPane.showInputDialog(null, "Type exact " + usedFor.name() + " value here:", input);
             }
-            case WIDTH: {
-                return JOptionPane.showInputDialog(null, "Type exact width value here:", input);
-            }
+
         }
-        return "";
+        return "0";
     }
 
     public static enum TYPE_MODIF {
 
-        DIEDRE, WIDTH;
+        DIEDRE, WIDTH, ANGLE;
     }
 }

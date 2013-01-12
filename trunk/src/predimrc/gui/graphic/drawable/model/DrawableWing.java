@@ -42,6 +42,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     private LinkedList<DrawableWingSection> drawableWingSection;
     private USED_FOR used_for;
     private float widthAtConnection;
+    private float calageAngulaire;
     /**
      * Top view Points
      */
@@ -57,6 +58,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         super(m);
         used_for = _used_for;
         widthAtConnection = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
+        calageAngulaire = 0;
         drawableWingSection = new LinkedList<>();
         switch (_used_for) {
             case VERTICAL_PLAN: {
@@ -85,7 +87,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         used_for = w.getUsed_for();
         widthAtConnection = w.getWidth();
         drawableWingSection = new LinkedList<>();
-
+        calageAngulaire = w.getCalageAngulaire();
         for (WingSection ws : w.getWingsSection()) {
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), this));
         }
@@ -102,20 +104,21 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth(), true, this);
 
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
-            backPointLeftView = new DrawablePoint(frontPointLeftView.getFloatX() + getWidth(), frontPointLeftView.getFloatY(), true, this);
+
+            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection), true, this);
             pointsCalculed = true;
         } else {
             connectionPointFrontView.setFloatLocation(yPos, zPos);
             frontPointTopView.setFloatLocation(yPos, xPos);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth());
             frontPointLeftView.setFloatLocation(xPos, zPos);
-            backPointLeftView.setFloatLocation(frontPointLeftView.getFloatX() + getWidth(), frontPointLeftView.getFloatY());
+            backPointLeftView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection));
         }
 
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();
             if (used_for.equals(USED_FOR.HORIZONTAL_PLAN)) {
-                ds.getDiedrePoint().setSelectable(ds.equals(drawableWingSection.getLast()));
+                ds.getFrontPointFrontView().setSelectable(ds.equals(drawableWingSection.getLast()));
             }
         }
 
@@ -197,8 +200,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     @Override
-    public DrawablePoint getDiedrePoint() {
-        return drawableWingSection.getLast().getDiedrePoint();
+    public DrawablePoint getFrontPointFrontView() {
+        return drawableWingSection.getLast().getFrontPointFrontView();
     }
 
     /**
@@ -257,7 +260,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             d.draw(g, view);
         }
 
-
+        if (!pointsCalculed) {
+            return;
+        }
         switch (view) {
             case FRONT_VIEW: {
                 connectionPointFrontView.draw(g);
@@ -327,7 +332,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             wsl.add(ws.generateModel());
         }
-        return new Wing(used_for, getPositionDimension3D(), widthAtConnection, wsl);
+        return new Wing(used_for, getPositionDimension3D(), widthAtConnection, calageAngulaire, wsl);
     }
 
     @Override
@@ -354,5 +359,15 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         }
         ret += (getIndexInBelongsTo() + 1);
         return ret;
+    }
+
+    @Override
+    public void setAngle(float angle) {
+        calageAngulaire = angle;
+        apply();
+    }
+
+    public float getAngle() {
+        return calageAngulaire;
     }
 }

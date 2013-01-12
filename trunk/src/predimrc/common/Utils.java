@@ -14,8 +14,13 @@
  */
 package predimrc.common;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
+import java.util.Enumeration;
+import jglcore.JGL_3DMesh;
+import jglcore.JGL_3DTriangle;
+import jglcore.JGL_3DVector;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 
@@ -45,7 +50,7 @@ public class Utils {
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 135);
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
-        double angleRad = Math.toRadians(deg + 180);
+        double angleRad = Math.toRadians(deg);
         double x = center.getX() + radius * Math.cos(angleRad);
         double y = center.getY() + radius * Math.sin(angleRad);
         return new Point2D.Float((float) x, (float) y);
@@ -63,6 +68,42 @@ public class Utils {
         d = d < 0 ? d + 360 : d;
         d = d > 180 ? d - 360 : d;
         return d;
+    }
+
+    public static JGL_3DVector getNearestVertex(JGL_3DMesh m, JGL_3DVector p) {
+        JGL_3DVector temp = new JGL_3DVector(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+        Enumeration e = m.getPoints().elements();
+        while (e.hasMoreElements()) {
+            JGL_3DVector temp2 = (JGL_3DVector) e.nextElement();
+            if (distance(p, temp2) < distance(p, temp)) {
+                temp = temp2;
+            }
+        }
+        return temp;
+    }
+
+    public static JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, int r, int g, int b) {
+        JGL_3DMesh mesh = new JGL_3DMesh();
+        Color color = new Color(r, g, b);
+        mesh.addFace(new JGL_3DTriangle(p1, p2, p3, color));
+        mesh.addFace(new JGL_3DTriangle(p1, p3, p4, color));
+        return mesh;
+    }
+
+    public static double distance(DrawablePoint p1, int x, int y) {
+        return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x) + (p1.getFloatY() - y) * (p1.getFloatY() - y));
+    }
+
+    public static double distance(DrawablePoint p1, DrawablePoint p2) {
+        return Math.sqrt((p1.getFloatX() - p2.getFloatX()) * (p1.getFloatX() - p2.getFloatX()) + (p1.getFloatY() - p2.getFloatY()) * (p1.getFloatY() - p2.getFloatY()));
+    }
+
+    public static double distance(Point2D.Float p1, Point2D.Float p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+    }
+
+    public static double distance(JGL_3DVector p1, JGL_3DVector p2) {
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
     public static enum USED_FOR {
