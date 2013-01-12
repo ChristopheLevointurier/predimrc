@@ -324,4 +324,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         calageAngulaire = angle;
         apply();
     }
+
+    public float getAngle() {
+        return calageAngulaire;
+    }
 }

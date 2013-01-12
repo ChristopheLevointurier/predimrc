@@ -25,6 +25,7 @@ import predimrc.PredimRC;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
@@ -44,6 +45,7 @@ public class ConfigWing_PopUp extends JFrame {
     private MegaLabel xposLabel = new MegaLabel("Xpos:", true);
     private MegaLabel yposLabel = new MegaLabel("Ypos:", true);
     private MegaLabel zposLabel = new MegaLabel("Zpos:", true);
+    private MegaLabel angleLabel = new MegaLabel("Angle:", true);
     private MegaLabel flecheLabel = new MegaLabel("Fleche:", true);
     private MegaLabel lengthLabel = new MegaLabel("Length:", true);
     private JButton okBut = new JButton("Ok");
@@ -59,6 +61,7 @@ public class ConfigWing_PopUp extends JFrame {
         predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo);
         JPanel widgets = new JPanel();
         widgets.setLayout(new BoxLayout(widgets, BoxLayout.Y_AXIS));
+        angleLabel.setValue("" + ((AbstractDrawableWing) drawableBelongsTo).getAngle());
 
         if (drawableBelongsTo instanceof DrawableWing) {//config wing 
             JPanel pos = new JPanel();
@@ -77,6 +80,7 @@ public class ConfigWing_PopUp extends JFrame {
 
 
             nbrCombo.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     ((DrawableWing) drawableBelongsTo).setDrawableWingSectionNumber(Integer.parseInt(nbrCombo.getValue()));
                     ModelController.applyChange();
@@ -84,8 +88,10 @@ public class ConfigWing_PopUp extends JFrame {
             });
 
             okBut.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
+                    ((DrawableWing) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
                     ModelController.applyChange();
                     dispose();
                 }
@@ -97,13 +103,17 @@ public class ConfigWing_PopUp extends JFrame {
         {
             flecheLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFleche());
             lengthLabel.setValue("" + +((DrawableWingSection) drawableBelongsTo).getLenght());
+
+
             widgets.add(flecheLabel);
             widgets.add(lengthLabel);
 
             okBut.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     ((DrawableWingSection) drawableBelongsTo).setFleche(flecheLabel.getFloatValue());
                     ((DrawableWingSection) drawableBelongsTo).setLenght(lengthLabel.getFloatValue());
+                    ((DrawableWingSection) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
                     ModelController.applyChange();
                     dispose();
                 }
@@ -126,6 +136,8 @@ public class ConfigWing_PopUp extends JFrame {
         but.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder()));
         but.add(okBut);
         but.add(cancelBut);
+        widgets.add(angleLabel);
+
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(widgets);
         getContentPane().add(but);
