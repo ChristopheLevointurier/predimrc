@@ -21,7 +21,6 @@ import java.util.Enumeration;
 import jglcore.JGL_3DMesh;
 import jglcore.JGL_3DTriangle;
 import jglcore.JGL_3DVector;
-import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 
 /**
@@ -36,8 +35,8 @@ public class Utils {
     /**
      * datas
      */
-    public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 55;
-    public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 25;
+    public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 100;
+    public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 55;
     public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
     public static final int LEFT_SCREEN_X = 450;
     public static final int TOP_SCREEN_Y = 450;
@@ -45,9 +44,12 @@ public class Utils {
     public static final int FRONT_SCREEN_X = 450;
     public static final int FRONT_SCREEN_Y = 200;
     public static final int TOP_SCREEN_X = 920;
-    public static final Dimension3D defaultWingConnection = new Dimension3D(125, TOP_SCREEN_X / 2 - 10, 125);
+    public static final Dimension3D defaultWingConnection = new Dimension3D(145, TOP_SCREEN_X / 2 - 15, 125);
     public static final Dimension3D defaultTailConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 85);
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 135);
+    public static final String defaultWingFoil = "naca2412";
+    public static final String defaultTailFoil = "s8064.dat";
+    public static final String defaultDeriveFoil = "fad05.dat";
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1144;
     public static final int MAIN_FRAME_SIZE_Y = 756;
