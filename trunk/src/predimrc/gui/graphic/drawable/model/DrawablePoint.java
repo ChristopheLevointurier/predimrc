@@ -156,6 +156,14 @@ public class DrawablePoint {
         return y;
     }
 
+    public void setFloatX(float _x) {
+        x = _x;
+    }
+
+    public void setFloatY(float _y) {
+        y = _y;
+    }
+
     public int getIntX() {
         return (int) x;
     }
