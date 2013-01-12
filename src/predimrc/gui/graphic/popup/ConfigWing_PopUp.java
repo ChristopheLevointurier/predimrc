@@ -103,8 +103,8 @@ public class ConfigWing_PopUp extends JFrame {
         } else // config WingSection
         {
             flecheLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFleche());
-            lengthLabel.setValue("" + +((DrawableWingSection) drawableBelongsTo).getLenght());
-
+            lengthLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getLenght());
+            fileLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFilename());
 
             widgets.add(flecheLabel);
             widgets.add(lengthLabel);
