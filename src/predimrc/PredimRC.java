@@ -61,8 +61,8 @@ import jglcore.JGL_3DVector;
 import predimrc.controller.ModelController;
 import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.The3D_Frame;
-import predimrc.gui.graphic.config.ConfigView;
 import predimrc.gui.graphic.MainView;
+import predimrc.gui.graphic.config.ConfigView;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.model.Model;
@@ -544,14 +544,6 @@ public class PredimRC extends JFrame {
         return drawableModel;
     }
 
-    public static final JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, int r, int g, int b) {
-        JGL_3DMesh mesh = new JGL_3DMesh();
-        Color color = new Color(r, g, b);
-        mesh.addFace(new JGL_3DTriangle(p1, p2, p3, color));
-        mesh.addFace(new JGL_3DTriangle(p1, p3, p4, color));
-        return mesh;
-    }
-
     public static final JGL_3DMesh mergeMesh(JGL_3DMesh m1, JGL_3DMesh m2) {
         JGL_3DMesh mesh = new JGL_3DMesh();
         Enumeration e1 = m1.getFaces().elements();
@@ -563,39 +555,6 @@ public class PredimRC extends JFrame {
             mesh.addFace((JGL_3DTriangle) e2.nextElement());
         }
         return mesh;
-    }
-
-    public static final JGL_3DVector getNearestVertex(JGL_3DMesh m, JGL_3DVector p) {
-        JGL_3DVector temp = new JGL_3DVector(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-        Enumeration e = m.getPoints().elements();
-        while (e.hasMoreElements()) {
-            JGL_3DVector temp2 = (JGL_3DVector) e.nextElement();
-            if (distance(p, temp2) < distance(p, temp)) {
-                temp = temp2;
-            }
-        }
-        return temp;
-    }
-
-    public static final double distance(JGL_3DVector p1, JGL_3DVector p2) {
-        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
-                + (p1.y - p2.y) * (p1.y - p2.y)
-                + (p1.z - p2.z) * (p1.z - p2.z));
-    }
-
-    public static final double distance(Point2D.Float p1, Point2D.Float p2) {
-        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x)
-                + (p1.y - p2.y) * (p1.y - p2.y));
-    }
-
-    public static final double distance(DrawablePoint p1, DrawablePoint p2) {
-        return Math.sqrt((p1.getFloatX() - p2.getFloatX()) * (p1.getFloatX() - p2.getFloatX())
-                + (p1.getFloatY() - p2.getFloatY()) * (p1.getFloatY() - p2.getFloatY()));
-    }
-
-    public static final double distance(DrawablePoint p1, int x, int y) {
-        return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x)
-                + (p1.getFloatY() - y) * (p1.getFloatY() - y));
     }
 
     public static void loadModel() throws FileNotFoundException {
@@ -617,7 +576,7 @@ public class PredimRC extends JFrame {
         } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
             JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
-            //   PredimRC.resetModel();
+            PredimRC.resetModel();
         } finally {
             try {
                 in_pute.close();

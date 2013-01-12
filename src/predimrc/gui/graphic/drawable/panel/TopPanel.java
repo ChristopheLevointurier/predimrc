@@ -93,7 +93,7 @@ public class TopPanel extends DrawablePanel {
                         // float newFleche = Utils.calcAngle(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), e.getX(), e.getY());
 
 
-                        float newlenght = (float) PredimRC.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY()));
+                        float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY()));
                         float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - e.getY());
 
 

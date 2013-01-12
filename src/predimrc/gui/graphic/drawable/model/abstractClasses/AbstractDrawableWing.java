@@ -19,11 +19,13 @@ public interface AbstractDrawableWing {
 
     abstract public DrawablePoint getBackPointTopView();
 
-    abstract public DrawablePoint getDiedrePoint();
+    abstract public DrawablePoint getFrontPointFrontView();
 
     abstract public Utils.USED_FOR getUsedFor();
 
     public void setWidth(float value);
 
     public float getWidth();
+
+    public void setAngle(float currentAngle);
 }

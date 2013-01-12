@@ -41,6 +41,7 @@ import jglcore.JGL_Sorter;
 import jglcore.JGL_Time;
 import jglcore.JGL_Util;
 import jglload.JGL_Data3D;
+import predimrc.common.Utils;
 import predimrc.gui.graphic.config.Config3DView;
 import predimrc.model.element.loader.AirfoilLoader;
 import predimrc.model.element.loader.FuselageLoader;
@@ -103,7 +104,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
                 move = false;
                 //if (SwingUtilities.isMiddleMouseButton(e)) {
                 if (SwingUtilities.isRightMouseButton(e)) {
-                    toMove = PredimRC.getNearestVertex(data, new JGL_3DVector(e.getX(), e.getY(), 0f));
+                    toMove = Utils.getNearestVertex(data, new JGL_3DVector(e.getX(), e.getY(), 0f));
                     moveVertex = true;
                 }
             }

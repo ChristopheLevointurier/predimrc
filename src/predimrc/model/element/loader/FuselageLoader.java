@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import jglcore.JGL_3DMesh;
 import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 
 /**
  * This class is used to load fuselages from .dat files
@@ -61,14 +62,14 @@ public class FuselageLoader extends RawElementLoader {
             p2 = vertices.get(i + 1);
             p3 = vertices_prof.get(i);
             p4 = vertices_prof.get(i + 1);
-            mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+            mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
         }
 
         p1 = vertices.get(vertices.size() - 1);
         p2 = vertices.get(0);
         p3 = vertices_prof.get(vertices_prof.size() - 1);
         p4 = vertices_prof.get(0);
-        mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+        mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
 
 
 
@@ -77,14 +78,14 @@ public class FuselageLoader extends RawElementLoader {
             p4 = vertices.get(i + 1);
             p1 = vertices_prof.get(i);
             p2 = vertices_prof.get(i + 1);
-            mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+            mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
         }
 
         p3 = vertices.get(vertices.size() - 1);
         p4 = vertices.get(0);
         p1 = vertices_prof.get(vertices_prof.size() - 1);
         p2 = vertices_prof.get(0);
-        mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+        mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
 
 
 
@@ -93,7 +94,7 @@ public class FuselageLoader extends RawElementLoader {
             p2 = vertices.get(i + 1);
             p3 = vertices_prof.get(vertices_prof.size() - i - 1);
             p4 = vertices_prof.get(vertices_prof.size() - i - 2);
-            mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+            mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
         }
 
         //i have headeache
@@ -110,7 +111,7 @@ public class FuselageLoader extends RawElementLoader {
             p4 = vertices.get(vertices.size() - i - 2);
             p1 = vertices_prof.get(i);
             p2 = vertices_prof.get(i + 1);
-            mesh.addFaces(predimrc.PredimRC.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+            mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
         }
 
         /**

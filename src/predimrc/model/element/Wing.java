@@ -33,16 +33,17 @@ public class Wing extends ModelElement {
     private LinkedList<WingSection> wingsSection;
     private USED_FOR used_for;
     private float width;
+    private float calageAngulaire;
 
-    public Wing(USED_FOR _used_for, Dimension3D xyz, float _width, LinkedList<WingSection> _wingsSection) {
+    public Wing(USED_FOR _used_for, Dimension3D xyz, float _width, float _calageAngulaire, LinkedList<WingSection> _wingsSection) {
         used_for = _used_for;
         width = _width;
         xPos = xyz.getX();
         yPos = xyz.getY();
         zPos = xyz.getZ();
+        calageAngulaire = _calageAngulaire;
         wingsSection = _wingsSection;
     }
-
 
     /**
      * getters
@@ -57,6 +58,10 @@ public class Wing extends ModelElement {
 
     public float getWidth() {
         return width;
+    }
+
+    public float getCalageAngulaire() {
+        return calageAngulaire;
     }
 
     @Override
