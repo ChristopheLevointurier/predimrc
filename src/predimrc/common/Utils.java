@@ -47,9 +47,9 @@ public class Utils {
     public static final Dimension3D defaultWingConnection = new Dimension3D(145, TOP_SCREEN_X / 2 - 15, 125);
     public static final Dimension3D defaultTailConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 85);
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 135);
-    public static final String defaultWingFoil = "naca2412";
+    public static final String defaultWingFoil = "fad05.dat";
     public static final String defaultTailFoil = "s8064.dat";
-    public static final String defaultDeriveFoil = "fad05.dat";
+    public static final String defaultDeriveFoil = "naca2412";
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1144;
     public static final int MAIN_FRAME_SIZE_Y = 756;
