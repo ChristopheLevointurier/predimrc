@@ -82,11 +82,11 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
 
 
         add(modelTitle);
-        add(wingCombo);
+        //add(wingCombo);  Not yet
         add(tailCombo);
         add(deriveCombo);
         add(reset);
-   //     add(compute);
+        //     add(compute);
 
         /**
          * *******---structure widgets----****
@@ -130,7 +130,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
 
     @Override
     public void updateModel(DrawableModel m) {
-      //  System.out.println("updateModel:" + m.getWings().size() + "," + m.getTail().size() + "," + m.getDerive().size());
+        //  System.out.println("updateModel:" + m.getWings().size() + "," + m.getTail().size() + "," + m.getDerive().size());
         wingCombo.setSelectedValue(m.getWings().size(), false);
         tailCombo.setSelectedValue(m.getTail().size(), false);
         deriveCombo.setSelectedValue(m.getDerive().size(), false);
