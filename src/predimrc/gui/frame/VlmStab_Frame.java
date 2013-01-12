@@ -8,6 +8,7 @@ import java.awt.Image;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
+import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
 
 /**
@@ -20,7 +21,7 @@ import predimrc.gui.ExternalFrame;
 public class VlmStab_Frame extends ExternalFrame {
 
     public VlmStab_Frame(AbstractButton _caller) {
-        this(_caller, predimrc.PredimRC.icon, predimrc.PredimRC.DEFAULT_X_FRAME, predimrc.PredimRC.DEFAULT_Y_FRAME);
+        this(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME);
     }
 
     public VlmStab_Frame(AbstractButton _caller, Image _icon, int _x, int _y) {

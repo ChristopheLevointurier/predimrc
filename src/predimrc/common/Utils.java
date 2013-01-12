@@ -44,10 +44,14 @@ public class Utils {
     public static final int LEFT_SCREEN_Y = 200;
     public static final int FRONT_SCREEN_X = 450;
     public static final int FRONT_SCREEN_Y = 200;
-    public static final int TOP_SCREEN_X = 900;
+    public static final int TOP_SCREEN_X = 920;
     public static final Dimension3D defaultWingConnection = new Dimension3D(125, TOP_SCREEN_X / 2 - 10, 125);
     public static final Dimension3D defaultTailConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 85);
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 135);
+    public static final int DEFAULT_Y_FRAME = 600;
+    public static final int MAIN_FRAME_SIZE_X = 1144;
+    public static final int MAIN_FRAME_SIZE_Y = 756;
+    public static final int DEFAULT_X_FRAME = 800;
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg);
