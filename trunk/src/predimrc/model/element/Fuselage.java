@@ -27,8 +27,7 @@ import predimrc.model.ModelElement;
 public class Fuselage extends ModelElement {
 
     private float length;
-    private String filename = "not yet defined";
-
+  
     public Fuselage(String _filename, float _length) {
         filename = _filename;
         length = _length;
@@ -38,12 +37,9 @@ public class Fuselage extends ModelElement {
         return length;
     }
 
-    public String getFilename() {
-        return filename;
-    }
 
     @Override
     public String toString() {
-        return "Fuselage " + filename + getPositionDimension3D() + ",length=" + length;
+        return "Fuselage " + super.toString() + ",length=" + length;
     }
 }
