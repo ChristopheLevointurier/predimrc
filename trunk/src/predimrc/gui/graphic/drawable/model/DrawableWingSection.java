@@ -47,7 +47,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * datas
      */
-    private float viewableLength, viewableWidth;
     //diedre and calageAngulaire are in degree.
     private float diedre, calageAngulaire;
     private float width, lenght, fleche;
@@ -59,23 +58,23 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * @param _belongsTo
      */
     public DrawableWingSection(DrawableWingSection copy, DrawableWing _belongsTo) {
-        this(copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), _belongsTo);
+        this(copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), copy.getAngle(), _belongsTo);
     }
 
     public DrawableWingSection(Dimension3D wingConnection, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
         switch (((DrawableWing) belongsTo).getUsedFor()) {
             case VERTICAL_PLAN: {
-                setValues(90, -20, 50, 50);
+                setValues(90, -20, 50, 50, 5);
                 break;
             }
             case HORIZONTAL_PLAN: {
-                setValues(1, -10, 10, 20);
+                setValues(1, -10, 10, 20, 5);
                 break;
             }
             default:
             case MAIN_WING: {
-                setValues(2f, 0, 55, 60);
+                setValues(2f, 0, 55, 60, 10);
                 break;
             }
         }
@@ -84,14 +83,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * Constructors
      */
-    public DrawableWingSection(Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, DrawableWing _belongsTo) {
+    public DrawableWingSection(Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
-        setValues(_diedre, _fleche, _width, _lenght);
+        setValues(_diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
-    public DrawableWingSection(float _diedre, float _fleche, float _width, float _lenght, DrawableWing _belongsTo) {
+    public DrawableWingSection(float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(_belongsTo);
-        setValues(_diedre, _fleche, _width, _lenght);
+        setValues(_diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
     /**
@@ -99,17 +98,18 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      */
     public DrawableWingSection(WingSection _in, DrawableWing _belongsTo) {
         super(_in.getPositionDimension3D(), _belongsTo);
-        setValues(_in.getDiedre(), _in.getFleche(), _in.getWidth(), _in.getLenght());
+        setValues(_in.getDiedre(), _in.getFleche(), _in.getWidth(), _in.getLenght(), _in.getCalageAngulaire());
     }
 
     /**
      * getters and setters
      */
-    private void setValues(float _diedre, float _fleche, float _width, float _lenght) {
+    private void setValues(float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
         diedre = _diedre;
         fleche = _fleche;
         width = _width;
         lenght = _lenght;
+        calageAngulaire = _calageAngulaire;
 
     }
 
@@ -163,10 +163,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         apply();
     }
 
-    public float getViewableLength() {
-        return viewableLength;
-    }
-
     /**
      * *
      * Getters for points
@@ -210,13 +206,12 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
 
-
-        viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
-        //   viewableWidth = (float) (distance valeur absolue de widthAtConnection * (Math.cos(Math.toRadians(calageAngulaire))));
+        float viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
+        float yref = belongsTo.getxPos();
+        float viewableWidthCoef = (float) (Math.cos(Math.toRadians(calageAngulaire)));
 
         if (!pointsCalculed) {
             frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche, this);
-            //   frontPointTopView = new DrawablePoint(Utils.getCoordOnCircle(previous.getFrontPointTopView(), fleche, viewableLength), this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
             frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
             pointsCalculed = true;
@@ -224,8 +219,16 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width);
             frontPointFrontView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght));
+            //adjust with angle      
+            applyAngle(frontPointTopView, yref, viewableWidthCoef);
+            applyAngle(backPointTopView, yref, viewableWidthCoef);
+            applyAngle(frontPointFrontView, yref, viewableWidthCoef);
         }
         setxPos(frontPointTopView.getFloatY());
+    }
+
+    private void applyAngle(DrawablePoint p, float yref, float viewableWidthCoef) {
+        p.setFloatY(yref + (p.getFloatY() - yref) * viewableWidthCoef);
     }
 
     @Override
@@ -301,7 +304,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     }
 
     public WingSection generateModel() {
-        return new WingSection(getPositionDimension3D(), diedre, fleche, width, lenght);
+        return new WingSection(getPositionDimension3D(), diedre, fleche, width, lenght, calageAngulaire);
     }
 
     @Override

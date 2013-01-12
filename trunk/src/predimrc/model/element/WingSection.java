@@ -28,9 +28,9 @@ import predimrc.model.ModelElement;
 public class WingSection extends ModelElement {
 
     //position x,y,z of the wing is the front first point.
-    //diedre & fleche are in degree.
-    protected float diedre, fleche;
-    protected float width, lenght;
+     //diedre and calageAngulaire are in degree.
+    private float diedre, calageAngulaire;
+    private float width, lenght, fleche;
 
     public WingSection() {
         fleche = 0f;
@@ -39,11 +39,12 @@ public class WingSection extends ModelElement {
         lenght = 60f;
     }
 
-    public WingSection(Dimension3D xyz, float _diedre, float _fleche, float _width, float _lenght) {
+    public WingSection(Dimension3D xyz, float _diedre, float _fleche, float _width,float _calageAngulaire, float _lenght) {
         diedre = _diedre;
         fleche = _fleche;
         width = _width;
         lenght = _lenght;
+        calageAngulaire=_calageAngulaire;
         xPos = xyz.getX();
         yPos = xyz.getY();
         zPos = xyz.getZ();
@@ -68,8 +69,13 @@ public class WingSection extends ModelElement {
         return lenght;
     }
 
+    public float getCalageAngulaire() {
+        return calageAngulaire;
+    }
+    
+
     @Override
     public String toString() {
-        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght;
+        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght+", calageAngulaire="+calageAngulaire;
     }
 }
