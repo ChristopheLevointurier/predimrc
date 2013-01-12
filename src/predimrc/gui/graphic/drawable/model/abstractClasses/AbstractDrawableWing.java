@@ -28,4 +28,6 @@ public interface AbstractDrawableWing {
     public float getWidth();
 
     public void setAngle(float currentAngle);
+
+    public float getAngle();
 }
