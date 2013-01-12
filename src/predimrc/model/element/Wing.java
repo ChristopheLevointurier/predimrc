@@ -35,7 +35,7 @@ public class Wing extends ModelElement {
     private float width;
     private float calageAngulaire;
 
-    public Wing(USED_FOR _used_for, Dimension3D xyz, float _width, float _calageAngulaire, LinkedList<WingSection> _wingsSection) {
+    public Wing(String _filename, USED_FOR _used_for, Dimension3D xyz, float _width, float _calageAngulaire, LinkedList<WingSection> _wingsSection) {
         used_for = _used_for;
         width = _width;
         xPos = xyz.getX();
@@ -43,6 +43,7 @@ public class Wing extends ModelElement {
         zPos = xyz.getZ();
         calageAngulaire = _calageAngulaire;
         wingsSection = _wingsSection;
+        filename = _filename;
     }
 
     /**
@@ -66,13 +67,13 @@ public class Wing extends ModelElement {
 
     @Override
     public String toString() {
-        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", (" + xPos + "," + yPos + "," + zPos + ") size:" + wingsSection.size());
+        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", " + super.toString() + " size:" + wingsSection.size());
         return ret.toString();
     }
 
     @Override
     public String toStringAll() {
-        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", (" + xPos + "," + yPos + "," + zPos + ").");
+        StringBuilder ret = new StringBuilder("\nWing used_for:" + used_for.name() + ", " + super.toString() + ".");
         for (WingSection w : wingsSection) {
             ret.append(w);
         }

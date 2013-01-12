@@ -42,17 +42,16 @@ public class Model extends ModelElement implements Serializable {
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
 
-    public Model(String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage) {
+    public Model(String _filename, String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage) {
         name = _name;
         note = _note;
         wings = _wings;
         tail = _tail;
         derive = _derive;
         fuselage = _fuselage;
-        
+        filename = _filename;
+
     }
-    
- 
 
     /**
      * Getters

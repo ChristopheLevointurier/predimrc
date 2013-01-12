@@ -39,12 +39,13 @@ public class WingSection extends ModelElement {
         lenght = 60f;
     }
 
-    public WingSection(Dimension3D xyz, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
+    public WingSection(String _filename,Dimension3D xyz, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
         diedre = _diedre;
         fleche = _fleche;
         width = _width;
         lenght = _lenght;
         calageAngulaire = _calageAngulaire;
+        filename=_filename;
         xPos = xyz.getX();
         yPos = xyz.getY();
         zPos = xyz.getZ();
@@ -75,6 +76,6 @@ public class WingSection extends ModelElement {
 
     @Override
     public String toString() {
-        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght + ", calageAngulaire=" + calageAngulaire;
+        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght + ", calageAngulaire=" + calageAngulaire  + super.toString() ;
     }
 }

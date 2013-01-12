@@ -28,12 +28,22 @@ import predimrc.common.Dimension3D;
 public abstract class ModelElement implements Serializable {
 
     protected float xPos, yPos, zPos;
+    protected String filename = "not yet defined";
 
     public String toStringAll() {
         return toString();
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
     public Dimension3D getPositionDimension3D() {
         return new Dimension3D(xPos, yPos, zPos);
+    }
+
+    @Override
+    public String toString() {
+        return getPositionDimension3D() + ",filename=" + filename;
     }
 }
