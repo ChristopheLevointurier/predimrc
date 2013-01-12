@@ -48,7 +48,7 @@ public class LeftPanel extends DrawablePanel {
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointLeftView())) {//moveXYZ
                     }
 
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView())) {//change calage angulaire
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView()) && !((DrawableWing) selectedElement).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {//change calage angulaire
 
                         try {
                             currentAngle = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.ANGLE, "" + ((DrawableWing) selectedElement).getAngle()));
@@ -73,7 +73,7 @@ public class LeftPanel extends DrawablePanel {
 
                     }
                     //resize angle
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView())) {
+                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView()) && !((DrawableWing) selectedElement).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
                         currentAngle = 180 - Utils.calcAngle(((DrawableWing) selectedElement).getFrontPointLeftView(), e.getX(), e.getY());
                         applyAngle();
                     }
