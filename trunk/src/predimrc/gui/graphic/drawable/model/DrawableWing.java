@@ -58,7 +58,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         super(m);
         used_for = _used_for;
         widthAtConnection = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
-        calageAngulaire = 0;
         drawableWingSection = new LinkedList<>();
         switch (_used_for) {
             case VERTICAL_PLAN: {
@@ -68,15 +67,17 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             }
             case HORIZONTAL_PLAN: {
                 setPosXYZ(Utils.defaultTailConnection, true);
+                calageAngulaire = -12;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), 5, -10, 45, 45, 10, this));
                 break;
             }
             default:
             case MAIN_WING: {
                 setPosXYZ(Utils.defaultWingConnection, true);
-                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), 6, 8, 70, 100, 10, this));
-                drawableWingSection.add(new DrawableWingSection(3, -6, 60, 140, 15, this));
-                drawableWingSection.add(new DrawableWingSection(-5, -4, 30, 80, 20, this));
+                calageAngulaire = -8;
+                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), 6, 8, 70, 100, -10, this));
+                drawableWingSection.add(new DrawableWingSection(3, -6, 60, 140, -11, this));
+                drawableWingSection.add(new DrawableWingSection(-5, -4, 30, 80, -12, this));
                 break;
             }
         }
