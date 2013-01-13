@@ -285,7 +285,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             }
             case LEFT_VIEW: {
                 g.setStroke(new BasicStroke(4));
-                g.setColor(Color.GRAY.brighter());
                 Utils.drawline(frontPointLeftView, backPointLeftView, g);
                 frontPointLeftView.draw(g);
                 backPointLeftView.draw(g);
