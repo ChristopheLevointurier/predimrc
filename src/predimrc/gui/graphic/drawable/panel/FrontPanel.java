@@ -63,20 +63,9 @@ public class FrontPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                // change diedre
-                switch (((AbstractDrawableWing) selectedElement).getUsedFor()) {
-                    case MAIN_WING:
-                    case HORIZONTAL_PLAN: {
-                        int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
-                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
-                        break;
-                    }
+                int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
+                currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
 
-                    case VERTICAL_PLAN: { //TODO should not come here. See after for -90
-                        currentDiedre = 90;
-                        break;
-                    }
-                }
                 applyDiedre();
             }
         });
@@ -97,9 +86,16 @@ public class FrontPanel extends DrawablePanel {
                 break;
             }
             case VERTICAL_PLAN: {
-                return;
+
+                boolean negat = currentDiedre < 0;
+                float absCurrentDiedre = Math.abs(currentDiedre);
+                absCurrentDiedre = absCurrentDiedre > 110 ? 110 : absCurrentDiedre;
+                absCurrentDiedre = absCurrentDiedre < 70 ? 70 : absCurrentDiedre;
+                currentDiedre = negat ? -absCurrentDiedre : absCurrentDiedre;
+                break;
             }
         }
+
         ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
         infoAction = " diedre : " + currentDiedre;
     }
