@@ -75,14 +75,14 @@ public class TopPanel extends DrawablePanel {
 
                         int xpos = e.getX() > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : e.getX();
                         selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
-                        infoAction = " moved to : " + selectedElement.getPositionDimension3D();
+                        info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
                     }
                     //resize width
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointTopView())) {
                         int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
                             ((DrawableWing) selectedElement).setWidth(newlenght);
-                            infoAction = " Width=" + newlenght;
+                            info.setDetailedInfo(" Width=" + newlenght);
                         }
                     }
                 }
@@ -101,13 +101,13 @@ public class TopPanel extends DrawablePanel {
                         if (newlenght > 1) {
                             ((DrawableWingSection) selectedElement).setLenght(newlenght);
                         }
-                        infoAction = " Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY());
+                        info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                     }
                     if (selectedPoint.equals(((DrawableWingSection) selectedElement).getBackPointTopView())) {
                         int newlenght = e.getY() - ((DrawableWingSection) selectedElement).getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
                             ((DrawableWingSection) selectedElement).setWidth(newlenght);
-                            infoAction = " Width=" + newlenght;
+                            info.setDetailedInfo(" Width=" + newlenght);
                         }
                     }
 
