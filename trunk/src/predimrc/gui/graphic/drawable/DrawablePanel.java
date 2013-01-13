@@ -67,6 +67,17 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 repaint();
             }
         });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                selectedPoint.setSelected(false);
+                selectedPoint.draw((Graphics2D)getGraphics());
+            }
+        });
+
+
+
+
     }
 
     protected void getNearestPoint(int x, int y) {
