@@ -372,6 +372,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void setAngle(float angle) {
         calageAngulaire = angle;
+           for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
+            w.setAngle(angle, true);
+        }
+        apply();
+        
         apply();
     }
 

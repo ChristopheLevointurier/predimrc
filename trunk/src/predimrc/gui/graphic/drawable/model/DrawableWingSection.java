@@ -148,6 +148,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         }
     }
 
+    public void setAngle(float _angle, boolean silent) {
+        if (silent) {
+            calageAngulaire = _angle;
+        } else {
+            setAngle(_angle);
+        }
+    }
+
     @Override
     public void setWidth(float _width) {
         width = _width;
