@@ -37,7 +37,7 @@ public class Utils {
     /**
      * datas
      */
-    public static final Color DEFAULT_MAIN_WING_COLOR =Color.PINK;
+    public static final Color DEFAULT_MAIN_WING_COLOR = Color.PINK;
     public static final Color DEFAULT_TAIL_WING_COLOR = Color.ORANGE;
     public static final Color DEFAULT_DERIVE_WING_COLOR = Color.GREEN;
     public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 100;
@@ -119,13 +119,19 @@ public class Utils {
 
     public static enum USED_FOR {
 
-        MAIN_WING(Utils.DEFAULT_MAIN_WING_COLOR),
-        VERTICAL_PLAN(Utils.DEFAULT_DERIVE_WING_COLOR),
-        HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR);
+        MAIN_WING(Utils.DEFAULT_MAIN_WING_COLOR, "Wing"),
+        VERTICAL_PLAN(Utils.DEFAULT_DERIVE_WING_COLOR, "Derive"),
+        HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR, "Tail");
         private Color color;
+        private String desc;
 
-        private USED_FOR(Color c) {
+        private USED_FOR(Color c, String descr) {
             color = c;
+            desc = descr;
+        }
+
+        public String getDesc() {
+            return desc;
         }
 
         public Color getColor() {
