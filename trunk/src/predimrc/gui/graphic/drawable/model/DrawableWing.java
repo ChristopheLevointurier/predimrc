@@ -15,7 +15,6 @@
 package predimrc.gui.graphic.drawable.model;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -137,12 +136,12 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             //  case VERTICAL_PLAN: { // TODO, return derive connection
             //      return new Point2D.Float(yPos, zPos);
             //  }
+            case VERTICAL_PLAN:
             case HORIZONTAL_PLAN: {
                 return new Point2D.Float(yPos, zPos);
             }
             default:
-            case MAIN_WING:
-            case VERTICAL_PLAN: {
+            case MAIN_WING: {
 
                 if (index == 0) {
                     return new Point2D.Float(yPos, zPos);
@@ -285,6 +284,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             }
             case LEFT_VIEW: {
                 g.setStroke(new BasicStroke(4));
+                g.setColor(used_for.getColor());
                 Utils.drawline(frontPointLeftView, backPointLeftView, g);
                 frontPointLeftView.draw(g);
                 backPointLeftView.draw(g);

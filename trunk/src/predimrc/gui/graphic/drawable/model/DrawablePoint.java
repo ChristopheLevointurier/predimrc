@@ -212,18 +212,31 @@ public class DrawablePoint {
     }
 
     public void draw(Graphics2D g) {
-        g.setStroke(new BasicStroke(10));
         if (selectable) {
             g.setColor(Color.BLUE.brighter());
         } else {
             g.setColor(Color.GRAY.brighter());
         }
         if (isSelected()) {
-            g.setColor(Color.RED);
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            //  g.setColor(Color.RED);
             g.setColor(Color.BLUE.brighter());
-        } else {
+            g.setStroke(new BasicStroke(10));
             g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setStroke(new BasicStroke(8));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setStroke(new BasicStroke(6));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setStroke(new BasicStroke(4));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+        } else {
+            g.setStroke(new BasicStroke(10));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setColor(Color.WHITE);
+            g.setStroke(new BasicStroke(8));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setStroke(new BasicStroke(6));
+            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.setStroke(new BasicStroke(4));
         }
     }
 

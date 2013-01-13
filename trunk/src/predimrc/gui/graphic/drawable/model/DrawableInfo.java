@@ -48,7 +48,6 @@ public class DrawableInfo {
         if (!detailedInfo.equals(string)) {
             dirty = true;
         }
-        dirty = true;
         detailedInfo = string;
     }
 
