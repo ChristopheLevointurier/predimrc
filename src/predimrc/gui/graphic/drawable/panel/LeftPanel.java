@@ -69,7 +69,7 @@ public class LeftPanel extends DrawablePanel {
                     //move wingConnection
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointLeftView())) {
                         selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
-                        infoAction = " moved to : " + selectedElement.getPositionDimension3D();
+                        info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
 
                     }
                     //resize angle
@@ -100,7 +100,7 @@ public class LeftPanel extends DrawablePanel {
          * VERTICAL_PLAN: { return; } }*
          */
         ((DrawableWing) selectedPoint.getBelongsTo()).setAngle(currentAngle);
-        infoAction = " angle : " + currentAngle;
+        info.setDetailedInfo(" angle : " + currentAngle);
     }
 
     @Override

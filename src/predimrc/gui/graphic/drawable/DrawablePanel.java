@@ -26,6 +26,7 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
+import predimrc.gui.graphic.drawable.model.DrawableInfo;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -40,8 +41,7 @@ import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 public abstract class DrawablePanel extends JPanel implements IModelListener {
 
     protected Image backgroundImage;
-    protected String info = "Select an object"; //TODO change to StringBuffer in the future.
-    protected String infoAction = " to modify its value."; //TODO change to StringBuffer in the future.
+    protected DrawableInfo info = new DrawableInfo();
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
     protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
     protected VIEW_TYPE view;
@@ -52,9 +52,11 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             @Override
             public void mouseMoved(MouseEvent e) {
                 getNearestPoint(e.getX(), e.getY());
+                info.setInfo(selectedElement.toInfoString());
                 for (DrawablePoint p : points) {
                     p.draw((Graphics2D) getGraphics());
                 }
+                info.draw(getGraphics());
             }
         });
         addMouseListener(new MouseAdapter() {
@@ -62,8 +64,8 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             public void mousePressed(MouseEvent e) {
                 //detect nearest point;
                 getNearestPoint(e.getX(), e.getY());
-                info = selectedElement.toInfoString();
-                infoAction = "";
+                info.setInfo(selectedElement.toInfoString());
+                info.setDetailedInfo("");
                 repaint();
             }
         });
@@ -71,13 +73,9 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 selectedPoint.setSelected(false);
-                selectedPoint.draw((Graphics2D)getGraphics());
+                selectedPoint.draw((Graphics2D) getGraphics());
             }
         });
-
-
-
-
     }
 
     protected void getNearestPoint(int x, int y) {
@@ -104,8 +102,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
         }
-        g.setColor(Color.blue);
-        g.drawString(info + infoAction, 10, 20);
+        info.draw(g);
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {
             PredimRC.getInstanceDrawableModel().draw((Graphics2D) g, view);
