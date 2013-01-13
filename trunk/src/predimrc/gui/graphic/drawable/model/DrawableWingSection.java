@@ -115,11 +115,10 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     }
 
     /**
-     * Compute methods
+     * Compute methods Calc each point with new params
      */
     @Override
     public void computePositions() {
-        //TODO calc each point for 3D view with new params
         int index = ((DrawableWing) belongsTo).getIndexInArray(this);
         if (index > 0) {
             previous = ((DrawableWing) belongsTo).get(index - 1);
@@ -136,10 +135,10 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         float viewableWidthCoef = (float) (Math.cos(Math.toRadians(calageAngulaire)));
 
         if (!pointsCalculed) {
-            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche, this);
-            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
-            frontPointLeftView = new DrawablePoint(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, this);
-            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width), true, this);
+            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this);
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this);
+            frontPointLeftView = new DrawablePoint(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this);
+            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this);
             frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING), this);
             //adjust with angle      
             applyAngle(frontPointTopView, yref, viewableWidthCoef);
