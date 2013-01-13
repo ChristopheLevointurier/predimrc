@@ -15,7 +15,6 @@
 package predimrc.gui.graphic.drawable.model;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import predimrc.common.Dimension3D;
@@ -266,21 +265,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         }
 
         g.setStroke(new BasicStroke(4));
-        switch (((DrawableWing) belongsTo).getUsedFor()) {
-            case MAIN_WING: {
-                g.setColor(Color.MAGENTA);
-                break;
-            }
-            case HORIZONTAL_PLAN: {
-                g.setColor(Color.ORANGE);
-                break;
-            }
-            case VERTICAL_PLAN: {
-                g.setColor(Color.GREEN);
-                break;
-            }
-        }
-
+        g.setColor(((DrawableWing) belongsTo).getUsedFor().getColor());
 
 
         switch (view) {
@@ -297,11 +282,11 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
                 Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
                 Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
                 if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
                     Utils.drawline(previous.getBackPointTopView(), previous.getFrontPointTopView(), g);
                 }
+                frontPointTopView.draw(g);
+                backPointTopView.draw(g);
                 break;
             }
             case LEFT_VIEW:

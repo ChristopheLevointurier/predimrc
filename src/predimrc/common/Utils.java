@@ -37,6 +37,9 @@ public class Utils {
     /**
      * datas
      */
+    public static final Color DEFAULT_MAIN_WING_COLOR =Color.PINK;
+    public static final Color DEFAULT_TAIL_WING_COLOR = Color.ORANGE;
+    public static final Color DEFAULT_DERIVE_WING_COLOR = Color.GREEN;
     public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 100;
     public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 55;
     public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
@@ -114,10 +117,20 @@ public class Utils {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
- 
     public static enum USED_FOR {
 
-        MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
+        MAIN_WING(Utils.DEFAULT_MAIN_WING_COLOR),
+        VERTICAL_PLAN(Utils.DEFAULT_DERIVE_WING_COLOR),
+        HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR);
+        private Color color;
+
+        private USED_FOR(Color c) {
+            color = c;
+        }
+
+        public Color getColor() {
+            return color;
+        }
     }
 
     public static enum VIEW_TYPE {
@@ -129,10 +142,9 @@ public class Utils {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
     }
-    
-       public static void drawLine(int x, int y, DrawablePoint b, Graphics g) {
-      ((Graphics2D) g).setStroke(new BasicStroke(2));
-        g.drawLine(x,y, b.getIntX(), b.getIntY());
-     }
-  
+
+    public static void drawLine(int x, int y, DrawablePoint b, Graphics g) {
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
+        g.drawLine(x, y, b.getIntX(), b.getIntY());
+    }
 }
