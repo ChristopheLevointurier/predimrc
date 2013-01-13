@@ -114,6 +114,7 @@ public class Utils {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
+ 
     public static enum USED_FOR {
 
         MAIN_WING, VERTICAL_PLAN, HORIZONTAL_PLAN;
@@ -125,8 +126,13 @@ public class Utils {
     }
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
-        ((Graphics2D) g).setStroke(new BasicStroke(4));
-        g.setColor(Color.GRAY.brighter());
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
     }
+    
+       public static void drawLine(int x, int y, DrawablePoint b, Graphics g) {
+      ((Graphics2D) g).setStroke(new BasicStroke(2));
+        g.drawLine(x,y, b.getIntX(), b.getIntY());
+     }
+  
 }

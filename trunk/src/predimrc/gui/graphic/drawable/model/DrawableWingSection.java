@@ -266,41 +266,61 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         }
 
         g.setStroke(new BasicStroke(4));
-        g.setColor(Color.GRAY.brighter());
+        switch (((DrawableWing) belongsTo).getUsedFor()) {
+            case MAIN_WING: {
+                g.setColor(Color.MAGENTA);
+                break;
+            }
+            case HORIZONTAL_PLAN: {
+                g.setColor(Color.ORANGE);
+                break;
+            }
+            case VERTICAL_PLAN: {
+                g.setColor(Color.GREEN);
+                break;
+            }
+        }
+
 
 
         switch (view) {
             case FRONT_VIEW: {
-                g.drawLine((int) getyPos(), (int) getzPos(), frontPointFrontView.getIntX(), frontPointFrontView.getIntY());
+                Utils.drawLine((int) getyPos(), (int) getzPos(), frontPointFrontView, g);
                 frontPointFrontView.draw(g);
                 break;
             }
 
             case TOP_VIEW: {
-                    Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
-                    Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
-                    Utils.drawline(frontPointTopView, backPointTopView, g);
-                    Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
-                    Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
-                    Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
-                    frontPointTopView.draw(g);
-                    backPointTopView.draw(g);
-               if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
+                Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
+                Utils.drawline(frontPointTopView, backPointTopView, g);
+                Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
+                Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
+                Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
+                frontPointTopView.draw(g);
+                backPointTopView.draw(g);
+                if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
                     Utils.drawline(previous.getBackPointTopView(), previous.getFrontPointTopView(), g);
                 }
                 break;
             }
             case LEFT_VIEW:
-            /**     if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-                    Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
-                    Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
-                    Utils.drawline(frontPointTopView, backPointTopView, g);
-                    Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
-                    Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
-                    Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
-                    frontPointTopView.draw(g);
-                    backPointTopView.draw(g);
-                }**/
+                /**
+                 * if (((DrawableWing)
+                 * belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN))
+                 * { Utils.drawline(frontPointTopView,
+                 * previous.getFrontPointTopView(), g);
+                 * Utils.drawline(backPointTopView,
+                 * previous.getBackPointTopView(), g);
+                 * Utils.drawline(frontPointTopView, backPointTopView, g);
+                 * Utils.drawline(frontPointTopView.getMirrorTop(),
+                 * previous.getFrontPointTopView().getMirrorTop(), g);
+                 * Utils.drawline(backPointTopView.getMirrorTop(),
+                 * previous.getBackPointTopView().getMirrorTop(), g);
+                 * Utils.drawline(frontPointTopView.getMirrorTop(),
+                 * backPointTopView.getMirrorTop(), g);
+                 * frontPointTopView.draw(g); backPointTopView.draw(g); }*
+                 */
                 break;
         }
     }
@@ -314,17 +334,17 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 break;
             }
             case TOP_VIEW: {
-               // if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-                    ret.add(frontPointTopView);
-                    ret.add(backPointTopView);
-              //  }
+                // if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                ret.add(frontPointTopView);
+                ret.add(backPointTopView);
+                //  }
                 break;
             }
             case LEFT_VIEW: {
-              //  if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-             //       ret.add(frontPointTopView);
-             //       ret.add(backPointTopView);
-             //   }
+                //  if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                //       ret.add(frontPointTopView);
+                //       ret.add(backPointTopView);
+                //   }
                 break;
             }
         }

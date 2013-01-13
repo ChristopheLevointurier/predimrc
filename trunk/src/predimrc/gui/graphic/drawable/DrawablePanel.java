@@ -74,6 +74,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 selectedPoint.setSelected(false);
                 selectedPoint.draw((Graphics2D) getGraphics());
+                info.undraw(getGraphics());
             }
         });
     }
@@ -97,7 +98,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(220, 220, 255));
+        g.setColor(new Color(255, 255, 255));
         g.fillRect(0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight());
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);

@@ -28,6 +28,7 @@ public class DrawableInfo {
 
     private String info = "Select an object";
     private String detailedInfo = " to modify its value.";
+    boolean dirty = true;
 
     public DrawableInfo() {
     }
@@ -37,17 +38,34 @@ public class DrawableInfo {
     }
 
     public void setInfo(String _info) {
-        this.info = _info;
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(new Color(225, 225, 255));
-        g.fillRect(1, 1, 300, 35);
-        g.setColor(Color.blue);
-        g.drawString(info + detailedInfo, 10, 20);
+        if (!info.equals(_info)) {
+            dirty = true;
+        }
+        info = _info;
     }
 
     public void setDetailedInfo(String string) {
+        if (!detailedInfo.equals(string)) {
+            dirty = true;
+        }
+        dirty = true;
         detailedInfo = string;
+    }
+
+    public void draw(Graphics g) {
+        if (dirty) {
+            g.setColor(new Color(225, 225, 255));
+            g.fillRect(1, 1, 300, 35);
+            g.setColor(Color.blue);
+            g.drawString(info + detailedInfo, 10, 20);
+            dirty = false;
+        }
+    }
+
+    public void undraw(Graphics g) {
+        g.setColor(new Color(255, 255, 255));
+        g.fillRect(1, 1, 300, 35);
+        dirty = true;
+
     }
 }
