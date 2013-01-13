@@ -20,6 +20,10 @@ public interface AbstractDrawableWing {
     abstract public DrawablePoint getBackPointTopView();
 
     abstract public DrawablePoint getFrontPointFrontView();
+ 
+    abstract public DrawablePoint getBackPointLeftView();
+
+    abstract public DrawablePoint getFrontPointLeftView();
 
     abstract public Utils.USED_FOR getUsedFor();
 

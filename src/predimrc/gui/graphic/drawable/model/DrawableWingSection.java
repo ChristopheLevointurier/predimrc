@@ -42,12 +42,12 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * Front view Points
      */
-    private DrawablePoint frontPointFrontView = new DrawablePoint(0, 0);
+    private DrawablePoint frontPointFrontView;
     /**
-     * Left points for derive
+     * Left view points
      */
-    protected DrawablePoint derivreBackPointLeftView;
-    protected DrawablePoint derivreFrontPointLeftView;
+    protected DrawablePoint backPointLeftView;
+    protected DrawablePoint frontPointLeftView;
     /**
      * datas
      */
@@ -105,9 +105,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         setValues(_in.getFilename(), _in.getDiedre(), _in.getFleche(), _in.getWidth(), _in.getLenght(), _in.getCalageAngulaire());
     }
 
-    /**
-     * getters and setters
-     */
     private void setValues(String _filename, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
         diedre = _diedre;
         fleche = _fleche;
@@ -115,92 +112,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         lenght = _lenght;
         calageAngulaire = _calageAngulaire;
         filename = _filename;
-    }
-
-    public float getDiedre() {
-        return diedre;
-    }
-
-    @Override
-    public float getWidth() {
-        return width;
-    }
-
-    public float getLenght() {
-        return lenght;
-    }
-
-    @Override
-    public void setDiedre(float _diedre) {
-        if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING)) {
-            ((DrawableWing) belongsTo).setDiedre(_diedre);
-            return;
-        }
-        diedre = _diedre;
-        apply();
-    }
-
-    public void setDiedre(float _diedre, boolean silent) {
-        if (silent) {
-            diedre = _diedre;
-        } else {
-            setDiedre(diedre);
-        }
-    }
-
-    public void setAngle(float _angle, boolean silent) {
-        if (silent) {
-            calageAngulaire = _angle;
-        } else {
-            setAngle(_angle);
-        }
-    }
-
-    @Override
-    public void setWidth(float _width) {
-        width = _width;
-        apply();
-    }
-
-    public void setLenght(float lenght) {
-        this.lenght = lenght;
-        apply();
-    }
-
-    public float getFleche() {
-        return fleche;
-    }
-
-    public void setFleche(float fleche) {
-        this.fleche = fleche;
-        apply();
-    }
-
-    /**
-     * *
-     * Getters for points
-     */
-    @Override
-    public DrawablePoint getFrontPointTopView() {
-        return frontPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getBackPointTopView() {
-        return backPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getFrontPointFrontView() {
-        return frontPointFrontView;
-    }
-
-    public DrawablePoint getPreviousFrontPointTopView() {
-        return previous.getFrontPointTopView();
-    }
-
-    public DrawablePoint getPreviousBackPointTopView() {
-        return previous.getBackPointTopView();
     }
 
     /**
@@ -219,27 +130,36 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
 
-        float viewableLength = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
+        float viewableLengthY = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
+        float viewableLengthZ = (float) (lenght * (Math.cos(Math.toRadians(diedre + 90))));
         float yref = belongsTo.getxPos();
         float viewableWidthCoef = (float) (Math.cos(Math.toRadians(calageAngulaire)));
 
         if (!pointsCalculed) {
-            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche, this);
+            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche, this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
+            frontPointLeftView = new DrawablePoint(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, this);
+            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width), true, this);
             frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING), this);
             //adjust with angle      
             applyAngle(frontPointTopView, yref, viewableWidthCoef);
             applyAngle(backPointTopView, yref, viewableWidthCoef);
-            applyAngle(frontPointFrontView, yref, viewableWidthCoef);
+            // applyAngle(frontPointFrontView, yref, viewableWidthCoef);
+            // applyAngle(backPointLeftView, yref, viewableWidthCoef); TODO
+            // applyAngle(frontPointFrontView, yref, viewableWidthCoef);
             pointsCalculed = true;
         } else {
-            frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche);
+            frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width);
+            frontPointLeftView.setFloatLocation(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ);
+            backPointLeftView.setLocation(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width));
             frontPointFrontView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght));
             //adjust with angle      
             applyAngle(frontPointTopView, yref, viewableWidthCoef);
             applyAngle(backPointTopView, yref, viewableWidthCoef);
-            applyAngle(frontPointFrontView, yref, viewableWidthCoef);
+            //  applyAngle(frontPointFrontView, yref, viewableWidthCoef);
+            //  applyAngle(backPointLeftView, yref, viewableWidthCoef);  TODO
+            //  applyAngle(frontPointFrontView, yref, viewableWidthCoef);
         }
         setxPos(frontPointTopView.getFloatY());
     }
@@ -284,38 +204,29 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             }
 
             case TOP_VIEW: {
-                Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
-                Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
-                Utils.drawline(frontPointTopView, backPointTopView, g);
-                Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
-                Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
-                Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
-                if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-                    Utils.drawline(previous.getBackPointTopView(), previous.getFrontPointTopView(), g);
-                }
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
+                drawRect(frontPointTopView, backPointTopView, previous.getFrontPointTopView(), previous.getBackPointTopView(), g, true);
                 break;
             }
             case LEFT_VIEW:
-                /**
-                 * if (((DrawableWing)
-                 * belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN))
-                 * { Utils.drawline(frontPointTopView,
-                 * previous.getFrontPointTopView(), g);
-                 * Utils.drawline(backPointTopView,
-                 * previous.getBackPointTopView(), g);
-                 * Utils.drawline(frontPointTopView, backPointTopView, g);
-                 * Utils.drawline(frontPointTopView.getMirrorTop(),
-                 * previous.getFrontPointTopView().getMirrorTop(), g);
-                 * Utils.drawline(backPointTopView.getMirrorTop(),
-                 * previous.getBackPointTopView().getMirrorTop(), g);
-                 * Utils.drawline(frontPointTopView.getMirrorTop(),
-                 * backPointTopView.getMirrorTop(), g);
-                 * frontPointTopView.draw(g); backPointTopView.draw(g); }*
-                 */
+                drawRect(frontPointLeftView, backPointLeftView, previous.getFrontPointLeftView(), previous.getBackPointLeftView(), g, false);
                 break;
         }
+    }
+
+    private void drawRect(DrawablePoint p1, DrawablePoint p2, DrawablePoint p3, DrawablePoint p4, Graphics2D g, boolean miror) {
+        Utils.drawline(p1, p3, g);
+        Utils.drawline(p2, p4, g);
+        Utils.drawline(p1, p2, g);
+        if (miror) {
+            Utils.drawline(p1.getMirrorTop(), p3.getMirrorTop(), g);
+            Utils.drawline(p2.getMirrorTop(), p4.getMirrorTop(), g);
+            Utils.drawline(p1.getMirrorTop(), p2.getMirrorTop(), g);
+        }
+        if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+            Utils.drawline(p4, p3, g);
+        }
+        p1.draw(g);
+        p2.draw(g);
     }
 
     @Override
@@ -335,8 +246,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             }
             case LEFT_VIEW: {
                 //  if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-                //       ret.add(frontPointTopView);
-                //       ret.add(backPointTopView);
+                ret.add(frontPointLeftView);
+                ret.add(backPointLeftView);
                 //   }
                 break;
             }
@@ -346,6 +257,92 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     public WingSection generateModel() {
         return new WingSection(getFilename(), getPositionDimension3D(), diedre, fleche, width, lenght, calageAngulaire);
+    }
+
+    /**
+     * *
+     * Getters and setters
+     */
+    @Override
+    public DrawablePoint getFrontPointTopView() {
+        return frontPointTopView;
+    }
+
+    @Override
+    public DrawablePoint getBackPointTopView() {
+        return backPointTopView;
+    }
+
+    @Override
+    public DrawablePoint getFrontPointFrontView() {
+        return frontPointFrontView;
+    }
+
+    public DrawablePoint getPreviousFrontPointTopView() {
+        return previous.getFrontPointTopView();
+    }
+
+    public DrawablePoint getPreviousBackPointTopView() {
+        return previous.getBackPointTopView();
+    }
+
+    @Override
+    public void setWidth(float _width) {
+        width = _width;
+        apply();
+    }
+
+    public void setLenght(float lenght) {
+        this.lenght = lenght;
+        apply();
+    }
+
+    public float getFleche() {
+        return fleche;
+    }
+
+    public void setFleche(float fleche) {
+        this.fleche = fleche;
+        apply();
+    }
+
+    public float getDiedre() {
+        return diedre;
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    public float getLenght() {
+        return lenght;
+    }
+
+    @Override
+    public void setDiedre(float _diedre) {
+        if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING)) {
+            ((DrawableWing) belongsTo).setDiedre(_diedre);
+            return;
+        }
+        diedre = _diedre;
+        apply();
+    }
+
+    public void setDiedre(float _diedre, boolean silent) {
+        if (silent) {
+            diedre = _diedre;
+        } else {
+            setDiedre(diedre);
+        }
+    }
+
+    public void setAngle(float _angle, boolean silent) {
+        if (silent) {
+            calageAngulaire = _angle;
+        } else {
+            setAngle(_angle);
+        }
     }
 
     @Override
@@ -369,7 +366,18 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         apply();
     }
 
+    @Override
     public float getAngle() {
         return calageAngulaire;
+    }
+
+    @Override
+    public DrawablePoint getBackPointLeftView() {
+        return backPointLeftView;
+    }
+
+    @Override
+    public DrawablePoint getFrontPointLeftView() {
+        return frontPointLeftView;
     }
 }

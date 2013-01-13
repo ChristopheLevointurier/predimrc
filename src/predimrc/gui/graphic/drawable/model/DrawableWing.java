@@ -106,10 +106,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
 
-
-
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth() * Math.cos(Math.toRadians(calageAngulaire)), true, this);
-
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
 
             backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection), true, this);
@@ -133,9 +130,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
         switch (used_for) {
-            //  case VERTICAL_PLAN: { // TODO, return derive connection
-            //      return new Point2D.Float(yPos, zPos);
-            //  }
             case VERTICAL_PLAN:
             case HORIZONTAL_PLAN: {
                 return new Point2D.Float(yPos, zPos);
@@ -199,10 +193,12 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         return backPointTopView;
     }
 
+    @Override
     public DrawablePoint getBackPointLeftView() {
         return backPointLeftView;
     }
 
+    @Override
     public DrawablePoint getFrontPointLeftView() {
         return frontPointLeftView;
     }
@@ -283,7 +279,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 break;
             }
             case LEFT_VIEW: {
-                g.setStroke(new BasicStroke(4));
                 g.setColor(used_for.getColor());
                 Utils.drawline(frontPointLeftView, backPointLeftView, g);
                 frontPointLeftView.draw(g);
@@ -350,21 +345,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     @Override
     public String toInfoString() {
-        String ret = "";
-        switch (getUsedFor()) {
-            case MAIN_WING: {
-                ret = "Wing ";
-                break;
-            }
-            case HORIZONTAL_PLAN: {
-                ret = "Tail ";
-                break;
-            }
-            case VERTICAL_PLAN: { //should not come here
-                ret = "Derive ";
-                break;
-            }
-        }
+        String ret = getUsedFor().getDesc();
         ret += (getIndexInBelongsTo() + 1);
         return ret;
     }
@@ -384,4 +365,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public float getAngle() {
         return calageAngulaire;
     }
+    
+    
 }
