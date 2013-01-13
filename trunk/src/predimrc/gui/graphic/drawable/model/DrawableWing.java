@@ -62,6 +62,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case VERTICAL_PLAN: {
                 setPosXYZ(Utils.defaultDeriveConnection, true);
                 widthAtConnection = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
+                calageAngulaire = 0;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
@@ -124,7 +125,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
         for (DrawableWingSection ds : drawableWingSection) {
             ds.computePositions();
-            if (used_for.equals(USED_FOR.HORIZONTAL_PLAN)) {
+            if (!used_for.equals(USED_FOR.MAIN_WING)) {
                 ds.getFrontPointFrontView().setSelectable(ds.equals(drawableWingSection.getLast()));
             }
         }
@@ -133,14 +134,15 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
         switch (used_for) {
-            case VERTICAL_PLAN: { // TODO, return derive connection
-                return new Point2D.Float(yPos, zPos);
-            }
+            //  case VERTICAL_PLAN: { // TODO, return derive connection
+            //      return new Point2D.Float(yPos, zPos);
+            //  }
             case HORIZONTAL_PLAN: {
                 return new Point2D.Float(yPos, zPos);
             }
             default:
-            case MAIN_WING: {
+            case MAIN_WING:
+            case VERTICAL_PLAN: {
 
                 if (index == 0) {
                     return new Point2D.Float(yPos, zPos);
@@ -374,6 +376,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         apply();
     }
 
+    @Override
     public float getAngle() {
         return calageAngulaire;
     }

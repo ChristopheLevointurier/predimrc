@@ -45,6 +45,11 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      */
     private DrawablePoint frontPointFrontView = new DrawablePoint(0, 0);
     /**
+     * Left points for derive
+     */
+    protected DrawablePoint derivreBackPointLeftView;
+    protected DrawablePoint derivreFrontPointLeftView;
+    /**
      * datas
      */
     //diedre and calageAngulaire are in degree.
@@ -128,7 +133,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     @Override
     public void setDiedre(float _diedre) {
-        if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN)) {
+        if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING)) {
             ((DrawableWing) belongsTo).setDiedre(_diedre);
             return;
         }
@@ -214,7 +219,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         if (!pointsCalculed) {
             frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLength, previous.getFrontPointTopView().getFloatY() - fleche, this);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getIntY() + width, this);
-            frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN), this);
+            frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING), this);
             //adjust with angle      
             applyAngle(frontPointTopView, yref, viewableWidthCoef);
             applyAngle(backPointTopView, yref, viewableWidthCoef);
@@ -272,18 +277,30 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             }
 
             case TOP_VIEW: {
-                Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
-                Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
-
-                Utils.drawline(frontPointTopView, backPointTopView, g);
-                Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
-                Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
-                Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
+                    Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
+                    Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
+                    Utils.drawline(frontPointTopView, backPointTopView, g);
+                    Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
+                    Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
+                    Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
+                    frontPointTopView.draw(g);
+                    backPointTopView.draw(g);
+               if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                    Utils.drawline(previous.getBackPointTopView(), previous.getFrontPointTopView(), g);
+                }
                 break;
             }
             case LEFT_VIEW:
+            /**     if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                    Utils.drawline(frontPointTopView, previous.getFrontPointTopView(), g);
+                    Utils.drawline(backPointTopView, previous.getBackPointTopView(), g);
+                    Utils.drawline(frontPointTopView, backPointTopView, g);
+                    Utils.drawline(frontPointTopView.getMirrorTop(), previous.getFrontPointTopView().getMirrorTop(), g);
+                    Utils.drawline(backPointTopView.getMirrorTop(), previous.getBackPointTopView().getMirrorTop(), g);
+                    Utils.drawline(frontPointTopView.getMirrorTop(), backPointTopView.getMirrorTop(), g);
+                    frontPointTopView.draw(g);
+                    backPointTopView.draw(g);
+                }**/
                 break;
         }
     }
@@ -297,11 +314,17 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 break;
             }
             case TOP_VIEW: {
-                ret.add(frontPointTopView);
-                ret.add(backPointTopView);
+               // if (!((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+                    ret.add(frontPointTopView);
+                    ret.add(backPointTopView);
+              //  }
                 break;
             }
             case LEFT_VIEW: {
+              //  if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
+             //       ret.add(frontPointTopView);
+             //       ret.add(backPointTopView);
+             //   }
                 break;
             }
         }
