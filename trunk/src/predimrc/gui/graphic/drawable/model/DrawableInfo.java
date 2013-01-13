@@ -54,7 +54,7 @@ public class DrawableInfo {
     public void draw(Graphics g) {
         if (dirty) {
             g.setColor(new Color(225, 225, 255));
-            g.fillRect(1, 1, 300, 35);
+            g.fillRect(1, 1, 350, 35);
             g.setColor(Color.blue);
             g.drawString(info + detailedInfo, 10, 20);
             dirty = false;
@@ -63,7 +63,7 @@ public class DrawableInfo {
 
     public void undraw(Graphics g) {
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(1, 1, 300, 35);
+        g.fillRect(1, 1, 350, 35);
         dirty = true;
 
     }
