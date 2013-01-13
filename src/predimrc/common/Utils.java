@@ -14,8 +14,10 @@
  */
 package predimrc.common;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.Enumeration;
 import jglcore.JGL_3DMesh;
@@ -123,6 +125,8 @@ public class Utils {
     }
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
+        ((Graphics2D) g).setStroke(new BasicStroke(4));
+        g.setColor(Color.GRAY.brighter());
         g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
     }
 }
