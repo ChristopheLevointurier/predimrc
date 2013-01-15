@@ -48,9 +48,20 @@ public class LeftPanel extends DrawablePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    if ((selectedElement instanceof DrawableWing) && selectedPoint.equals(selectedElement.getFrontPointLeftView())) {//moveXYZ & wing struct 
-                        ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
+                    if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
+                        if (selectedElement instanceof DrawableWing) {
+                            //move Connection XYZ & wing struct 
+                            ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
+                        }
+                        if (selectedElement instanceof DrawableWingSection) {
+                            try {
+                                ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
+                            } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                                PredimRC.logln("Invalid value typed");
+                            }
+                        }
                     }
+
 
                     if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
                         switch (selectedElement.getUsedFor()) {
