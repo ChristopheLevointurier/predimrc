@@ -14,7 +14,6 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -37,21 +36,8 @@ import predimrc.model.element.WingSection;
  */
 public class DrawableWing extends DrawableModelElement implements Iterable<DrawableWingSection>, AbstractDrawableWing {
 
-    private DrawablePoint connectionPointFrontView;
     private LinkedList<DrawableWingSection> drawableWingSection;
-    private USED_FOR used_for;
-    private float widthAtConnection;
     private float calageAngulaire;
-    /**
-     * Top view Points
-     */
-    protected DrawablePoint backPointTopView;
-    protected DrawablePoint frontPointTopView;
-    /**
-     * Left view point
-     */
-    protected DrawablePoint backPointLeftView;
-    protected DrawablePoint frontPointLeftView;
 
     public DrawableWing(USED_FOR _used_for, DrawableModel m) {
         super(m);
@@ -60,26 +46,27 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         switch (_used_for) {
             case VERTICAL_PLAN: {
                 setPosXYZ(Utils.defaultDeriveConnection, true);
-                widthAtConnection = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
+                width = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
                 calageAngulaire = 0;
+                width = 55;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
             case HORIZONTAL_PLAN: {
                 setPosXYZ(Utils.defaultTailConnection, true);
-                widthAtConnection = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
-                calageAngulaire = -12;
+                width = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
+                calageAngulaire = 0.8f;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
             default:
             case MAIN_WING: {
                 setPosXYZ(Utils.defaultWingConnection, true);
-                widthAtConnection = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
+                width = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
                 calageAngulaire = -8;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 3, -6, 40, 200, -11, this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, -5, -4, 30, 80, -12, this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 4, -7.8f, 40, 200, -8.1f, this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 6, -7.6f, 30, 80, -8.2f, this));
                 break;
             }
         }
@@ -88,7 +75,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public DrawableWing(Wing w, DrawableModel m) {
         super(w.getPositionDimension3D(), m);
         used_for = w.getUsed_for();
-        widthAtConnection = w.getWidth();
+        width = w.getWidth();
         drawableWingSection = new LinkedList<>();
         calageAngulaire = w.getCalageAngulaire();
         filename = w.getFilename();
@@ -103,20 +90,20 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void computePositions() {
         if (!pointsCalculed) {
-            connectionPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
+            frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
 
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth() * Math.cos(Math.toRadians(calageAngulaire)), true, this);
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
 
-            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection), true, this);
+            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width), true, this);
             pointsCalculed = true;
         } else {
-            connectionPointFrontView.setFloatLocation(yPos, zPos);
+            frontPointFrontView.setFloatLocation(yPos, zPos);
             frontPointTopView.setFloatLocation(yPos, xPos);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + (float) (getWidth() * Math.cos(Math.toRadians(calageAngulaire))));
             frontPointLeftView.setFloatLocation(xPos, zPos);
-            backPointLeftView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, widthAtConnection));
+            backPointLeftView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width));
         }
 
         for (DrawableWingSection ds : drawableWingSection) {
@@ -183,51 +170,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         apply();
     }
 
-    @Override
-    public DrawablePoint getFrontPointTopView() {
-        return frontPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getBackPointTopView() {
-        return backPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getBackPointLeftView() {
-        return backPointLeftView;
-    }
-
-    @Override
-    public DrawablePoint getFrontPointLeftView() {
-        return frontPointLeftView;
-    }
-
-    @Override
-    public DrawablePoint getFrontPointFrontView() {
-        return drawableWingSection.getLast().getFrontPointFrontView();
-    }
-
     /**
      * Getters and setters
      *
      */
-    @Override
-    public float getWidth() {
-        return widthAtConnection;
-    }
-
-    @Override
-    public void setWidth(float widthAtConnection) {
-        this.widthAtConnection = widthAtConnection;
-        apply();
-    }
-
-    @Override
-    public USED_FOR getUsedFor() {
-        return used_for;
-    }
-
     public int getSize() {
         return drawableWingSection.size();
     }
@@ -269,7 +215,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         }
         switch (view) {
             case FRONT_VIEW: {
-                connectionPointFrontView.draw(g);
+                frontPointFrontView.draw(g);
                 break;
             }
 
@@ -313,7 +259,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
         switch (view) {
             case FRONT_VIEW: {
-                ret.add(connectionPointFrontView);
+                ret.add(frontPointFrontView);
                 break;
             }
             case TOP_VIEW: {
@@ -335,7 +281,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             wsl.add(ws.generateModel());
         }
-        return new Wing("fad05.dat", used_for, getPositionDimension3D(), widthAtConnection, calageAngulaire, wsl);
+        return new Wing("fad05.dat", used_for, getPositionDimension3D(), width, calageAngulaire, wsl);
     }
 
     @Override
@@ -353,11 +299,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void setAngle(float angle) {
         calageAngulaire = angle;
-           for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
+        for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
             w.setAngle(angle, true);
         }
         apply();
-        
+
         apply();
     }
 
@@ -365,6 +311,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public float getAngle() {
         return calageAngulaire;
     }
-    
-    
+
+    @Override
+    public DrawablePoint getFrontPointFrontView() {
+        return drawableWingSection.getLast().getFrontPointFrontView();
+    }
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 import predimrc.common.Dimension3D;
+import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
@@ -33,10 +34,29 @@ import predimrc.gui.graphic.drawable.model.DrawablePoint;
  */
 public abstract class DrawableModelElement {
 
+    /**
+     * Front view Point
+     */
+    protected DrawablePoint frontPointFrontView;
+    /**
+     * Top view Points
+     */
+    protected DrawablePoint backPointTopView;
+    protected DrawablePoint frontPointTopView;
+    /**
+     * Left view point
+     */
+    protected DrawablePoint backPointLeftView;
+    protected DrawablePoint frontPointLeftView;
+    /**
+     * position coord
+     */
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
     protected String filename = "";
+    protected float width;
+    protected Utils.USED_FOR used_for;
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
@@ -70,12 +90,25 @@ public abstract class DrawableModelElement {
         }
     }
 
+    public Utils.USED_FOR getUsedFor() {
+        return used_for;
+    }
+
     public JGL_3DVector getPosition3DVector() {
         return new JGL_3DVector(xPos, yPos, zPos);
     }
 
     public Dimension3D getPositionDimension3D() {
         return new Dimension3D(xPos, yPos, zPos);
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float _width) {
+        width = _width;
+        apply();
     }
 
     public float getxPos() {
@@ -118,6 +151,26 @@ public abstract class DrawableModelElement {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public DrawablePoint getFrontPointTopView() {
+        return frontPointTopView;
+    }
+
+    public DrawablePoint getBackPointTopView() {
+        return backPointTopView;
+    }
+
+    public DrawablePoint getBackPointLeftView() {
+        return backPointLeftView;
+    }
+
+    public DrawablePoint getFrontPointLeftView() {
+        return frontPointLeftView;
+    }
+
+    public DrawablePoint getFrontPointFrontView() {
+        return frontPointFrontView;
     }
 
     abstract public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view);

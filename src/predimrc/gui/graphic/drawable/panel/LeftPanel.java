@@ -23,8 +23,11 @@ import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
+import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
+import predimrc.gui.graphic.popup.ConfigWing_PopUp;
 
 /**
  *
@@ -45,16 +48,32 @@ public class LeftPanel extends DrawablePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointLeftView())) {//moveXYZ
+                    if ((selectedElement instanceof DrawableWing) && selectedPoint.equals(selectedElement.getFrontPointLeftView())) {//moveXYZ & wing struct 
+                        ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
                     }
 
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView()) && !((DrawableWing) selectedElement).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {//change calage angulaire
+                    if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
+                        switch (selectedElement.getUsedFor()) {
+                            case HORIZONTAL_PLAN:
+                            case MAIN_WING: //change calage angulaire
+                            {
+                                try {
+                                    currentAngle = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.ANGLE, "" + ((DrawableWing) selectedElement).getAngle()));
+                                    applyAngle();
+                                } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                                    PredimRC.logln("Invalid angle value typed");
+                                }
+                                break;
+                            }
+                            case VERTICAL_PLAN: {
+                                try {
+                                    selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));
+                                } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                                    PredimRC.logln("Invalid value typed");
+                                }
+                                break;
+                            }
 
-                        try {
-                            currentAngle = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.ANGLE, "" + ((DrawableWing) selectedElement).getAngle()));
-                            applyAngle();
-                        } catch (java.lang.NumberFormatException | NullPointerException exxx) {
-                            PredimRC.logln("Invalid angle value typed");
                         }
                     }
                     repaint();
@@ -65,19 +84,49 @@ public class LeftPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (selectedElement instanceof DrawableWing) {
-                    //move wingConnection
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getFrontPointLeftView())) {
+                if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
+                    if (selectedElement instanceof DrawableWing) {
+                        //move Connection
                         selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
                         info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
 
                     }
-                    //resize angle
-                    if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointLeftView()) && !((DrawableWing) selectedElement).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-                        currentAngle = 180 - Utils.calcAngle(((DrawableWing) selectedElement).getFrontPointLeftView(), e.getX(), e.getY());
-                        applyAngle();
+                    if (selectedElement instanceof DrawableWingSection) {
+                        //change  length & fleche
+                        float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(e.getX(), e.getY()));
+                        float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - e.getX());
+
+                        ((DrawableWingSection) selectedElement).setFleche(newFleche);
+                        if (newlenght > 1) {
+                            ((DrawableWingSection) selectedElement).setLenght(newlenght);
+                        }
+                        info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                     }
 
+                }
+
+
+
+                if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
+                    switch (selectedElement.getUsedFor()) {
+                        case HORIZONTAL_PLAN:
+                        case MAIN_WING: //change calage angulaire
+                        {
+                            currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), e.getX(), e.getY());
+                            applyAngle();
+                            break;
+                        }
+                        case VERTICAL_PLAN: {
+                            int newlenght = e.getX() - selectedElement.getFrontPointLeftView().getIntX();
+                            if (newlenght > 1) {
+                                selectedElement.setWidth(newlenght);
+                                info.setDetailedInfo(" Width=" + newlenght);
+                            }
+                            break;
+                        }
+
+                    }
+                    //    }
 
                 }
             }

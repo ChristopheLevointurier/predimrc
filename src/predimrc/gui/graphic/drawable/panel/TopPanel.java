@@ -52,11 +52,11 @@ public class TopPanel extends DrawablePanel {
 
                     if (selectedElement instanceof AbstractDrawableWing) {
                         try {
-                            if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getFrontPointTopView())) {//fleche length and pos
+                            if (selectedPoint.equals(selectedPoint.getBelongsTo().getFrontPointTopView())) {//fleche length and pos
                                 ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
                             }
-                            if (selectedPoint.equals(((AbstractDrawableWing) selectedPoint.getBelongsTo()).getBackPointTopView())) {//resize width 
-                                ((AbstractDrawableWing) selectedElement).setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((AbstractDrawableWing) selectedElement).getWidth()))));
+                            if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
+                                selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));
                             }
                         } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                             PredimRC.logln("Invalid value typed");
@@ -79,7 +79,7 @@ public class TopPanel extends DrawablePanel {
                     }
                     //resize width
                     if (selectedPoint.equals(((DrawableWing) selectedElement).getBackPointTopView())) {
-                        int newlenght = e.getY() - ((DrawableWing) selectedElement).getFrontPointTopView().getIntY();
+                        int newlenght = e.getY() - selectedElement.getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
                             ((DrawableWing) selectedElement).setWidth(newlenght);
                             info.setDetailedInfo(" Width=" + newlenght);
@@ -103,10 +103,10 @@ public class TopPanel extends DrawablePanel {
                         }
                         info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                     }
-                    if (selectedPoint.equals(((DrawableWingSection) selectedElement).getBackPointTopView())) {
-                        int newlenght = e.getY() - ((DrawableWingSection) selectedElement).getFrontPointTopView().getIntY();
+                    if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
+                        int newlenght = e.getY() - selectedElement.getFrontPointTopView().getIntY();
                         if (newlenght > 1) {
-                            ((DrawableWingSection) selectedElement).setWidth(newlenght);
+                            selectedElement.setWidth(newlenght);
                             info.setDetailedInfo(" Width=" + newlenght);
                         }
                     }

@@ -26,7 +26,6 @@ import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 
 /**
@@ -74,7 +73,7 @@ public class FrontPanel extends DrawablePanel {
     }
 
     private void applyDiedre() {
-        switch (((AbstractDrawableWing) selectedElement).getUsedFor()) {
+        switch (selectedElement.getUsedFor()) {
             case HORIZONTAL_PLAN: {
                 currentDiedre = currentDiedre > 60 ? 60 : currentDiedre;
                 currentDiedre = currentDiedre < -60 ? -60 : currentDiedre;
