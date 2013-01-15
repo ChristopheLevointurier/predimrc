@@ -33,27 +33,13 @@ import predimrc.model.element.WingSection;
  */
 public class DrawableWingSection extends DrawableModelElement implements AbstractDrawableWing {
 
-    private AbstractDrawableWing previous;
-    /**
-     * Top view Points
-     */
-    protected DrawablePoint backPointTopView;
-    protected DrawablePoint frontPointTopView;
-    /**
-     * Front view Points
-     */
-    private DrawablePoint frontPointFrontView;
-    /**
-     * Left view points
-     */
-    protected DrawablePoint backPointLeftView;
-    protected DrawablePoint frontPointLeftView;
+    private DrawableModelElement previous;
     /**
      * datas
      */
     //diedre and calageAngulaire are in degree.
     private float diedre, calageAngulaire;
-    private float width, lenght, fleche;
+    private float lenght, fleche;
 
     /**
      * Constructor used for copying a wingsection
@@ -69,16 +55,16 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         super(wingConnection, _belongsTo);
         switch (((DrawableWing) belongsTo).getUsedFor()) {
             case VERTICAL_PLAN: {
-                setValues(Utils.defaultDeriveFoil, 90, -20, 60, 50, 5);
+                setValues(Utils.defaultDeriveFoil, 90, -20, 47, 66, 0);
                 break;
             }
             case HORIZONTAL_PLAN: {
-                setValues(Utils.defaultTailFoil, 1, -10, 35, 80, 5);
+                setValues(Utils.defaultTailFoil, 1, -10, 35, 80, 0.8f);
                 break;
             }
             default:
             case MAIN_WING: {
-                setValues(Utils.defaultWingFoil, 2f, 0, 80, 60, 10);
+                setValues(Utils.defaultWingFoil, 2f, 0, 80, 60, -8.0f);
                 break;
             }
         }
@@ -125,7 +111,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setyPos(previous.getFrontPointFrontView().getFloatX());
             setzPos(previous.getFrontPointFrontView().getFloatY());
         } else {
-            previous = (AbstractDrawableWing) belongsTo;
+            previous = belongsTo;
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
 
@@ -262,21 +248,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * *
      * Getters and setters
      */
-    @Override
-    public DrawablePoint getFrontPointTopView() {
-        return frontPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getBackPointTopView() {
-        return backPointTopView;
-    }
-
-    @Override
-    public DrawablePoint getFrontPointFrontView() {
-        return frontPointFrontView;
-    }
-
     public DrawablePoint getPreviousFrontPointTopView() {
         return previous.getFrontPointTopView();
     }
@@ -285,10 +256,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         return previous.getBackPointTopView();
     }
 
-    @Override
-    public void setWidth(float _width) {
-        width = _width;
-        apply();
+    public DrawablePoint getPreviousFrontPointLeftView() {
+        return previous.getFrontPointLeftView();
     }
 
     public void setLenght(float lenght) {
@@ -307,11 +276,6 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     public float getDiedre() {
         return diedre;
-    }
-
-    @Override
-    public float getWidth() {
-        return width;
     }
 
     public float getLenght() {
@@ -368,15 +332,5 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     @Override
     public float getAngle() {
         return calageAngulaire;
-    }
-
-    @Override
-    public DrawablePoint getBackPointLeftView() {
-        return backPointLeftView;
-    }
-
-    @Override
-    public DrawablePoint getFrontPointLeftView() {
-        return frontPointLeftView;
     }
 }
