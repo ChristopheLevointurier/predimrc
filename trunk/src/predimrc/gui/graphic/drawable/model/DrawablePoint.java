@@ -131,8 +131,16 @@ public class DrawablePoint {
         selectable = _selectable;
     }
 
-    public DrawablePoint getMirrorTop() {
-        return new DrawablePoint(Utils.TOP_SCREEN_X - x, y);
+    public DrawablePoint getMirror(Utils.VIEW_TYPE view) {
+        switch (view) {
+            case FRONT_VIEW:
+                return new DrawablePoint(2 * Utils.FRONT_SCREEN_X - x, y);
+            case TOP_VIEW:
+                return new DrawablePoint(Utils.TOP_SCREEN_X - x, y);
+            default:
+            case LEFT_VIEW:
+                return new DrawablePoint(x, y, false, belongsTo);
+        }
     }
 
     /**
