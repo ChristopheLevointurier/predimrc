@@ -54,7 +54,7 @@ public abstract class DrawableModelElement {
     protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
-    protected String filename = "";
+    protected String filename = "notYetDefined";
     protected float width;
     protected Utils.USED_FOR used_for;
 

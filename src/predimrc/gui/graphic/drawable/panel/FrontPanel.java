@@ -69,7 +69,7 @@ public class FrontPanel extends DrawablePanel {
             }
         });
 
-        backgroundImage = PredimRC.getImage("front.png");
+   //     backgroundImage = PredimRC.getImage("front.png");
     }
 
     private void applyDiedre() {

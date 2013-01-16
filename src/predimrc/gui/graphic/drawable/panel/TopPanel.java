@@ -115,7 +115,7 @@ public class TopPanel extends DrawablePanel {
             }
         });
 
-        backgroundImage = PredimRC.getImage("top.png");
+     //   backgroundImage = PredimRC.getImage("top.png");
     }
 
     @Override
