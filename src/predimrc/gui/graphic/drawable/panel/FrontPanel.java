@@ -62,14 +62,15 @@ public class FrontPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int index = ((DrawableWingSection) selectedPoint.getBelongsTo()).getIndexInBelongsTo();
-                currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
-
-                applyDiedre();
+                if (selectedElement instanceof DrawableWingSection) {
+                    int index = ((DrawableWingSection) selectedElement).getIndexInBelongsTo();
+                    currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
+                    applyDiedre();
+                }
             }
         });
 
-   //     backgroundImage = PredimRC.getImage("front.png");
+        //     backgroundImage = PredimRC.getImage("front.png");
     }
 
     private void applyDiedre() {

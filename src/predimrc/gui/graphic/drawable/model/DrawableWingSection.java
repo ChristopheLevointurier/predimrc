@@ -178,8 +178,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         }
 
         g.setStroke(new BasicStroke(4));
-        g.setColor(((DrawableWing) belongsTo).getUsedFor().getColor());
-
+        g.setColor(belongsTo.getUsedFor().getColor());
 
         switch (view) {
             case FRONT_VIEW: {
@@ -189,29 +188,17 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             }
 
             case TOP_VIEW: {
-                drawRect(frontPointTopView, backPointTopView, previous.getFrontPointTopView(), previous.getBackPointTopView(), g, true);
+                Utils.drawRect(frontPointTopView, backPointTopView, previous.getFrontPointTopView(), previous.getBackPointTopView(), g, true, view);
+                frontPointTopView.draw(g);
+                backPointTopView.draw(g);
                 break;
             }
             case LEFT_VIEW:
-                drawRect(frontPointLeftView, backPointLeftView, previous.getFrontPointLeftView(), previous.getBackPointLeftView(), g, false);
+                Utils.drawRect(frontPointLeftView, backPointLeftView, previous.getFrontPointLeftView(), previous.getBackPointLeftView(), g, false, view);
+                frontPointLeftView.draw(g);
+                backPointLeftView.draw(g);
                 break;
         }
-    }
-
-    private void drawRect(DrawablePoint p1, DrawablePoint p2, DrawablePoint p3, DrawablePoint p4, Graphics2D g, boolean miror) {
-        Utils.drawline(p1, p3, g);
-        Utils.drawline(p2, p4, g);
-        Utils.drawline(p1, p2, g);
-        if (miror) {
-            Utils.drawline(p1.getMirrorTop(), p3.getMirrorTop(), g);
-            Utils.drawline(p2.getMirrorTop(), p4.getMirrorTop(), g);
-            Utils.drawline(p1.getMirrorTop(), p2.getMirrorTop(), g);
-        }
-        if (((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN)) {
-            Utils.drawline(p4, p3, g);
-        }
-        p1.draw(g);
-        p2.draw(g);
     }
 
     @Override

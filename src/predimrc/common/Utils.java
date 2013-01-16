@@ -37,18 +37,20 @@ public class Utils {
     /**
      * datas
      */
-    public static final Color DEFAULT_MAIN_WING_COLOR = Color.PINK;
-    public static final Color DEFAULT_TAIL_WING_COLOR = Color.ORANGE;
-    public static final Color DEFAULT_DERIVE_WING_COLOR = Color.GREEN;
+    private static final Color DEFAULT_FUSELAGE_COLOR = Color.GRAY;
+    private static final Color DEFAULT_MAIN_WING_COLOR = Color.PINK;
+    private static final Color DEFAULT_TAIL_WING_COLOR = Color.ORANGE;
+    private static final Color DEFAULT_DERIVE_WING_COLOR = Color.GREEN;
     public static final float DEFAULT_MAIN_WING_WIDTH_VALUE = 100;
     public static final float DEFAULT_TAIL_WING_WIDTH_VALUE = 55;
     public static final float DEFAULT_DERIVE_WING_WIDTH_VALUE = 35;
     public static final int LEFT_SCREEN_X = 450;
-    public static final int TOP_SCREEN_Y = 450;
+    public static final int TOP_SCREEN_Y = 460;
     public static final int LEFT_SCREEN_Y = 200;
-    public static final int FRONT_SCREEN_X = 450;
+    public static final int FRONT_SCREEN_X = 460;
     public static final int FRONT_SCREEN_Y = 200;
     public static final int TOP_SCREEN_X = 920;
+    public static final Dimension3D defaultFuselageNose = new Dimension3D(5, TOP_SCREEN_X / 2, 125);
     public static final Dimension3D defaultWingConnection = new Dimension3D(145, TOP_SCREEN_X / 2 - 15, 125);
     public static final Dimension3D defaultTailConnection = new Dimension3D(370, TOP_SCREEN_X / 2, 85);
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 150);
@@ -57,7 +59,7 @@ public class Utils {
     public static final String defaultDeriveFoil = "naca2412";
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1144;
-    public static final int MAIN_FRAME_SIZE_Y = 756;
+    public static final int MAIN_FRAME_SIZE_Y = 800;
     public static final int DEFAULT_X_FRAME = 800;
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
@@ -119,6 +121,7 @@ public class Utils {
 
     public static enum USED_FOR {
 
+        FUSELAGE(Utils.DEFAULT_FUSELAGE_COLOR, "Fuselage"),
         MAIN_WING(Utils.DEFAULT_MAIN_WING_COLOR, "Wing"),
         VERTICAL_PLAN(Utils.DEFAULT_DERIVE_WING_COLOR, "Derive"),
         HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR, "Tail");
@@ -152,5 +155,23 @@ public class Utils {
     public static void drawLine(int x, int y, DrawablePoint b, Graphics g) {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawLine(x, y, b.getIntX(), b.getIntY());
+    }
+
+    public static void drawRect(DrawablePoint p1, DrawablePoint p2, DrawablePoint p3, DrawablePoint p4, Graphics2D g, boolean miror, Utils.VIEW_TYPE view) {
+        Utils.drawline(p1, p3, g);
+        Utils.drawline(p2, p4, g);
+        Utils.drawline(p1, p2, g);
+        if (miror) {
+            Utils.drawline(p1.getMirror(view), p3.getMirror(view), g);
+            Utils.drawline(p2.getMirror(view), p4.getMirror(view), g);
+            Utils.drawline(p1.getMirror(view), p2.getMirror(view), g);
+        }
+    }
+
+    public static void drawRect(DrawablePoint p1, DrawablePoint p2, Graphics2D g, VIEW_TYPE view) {
+        Utils.drawline(p1, p2, g);
+        Utils.drawline(p1, p1.getMirror(view), g);
+        Utils.drawline(p1.getMirror(view), p2.getMirror(view), g);
+        Utils.drawline(p2.getMirror(view), p2, g);
     }
 }
