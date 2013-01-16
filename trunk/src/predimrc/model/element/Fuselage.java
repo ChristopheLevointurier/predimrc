@@ -26,20 +26,30 @@ import predimrc.model.ModelElement;
  */
 public class Fuselage extends ModelElement {
 
-    private float length;
+    private float widthX,widthY,widthZ;
   
-    public Fuselage(String _filename, float _length) {
+    public Fuselage(String _filename, float _length, float _widthY, float _widthZ) {
         filename = _filename;
-        length = _length;
+        widthX = _length;
+        widthY=_widthY;
+        widthZ=_widthZ;
     }
 
     public float getLength() {
-        return length;
+        return widthX;
     }
 
+    public float getWidthY() {
+        return widthY;
+    }
 
+    public float getWidthZ() {
+        return widthZ;
+    }
+
+    
     @Override
     public String toString() {
-        return "Fuselage " + super.toString() + ",length=" + length;
+        return "Fuselage " + super.toString() + ",widthX=" + widthX + ",widthY=" + widthY + ",widthZ=" + widthZ;
     }
 }

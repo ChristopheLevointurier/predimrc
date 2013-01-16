@@ -29,17 +29,22 @@ import predimrc.model.element.Fuselage;
  */
 public class DrawableFuselage extends DrawableModelElement {
 
-    protected float length;
-   
+    protected float widthY, widthZ;
+
     public DrawableFuselage(Fuselage f, DrawableModel _belongsTo) {
         super(f.getPositionDimension3D(), _belongsTo);
-        length = f.getLength();
+        width = f.getLength();
+        widthY = f.getWidthY();
+        widthZ = f.getWidthZ();
         filename = f.getFilename();
+
     }
 
     public DrawableFuselage(DrawableModel _belongsTo) {
         super(_belongsTo);
-        length = 200;
+        width = 200;
+        widthY = 35;
+        widthZ = 50;
     }
 
     /**
@@ -47,19 +52,6 @@ public class DrawableFuselage extends DrawableModelElement {
      *
      * @return
      */
-    public float getLength() {
-        return length;
-    }
-
-    public void setLength(float length) {
-        this.length = length;
-        apply();
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
     @Override
     public void computePositions() {
         //TODO calc each point for 3D view with new params
@@ -70,18 +62,13 @@ public class DrawableFuselage extends DrawableModelElement {
         return 0; //only one fuselage in model for now.
     }
 
-    @Override
-    public String toString() {
-        return "DrawableFuselage " + filename + getPositionDimension3D() + ",length=" + length;
-    }
-
     /**
      * paint methods
      *
      * @param g
      */
     public Fuselage generateModel() {
-        return new Fuselage(filename, length);
+        return new Fuselage(filename, width, widthY, widthZ);
     }
 
     @Override
@@ -97,6 +84,11 @@ public class DrawableFuselage extends DrawableModelElement {
     @Override
     public DrawableModel getBelongsTo() {
         return (DrawableModel) belongsTo;
+    }
+
+    @Override
+    public String toString() {
+        return "DrawableFuselage " + filename + getPositionDimension3D() + ",widthX=" + width + ",widthY=" + widthY + ",widthZ=" + widthZ;
     }
 
     @Override
