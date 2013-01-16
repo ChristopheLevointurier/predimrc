@@ -143,7 +143,7 @@ public class LeftPanel extends DrawablePanel {
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
-        backgroundImage = PredimRC.getImage("left.png");
+     //   backgroundImage = PredimRC.getImage("left.png");
     }
 
     private void applyAngle() {

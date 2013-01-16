@@ -30,8 +30,7 @@ import predimrc.model.element.Fuselage;
 public class DrawableFuselage extends DrawableModelElement {
 
     protected float length;
-    protected String filename = "not yet defined";
-
+   
     public DrawableFuselage(Fuselage f, DrawableModel _belongsTo) {
         super(f.getPositionDimension3D(), _belongsTo);
         length = f.getLength();

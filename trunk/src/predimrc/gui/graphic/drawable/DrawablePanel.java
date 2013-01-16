@@ -40,7 +40,7 @@ import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
  */
 public abstract class DrawablePanel extends JPanel implements IModelListener {
 
-    protected Image backgroundImage;
+ //   protected Image backgroundImage;
     protected DrawableInfo info = new DrawableInfo();
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
     protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
@@ -101,9 +101,9 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         super.paintComponent(g);
         g.setColor(new Color(255, 255, 255));
         g.fillRect(0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight());
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
-        }
+      //  if (backgroundImage != null) {
+     //       g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
+     //   }
         info.draw(g);
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {
