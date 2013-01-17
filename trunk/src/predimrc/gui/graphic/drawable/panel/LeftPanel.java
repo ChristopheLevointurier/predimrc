@@ -128,7 +128,8 @@ public class LeftPanel extends DrawablePanel {
                             applyAngle();
                             break;
                         }
-                        case VERTICAL_PLAN: {
+                        case VERTICAL_PLAN:
+                        case FUSELAGE: {
                             int newlenght = e.getX() - selectedElement.getFrontPointLeftView().getIntX();
                             if (newlenght > 1) {
                                 selectedElement.setWidth(newlenght);
@@ -138,9 +139,20 @@ public class LeftPanel extends DrawablePanel {
                         }
 
                     }
-                    //    }
-
                 }
+
+
+                if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
+                    int newlenght = (e.getY() - selectedElement.getFrontPointLeftView().getIntY()) * 2;
+                    if (newlenght > 1) {
+                        ((DrawableFuselage) selectedElement).setWidthZ(newlenght);
+                        info.setDetailedInfo(" Width Z=" + newlenght);
+                    }
+                }
+
+
+
+
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
