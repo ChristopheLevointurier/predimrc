@@ -86,6 +86,16 @@ public class TopPanel extends DrawablePanel {
                             info.setDetailedInfo(" Width=" + newlenght);
                         }
                     }
+
+                    if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
+                        int newlenght = (selectedElement.getFrontPointTopView().getIntX() - e.getX()) * 2;
+                        if (newlenght > 1) {
+                            ((DrawableFuselage) selectedElement).setWidthY(newlenght);
+                            info.setDetailedInfo(" Width Y=" + newlenght);
+                        }
+                    }
+
+
                 }
                 if (selectedElement instanceof DrawableWingSection) {
                     //change  length & fleche

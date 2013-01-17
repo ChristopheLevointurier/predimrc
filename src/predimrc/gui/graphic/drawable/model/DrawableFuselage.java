@@ -89,17 +89,17 @@ public class DrawableFuselage extends DrawableModelElement {
              */
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
             backPointTopView = new DrawablePoint(frontPointTopView.getX(), frontPointTopView.getY() + width, true, this);
-            upPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + width / 5, false, this);
-            downPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + 2 * width / 5, false, this);
+            upPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + width / 5, true, this);
+            downPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + 2 * width / 5, true, this);
             /**
              * *
              * Left view points
              */
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
             backPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width, frontPointLeftView.getY(), true, this);
-            upFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() - widthZ / 2, true, this);
+            upFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() - widthZ / 2, false, this);
             downFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() + widthZ / 2, true, this);
-            upBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() - widthZ / 2, true, this);
+            upBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() - widthZ / 2, false, this);
             downBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() + widthZ / 2, true, this);
             pointsCalculed = true;
         } else {
@@ -234,6 +234,18 @@ public class DrawableFuselage extends DrawableModelElement {
     public void setWidthZ(float _width) {
         widthZ = _width;
         apply();
+    }
+
+    public boolean isWidthYPoint(DrawablePoint p) {
+        return (p.equals(upPointTopView)
+                || p.equals(downPointTopView));
+    }
+
+    public boolean isWidthZPoint(DrawablePoint p) {
+        return (p.equals(upFrontPointLeftView)
+                || p.equals(downFrontPointLeftView)
+                || p.equals(upBackPointLeftView)
+                || p.equals(downBackPointLeftView));
     }
 
     @Override
