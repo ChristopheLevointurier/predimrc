@@ -64,7 +64,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             }
             default:
             case MAIN_WING: {
-                setValues(Utils.defaultWingFoil, 2f, 0, 80, 60, -8.0f);
+                setValues(Utils.defaultWingFoil, 2f, 0, 80, 60, -4.0f);
                 break;
             }
         }
