@@ -51,9 +51,9 @@ public class Utils {
     public static final int FRONT_SCREEN_Y = 200;
     public static final int TOP_SCREEN_X = 920;
     public static final Dimension3D defaultFuselageNose = new Dimension3D(5, TOP_SCREEN_X / 2, 125);
-    public static final Dimension3D defaultWingConnection = new Dimension3D(145, TOP_SCREEN_X / 2 - 15, 125);
-    public static final Dimension3D defaultTailConnection = new Dimension3D(370, TOP_SCREEN_X / 2, 85);
-    public static final Dimension3D defaultDeriveConnection = new Dimension3D(350, TOP_SCREEN_X / 2, 150);
+    public static final Dimension3D defaultWingConnection = new Dimension3D(145, TOP_SCREEN_X / 2 - 15, 112);
+    public static final Dimension3D defaultTailConnection = new Dimension3D(390, TOP_SCREEN_X / 2, 60);
+    public static final Dimension3D defaultDeriveConnection = new Dimension3D(370, TOP_SCREEN_X / 2, 125);
     public static final String defaultWingFoil = "fad05.dat";
     public static final String defaultTailFoil = "s8064.dat";
     public static final String defaultDeriveFoil = "naca2412";
