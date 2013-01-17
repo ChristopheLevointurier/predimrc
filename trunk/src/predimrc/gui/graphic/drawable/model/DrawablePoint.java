@@ -229,21 +229,21 @@ public class DrawablePoint {
             //  g.setColor(Color.RED);
             g.setColor(Color.BLUE.brighter());
             g.setStroke(new BasicStroke(10));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setStroke(new BasicStroke(8));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setStroke(new BasicStroke(6));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setStroke(new BasicStroke(4));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
         } else {
             g.setStroke(new BasicStroke(10));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(8));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setStroke(new BasicStroke(6));
-            g.drawOval(getIntX(), getIntY(), 2, 2);
+            g.drawOval(getIntX()-1, getIntY(), 2, 2);
             g.setStroke(new BasicStroke(4));
         }
     }

@@ -63,10 +63,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case MAIN_WING: {
                 setPosXYZ(Utils.defaultWingConnection, true);
                 width = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
-                calageAngulaire = -8;
+                calageAngulaire = -4;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 4, -7.8f, 40, 200, -8.1f, this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 6, -7.6f, 30, 80, -8.2f, this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 4, -7.8f, 40, 200, -3.5f, this));
+                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 6, -7.6f, 30, 80, -3f, this));
                 break;
             }
         }
