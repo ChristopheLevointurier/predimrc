@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
+import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
@@ -96,7 +97,7 @@ public class LeftPanel extends DrawablePanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
-                    if (selectedElement instanceof DrawableWing) {
+                    if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
                         //move Connection
                         selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
                         info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
@@ -143,7 +144,7 @@ public class LeftPanel extends DrawablePanel {
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
-     //   backgroundImage = PredimRC.getImage("left.png");
+        //   backgroundImage = PredimRC.getImage("left.png");
     }
 
     private void applyAngle() {
