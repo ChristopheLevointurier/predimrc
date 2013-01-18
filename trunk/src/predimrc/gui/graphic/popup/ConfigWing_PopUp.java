@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
@@ -62,24 +63,12 @@ public class ConfigWing_PopUp extends JFrame {
         predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo);
         JPanel widgets = new JPanel();
         widgets.setLayout(new BoxLayout(widgets, BoxLayout.Y_AXIS));
-        angleLabel.setValue("" + ((AbstractDrawableWing) drawableBelongsTo).getAngle());
 
         if (drawableBelongsTo instanceof DrawableWing) {//config wing 
-            JPanel pos = new JPanel();
-            pos.setLayout(new BoxLayout(pos, BoxLayout.Y_AXIS));
-            pos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Position:"));
-            xposLabel.setValue("" + drawableBelongsTo.getxPos());
-            yposLabel.setValue("" + drawableBelongsTo.getyPos());
-            zposLabel.setValue("" + drawableBelongsTo.getzPos());
+            angleLabel.setValue("" + ((AbstractDrawableWing) drawableBelongsTo).getAngle());
             nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
-            pos.add(xposLabel);
-            pos.add(yposLabel);
-            pos.add(zposLabel);
-
             widgets.add(nbrCombo);
-            widgets.add(pos);
-
-
+            widgets.add(makePanelPos());
             nbrCombo.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -100,8 +89,9 @@ public class ConfigWing_PopUp extends JFrame {
 
 
 
-        } else // config WingSection
-        {
+        }
+        if (drawableBelongsTo instanceof DrawableWingSection) {//config wing 
+            angleLabel.setValue("" + ((AbstractDrawableWing) drawableBelongsTo).getAngle());
             flecheLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFleche());
             lengthLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getLenght());
             fileLabel.setValue("" + ((DrawableWingSection) drawableBelongsTo).getFilename());
@@ -116,14 +106,26 @@ public class ConfigWing_PopUp extends JFrame {
                     ((DrawableWingSection) drawableBelongsTo).setFleche(flecheLabel.getFloatValue());
                     ((DrawableWingSection) drawableBelongsTo).setLenght(lengthLabel.getFloatValue());
                     ((DrawableWingSection) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
-                    ((DrawableWingSection) drawableBelongsTo).setFilename(fileLabel.getValue());
+                    drawableBelongsTo.setFilename(fileLabel.getValue());
                     ModelController.applyChange();
                     dispose();
                 }
             });
 
         }
+        if (drawableBelongsTo instanceof DrawableFuselage) {//config fuselage 
+            widgets.add(makePanelPos());
+            okBut.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawableBelongsTo.setFilename(fileLabel.getValue());
+                    drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
+                    ModelController.applyChange();
+                    dispose();
+                }
+            });
 
+        }
 
 
         cancelBut.addActionListener(new ActionListener() {
@@ -155,5 +157,18 @@ public class ConfigWing_PopUp extends JFrame {
         setVisible(true);
 
 
+    }
+
+    private JPanel makePanelPos() {
+        JPanel pos = new JPanel();
+        pos.setLayout(new BoxLayout(pos, BoxLayout.Y_AXIS));
+        pos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Position:"));
+        xposLabel.setValue("" + drawableBelongsTo.getxPos());
+        yposLabel.setValue("" + drawableBelongsTo.getyPos());
+        zposLabel.setValue("" + drawableBelongsTo.getzPos());
+        pos.add(xposLabel);
+        pos.add(yposLabel);
+        pos.add(zposLabel);
+        return pos;
     }
 }
