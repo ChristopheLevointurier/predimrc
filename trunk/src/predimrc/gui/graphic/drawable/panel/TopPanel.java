@@ -59,6 +59,18 @@ public class TopPanel extends DrawablePanel {
                             if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
                                 selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));
                             }
+
+                            if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
+                                try {
+                                    ((DrawableFuselage) selectedElement).setWidthY(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((DrawableFuselage) selectedElement).getWidthY()))));
+                                } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                                    PredimRC.logln("Invalid value typed");
+                                }
+
+                            }
+
+
+
                         } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                             PredimRC.logln("Invalid value typed");
                         }
