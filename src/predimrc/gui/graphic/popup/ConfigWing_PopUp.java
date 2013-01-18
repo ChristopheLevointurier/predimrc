@@ -69,6 +69,7 @@ public class ConfigWing_PopUp extends JFrame {
             nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
             widgets.add(nbrCombo);
             widgets.add(makePanelPos());
+            widgets.add(angleLabel);
             nbrCombo.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -98,6 +99,7 @@ public class ConfigWing_PopUp extends JFrame {
 
             widgets.add(flecheLabel);
             widgets.add(lengthLabel);
+            widgets.add(angleLabel);
             widgets.add(fileLabel);
 
             okBut.addActionListener(new ActionListener() {
@@ -115,6 +117,7 @@ public class ConfigWing_PopUp extends JFrame {
         }
         if (drawableBelongsTo instanceof DrawableFuselage) {//config fuselage 
             widgets.add(makePanelPos());
+            widgets.add(fileLabel);
             okBut.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -142,7 +145,6 @@ public class ConfigWing_PopUp extends JFrame {
         but.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder()));
         but.add(okBut);
         but.add(cancelBut);
-        widgets.add(angleLabel);
 
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(widgets);

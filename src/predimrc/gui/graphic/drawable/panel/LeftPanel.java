@@ -27,6 +27,7 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
 
@@ -50,11 +51,7 @@ public class LeftPanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
-                        if (selectedElement instanceof DrawableWing) {
-                            //move Connection XYZ & wing struct 
-                            ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
-                        }
-                        if (selectedElement instanceof DrawableWingSection) {
+                        if (selectedElement instanceof DrawableModelElement) {
                             try {
                                 ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
                             } catch (java.lang.NumberFormatException | NullPointerException exxx) {
@@ -63,7 +60,14 @@ public class LeftPanel extends DrawablePanel {
                         }
                     }
 
+                    if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
+                        try {
+                            ((DrawableFuselage) selectedElement).setWidthZ(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((DrawableFuselage) selectedElement).getWidthZ()))));
+                        } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                            PredimRC.logln("Invalid value typed");
+                        }
 
+                    }
                     if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
                         switch (selectedElement.getUsedFor()) {
                             case HORIZONTAL_PLAN:
@@ -77,6 +81,7 @@ public class LeftPanel extends DrawablePanel {
                                 }
                                 break;
                             }
+                            case FUSELAGE:
                             case VERTICAL_PLAN: {
                                 try {
                                     selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));

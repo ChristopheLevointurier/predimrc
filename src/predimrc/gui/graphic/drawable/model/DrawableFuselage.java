@@ -226,6 +226,14 @@ public class DrawableFuselage extends DrawableModelElement {
         }
     }
 
+    public float getWidthY() {
+        return widthY;
+    }
+
+    public float getWidthZ() {
+        return widthZ;
+    }
+
     public void setWidthY(float _width) {
         widthY = _width;
         apply();
