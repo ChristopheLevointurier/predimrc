@@ -27,7 +27,7 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
+import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
 
@@ -51,7 +51,7 @@ public class TopPanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
 
-                    if (selectedElement instanceof AbstractDrawableWing) {
+                    if (selectedElement instanceof DrawableModelElement) {
                         try {
                             if (selectedPoint.equals(selectedPoint.getBelongsTo().getFrontPointTopView())) {//fleche length and pos
                                 ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
