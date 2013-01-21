@@ -18,7 +18,6 @@ package predimrc;
 import java.applet.Applet;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -27,7 +26,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,6 +38,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javagl.jglcore.JGL_3DMesh;
+import javagl.jglcore.JGL_3DTriangle;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,9 +55,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import jglcore.JGL_3DMesh;
-import jglcore.JGL_3DTriangle;
-import jglcore.JGL_3DVector;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
 import predimrc.gui.frame.Note_Frame;
@@ -65,12 +62,11 @@ import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.graphic.MainView;
 import predimrc.gui.graphic.config.ConfigView;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.ModelVersion;
 
 /**
- * TODO . 
+ * TODO .
  *
  * sauver config 3D.
  *
@@ -90,7 +86,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.46";
+    private static final String VERSION = "Alpha 0.48";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
