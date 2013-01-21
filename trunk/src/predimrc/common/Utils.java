@@ -20,9 +20,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.Enumeration;
-import jglcore.JGL_3DMesh;
-import jglcore.JGL_3DTriangle;
-import jglcore.JGL_3DVector;
+import javagl.jglcore.JGL_3DMesh;
+import javagl.jglcore.JGL_3DTriangle;
+import javagl.jglcore.JGL_3DVector;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 
 /**
@@ -56,7 +56,7 @@ public class Utils {
     public static final Dimension3D defaultDeriveConnection = new Dimension3D(370, TOP_SCREEN_X / 2, 125);
     public static final String defaultWingFoil = "fad05.dat";
     public static final String defaultTailFoil = "s8064.dat";
-    public static final String defaultDeriveFoil = "naca2412";
+    public static final String defaultDeriveFoil = "naca0006";
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1144;
     public static final int MAIN_FRAME_SIZE_Y = 800;
@@ -100,6 +100,13 @@ public class Utils {
         Color color = new Color(r, g, b);
         mesh.addFace(new JGL_3DTriangle(p1, p2, p3, color));
         mesh.addFace(new JGL_3DTriangle(p1, p3, p4, color));
+        return mesh;
+    }
+
+    public static JGL_3DMesh getRectangle(JGL_3DVector p1, JGL_3DVector p2, JGL_3DVector p3, JGL_3DVector p4, Color color) {
+        JGL_3DMesh mesh = new JGL_3DMesh();
+        mesh.addFace(new JGL_3DTriangle(p1, p2, p3, color));
+        mesh.addFace(new JGL_3DTriangle(p3, p4, p1, color));
         return mesh;
     }
 
