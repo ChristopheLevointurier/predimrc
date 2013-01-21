@@ -18,32 +18,26 @@ package predimrc.gui.frame;
 import java.awt.Image;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import predimrc.PredimRC;
 import predimrc.gui.ExternalFrame;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import javax.swing.SwingUtilities;
-
-import jglcore.JGL;
-import jglcore.JGL_3DBsp;
-import jglcore.JGL_3DMesh;
-import jglcore.JGL_3DMovable;
-import jglcore.JGL_3DVector;
-import jglcore.JGL_Sorter;
-import jglcore.JGL_Time;
-import jglcore.JGL_Util;
-import jglload.JGL_Data3D;
-import predimrc.common.Utils;
+import javagl.jglcore.JGL;
+import javagl.jglcore.JGL_3DBsp;
+import javagl.jglcore.JGL_3DMesh;
+import javagl.jglcore.JGL_3DMovable;
+import javagl.jglcore.JGL_3DVector;
+import javagl.jglcore.JGL_Sorter;
+import javagl.jglcore.JGL_Time;
 import predimrc.gui.graphic.config.Config3DView;
-import predimrc.model.element.loader.AirfoilLoader;
 import predimrc.model.element.loader.FuselageLoader;
 
 /**
@@ -56,7 +50,7 @@ import predimrc.model.element.loader.FuselageLoader;
 public class The3D_Frame extends ExternalFrame implements Runnable {
 
     private boolean stop;
-    private JGL_3DMesh data;
+    private JGL_3DMovable data;
     private JGL_Sorter world;
     private float mouseX, mouseY;
     private float angleX, angleY, angleZ;
@@ -103,10 +97,11 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
                 mouseY = e.getY();
                 move = false;
                 //if (SwingUtilities.isMiddleMouseButton(e)) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    toMove = Utils.getNearestVertex(data, new JGL_3DVector(e.getX(), e.getY(), 0f));
-                    moveVertex = true;
-                }
+                /**
+                 * if (SwingUtilities.isRightMouseButton(e)) { toMove =
+                 * Utils.getNearestVertex(data, new JGL_3DVector(e.getX(),
+                 * e.getY(), 0f)); moveVertex = true; }*
+                 */
             }
 
             public final void mouseReleased(MouseEvent e) {
@@ -144,13 +139,13 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
+                float inc = e.getModifiers() == InputEvent.CTRL_MASK ? 5 : 0.1f;
+                //float inc = e.getModifiersEx() == InputEvent.BUTTON2_DOWN_MASK ? 5 : 0.1f;
                 if (notches < 0) {
-                    zoom += 0.1;
-                    JGL.setPerspective(zoom);
+                    zoom += inc;
                 } else {
-                    zoom -= 0.1;
+                    zoom -= inc;
                     zoom = zoom < 0 ? 0 : zoom;
-                    JGL.setPerspective(zoom);
                 }
             }
         });
@@ -206,7 +201,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
         getContentPane().add(config, BorderLayout.EAST);
         pack();
         JGL.setDisplayTarget(screen);
-        JGL.setPerspective(zoom);
+        JGL.setPerspective(75f);
         JGL.setCullFacing(cullface);
         JGL.setSolidFace(solid);
         JGL.setLighting(light);
@@ -225,11 +220,10 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     private void loadData() {
         //    data = new JGL_3DMovable(new JGL_3DBsp(new JGL_Data3D(PredimRC.getResourceUrl(filename), JGL_Data3D.MILKSHAPE_ASCII).mesh));
         //   data = PredimRC.mergeMesh(JGL_Util.getGeosphere(4f, 1, 0, 255, 0), PredimRC.getRectangle(new JGL_3DVector(10f, 12f, 0f), new JGL_3DVector(12f, 12f, 0f), new JGL_3DVector(12f, 10f, 0f), new JGL_3DVector(10f, 10f, 0f), 200, 200, 10));
-        //Airfoil a = new AirfoilLoader("fad05.dat", 175, 175, 255);
-        //  data = a.getWingPart(0.5f, 0.45f, 2);
-        FuselageLoader a = new FuselageLoader("Glider1", 105, 175, 255);
+        // JGL_3DMesh m = new AirfoilLoader("naca0006.dat", 175, 175, 255).getWingPart(0.5f, 0.45f, 2);
         //  FuselageLoader a = new FuselageLoader("Glider1_top.dat", 105, 175, 255);
-        data = a.getFuselage(5);
+        JGL_3DMesh m = new FuselageLoader("fuse", 105, 175, 255).getFuselage(5, 5, 5);
+        data = new JGL_3DMovable(new JGL_3DBsp(m));
         world = new JGL_Sorter();
     }
 
@@ -241,14 +235,14 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
     @Override
     public void run() {
-        float depth = -50f;
 
         // Initializes an eye position
         JGL_3DVector eye = new JGL_3DVector();
-        JGL_3DMovable temp = new JGL_3DMovable(data);
+        //  JGL_3DVector eye = new JGL_3DVector(0.0001f, 0, 0);
+        //  JGL_3DMovable temp = data;
         // Initializes the real-time system
         JGL_Time.initTimer();
-        world.add(temp, eye);
+        world.add(data, eye);
 
 
         //*****************************//
@@ -276,11 +270,13 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             // Clears the display buffer
             JGL.clearBuffer();
 
-            temp.identity();
-            temp.translate(0f, 0f, depth);
-            temp.rotate(angleX, 1f, 0f, 0f, true);
-            temp.rotate(angleY, 0f, 1f, 0f, true);
-            temp.rotate(angleZ, 0f, 0f, 1f, true);
+            data.identity();
+            data.translate(zoom, 0f, -200);
+            data.rotate(angleX, 1f, 0f, 0f, true);
+            data.rotate(angleY, 0f, 1f, 0f, true);
+            data.rotate(angleZ, 0f, 0f, 1f, true);
+         //   data.setEyeSquareDistance(new JGL_3DVector(zoom, 0, 0));
+         //   data.setPosition(zoom, 0, 0);
             config.getDegX_label().setValue((int) angleX + "°");
             config.getDegY_label().setValue((int) angleY + "°");
             config.getDegZ_label().setValue((int) angleZ + "°");
@@ -288,7 +284,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
 
             world.display(eye);
-
+            //   world.display(eye, cone)//TODO cone de vision 4points
             // Flushes the display buffer on the screen
             JGL.swapBuffers();
         }
