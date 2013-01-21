@@ -15,10 +15,8 @@
  */
 package predimrc.model.element.loader;
 
-import jglcore.JGL_3DMesh;
-import jglcore.JGL_3DVector;
+import javagl.jglcore.JGL_3DMesh;
 import predimrc.PredimRC;
-import predimrc.common.Utils;
 
 /**
  * This class is used to load foils from .dat files
@@ -35,24 +33,25 @@ public class AirfoilLoader extends RawElementLoader {
     }
 
     public JGL_3DMesh getWingPart(float width_1, float width_2, float length) {
-        JGL_3DMesh mesh = new JGL_3DMesh();
-        if (vertices.size() == 0) {
-            PredimRC.logln("vertices empty in airfoil!");
+        if (mesh.getPoints().isEmpty()) {
+            PredimRC.logln("vertices empty in airfoil! " + file);
             return mesh;
         }
-        for (int i = 0; i < vertices.size() - 1; i++) {
-            JGL_3DVector p1 = vertices.get(i);
-            JGL_3DVector p2 = vertices.get(i + 1);
-            JGL_3DVector p3 = new JGL_3DVector(p2.x, p2.y, length);
-            JGL_3DVector p4 = new JGL_3DVector(p1.x, p1.y, length);
-            mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
-        }
-
-        JGL_3DVector p1 = vertices.get(vertices.size() - 1);
-        JGL_3DVector p2 = vertices.get(0);
-        JGL_3DVector p3 = new JGL_3DVector(p2.x, p2.y, length);
-        JGL_3DVector p4 = new JGL_3DVector(p1.x, p1.y, length);
-        mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(), color.getGreen(), color.getBlue()).getFaces());
+        /**
+         * MODIFY lenghts of the wingsection for (int i = 0; i < vertices.size()
+         * - 1; i++) { JGL_3DVector p1 = vertices.get(i); JGL_3DVector p2 =
+         * vertices.get(i + 1); JGL_3DVector p3 = new JGL_3DVector(p2.x, p2.y,
+         * length); JGL_3DVector p4 = new JGL_3DVector(p1.x, p1.y, length);
+         * mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(),
+         * color.getGreen(), color.getBlue()).getFaces()); }
+         *
+         * JGL_3DVector p1 = vertices.get(vertices.size() - 1); JGL_3DVector p2
+         * = vertices.get(0); JGL_3DVector p3 = new JGL_3DVector(p2.x, p2.y,
+         * length); JGL_3DVector p4 = new JGL_3DVector(p1.x, p1.y, length);
+         *
+         * mesh.addFaces(Utils.getRectangle(p1, p2, p3, p4, color.getRed(),
+         * color.getGreen(), color.getBlue()).getFaces()); *
+         */
         return mesh;
     }
 }
