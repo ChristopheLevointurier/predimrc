@@ -66,7 +66,7 @@ public class FrontPanel extends DrawablePanel {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     if (selectedElement instanceof DrawableWingSection) {
                         int index = ((DrawableWingSection) selectedElement).getIndexInBelongsTo();
-                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), getXcur(e), getYcur(e));
                         applyDiedre();
                     }
                 }
