@@ -148,11 +148,11 @@ public class TopPanel extends DrawablePanel {
                     }
                     PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
                     PredimRC.repaintDrawPanels();
-                     getGraphics().drawLine(startPanX, startPanX, e.getX(), e.getY());
-              }
+                    getGraphics().drawLine(startPanY, startPanX, e.getX(), e.getY());
+                }
             }
         });
-       //   backgroundImage = PredimRC.getImage("top.png");
+        //   backgroundImage = PredimRC.getImage("top.png");
     }
 
     @Override
