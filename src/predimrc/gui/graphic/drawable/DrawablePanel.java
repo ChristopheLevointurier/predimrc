@@ -17,11 +17,11 @@ package predimrc.gui.graphic.drawable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -40,12 +40,21 @@ import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
  */
 public abstract class DrawablePanel extends JPanel implements IModelListener {
 
- //   protected Image backgroundImage;
+    //   protected Image backgroundImage;
     protected DrawableInfo info = new DrawableInfo();
     protected ArrayList<DrawablePoint> points = new ArrayList<>();
-    protected DrawablePoint selectedPoint = new DrawablePoint(0, 0);
+    protected DrawablePoint selectedPoint = new DrawablePoint();
     protected VIEW_TYPE view;
     protected DrawableModelElement selectedElement;
+    public static int panX = 0;
+    public static int panY = 0;
+    public static int panZ = 0;
+    public static int oldPanX = 0;
+    public static int oldPanY = 0;
+    public static int oldPanZ = 0;
+    public static int startPanX = 0;
+    public static int startPanY = 0;
+    public static int startPanZ = 0;
 
     public DrawablePanel() {
         addMouseMotionListener(new MouseAdapter() {
@@ -60,16 +69,32 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 info.draw(getGraphics());
             }
         });
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                //detect nearest point;
-                getNearestPoint(e.getX(), e.getY());
-                info.setInfo(selectedElement.toInfoString());
-                info.setDetailedInfo("");
-                repaint();
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    //detect nearest point;
+                    getNearestPoint(e.getX(), e.getY());
+                    info.setInfo(selectedElement.toInfoString());
+                    info.setDetailedInfo("");
+                    repaint();
+                }
             }
         });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                startPanX = 0;
+                startPanY = 0;
+                startPanZ = 0;
+                oldPanX = panX;
+                oldPanY = panY;
+                oldPanZ = panZ;
+            }
+        });
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -101,9 +126,9 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         super.paintComponent(g);
         g.setColor(new Color(255, 255, 255));
         g.fillRect(0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight());
-      //  if (backgroundImage != null) {
-     //       g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
-     //   }
+        //  if (backgroundImage != null) {
+        //       g.drawImage(backgroundImage, 0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(), this);
+        //   }
         info.draw(g);
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {

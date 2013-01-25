@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -62,10 +63,28 @@ public class FrontPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (selectedElement instanceof DrawableWingSection) {
-                    int index = ((DrawableWingSection) selectedElement).getIndexInBelongsTo();
-                    currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
-                    applyDiedre();
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    if (selectedElement instanceof DrawableWingSection) {
+                        int index = ((DrawableWingSection) selectedElement).getIndexInBelongsTo();
+                        currentDiedre = Utils.calcAngle(((DrawableWing) selectedPoint.getBelongsTo().getBelongsTo()).getPreviousPointForDiedre(index), e.getX(), e.getY());
+                        applyDiedre();
+                    }
+                }
+                if (SwingUtilities.isRightMouseButton(e)) //Pan
+                {
+                    if (startPanY == 0) {
+                        startPanY = e.getX();
+                    } else {
+                        panY = oldPanY + e.getX() - startPanY;
+                    }
+                    if (startPanZ == 0) {
+                        startPanZ = e.getY();
+                    } else {
+                        panZ = oldPanZ + e.getY() - startPanZ;
+                    }
+                    PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
+                    PredimRC.repaintDrawPanels();
+                    getGraphics().drawLine(startPanY, startPanZ, e.getX(), e.getY());
                 }
             }
         });

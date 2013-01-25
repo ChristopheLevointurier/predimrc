@@ -73,4 +73,10 @@ public class MainView extends JPanel implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         //  PredimRC.logDebugln("mousemmvoe in main");
     }
+
+    public void repaintDrawPanels() {
+        diedrepanel.repaint();
+        calagepanel.repaint();
+        toppanel.repaint();
+    }
 }

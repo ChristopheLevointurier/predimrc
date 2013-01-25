@@ -90,13 +90,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void computePositions() {
         if (!pointsCalculed) {
-            frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
-            frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
+            frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this, VIEW_TYPE.FRONT_VIEW);
+            frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this, VIEW_TYPE.TOP_VIEW);
 
-            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth() * Math.cos(Math.toRadians(calageAngulaire)), true, this);
-            frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
+            backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + getWidth() * Math.cos(Math.toRadians(calageAngulaire)), true, this, VIEW_TYPE.TOP_VIEW);
+            frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this, VIEW_TYPE.LEFT_VIEW);
 
-            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width), true, this);
+            backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width), true, this, VIEW_TYPE.LEFT_VIEW);
             pointsCalculed = true;
         } else {
             frontPointFrontView.setFloatLocation(yPos, zPos);

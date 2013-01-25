@@ -47,8 +47,8 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
     private JButton reset = new JButton("Reset model");
     private JButton compute = new JButton("reCompute");
     private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
-    private MegaCombo tailCombo = new MegaCombo("Number of tail :", true, "0", "1", "2", "3", "4");
-    private MegaCombo deriveCombo = new MegaCombo("Number of derive :", true, "0", "1", "2", "3", "4");
+    private MegaCombo tailCombo = new MegaCombo("Number of stab :", true, "0", "1", "2", "3", "4");
+    private MegaCombo deriveCombo = new MegaCombo("Number of fin :", true, "0", "1", "2", "3", "4");
 
     public ConfigBasicView() {
         super();
@@ -83,7 +83,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
 
         add(modelTitle);
         //add(wingCombo);  Not yet
-        add(tailCombo);
+        //add(tailCombo);  Not yet
         add(deriveCombo);
         add(reset);
         //     add(compute);

@@ -20,6 +20,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
+import predimrc.common.Utils.VIEW_TYPE;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 
 /**
@@ -36,110 +38,129 @@ public class DrawablePoint {
     private boolean selected = false;
     private DrawableModelElement belongsTo;
     private float x, y;
+    private VIEW_TYPE view;
 
-    public DrawablePoint(Point2D.Float xy) {
+    public DrawablePoint() {
+        selectable = false;
+        x = 0;
+        y = 0;
+        view = VIEW_TYPE.TOP_VIEW;
+    }
+
+    public DrawablePoint(Point2D.Float xy, VIEW_TYPE _view) {
         selectable = false;
         x = (float) xy.getX();
         y = (float) xy.getY();
+        view = _view;
     }
 
-    public DrawablePoint(int _x, int _y) {
+    public DrawablePoint(int _x, int _y, VIEW_TYPE _view) {
         selectable = false;
         x = _x;
         y = _y;
+        view = _view;
     }
 
-    public DrawablePoint(float _x, float _y) {
+    public DrawablePoint(float _x, float _y, VIEW_TYPE _view) {
         x = _x;
         y = _y;
         selectable = false;
+        view = _view;
     }
 
-    public static DrawablePoint makePointForTopView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo) {
-        return new DrawablePoint(xy.getY(), xy.getX(), _selectable, _belongsTo);
+    public static DrawablePoint makePointForTopView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
+        return new DrawablePoint(xy.getY(), xy.getX(), _selectable, _belongsTo, _view);
     }
 
-    public static DrawablePoint makePointForFrontView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo) {
-        return new DrawablePoint(xy.getY(), xy.getZ(), _selectable, _belongsTo);
+    public static DrawablePoint makePointForFrontView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
+        return new DrawablePoint(xy.getY(), xy.getZ(), _selectable, _belongsTo, _view);
     }
 
-    public static DrawablePoint makePointForLeftView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo) {
-        return new DrawablePoint(xy.getX(), xy.getZ(), _selectable, _belongsTo);
+    public static DrawablePoint makePointForLeftView(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
+        return new DrawablePoint(xy.getX(), xy.getZ(), _selectable, _belongsTo, _view);
     }
 
     public static DrawablePoint makePointForTopView(Dimension3D xy) {
-        return new DrawablePoint(xy.getY(), xy.getX());
+        return new DrawablePoint(xy.getY(), xy.getX(), VIEW_TYPE.TOP_VIEW);
     }
 
     public static DrawablePoint makePointForFrontView(Dimension3D xy) {
-        return new DrawablePoint(xy.getY(), xy.getZ());
+        return new DrawablePoint(xy.getY(), xy.getZ(), VIEW_TYPE.FRONT_VIEW);
     }
 
     public static DrawablePoint makePointForLeftView(Dimension3D xy) {
-        return new DrawablePoint(xy.getX(), xy.getZ());
+        return new DrawablePoint(xy.getX(), xy.getZ(), VIEW_TYPE.LEFT_VIEW);
     }
 
-    public DrawablePoint(Dimension3D xy, DrawableModelElement _belongsTo) {
+    public DrawablePoint(Dimension3D xy, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = xy.getX();
         y = xy.getY();
+        view = _view;
     }
 
-    public DrawablePoint(Point2D.Float xy, DrawableModelElement _belongsTo) {
+    public DrawablePoint(Point2D.Float xy, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = (float) xy.getX();
         y = (float) xy.getY();
+        view = _view;
     }
 
-    public DrawablePoint(float _x, float _y, DrawableModelElement _belongsTo) {
+    public DrawablePoint(float _x, float _y, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = _x;
         y = _y;
+        view = _view;
     }
 
-    public DrawablePoint(double _x, double _y, DrawableModelElement _belongsTo) {
+    public DrawablePoint(double _x, double _y, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = (float) _x;
         y = (float) _y;
+        view = _view;
     }
 
-    public DrawablePoint(float _x, float _y, boolean _selectable, DrawableModelElement _belongsTo) {
+    public DrawablePoint(float _x, float _y, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = _x;
         y = _y;
         selectable = _selectable;
+        view = _view;
     }
 
-    public DrawablePoint(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo) {
+    public DrawablePoint(Dimension3D xy, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = xy.getX();
         y = xy.getY();
         selectable = _selectable;
+        view = _view;
     }
 
-    public DrawablePoint(Point2D.Float xy, boolean _selectable, DrawableModelElement _belongsTo) {
+    public DrawablePoint(Point2D.Float xy, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = (float) xy.getX();
         y = (float) xy.getY();
         selectable = _selectable;
+        view = _view;
     }
 
-    public DrawablePoint(double _x, double _y, boolean _selectable, DrawableModelElement _belongsTo) {
+    public DrawablePoint(double _x, double _y, boolean _selectable, DrawableModelElement _belongsTo, VIEW_TYPE _view) {
         belongsTo = _belongsTo;
         x = (float) _x;
         y = (float) _y;
         selectable = _selectable;
+        view = _view;
     }
 
-    public DrawablePoint getMirror(Utils.VIEW_TYPE view) {
+    public DrawablePoint getMirror() {
         switch (view) {
             case FRONT_VIEW:
-                return new DrawablePoint(2 * Utils.FRONT_SCREEN_X - x, y);
+                return new DrawablePoint(2 * Utils.FRONT_SCREEN_X - x, y, view);
             case TOP_VIEW:
-                return new DrawablePoint(Utils.TOP_SCREEN_X - x, y);
+                return new DrawablePoint(Utils.TOP_SCREEN_X - x, y, view);
             default:
             case LEFT_VIEW:
-                return new DrawablePoint(x, y, false, belongsTo);
+                return new DrawablePoint(x, y, false, belongsTo, view);
         }
     }
 
@@ -172,11 +193,31 @@ public class DrawablePoint {
         y = _y;
     }
 
-    public int getIntX() {
+    public int getDrawCoordX() {
+
+        switch (view) {
+            case FRONT_VIEW:
+                return (int) x + DrawablePanel.panY;
+            case LEFT_VIEW:
+                return (int) x + DrawablePanel.panX;
+            case TOP_VIEW:
+                return (int) x + DrawablePanel.panY;
+        }
+
         return (int) x;
     }
 
-    public int getIntY() {
+    public int getDrawCoordY() {
+
+        switch (view) {
+            case FRONT_VIEW:
+                return (int) y + DrawablePanel.panZ;
+            case LEFT_VIEW:
+                return (int) y + DrawablePanel.panZ;
+            case TOP_VIEW:
+                return (int) y + DrawablePanel.panX;
+        }
+
         return (int) y;
     }
 
@@ -229,21 +270,21 @@ public class DrawablePoint {
             //  g.setColor(Color.RED);
             g.setColor(Color.BLUE.brighter());
             g.setStroke(new BasicStroke(10));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setStroke(new BasicStroke(8));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setStroke(new BasicStroke(6));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setStroke(new BasicStroke(4));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
         } else {
             g.setStroke(new BasicStroke(10));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(8));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setStroke(new BasicStroke(6));
-            g.drawOval(getIntX()-1, getIntY(), 2, 2);
+            g.drawOval(getDrawCoordX() - 1, getDrawCoordY(), 2, 2);
             g.setStroke(new BasicStroke(4));
         }
     }
@@ -256,6 +297,6 @@ public class DrawablePoint {
     }
 
     public String toStringAll() {
-        return "(" + x + "," + y + ")selectable=" + selectable + " selected=" + selected + " for=" + belongsTo;
+        return "(" + x + "," + y + ")selectable=" + selectable + " selected=" + selected + " for=" + belongsTo + " for view:" + view.name();
     }
 }
