@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
@@ -101,63 +102,82 @@ public class LeftPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
-                    if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
-                        //move Connection
-                        selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
-                        info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
 
-                    }
-                    if (selectedElement instanceof DrawableWingSection) {
-                        //change  length & fleche
-                        float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(e.getX(), e.getY()));
-                        float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - e.getX());
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
+                        if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
+                            //move Connection
+                            selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
+                            info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
 
-                        ((DrawableWingSection) selectedElement).setFleche(newFleche);
-                        if (newlenght > 1) {
-                            ((DrawableWingSection) selectedElement).setLenght(newlenght);
                         }
-                        info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
-                    }
+                        if (selectedElement instanceof DrawableWingSection) {
+                            //change  length & fleche
+                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(e.getX(), e.getY(), Utils.VIEW_TYPE.LEFT_VIEW));
+                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - e.getX());
 
-                }
-
-
-
-                if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
-                    switch (selectedElement.getUsedFor()) {
-                        case HORIZONTAL_PLAN:
-                        case MAIN_WING: //change calage angulaire
-                        {
-                            currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), e.getX(), e.getY());
-                            applyAngle();
-                            break;
-                        }
-                        case VERTICAL_PLAN:
-                        case FUSELAGE: {
-                            int newlenght = e.getX() - selectedElement.getFrontPointLeftView().getIntX();
+                            ((DrawableWingSection) selectedElement).setFleche(newFleche);
                             if (newlenght > 1) {
-                                selectedElement.setWidth(newlenght);
-                                info.setDetailedInfo(" Width=" + newlenght);
+                                ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            break;
+                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                         }
 
                     }
-                }
 
 
-                if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
-                    int newlenght = (e.getY() - selectedElement.getFrontPointLeftView().getIntY()) * 2;
-                    if (newlenght > 1) {
-                        ((DrawableFuselage) selectedElement).setWidthZ(newlenght);
-                        info.setDetailedInfo(" Width Z=" + newlenght);
+
+                    if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
+                        switch (selectedElement.getUsedFor()) {
+                            case HORIZONTAL_PLAN:
+                            case MAIN_WING: //change calage angulaire
+                            {
+                                currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), e.getX(), e.getY());
+                                applyAngle();
+                                break;
+                            }
+                            case VERTICAL_PLAN:
+                            case FUSELAGE: {
+                                int newlenght = e.getX() - (int) selectedElement.getFrontPointLeftView().getX();
+                                if (newlenght > 1) {
+                                    selectedElement.setWidth(newlenght);
+                                    info.setDetailedInfo(" Width=" + newlenght);
+                                }
+                                break;
+                            }
+
+                        }
                     }
+
+
+                    if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
+                        float newlenght = (e.getY() - selectedElement.getFrontPointLeftView().getFloatY()) * 2;
+                        if (newlenght > 1) {
+                            ((DrawableFuselage) selectedElement).setWidthZ(newlenght);
+                            info.setDetailedInfo(" Width Z=" + newlenght);
+                        }
+                    }
+
+
+
                 }
 
-
-
-
+                if (SwingUtilities.isRightMouseButton(e)) //Pan
+                {
+                    if (startPanX == 0) {
+                        startPanX = e.getX();
+                    } else {
+                        panX = oldPanX + e.getX() - startPanX;
+                    }
+                    if (startPanZ == 0) {
+                        startPanZ = e.getY();
+                    } else {
+                        panZ = oldPanZ + e.getY() - startPanZ;
+                    }
+                    PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
+                    PredimRC.repaintDrawPanels();
+                    getGraphics().drawLine(startPanX, startPanZ, e.getX(), e.getY());
+                }
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");

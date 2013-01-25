@@ -68,6 +68,7 @@ public class DrawableFuselage extends DrawableModelElement {
         widthZ = 45;
         used_for = Utils.USED_FOR.FUSELAGE;
         setPosXYZ(Utils.defaultFuselageNose, false);
+        filename = "fuse";
     }
 
     /**
@@ -81,26 +82,26 @@ public class DrawableFuselage extends DrawableModelElement {
             /**
              * Front points*
              */
-            frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this);
-            upPointFrontView = new DrawablePoint(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() - widthZ / 2, false, this);
-            downPointFrontView = new DrawablePoint(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() + widthZ / 2, false, this);
+            frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this, VIEW_TYPE.FRONT_VIEW);
+            upPointFrontView = new DrawablePoint(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() - widthZ / 2, false, this, VIEW_TYPE.FRONT_VIEW);
+            downPointFrontView = new DrawablePoint(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() + widthZ / 2, false, this, VIEW_TYPE.FRONT_VIEW);
             /**
              * Top points*
              */
-            frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this);
-            backPointTopView = new DrawablePoint(frontPointTopView.getX(), frontPointTopView.getY() + width, true, this);
-            upPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + width / 5, true, this);
-            downPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + 2 * width / 5, true, this);
+            frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this, VIEW_TYPE.TOP_VIEW);
+            backPointTopView = new DrawablePoint(frontPointTopView.getX(), frontPointTopView.getY() + width, true, this, VIEW_TYPE.TOP_VIEW);
+            upPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + width / 5, true, this, VIEW_TYPE.TOP_VIEW);
+            downPointTopView = new DrawablePoint(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + 2 * width / 5, true, this, VIEW_TYPE.TOP_VIEW);
             /**
              * *
              * Left view points
              */
-            frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this);
-            backPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width, frontPointLeftView.getY(), true, this);
-            upFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() - widthZ / 2, false, this);
-            downFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() + widthZ / 2, true, this);
-            upBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() - widthZ / 2, false, this);
-            downBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() + widthZ / 2, true, this);
+            frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this, VIEW_TYPE.LEFT_VIEW);
+            backPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width, frontPointLeftView.getY(), true, this, VIEW_TYPE.LEFT_VIEW);
+            upFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() - widthZ / 2, false, this, VIEW_TYPE.LEFT_VIEW);
+            downFrontPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 5, frontPointLeftView.getY() + widthZ / 2, true, this, VIEW_TYPE.LEFT_VIEW);
+            upBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() - widthZ / 2, false, this, VIEW_TYPE.LEFT_VIEW);
+            downBackPointLeftView = new DrawablePoint(frontPointLeftView.getX() + 2 * width / 5, frontPointLeftView.getY() + widthZ / 2, true, this, VIEW_TYPE.LEFT_VIEW);
             pointsCalculed = true;
         } else {
             /**
@@ -186,7 +187,9 @@ public class DrawableFuselage extends DrawableModelElement {
                 g.setColor(used_for.getColor());
                 Utils.drawline(frontPointFrontView, upPointFrontView, g);
                 Utils.drawline(frontPointFrontView, downPointFrontView, g);
-                Utils.drawRect(upPointFrontView, downPointFrontView, g, view);
+                Utils.drawRect(upPointFrontView, downPointFrontView, g);
+                Utils.drawline(frontPointFrontView, upPointFrontView.getMirror(), g);
+                Utils.drawline(frontPointFrontView, downPointFrontView.getMirror(), g);
                 frontPointFrontView.draw(g);
                 upPointFrontView.draw(g);
                 downPointFrontView.draw(g);
@@ -202,9 +205,9 @@ public class DrawableFuselage extends DrawableModelElement {
                 Utils.drawline(frontPointTopView, upPointTopView, g);
                 Utils.drawline(upPointTopView, downPointTopView, g);
                 Utils.drawline(downPointTopView, backPointTopView, g);
-                Utils.drawline(frontPointTopView, upPointTopView.getMirror(view), g);
-                Utils.drawline(upPointTopView.getMirror(view), downPointTopView.getMirror(view), g);
-                Utils.drawline(downPointTopView.getMirror(view), backPointTopView, g);
+                Utils.drawline(frontPointTopView, upPointTopView.getMirror(), g);
+                Utils.drawline(upPointTopView.getMirror(), downPointTopView.getMirror(), g);
+                Utils.drawline(downPointTopView.getMirror(), backPointTopView, g);
                 break;
             }
             case LEFT_VIEW: {

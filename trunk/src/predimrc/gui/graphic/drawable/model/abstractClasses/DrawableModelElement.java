@@ -17,7 +17,7 @@ package predimrc.gui.graphic.drawable.model.abstractClasses;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import jglcore.JGL_3DVector;
+import javagl.jglcore.JGL_3DVector;
 import predimrc.PredimRC;
 import predimrc.common.Dimension3D;
 import predimrc.common.Utils;

@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
@@ -82,57 +83,76 @@ public class TopPanel extends DrawablePanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
-                    //move wingConnection
-                    if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {
-                        float xpos = e.getX() > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : e.getX();
-                        xpos = selectedElement instanceof DrawableFuselage ? selectedElement.getyPos() : xpos;
-                        selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
-                        info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
-                    }
-                    //resize width
-                    if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
-                        int newlenght = e.getY() - selectedElement.getFrontPointTopView().getIntY();
-                        if (newlenght > 1) {
-                            selectedElement.setWidth(newlenght);
-                            info.setDetailedInfo(" Width=" + newlenght);
+
+                if (SwingUtilities.isLeftMouseButton(e)) {
+
+                    if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
+                        //move wingConnection
+                        if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {
+                            float xpos = e.getX() > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : e.getX();
+                            xpos = selectedElement instanceof DrawableFuselage ? selectedElement.getyPos() : xpos;
+                            selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
+                            info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
                         }
-                    }
-
-                    if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
-                        int newlenght = (selectedElement.getFrontPointTopView().getIntX() - e.getX()) * 2;
-                        if (newlenght > 1) {
-                            ((DrawableFuselage) selectedElement).setWidthY(newlenght);
-                            info.setDetailedInfo(" Width Y=" + newlenght);
+                        //resize width
+                        if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
+                            float newlenght = e.getY() - selectedElement.getFrontPointTopView().getFloatY();
+                            if (newlenght > 1) {
+                                selectedElement.setWidth(newlenght);
+                                info.setDetailedInfo(" Width=" + newlenght);
+                            }
                         }
+
+                        if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
+                            float newlenght = (selectedElement.getFrontPointTopView().getFloatX() - e.getX()) * 2;
+                            if (newlenght > 1) {
+                                ((DrawableFuselage) selectedElement).setWidthY(newlenght);
+                                info.setDetailedInfo(" Width Y=" + newlenght);
+                            }
+                        }
+
+
                     }
+                    if (selectedElement instanceof DrawableWingSection) {
+                        //change  length & fleche
+                        if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
+                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY(), Utils.VIEW_TYPE.TOP_VIEW));
+                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - e.getY());
+                            ((DrawableWingSection) selectedElement).setFleche(newFleche);
+                            if (newlenght > 1) {
+                                ((DrawableWingSection) selectedElement).setLenght(newlenght);
+                            }
+                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
+                        }
+                        if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
+                            float newlenght = e.getY() - selectedElement.getFrontPointTopView().getFloatY();
+                            if (newlenght > 1) {
+                                selectedElement.setWidth(newlenght);
+                                info.setDetailedInfo(" Width=" + newlenght);
+                            }
+                        }
 
-
+                    }
                 }
-                if (selectedElement instanceof DrawableWingSection) {
-                    //change  length & fleche
-                    if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
-                        float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY()));
-                        float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - e.getY());
-                        ((DrawableWingSection) selectedElement).setFleche(newFleche);
-                        if (newlenght > 1) {
-                            ((DrawableWingSection) selectedElement).setLenght(newlenght);
-                        }
-                        info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
+                if (SwingUtilities.isRightMouseButton(e)) //Pan
+                {
+                    if (startPanY == 0) {
+                        startPanY = e.getX();
+                    } else {
+                        panY = oldPanY + e.getX() - startPanY;
                     }
-                    if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
-                        int newlenght = e.getY() - selectedElement.getFrontPointTopView().getIntY();
-                        if (newlenght > 1) {
-                            selectedElement.setWidth(newlenght);
-                            info.setDetailedInfo(" Width=" + newlenght);
-                        }
+                    if (startPanX == 0) {
+                        startPanX = e.getY();
+                    } else {
+                        panX = oldPanX + e.getY() - startPanX;
                     }
-
+                    PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
+                    PredimRC.repaintDrawPanels();
+                    getGraphics().drawLine(startPanY, startPanX, e.getX(), e.getY());
                 }
             }
         });
-
-        //   backgroundImage = PredimRC.getImage("top.png");
+       //   backgroundImage = PredimRC.getImage("top.png");
     }
 
     @Override

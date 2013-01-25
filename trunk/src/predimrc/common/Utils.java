@@ -156,29 +156,29 @@ public class Utils {
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
-        g.drawLine(a.getIntX(), a.getIntY(), b.getIntX(), b.getIntY());
+        g.drawLine(a.getDrawCoordX(), a.getDrawCoordY(), b.getDrawCoordX(), b.getDrawCoordY());
     }
 
-    public static void drawLine(int x, int y, DrawablePoint b, Graphics g) {
+    public static void drawLine(int x, int y, DrawablePoint b, Graphics g, VIEW_TYPE view) {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
-        g.drawLine(x, y, b.getIntX(), b.getIntY());
+        g.drawLine(x, y, b.getDrawCoordX(), b.getDrawCoordY());
     }
 
-    public static void drawRect(DrawablePoint p1, DrawablePoint p2, DrawablePoint p3, DrawablePoint p4, Graphics2D g, boolean miror, Utils.VIEW_TYPE view) {
+    public static void drawRect(DrawablePoint p1, DrawablePoint p2, DrawablePoint p3, DrawablePoint p4, Graphics2D g, boolean miror) {
         Utils.drawline(p1, p3, g);
         Utils.drawline(p2, p4, g);
         Utils.drawline(p1, p2, g);
         if (miror) {
-            Utils.drawline(p1.getMirror(view), p3.getMirror(view), g);
-            Utils.drawline(p2.getMirror(view), p4.getMirror(view), g);
-            Utils.drawline(p1.getMirror(view), p2.getMirror(view), g);
+            Utils.drawline(p1.getMirror(), p3.getMirror(), g);
+            Utils.drawline(p2.getMirror(), p4.getMirror(), g);
+            Utils.drawline(p1.getMirror(), p2.getMirror(), g);
         }
     }
 
-    public static void drawRect(DrawablePoint p1, DrawablePoint p2, Graphics2D g, VIEW_TYPE view) {
+    public static void drawRect(DrawablePoint p1, DrawablePoint p2, Graphics2D g) {
         Utils.drawline(p1, p2, g);
-        Utils.drawline(p1, p1.getMirror(view), g);
-        Utils.drawline(p1.getMirror(view), p2.getMirror(view), g);
-        Utils.drawline(p2.getMirror(view), p2, g);
+        Utils.drawline(p1, p1.getMirror(), g);
+        Utils.drawline(p1.getMirror(), p2.getMirror(), g);
+        Utils.drawline(p2.getMirror(), p2, g);
     }
 }
