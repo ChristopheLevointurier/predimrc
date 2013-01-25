@@ -60,7 +60,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (Wing w : me.getDerive()) {
             drawableDerive.add(new DrawableWing(w, this));
         }
-        drawableFuselage = new DrawableFuselage(this);
+        drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
     }
 
     /**
@@ -256,7 +256,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model("",name, note, realWings, realTails, realDerives, drawableFuselage.generateModel());
+        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel());
     }
 
     @Override
