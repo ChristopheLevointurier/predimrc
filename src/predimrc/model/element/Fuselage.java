@@ -15,6 +15,7 @@
  */
 package predimrc.model.element;
 
+import predimrc.common.Dimension3D;
 import predimrc.model.ModelElement;
 
 /**
@@ -26,13 +27,16 @@ import predimrc.model.ModelElement;
  */
 public class Fuselage extends ModelElement {
 
-    private float widthX,widthY,widthZ;
-  
-    public Fuselage(String _filename, float _length, float _widthY, float _widthZ) {
+    private float widthX, widthY, widthZ;
+
+    public Fuselage(String _filename, Dimension3D xyz, float _length, float _widthY, float _widthZ) {
         filename = _filename;
+        xPos = xyz.getX();
+        yPos = xyz.getY();
+        zPos = xyz.getZ();
         widthX = _length;
-        widthY=_widthY;
-        widthZ=_widthZ;
+        widthY = _widthY;
+        widthZ = _widthZ;
     }
 
     public float getLength() {
@@ -47,7 +51,6 @@ public class Fuselage extends ModelElement {
         return widthZ;
     }
 
-    
     @Override
     public String toString() {
         return "Fuselage " + super.toString() + ",widthX=" + widthX + ",widthY=" + widthY + ",widthZ=" + widthZ;
