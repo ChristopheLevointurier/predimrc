@@ -141,7 +141,7 @@ public class DrawableFuselage extends DrawableModelElement {
      * @param g
      */
     public Fuselage generateModel() {
-        return new Fuselage(filename, width, widthY, widthZ);
+        return new Fuselage(filename,getPositionDimension3D(), width, widthY, widthZ);
     }
 
     @Override
