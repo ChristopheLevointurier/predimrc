@@ -107,20 +107,20 @@ public class LeftPanel extends DrawablePanel {
                     if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
                         if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
                             //move Connection
-                            selectedElement.setPos(e.getX(), selectedElement.getyPos(), e.getY());
+                            selectedElement.setPos(getXcur(e), selectedElement.getyPos(), getYcur(e));
                             info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
 
                         }
                         if (selectedElement instanceof DrawableWingSection) {
                             //change  length & fleche
-                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(e.getX(), e.getY(), Utils.VIEW_TYPE.LEFT_VIEW));
-                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - e.getX());
+                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.LEFT_VIEW));
+                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - getXcur(e));
 
                             ((DrawableWingSection) selectedElement).setFleche(newFleche);
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
+                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                         }
 
                     }
@@ -132,13 +132,13 @@ public class LeftPanel extends DrawablePanel {
                             case HORIZONTAL_PLAN:
                             case MAIN_WING: //change calage angulaire
                             {
-                                currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), e.getX(), e.getY());
+                                currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), getXcur(e), getYcur(e));
                                 applyAngle();
                                 break;
                             }
                             case VERTICAL_PLAN:
                             case FUSELAGE: {
-                                int newlenght = e.getX() - (int) selectedElement.getFrontPointLeftView().getX();
+                                int newlenght = getXcur(e) - (int) selectedElement.getFrontPointLeftView().getX();
                                 if (newlenght > 1) {
                                     selectedElement.setWidth(newlenght);
                                     info.setDetailedInfo(" Width=" + newlenght);
@@ -151,7 +151,7 @@ public class LeftPanel extends DrawablePanel {
 
 
                     if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
-                        float newlenght = (e.getY() - selectedElement.getFrontPointLeftView().getFloatY()) * 2;
+                        float newlenght = (getYcur(e) - selectedElement.getFrontPointLeftView().getFloatY()) * 2;
                         if (newlenght > 1) {
                             ((DrawableFuselage) selectedElement).setWidthZ(newlenght);
                             info.setDetailedInfo(" Width Z=" + newlenght);

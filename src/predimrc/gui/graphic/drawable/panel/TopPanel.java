@@ -89,14 +89,14 @@ public class TopPanel extends DrawablePanel {
                     if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
                         //move wingConnection
                         if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {
-                            float xpos = e.getX() > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : e.getX();
+                            float xpos = getXcur(e) > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : getXcur(e);
                             xpos = selectedElement instanceof DrawableFuselage ? selectedElement.getyPos() : xpos;
-                            selectedElement.setPos(e.getY(), xpos, selectedElement.getzPos());
+                            selectedElement.setPos(getYcur(e), xpos, selectedElement.getzPos());
                             info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
                         }
                         //resize width
                         if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
-                            float newlenght = e.getY() - selectedElement.getFrontPointTopView().getFloatY();
+                            float newlenght = getYcur(e) - selectedElement.getFrontPointTopView().getFloatY();
                             if (newlenght > 1) {
                                 selectedElement.setWidth(newlenght);
                                 info.setDetailedInfo(" Width=" + newlenght);
@@ -104,7 +104,7 @@ public class TopPanel extends DrawablePanel {
                         }
 
                         if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
-                            float newlenght = (selectedElement.getFrontPointTopView().getFloatX() - e.getX()) * 2;
+                            float newlenght = (selectedElement.getFrontPointTopView().getFloatX() - getXcur(e)) * 2;
                             if (newlenght > 1) {
                                 ((DrawableFuselage) selectedElement).setWidthY(newlenght);
                                 info.setDetailedInfo(" Width Y=" + newlenght);
@@ -116,16 +116,16 @@ public class TopPanel extends DrawablePanel {
                     if (selectedElement instanceof DrawableWingSection) {
                         //change  length & fleche
                         if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
-                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(e.getX(), e.getY(), Utils.VIEW_TYPE.TOP_VIEW));
-                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - e.getY());
+                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
+                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY() - getYcur(e));
                             ((DrawableWingSection) selectedElement).setFleche(newFleche);
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (e.getY() - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
+                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
                         }
                         if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
-                            float newlenght = e.getY() - selectedElement.getFrontPointTopView().getFloatY();
+                            float newlenght = getYcur(e) - selectedElement.getFrontPointTopView().getFloatY();
                             if (newlenght > 1) {
                                 selectedElement.setWidth(newlenght);
                                 info.setDetailedInfo(" Width=" + newlenght);
@@ -148,8 +148,8 @@ public class TopPanel extends DrawablePanel {
                     }
                     PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
                     PredimRC.repaintDrawPanels();
-                    getGraphics().drawLine(startPanY, startPanX, e.getX(), e.getY());
-                }
+                     getGraphics().drawLine(startPanX, startPanX, e.getX(), e.getY());
+              }
             }
         });
        //   backgroundImage = PredimRC.getImage("top.png");

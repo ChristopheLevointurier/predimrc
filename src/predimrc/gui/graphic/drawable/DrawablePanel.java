@@ -60,7 +60,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                getNearestPoint(e.getX(), e.getY());
+                getNearestPoint(getXcur(e), getYcur(e));
                 info.setInfo(selectedElement.toInfoString());
                 info.setDetailedInfo("");
                 for (DrawablePoint p : points) {
@@ -75,7 +75,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     //detect nearest point;
-                    getNearestPoint(e.getX(), e.getY());
+                    getNearestPoint(getXcur(e), getYcur(e));
                     info.setInfo(selectedElement.toInfoString());
                     info.setDetailedInfo("");
                     repaint();
@@ -141,5 +141,29 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         PredimRC.logDebugln("changeModel in Panel:" + view);
         points = PredimRC.getInstanceDrawableModel().getPoints(view);
         repaint();
+    }
+
+    protected int getXcur(MouseEvent e) {
+        switch (view) {
+            case FRONT_VIEW:
+                return e.getX() - panY;
+            case TOP_VIEW:
+                return e.getX() - panY;
+            default:
+            case LEFT_VIEW:
+                return e.getX() - panX;
+        }
+    }
+
+    protected int getYcur(MouseEvent e) {
+        switch (view) {
+            case FRONT_VIEW:
+                return e.getY() - panZ;
+            case TOP_VIEW:
+                return e.getY() - panX;
+            default:
+            case LEFT_VIEW:
+                return e.getY() - panZ;
+        }
     }
 }
