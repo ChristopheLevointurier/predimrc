@@ -110,6 +110,16 @@ public class Utils {
         return mesh;
     }
 
+    public static Dimension3D getRefPos(Dimension3D in) {
+        Dimension3D ret = predimrc.PredimRC.getInstanceDrawableModel().getWings().get(0).getPositionDimension3D();
+        return in.sub(ret);
+    }
+
+    public static Dimension3D getWorldPos(Dimension3D in) {
+        Dimension3D ret = predimrc.PredimRC.getInstanceDrawableModel().getWings().get(0).getPositionDimension3D();
+        return in.add(ret);
+    }
+
     public static double distance(DrawablePoint p1, int x, int y) {
         return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x) + (p1.getFloatY() - y) * (p1.getFloatY() - y));
     }
