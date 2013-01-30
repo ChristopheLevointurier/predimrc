@@ -27,7 +27,7 @@ import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
+import predimrc.gui.graphic.popup.SimplePopUp;
 
 /**
  *
@@ -50,7 +50,7 @@ public class FrontPanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     try {
-                        currentDiedre = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.DIEDRE, "" + currentDiedre));
+                        currentDiedre = Float.parseFloat(SimplePopUp.MakePopup("" + currentDiedre));
                         applyDiedre();
                     } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                         PredimRC.logln("Invalid diedre value typed");
