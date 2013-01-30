@@ -68,19 +68,16 @@ import predimrc.model.ModelVersion;
 /**
  * TODO .
  *
-
-
-point de ref a installer
-calculs chaque voilure .
-
-corde = profondeur. 
-
-angle calculé par rapport à l'emplanture
-mettre rectangle pour fuselage
-
-
-
-
+ *
+ *
+ * point de ref a installer calculs chaque voilure .
+ *
+ * corde = profondeur. * angle calculé par rapport à l'emplanture mettre
+ * rectangle pour fuselage
+ *
+ *
+ *
+ *
  * sauver config 3D.
  *
  * @author Christophe Levointurier 11/2012
@@ -99,7 +96,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.51";
+    private static final String VERSION = "Alpha 0.52";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";

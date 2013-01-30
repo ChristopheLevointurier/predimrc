@@ -73,7 +73,7 @@ public class MegaCombo extends JPanel {
                 value.removeActionListener(a);
             }
         }
-        value.setSelectedItem(""+ind);
+        value.setSelectedItem("" + ind);
         if (!withAction) {
             for (ActionListener a : al) {
                 value.addActionListener(a);

@@ -30,5 +30,4 @@ public class ModelVersion implements Serializable {
 
     public ModelVersion() {
     }
-
 }
