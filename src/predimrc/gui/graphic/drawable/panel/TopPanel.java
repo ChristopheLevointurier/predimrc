@@ -104,7 +104,7 @@ public class TopPanel extends DrawablePanel {
                             float xpos = getXcur(e) > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : getXcur(e);
                             xpos = selectedElement instanceof DrawableFuselage ? selectedElement.getyPos() : xpos;
                             selectedElement.setPos(getYcur(e), xpos, selectedElement.getzPos());
-                            info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
+                            info.setDetailedInfo(" moved to : " + Utils.getRefPos(selectedElement.getPositionDimension3D()));
                         }
                         //resize width
                         if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
