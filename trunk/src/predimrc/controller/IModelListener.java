@@ -18,12 +18,15 @@ import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.Model;
 
 /**
- * interface to force the implementation of changeModel(Model m) and updateModel();
- * @author Christophe Levointurier,  22 déc. 2012, (UTF-8)
+ * interface to force the implementation of changeModel(Model m) and
+ * updateModel();
+ *
+ * @author Christophe Levointurier, 22 déc. 2012, (UTF-8)
  * @version
  * @see
- * @since 
+ * @since
  */
 public interface IModelListener {
-public void updateModel(DrawableModel m);
+
+    public void updateModel(DrawableModel m);
 }

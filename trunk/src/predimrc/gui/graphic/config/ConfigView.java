@@ -271,8 +271,7 @@ public final class ConfigView extends JPanel implements IModelListener {
          * wingDiedre_label.setValue(diedre);
          *
          * diedre = ""; for (WingSection w : m.getTail().get(0)) { diedre += "#"
-         * + df.format(w.getDiedre()); }
-        tailDiedre_label.setValue(diedre);*
+         * + df.format(w.getDiedre()); } tailDiedre_label.setValue(diedre);*
          */
     }
 }

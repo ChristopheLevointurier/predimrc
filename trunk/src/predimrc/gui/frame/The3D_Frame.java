@@ -15,13 +15,10 @@
  */
 package predimrc.gui.frame;
 
-import java.awt.Image;
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import predimrc.gui.ExternalFrame;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -37,6 +34,9 @@ import javagl.jglcore.JGL_3DMovable;
 import javagl.jglcore.JGL_3DVector;
 import javagl.jglcore.JGL_Sorter;
 import javagl.jglcore.JGL_Time;
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import predimrc.gui.ExternalFrame;
 import predimrc.gui.graphic.config.Config3DView;
 import predimrc.model.element.loader.FuselageLoader;
 
@@ -275,8 +275,8 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             data.rotate(angleX, 1f, 0f, 0f, true);
             data.rotate(angleY, 0f, 1f, 0f, true);
             data.rotate(angleZ, 0f, 0f, 1f, true);
-         //   data.setEyeSquareDistance(new JGL_3DVector(zoom, 0, 0));
-         //   data.setPosition(zoom, 0, 0);
+            //   data.setEyeSquareDistance(new JGL_3DVector(zoom, 0, 0));
+            //   data.setPosition(zoom, 0, 0);
             config.getDegX_label().setValue((int) angleX + "°");
             config.getDegY_label().setValue((int) angleY + "°");
             config.getDegZ_label().setValue((int) angleZ + "°");
