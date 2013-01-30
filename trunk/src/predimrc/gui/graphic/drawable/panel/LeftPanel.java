@@ -28,6 +28,7 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;
 import predimrc.gui.graphic.popup.ConfigPopUp;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
@@ -58,6 +59,9 @@ public class LeftPanel extends DrawablePanel {
                         }
                         if (selectedElement instanceof DrawableWingSection) {
                             new ConfigWingSection_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
+                        }
+                        if (selectedElement instanceof DrawableFuselage) {
+                            new ConfigFuselage_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
                         }
                     }
 
