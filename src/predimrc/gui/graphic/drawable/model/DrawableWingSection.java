@@ -49,7 +49,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
      * @param _belongsTo
      */
     public DrawableWingSection(DrawableWingSection copy, DrawableWing _belongsTo) {
-        this(copy.getFilename(), copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), copy.getAngle(), _belongsTo);
+        this(copy.getDiedre(), copy.getFleche(), copy.getWidth(), copy.getLenght(), copy.getAngle(), _belongsTo);
     }
 
     public DrawableWingSection(Dimension3D wingConnection, DrawableWing _belongsTo) {
@@ -74,14 +74,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     /**
      * Constructors
      */
-    public DrawableWingSection(String _filename, Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
+    public DrawableWingSection(Dimension3D wingConnection, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(wingConnection, _belongsTo);
-        setValues(_filename, _diedre, _fleche, _width, _lenght, _calageAngulaire);
+        setValues(_belongsTo.getFilename(), _diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
-    public DrawableWingSection(String _filename, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
+    public DrawableWingSection(float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire, DrawableWing _belongsTo) {
         super(_belongsTo);
-        setValues(_filename, _diedre, _fleche, _width, _lenght, _calageAngulaire);
+        setValues(_belongsTo.getFilename(), _diedre, _fleche, _width, _lenght, _calageAngulaire);
     }
 
     /**
@@ -186,7 +186,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 Utils.drawLine((int) getyPos() + DrawablePanel.panY, (int) getzPos() + DrawablePanel.panZ, frontPointFrontView, g, view);
                 Utils.drawLine((int) (2 * Utils.FRONT_SCREEN_X - getyPos() + DrawablePanel.panY), (int) getzPos() + DrawablePanel.panZ, frontPointFrontView.getMirror(), g, view);
                 frontPointFrontView.draw(g);
-           //     frontPointFrontView.getMirror().draw(g);
+                //     frontPointFrontView.getMirror().draw(g);
                 break;
             }
 
