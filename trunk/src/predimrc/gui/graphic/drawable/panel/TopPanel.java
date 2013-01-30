@@ -28,9 +28,11 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;
+import predimrc.gui.graphic.popup.ConfigPopUp;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
+import predimrc.gui.graphic.popup.SimplePopUp;
 
 /**
  *
@@ -52,29 +54,39 @@ public class TopPanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
 
-                    if (selectedElement instanceof DrawableModelElement) {
-                        try {
-                            if (selectedPoint.equals(selectedPoint.getBelongsTo().getFrontPointTopView())) {//fleche length and pos
-                                ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
-                            }
-                            if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
-                                selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));
-                            }
-
-                            if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint))) {
-                                try {
-                                    ((DrawableFuselage) selectedElement).setWidthY(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((DrawableFuselage) selectedElement).getWidthY()))));
-                                } catch (java.lang.NumberFormatException | NullPointerException exxx) {
-                                    PredimRC.logln("Invalid value typed");
-                                }
-
-                            }
-
-
-
-                        } catch (java.lang.NumberFormatException | NullPointerException exxx) {
-                            PredimRC.logln("Invalid value typed");
+                    if (selectedElement instanceof DrawableWing) {
+                        if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {// length and pos
+                            new ConfigWing_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
                         }
+                        if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
+                            new ConfigWing_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.BACK_POINT);
+                        }
+                    }
+                    if (selectedElement instanceof DrawableWingSection) {
+                        if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {//fleche length 
+                            new ConfigWingSection_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
+                        }
+                        if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
+                            new ConfigWingSection_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.BACK_POINT);
+                        }
+                    }
+
+                    if (selectedElement instanceof DrawableFuselage) {
+                        if (((DrawableFuselage) selectedElement).isWidthYPoint(selectedPoint)) {
+                            try {
+                                ((DrawableFuselage) selectedElement).setWidthY(Float.parseFloat(SimplePopUp.MakePopup("" + (((DrawableFuselage) selectedElement).getWidthY()))));
+                            } catch (java.lang.NumberFormatException | NullPointerException exxx) {
+                                PredimRC.logln("Invalid value typed");
+                            }
+
+                        }
+                        if (selectedPoint.equals(selectedElement.getFrontPointTopView())) { //pos
+                            new ConfigFuselage_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
+                        }
+                        if (selectedPoint.equals(selectedPoint.getBelongsTo().getBackPointTopView())) {//resize width 
+                            new ConfigFuselage_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.BACK_POINT);
+                        }
+
                     }
                 }
             }

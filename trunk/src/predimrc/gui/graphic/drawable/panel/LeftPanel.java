@@ -28,9 +28,10 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.popup.ConfigPopUp;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
+import predimrc.gui.graphic.popup.SimplePopUp;
 
 /**
  *
@@ -52,18 +53,17 @@ public class LeftPanel extends DrawablePanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
-                        if (selectedElement instanceof DrawableModelElement) {
-                            try {
-                                ConfigWing_PopUp.MakePopup(selectedPoint.getDrawableBelongsTo());
-                            } catch (java.lang.NumberFormatException | NullPointerException exxx) {
-                                PredimRC.logln("Invalid value typed");
-                            }
+                        if (selectedElement instanceof DrawableWing) {
+                            new ConfigWing_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
+                        }
+                        if (selectedElement instanceof DrawableWingSection) {
+                            new ConfigWingSection_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
                         }
                     }
 
                     if ((selectedElement instanceof DrawableFuselage) && (((DrawableFuselage) selectedElement).isWidthZPoint(selectedPoint))) {
                         try {
-                            ((DrawableFuselage) selectedElement).setWidthZ(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (((DrawableFuselage) selectedElement).getWidthZ()))));
+                            ((DrawableFuselage) selectedElement).setWidthZ(Float.parseFloat(SimplePopUp.MakePopup("" + (((DrawableFuselage) selectedElement).getWidthZ()))));
                         } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                             PredimRC.logln("Invalid value typed");
                         }
@@ -75,7 +75,7 @@ public class LeftPanel extends DrawablePanel {
                             case MAIN_WING: //change calage angulaire
                             {
                                 try {
-                                    currentAngle = Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.ANGLE, "" + ((DrawableWing) selectedElement).getAngle()));
+                                    currentAngle = Float.parseFloat(SimplePopUp.MakePopup("" + ((DrawableWing) selectedElement).getAngle()));
                                     applyAngle();
                                 } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                                     PredimRC.logln("Invalid angle value typed");
@@ -85,7 +85,7 @@ public class LeftPanel extends DrawablePanel {
                             case FUSELAGE:
                             case VERTICAL_PLAN: {
                                 try {
-                                    selectedElement.setWidth(Float.parseFloat(ConfigWingSection_PopUp.MakePopup(ConfigWingSection_PopUp.TYPE_MODIF.WIDTH, "" + (selectedElement.getWidth()))));
+                                    selectedElement.setWidth(Float.parseFloat(SimplePopUp.MakePopup("" + (selectedElement.getWidth()))));
                                 } catch (java.lang.NumberFormatException | NullPointerException exxx) {
                                     PredimRC.logln("Invalid value typed");
                                 }
