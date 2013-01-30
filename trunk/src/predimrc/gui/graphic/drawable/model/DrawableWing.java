@@ -49,6 +49,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 width = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
                 calageAngulaire = 0;
                 width = 55;
+                filename=Utils.defaultDeriveFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
@@ -56,7 +57,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultTailConnection, true);
                 width = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
                 calageAngulaire = 0.8f;
-                drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
+                 filename=Utils.defaultTailFoil;
+                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
             }
             default:
@@ -64,9 +66,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultWingConnection, true);
                 width = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
                 calageAngulaire = -4;
+                 filename=Utils.defaultWingFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 4, -7.8f, 40, 200, -3.5f, this));
-                drawableWingSection.add(new DrawableWingSection(Utils.defaultWingFoil, 6, -7.6f, 30, 80, -3f, this));
+                drawableWingSection.add(new DrawableWingSection( 4, -7.8f, 40, 200, -3.5f, this));
+                drawableWingSection.add(new DrawableWingSection( 6, -7.6f, 30, 80, -3f, this));
                 break;
             }
         }
@@ -80,7 +83,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         calageAngulaire = w.getCalageAngulaire();
         filename = w.getFilename();
         for (WingSection ws : w.getWingsSection()) {
-            drawableWingSection.add(new DrawableWingSection(ws.getFilename(), ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
+            drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
         }
     }
 
@@ -182,6 +185,14 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public void setDiedre(float _diedre) {
         for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
             w.setDiedre(_diedre, true);
+        }
+        apply();
+    }
+
+    @Override
+    public void setFilename(String _file) {
+        for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
+            w.setFilename(_file);
         }
         apply();
     }
