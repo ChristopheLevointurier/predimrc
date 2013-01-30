@@ -82,9 +82,9 @@ public abstract class DrawableModelElement {
     }
 
     public final void setPosXYZ(Dimension3D _XYZpos, boolean silent) {
-        xPos = (float) _XYZpos.getX();
-        yPos = (float) _XYZpos.getY();
-        zPos = (float) _XYZpos.getZ();
+        xPos = _XYZpos.getX();
+        yPos = _XYZpos.getY();
+        zPos = _XYZpos.getZ();
         if (!silent) {
             apply();
         }
