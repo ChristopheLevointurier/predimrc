@@ -14,8 +14,6 @@
  */
 package predimrc.common;
 
-import java.awt.Dimension;
-
 /**
  *
  * @author Christophe Levointurier, 5 janv. 2013, (UTF-8)
@@ -66,8 +64,12 @@ public class Dimension3D {
     public void setZ(float z) {
         this.z = z;
     }
-    
-    
-    
-    
+
+    public Dimension3D add(Dimension3D ret) {
+        return new Dimension3D(x + ret.x, y + ret.y, z + ret.z);
+    }
+
+    public Dimension3D sub(Dimension3D ret) {
+        return new Dimension3D(x - ret.x, y - ret.y, z - ret.z);
+    }
 }
