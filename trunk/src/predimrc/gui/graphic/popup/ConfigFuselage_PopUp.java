@@ -17,57 +17,49 @@ package predimrc.gui.graphic.popup;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import predimrc.controller.ModelController;
-import predimrc.gui.graphic.drawable.model.DrawableWing;
+import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
-import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
 
 /**
- * Pop up to modify a wing config: amount of section, positionXYZ
  *
- * @author Christophe Levointurier, 5 janv. 2013, (UTF-8)
+ * @author Christophe Levointurier, 30 janv. 2013, (UTF-8)
  * @version
  * @see
  * @since
  */
-public class ConfigWing_PopUp extends ConfigPopUp {
+public class ConfigFuselage_PopUp extends ConfigPopUp {
 
-    private DrawableWing drawableBelongsTo;
-    private MegaCombo nbrCombo = new MegaCombo("Number of section:", true, "1", "2", "3", "4", "5");
-    private MegaLabel angleLabel = new MegaLabel("Angle:", true);
+    private DrawableFuselage drawableBelongsTo;
     private MegaLabel fileLabel = new MegaLabel("Filename:", true);
     private MegaLabel widthLabel = new MegaLabel("Width:", true);
 
-    public ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
-        super("Wing Configuration", _usedfor);
-        drawableBelongsTo = (DrawableWing) _drawableBelongsTo;
+    public ConfigFuselage_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
+        super("WingSection Configuration", _usedfor);
+        drawableBelongsTo = (DrawableFuselage) _drawableBelongsTo;
         predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
+
+
+
+
+
 
         switch (usedFor) {
             case FRONT_POINT: {
-                nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
                 fileLabel.setValue("" + drawableBelongsTo.getFilename());
                 xposLabel.setValue("" + drawableBelongsTo.getxPos());
                 yposLabel.setValue("" + drawableBelongsTo.getyPos());
                 zposLabel.setValue("" + drawableBelongsTo.getzPos());
 
-                widgets.add(nbrCombo);
+
                 widgets.add(makePanelPos());
                 widgets.add(fileLabel);
-                nbrCombo.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        ((DrawableWing) drawableBelongsTo).setDrawableWingSectionNumber(Integer.parseInt(nbrCombo.getValue()));
-                        ModelController.applyChange();
-                    }
-                });
 
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
-                        ((DrawableWing) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
                         drawableBelongsTo.setFilename(fileLabel.getValue());
+                        drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }
@@ -75,15 +67,12 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                 break;
             }
             case BACK_POINT: {
-                angleLabel.setValue("" + drawableBelongsTo.getAngle());
                 widthLabel.setValue("" + drawableBelongsTo.getWidth());
-                widgets.add(angleLabel);
                 widgets.add(widthLabel);
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setWidth(widthLabel.getFloatValue());
-                        drawableBelongsTo.setAngle(angleLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }
@@ -91,7 +80,6 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                 break;
             }
         }
-
 
         finish();
     }

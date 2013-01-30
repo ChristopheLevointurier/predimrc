@@ -14,7 +14,12 @@
  */
 package predimrc.gui.graphic.popup;
 
-import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
+import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.widget.MegaLabel;
 
 /**
  *
@@ -23,36 +28,56 @@ import javax.swing.JOptionPane;
  * @see
  * @since
  */
-public class ConfigWingSection_PopUp {
+public class ConfigWingSection_PopUp extends ConfigPopUp {
 
-    private TYPE_MODIF usedFor;
-    private String input;
+    private DrawableWingSection drawableBelongsTo;
+    private MegaLabel angleLabel = new MegaLabel("Angle:", true);
+    private MegaLabel flecheLabel = new MegaLabel("Fleche:", true);
+    private MegaLabel lengthLabel = new MegaLabel("Length:", true);
+    private MegaLabel widthLabel = new MegaLabel("Width:", true);
 
-    public static String MakePopup(TYPE_MODIF _usedFor, String _input) {
-        ConfigWingSection_PopUp pop = new ConfigWingSection_PopUp(_usedFor, _input);
-        return pop.getValue();
-    }
+    public ConfigWingSection_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
+        super("WingSection Configuration", _usedfor);
+        drawableBelongsTo = (DrawableWingSection) _drawableBelongsTo;
+        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
 
-    private ConfigWingSection_PopUp(TYPE_MODIF _usedFor, String _input) {
-        usedFor = _usedFor;
-        input = _input;
-    }
 
-    private String getValue() {
-        predimrc.PredimRC.logln("Pop up " + usedFor.name());
+
         switch (usedFor) {
-            case DIEDRE:
-            case WIDTH:
-            case ANGLE: {
-                return JOptionPane.showInputDialog(null, "Type exact " + usedFor.name() + " value here:", input);
+            case FRONT_POINT: {
+                flecheLabel.setValue("" + drawableBelongsTo.getFleche());
+                lengthLabel.setValue("" + drawableBelongsTo.getLenght());
+                widgets.add(flecheLabel);
+                widgets.add(lengthLabel);
+                okBut.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        drawableBelongsTo.setFleche(flecheLabel.getFloatValue());
+                        drawableBelongsTo.setLenght(lengthLabel.getFloatValue());
+                        ModelController.applyChange();
+                        dispose();
+                    }
+                });
+
+                break;
             }
-
+            case BACK_POINT: {
+                angleLabel.setValue("" + drawableBelongsTo.getAngle());
+                widthLabel.setValue("" + drawableBelongsTo.getWidth());
+                widgets.add(angleLabel);
+                widgets.add(widthLabel);
+                okBut.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        drawableBelongsTo.setWidth(widthLabel.getFloatValue());
+                        drawableBelongsTo.setAngle(angleLabel.getFloatValue());
+                        ModelController.applyChange();
+                        dispose();
+                    }
+                });
+                break;
+            }
         }
-        return "0";
-    }
-
-    public static enum TYPE_MODIF {
-
-        DIEDRE, WIDTH, ANGLE;
+        finish();
     }
 }
