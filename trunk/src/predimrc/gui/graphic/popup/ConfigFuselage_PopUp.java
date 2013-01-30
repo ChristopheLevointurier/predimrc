@@ -16,6 +16,8 @@ package predimrc.gui.graphic.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import predimrc.common.Dimension3D;
+import predimrc.common.Utils;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -47,9 +49,10 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
         switch (usedFor) {
             case FRONT_POINT: {
                 fileLabel.setValue("" + drawableBelongsTo.getFilename());
-                xposLabel.setValue("" + drawableBelongsTo.getxPos());
-                yposLabel.setValue("" + drawableBelongsTo.getyPos());
-                zposLabel.setValue("" + drawableBelongsTo.getzPos());
+                Dimension3D pos = Utils.getRefPos(drawableBelongsTo.getPositionDimension3D());
+                xposLabel.setValue("" + pos.getX());
+                yposLabel.setValue("" + pos.getY());
+                zposLabel.setValue("" + pos.getZ());
 
 
                 widgets.add(makePanelPos());
@@ -59,7 +62,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setFilename(fileLabel.getValue());
-                        drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
+                        drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue())), true);
                         ModelController.applyChange();
                         dispose();
                     }

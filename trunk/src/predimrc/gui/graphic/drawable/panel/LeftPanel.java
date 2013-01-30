@@ -112,7 +112,7 @@ public class LeftPanel extends DrawablePanel {
                         if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
                             //move Connection
                             selectedElement.setPos(getXcur(e), selectedElement.getyPos(), getYcur(e));
-                            info.setDetailedInfo(" moved to : " + selectedElement.getPositionDimension3D());
+                            info.setDetailedInfo(" moved to : " + Utils.getRefPos(selectedElement.getPositionDimension3D()));
 
                         }
                         if (selectedElement instanceof DrawableWingSection) {

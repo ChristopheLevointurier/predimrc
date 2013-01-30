@@ -16,6 +16,8 @@ package predimrc.gui.graphic.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import predimrc.common.Dimension3D;
+import predimrc.common.Utils;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -47,9 +49,13 @@ public class ConfigWing_PopUp extends ConfigPopUp {
             case FRONT_POINT: {
                 nbrCombo.setSelectedValue(((DrawableWing) drawableBelongsTo).getSize(), false);
                 fileLabel.setValue("" + drawableBelongsTo.getFilename());
-                xposLabel.setValue("" + drawableBelongsTo.getxPos());
-                yposLabel.setValue("" + drawableBelongsTo.getyPos());
-                zposLabel.setValue("" + drawableBelongsTo.getzPos());
+
+                Dimension3D pos = Utils.getRefPos(drawableBelongsTo.getPositionDimension3D());
+                xposLabel.setValue("" + pos.getX());
+                yposLabel.setValue("" + pos.getY());
+                zposLabel.setValue("" + pos.getZ());
+
+
 
                 widgets.add(nbrCombo);
                 widgets.add(makePanelPos());
@@ -65,9 +71,9 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        drawableBelongsTo.setPos(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue());
                         ((DrawableWing) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
                         drawableBelongsTo.setFilename(fileLabel.getValue());
+                        drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue())), true);
                         ModelController.applyChange();
                         dispose();
                     }
