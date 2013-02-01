@@ -138,15 +138,20 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
          * specs
          */
         double areaTemp = 0;
+        double meanCordTemp = 0;
         float previousCord = getWidth();
+        double areaI = 0;
+        span = 0;
         for (DrawableWingSection ws : drawableWingSection) {
-            areaTemp += (previousCord + ws.getWidth()) * ws.getLenght() / 2;
+            areaI = (previousCord + ws.getWidth()) * ws.getLenght() / 2;
+            areaTemp += areaI;
+            meanCordTemp += areaI * ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
             previousCord = ws.getWidth();
+            span += 2 * ws.getLenght(); //envergure
         }
-        meanCord = 0;  //corde moyenne
         area = 2 * areaTemp;  //surface
-        span = 0; //envergure
-        aspectRatio = 0;  //allongement
+        meanCord = meanCordTemp / area;  //corde moyenne
+        aspectRatio = span * span / area;  //allongement
 
     }
 
