@@ -52,7 +52,7 @@ public class LeftPanel extends DrawablePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if ((e.getClickCount() == 2) || (SwingUtilities.isRightMouseButton(e))) {
                     if (selectedPoint.equals(selectedElement.getFrontPointLeftView())) {
                         if (selectedElement instanceof DrawableWing) {
                             new ConfigWing_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);

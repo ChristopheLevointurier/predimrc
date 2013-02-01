@@ -52,8 +52,7 @@ public class TopPanel extends DrawablePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-
+                if ((e.getClickCount() == 2) || (SwingUtilities.isRightMouseButton(e))) {
                     if (selectedElement instanceof DrawableWing) {
                         if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {// length and pos
                             new ConfigWing_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.FRONT_POINT);
