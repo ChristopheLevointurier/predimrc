@@ -48,7 +48,7 @@ public class FrontPanel extends DrawablePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if ((e.getClickCount() == 2) || (SwingUtilities.isRightMouseButton(e))) {
                     try {
                         currentDiedre = Float.parseFloat(SimplePopUp.MakePopup("" + currentDiedre));
                         applyDiedre();
