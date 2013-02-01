@@ -32,6 +32,7 @@ import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
+import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.widget.MegaLabel;
 
 /**
@@ -68,13 +69,13 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel wingarea_label = makeLabel("wing area");
     private MegaLabel airFoil_label = makeLabel("airFoil");
     private MegaLabel wingratio_label = makeLabel("aspect ratio");
-    private MegaLabel wingcorde_label = makeLabel("corde moyenne");
+    private MegaLabel wingcorde_label = makeLabel("mean cord");
+    private MegaLabel wingDiedre_label = makeLabel("Diedre wing");
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
     private MegaLabel wingCalage_label = makeLabel("Calage aile");
     private MegaLabel wingCzCalage_label = makeLabel("Cz Calage wing");
     private MegaLabel wingIncidence_label = makeLabel("Incidence wing");
-    private MegaLabel wingDiedre_label = makeLabel("Diedre wing");
     /**
      * Labels for tail data
      */
@@ -82,7 +83,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabarea_label = makeLabel("stab area");
     private MegaLabel stabFoil_label = makeLabel("stab airFoil");
     private MegaLabel stabratio_label = makeLabel("stab aspect ratio");
-    private MegaLabel stabcorde_label = makeLabel("stab corde moyenne");
+    private MegaLabel stabcorde_label = makeLabel("stab mean cord");
     private MegaLabel stablevier_label = makeLabel("Bras de levier");
     private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
@@ -103,7 +104,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         mainWing.setLayout(new BoxLayout(mainWing, BoxLayout.Y_AXIS));
         mainWingButtons.setLayout(new BoxLayout(mainWingButtons, BoxLayout.X_AXIS));
-        mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing:"));
+        mainWing.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Main wing specs:"));
         mainWing.add(wingspan_label);
         mainWing.add(wingarea_label);
         mainWing.add(airFoil_label);
@@ -127,7 +128,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
         tail.setLayout(new BoxLayout(tail, BoxLayout.Y_AXIS));
-        tail.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Stabilisateur:"));
+        tail.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Horizontal tail specs:"));
         tail.add(stabspan_label);
         tail.add(stabarea_label);
         tail.add(stabFoil_label);
@@ -265,13 +266,30 @@ public final class ConfigView extends JPanel implements IModelListener {
 
     @Override
     public void updateModel(DrawableModel m) {
-        /**
-         * String diedre = ""; for (WingSection w : m.getWings().get(0)) {
-         * diedre += "#" + df.format(w.getDiedre()); }
-         * wingDiedre_label.setValue(diedre);
-         *
-         * diedre = ""; for (WingSection w : m.getTail().get(0)) { diedre += "#"
-         * + df.format(w.getDiedre()); } tailDiedre_label.setValue(diedre);*
-         */
+
+        String diedre = "";
+        for (DrawableWingSection w : m.getWings().get(0)) {
+            diedre += "#" + df.format(w.getDiedre());
+        }
+        wingDiedre_label.setValue(diedre);
+
+        diedre = "";
+        for (DrawableWingSection w : m.getTail().get(0)) {
+            diedre += "#" + df.format(w.getDiedre());
+        }
+        tailDiedre_label.setValue(diedre);
+
+        wingspan_label.setValue("" + m.getWings().get(0).getSpan());
+        wingarea_label.setValue("" + m.getWings().get(0).getArea());
+        airFoil_label.setValue("" + m.getWings().get(0).getFilename());
+        wingratio_label.setValue("" + m.getWings().get(0).getAspectRatio());
+        wingcorde_label.setValue("" + m.getWings().get(0).getMeanCord());
+
+
+        stabspan_label.setValue("" + m.getTail().get(0).getSpan());
+        stabarea_label.setValue("" + m.getTail().get(0).getArea());
+        stabFoil_label.setValue("" + m.getTail().get(0).getFilename());
+        stabratio_label.setValue("" + m.getTail().get(0).getAspectRatio());
+        stabcorde_label.setValue("" + m.getTail().get(0).getMeanCord());
     }
 }
