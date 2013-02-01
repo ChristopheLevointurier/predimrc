@@ -329,7 +329,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             wsl.add(ws.generateModel());
         }
-        return new Wing("fad05.dat", used_for, getPositionDimension3D(), width, calageAngulaire, wsl);
+        return new Wing(filename, used_for, getPositionDimension3D(), width, calageAngulaire, wsl);
     }
 
     @Override
