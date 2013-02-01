@@ -40,6 +40,7 @@ public class MegaLabel extends JPanel {
     private JTextField value;
     private boolean editable = false;
     public final Color backColor = new Color(175, 220, 235);
+    private int LENGTH_MAX=12;
 
     public MegaLabel(String _name, boolean _editable) {
         name = new JLabel(_name + " : ");
@@ -69,6 +70,10 @@ public class MegaLabel extends JPanel {
     }
 
     public final void setValue(final String _value) {
+        if (_value.length()>LENGTH_MAX){
+       value.setText(_value.substring(0, LENGTH_MAX));
+            
+        }else
         value.setText(_value);
     }
 
