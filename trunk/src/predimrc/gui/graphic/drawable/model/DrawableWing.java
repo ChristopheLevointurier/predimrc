@@ -38,7 +38,19 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     private LinkedList<DrawableWingSection> drawableWingSection;
     private float calageAngulaire;
+    /**
+     * aerodynamics caracs
+     */
+    private double meanCord = 0;  //corde moyenne
+    private double area = 0;  //surface
+    private double span = 0; //envergure
+    private double aspectRatio = 0;  //allongement
 
+    /**
+     *
+     * @param _used_for
+     * @param m
+     */
     public DrawableWing(USED_FOR _used_for, DrawableModel m) {
         super(m);
         used_for = _used_for;
@@ -92,6 +104,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
+
+        /**
+         * **
+         * Points *
+         */
         if (!pointsCalculed) {
             frontPointFrontView = DrawablePoint.makePointForFrontView(getPositionDimension3D(), false, this, VIEW_TYPE.FRONT_VIEW);
             frontPointTopView = DrawablePoint.makePointForTopView(getPositionDimension3D(), true, this, VIEW_TYPE.TOP_VIEW);
@@ -115,6 +132,21 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 ds.getFrontPointFrontView().setSelectable(ds.equals(drawableWingSection.getLast()));
             }
         }
+
+
+        /**
+         * specs
+         */
+        double areaTemp = 0;
+        float previousCord = getWidth();
+        for (DrawableWingSection ws : drawableWingSection) {
+            areaTemp += (previousCord + ws.getWidth()) * ws.getLenght() / 2;
+            previousCord = ws.getWidth();
+        }
+        meanCord = 0;  //corde moyenne
+        area = 2 * areaTemp;  //surface
+        span = 0; //envergure
+        aspectRatio = 0;  //allongement
 
     }
 
@@ -314,8 +346,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             w.setAngle(angle, true);
         }
         apply();
-
-        apply();
     }
 
     @Override
@@ -326,5 +356,21 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public DrawablePoint getFrontPointFrontView() {
         return drawableWingSection.getLast().getFrontPointFrontView();
+    }
+
+    public double getMeanCord() {
+        return meanCord;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public double getSpan() {
+        return span;
+    }
+
+    public double getAspectRatio() {
+        return aspectRatio;
     }
 }
