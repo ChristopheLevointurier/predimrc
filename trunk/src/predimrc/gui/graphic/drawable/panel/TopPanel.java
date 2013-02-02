@@ -102,7 +102,8 @@ public class TopPanel extends DrawablePanel {
                         if (selectedPoint.equals(selectedElement.getFrontPointTopView())) {
                             float xpos = getXcur(e) > Utils.TOP_SCREEN_X / 2 ? Utils.TOP_SCREEN_X / 2 : getXcur(e);
                             xpos = selectedElement instanceof DrawableFuselage ? selectedElement.getyPos() : xpos;
-                            selectedElement.setPos(getYcur(e), xpos, selectedElement.getzPos());
+                            float ypos = selectedElement.equals(PredimRC.getInstanceDrawableModel().getWings().get(0)) ? selectedElement.getxPos() : getYcur(e);
+                            selectedElement.setPos(ypos, xpos, selectedElement.getzPos());
                             info.setDetailedInfo(" moved to : " + Utils.getRefPos(selectedElement.getPositionDimension3D()));
                         }
                         //resize width
@@ -128,7 +129,7 @@ public class TopPanel extends DrawablePanel {
                         //change  length & fleche
                         if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
                             float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
-                            float newFleche = (float) (getYcur(e)-((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY());
+                            float newFleche = (float) (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY());
                             ((DrawableWingSection) selectedElement).setFleche(newFleche);
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
