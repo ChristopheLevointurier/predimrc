@@ -41,7 +41,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     /**
      * aerodynamics caracs
      */
-    private double meanCord = 0;  //corde moyenne
+    private double meanChord = 0;  //corde moyenne
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
@@ -138,19 +138,19 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
          * specs
          */
         double areaTemp = 0;
-        double meanCordTemp = 0;
+        double meanChordTemp = 0;
         float previousCord = getWidth();
         double areaI = 0;
         span = 0;
         for (DrawableWingSection ws : drawableWingSection) {
             areaI = (previousCord + ws.getWidth()) * ws.getLenght() / 2;
             areaTemp += areaI;
-            meanCordTemp += areaI * ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
+            meanChordTemp += areaI * ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
             previousCord = ws.getWidth();
             span += 2 * ws.getLenght(); //envergure
         }
         area = 2 * areaTemp;  //surface
-        meanCord = meanCordTemp / area;  //corde moyenne
+        meanChord = 2 * meanChordTemp / area;  //corde moyenne
         aspectRatio = span * span / area;  //allongement
 
     }
@@ -364,7 +364,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
 
     public double getMeanCord() {
-        return meanCord;
+        return meanChord;
     }
 
     public double getArea() {

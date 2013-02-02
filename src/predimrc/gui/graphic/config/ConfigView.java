@@ -69,7 +69,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel wingarea_label = makeLabel("wing area");
     private MegaLabel airFoil_label = makeLabel("airFoil");
     private MegaLabel wingratio_label = makeLabel("aspect ratio");
-    private MegaLabel wingcorde_label = makeLabel("mean cord");
+    private MegaLabel wingcorde_label = makeLabel("mean chord");
     private MegaLabel wingDiedre_label = makeLabel("Diedre wing");
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
@@ -83,7 +83,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabarea_label = makeLabel("stab area");
     private MegaLabel stabFoil_label = makeLabel("stab airFoil");
     private MegaLabel stabratio_label = makeLabel("stab aspect ratio");
-    private MegaLabel stabcorde_label = makeLabel("stab mean cord");
+    private MegaLabel stabcorde_label = makeLabel("stab mean chord");
     private MegaLabel stablevier_label = makeLabel("Bras de levier");
     private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
