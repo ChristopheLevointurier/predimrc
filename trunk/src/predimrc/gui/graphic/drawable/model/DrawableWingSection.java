@@ -122,9 +122,9 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         float viewableWidthCoef = (float) (Math.cos(Math.toRadians(calageAngulaire)));
 
         if (!pointsCalculed) {
-            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
+            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() + fleche, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getY() + width, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
-            frontPointLeftView = new DrawablePoint(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.LEFT_VIEW);
+            frontPointLeftView = new DrawablePoint(previous.getFrontPointLeftView().getFloatX() + fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.LEFT_VIEW);
             backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.LEFT_VIEW);
             frontPointFrontView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.MAIN_WING), this, VIEW_TYPE.FRONT_VIEW);
             //adjust with angle      
@@ -135,9 +135,9 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             // applyAngle(frontPointFrontView, yref, viewableWidthCoef);
             pointsCalculed = true;
         } else {
-            frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() - fleche);
+            frontPointTopView.setLocation(previous.getFrontPointTopView().getFloatX() - viewableLengthY, previous.getFrontPointTopView().getFloatY() + fleche);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + width);
-            frontPointLeftView.setFloatLocation(previous.getFrontPointLeftView().getFloatX() - fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ);
+            frontPointLeftView.setFloatLocation(previous.getFrontPointLeftView().getFloatX() + fleche, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ);
             backPointLeftView.setLocation(Utils.getCoordOnCircle(frontPointLeftView, -calageAngulaire, width));
             frontPointFrontView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForFrontView(getPositionDimension3D()), diedre + 180, lenght));
             //adjust with angle      
