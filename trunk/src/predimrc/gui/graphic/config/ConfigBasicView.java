@@ -55,7 +55,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        modelTitle = new MegaLabel("Model name (Enter to validate):", "undefined", true);
+        modelTitle = new MegaLabel("Model name (Enter to validate):", "undefined", true,100);
         modelTitle.addKeyListener("ENTER", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {

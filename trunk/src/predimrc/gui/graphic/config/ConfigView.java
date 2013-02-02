@@ -193,7 +193,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     }
 
     private MegaLabel makeLabel(String str) {
-        return new MegaLabel(str, PredimRC.defaultLabelContent, false);
+        return new MegaLabel(str, PredimRC.defaultLabelContent);
     }
 
     public MegaLabel getWingspan_label() {
