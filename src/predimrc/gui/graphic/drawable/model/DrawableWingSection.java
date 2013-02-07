@@ -56,7 +56,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         super(wingConnection, _belongsTo);
         switch (((DrawableWing) belongsTo).getUsedFor()) {
             case VERTICAL_PLAN: {
-                setValues(Utils.defaultDeriveFoil, 90, -20, 47, 66, 0);
+                setValues(Utils.defaultDeriveFoil, 90, 20, 47, 66, 0);
                 break;
             }
             case HORIZONTAL_PLAN: {
