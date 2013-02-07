@@ -45,14 +45,14 @@ public class ConfigWingSection_PopUp extends ConfigPopUp {
 
         switch (usedFor) {
             case FRONT_POINT: {
-                flecheLabel.setValue("" + drawableBelongsTo.getFleche());
+                flecheLabel.setValue("" + drawableBelongsTo.getSweep());
                 lengthLabel.setValue("" + drawableBelongsTo.getLenght());
                 widgets.add(flecheLabel);
                 widgets.add(lengthLabel);
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        drawableBelongsTo.setFleche(flecheLabel.getFloatValue());
+                        drawableBelongsTo.setSweep(flecheLabel.getFloatValue());
                         drawableBelongsTo.setLenght(lengthLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
