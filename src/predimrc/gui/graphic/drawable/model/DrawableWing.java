@@ -14,7 +14,6 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.LinkedList;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
-import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.model.element.Wing;
@@ -44,7 +42,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      * aerodynamics caracs
      */
     private double meanChord = 0;  //corde moyenne
-    private double neutralPoint = 0;  //foyer
+    private DrawableNeutralPoint neutralPoint;  //foyer
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
@@ -120,6 +118,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             frontPointLeftView = DrawablePoint.makePointForLeftView(getPositionDimension3D(), true, this, VIEW_TYPE.LEFT_VIEW);
 
             backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width), true, this, VIEW_TYPE.LEFT_VIEW);
+            neutralPoint = new DrawableNeutralPoint(this);  //foyer
             pointsCalculed = true;
         } else {
             frontPointFrontView.setFloatLocation(yPos, zPos);
@@ -164,7 +163,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         area = 2 * areaTemp;  //surface
         meanChord = 2 * meanChordTempCalc / area;  //corde moyenne
         aspectRatio = span * span / area;  //allongement
-        neutralPoint = 2 * xFTempCalc / area; //foyer
+        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, 2 * xFTempCalc / area + getxPos()); //foyer
     }
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
@@ -282,13 +281,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case TOP_VIEW: {
                 frontPointTopView.draw(g);
                 backPointTopView.draw(g);
-                g.setColor(used_for.getColor());
-                g.setStroke(new BasicStroke(1));
-                int neutralXpos = Utils.TOP_SCREEN_X / 2 + DrawablePanel.panY;
-                int neutralYpos = (int) (neutralPoint + DrawablePanel.panX + getxPos());
-                g.drawOval(neutralXpos - 5, neutralYpos - 5, 10, 10);
-                g.drawLine(neutralXpos - 10, neutralYpos, neutralXpos + 10, neutralYpos);
-                g.drawLine(neutralXpos, neutralYpos - 10, neutralXpos, neutralYpos + 10);
+                neutralPoint.draw(g);
                 break;
             }
             case LEFT_VIEW: {
@@ -332,6 +325,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case TOP_VIEW: {
                 ret.add(frontPointTopView);
                 ret.add(backPointTopView);
+                ret.add(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {
