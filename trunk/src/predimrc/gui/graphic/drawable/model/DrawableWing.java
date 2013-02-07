@@ -14,6 +14,7 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.LinkedList;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 import predimrc.model.element.Wing;
@@ -42,6 +44,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      * aerodynamics caracs
      */
     private double meanChord = 0;  //corde moyenne
+    private double neutralPoint = 0;  //foyer
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
@@ -138,21 +141,30 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
          * specs
          */
         double areaTemp = 0;
-        double meanChordTemp = 0;
+        double meanChordTempCalc = 0;
+        double meanChordTempI = 0;
         float previousCord = getWidth();
+        float previousSweep = 0;
         double areaI = 0;
+        double xFI = 0;
+        double xFTempCalc = 0;
+
         span = 0;
         for (DrawableWingSection ws : drawableWingSection) {
             areaI = (previousCord + ws.getWidth()) * ws.getLenght() / 2;
             areaTemp += areaI;
-            meanChordTemp += areaI * ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
+            meanChordTempI = ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
+            xFI = ((double) (previousSweep + (ws.getFleche() / 3) * (previousCord + 2 * ws.getWidth()) / (previousCord + ws.getWidth())) + 0.25f * meanChordTempI);
+            meanChordTempCalc += areaI * meanChordTempI;
+            xFTempCalc += areaI * xFI;
             previousCord = ws.getWidth();
+            previousSweep = ws.getFleche();
             span += 2 * ws.getLenght(); //envergure
         }
         area = 2 * areaTemp;  //surface
-        meanChord = 2 * meanChordTemp / area;  //corde moyenne
+        meanChord = 2 * meanChordTempCalc / area;  //corde moyenne
         aspectRatio = span * span / area;  //allongement
-
+        neutralPoint = 2 * xFTempCalc / area; //foyer
     }
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
@@ -270,6 +282,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case TOP_VIEW: {
                 frontPointTopView.draw(g);
                 backPointTopView.draw(g);
+                g.setColor(used_for.getColor());
+                g.setStroke(new BasicStroke(1));
+                int neutralXpos = Utils.TOP_SCREEN_X / 2 + DrawablePanel.panY;
+                int neutralYpos = (int) (neutralPoint + DrawablePanel.panX + getxPos());
+                g.drawOval(neutralXpos - 5, neutralYpos - 5, 10, 10);
+                g.drawLine(neutralXpos - 10, neutralYpos, neutralXpos + 10, neutralYpos);
+                g.drawLine(neutralXpos, neutralYpos - 10, neutralXpos, neutralYpos + 10);
                 break;
             }
             case LEFT_VIEW: {
