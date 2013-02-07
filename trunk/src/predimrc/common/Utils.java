@@ -141,7 +141,8 @@ public class Utils {
         FUSELAGE(Utils.DEFAULT_FUSELAGE_COLOR, "Fuselage"),
         MAIN_WING(Utils.DEFAULT_MAIN_WING_COLOR, "Wing"),
         VERTICAL_PLAN(Utils.DEFAULT_DERIVE_WING_COLOR, "Derive"),
-        HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR, "Tail");
+        HORIZONTAL_PLAN(Utils.DEFAULT_TAIL_WING_COLOR, "Tail"),
+        DEFAULT(Color.BLACK, "default");
         private Color color;
         private String desc;
 
