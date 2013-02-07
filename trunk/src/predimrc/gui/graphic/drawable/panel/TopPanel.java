@@ -130,7 +130,7 @@ public class TopPanel extends DrawablePanel {
                         if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
                             float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
                             float newFleche = (float) (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY());
-                            ((DrawableWingSection) selectedElement).setFleche(newFleche);
+                            ((DrawableWingSection) selectedElement).setSweep(newFleche);
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
