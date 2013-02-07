@@ -34,11 +34,11 @@ import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
  */
 public class DrawablePoint {
 
-    private boolean selectable = true;
-    private boolean selected = false;
-    private DrawableModelElement belongsTo;
-    private float x, y;
-    private VIEW_TYPE view;
+    protected boolean selectable = true;
+    protected boolean selected = false;
+    protected DrawableModelElement belongsTo;
+    protected float x, y;
+    protected VIEW_TYPE view;
 
     public DrawablePoint() {
         selectable = false;
@@ -264,7 +264,7 @@ public class DrawablePoint {
         if (selectable) {
             g.setColor(Color.BLUE.brighter());
         } else {
-            g.setColor(Color.GRAY.brighter());
+            g.setColor(belongsTo.getUsedFor().getColor());
         }
         if (isSelected()) {
             //  g.setColor(Color.RED);
@@ -298,5 +298,9 @@ public class DrawablePoint {
 
     public String toStringAll() {
         return "(" + x + "," + y + ")selectable=" + selectable + " selected=" + selected + " for=" + belongsTo + " for view:" + view.name();
+    }
+
+    public String toInfoString() {
+        return "";
     }
 }
