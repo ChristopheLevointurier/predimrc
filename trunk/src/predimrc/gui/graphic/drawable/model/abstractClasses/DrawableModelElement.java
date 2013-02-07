@@ -56,7 +56,7 @@ public abstract class DrawableModelElement {
     protected boolean pointsCalculed = false;
     protected String filename = "notYetDefined";
     protected float width;
-    protected Utils.USED_FOR used_for;
+    protected Utils.USED_FOR used_for= Utils.USED_FOR.DEFAULT; //default value
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
