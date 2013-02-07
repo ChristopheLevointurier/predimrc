@@ -60,7 +60,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
                 break;
             }
             case HORIZONTAL_PLAN: {
-                setValues(Utils.defaultTailFoil, 1, -10, 35, 80, 0.8f);
+                setValues(Utils.defaultTailFoil, 1, 10, 35, 80, 0.8f);
                 break;
             }
             default:
