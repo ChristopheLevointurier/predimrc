@@ -153,11 +153,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             areaI = (previousCord + ws.getWidth()) * ws.getLenght() / 2;
             areaTemp += areaI;
             meanChordTempI = ((double) 2 / (double) 3) * ((double) (previousCord * previousCord + previousCord * ws.getWidth() + ws.getWidth() * ws.getWidth())) / ((double) (previousCord + ws.getWidth()));
-            xFI = ((double) (previousSweep + (ws.getSweep() / 3) * (previousCord + 2 * ws.getWidth()) / (previousCord + ws.getWidth())) + 0.25f * meanChordTempI);
+            xFI = ((double) (previousSweep + ((previousSweep + ws.getSweep()) / 3) * (previousCord + 2 * ws.getWidth()) / (previousCord + ws.getWidth())) + 0.25f * meanChordTempI);
             meanChordTempCalc += areaI * meanChordTempI;
             xFTempCalc += areaI * xFI;
             previousCord = ws.getWidth();
-            previousSweep = ws.getSweep();
+            previousSweep += ws.getSweep();
             span += 2 * ws.getLenght(); //envergure
         }
         area = 2 * areaTemp;  //surface
