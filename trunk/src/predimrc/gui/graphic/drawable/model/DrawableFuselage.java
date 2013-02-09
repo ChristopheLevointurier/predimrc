@@ -200,7 +200,6 @@ public class DrawableFuselage extends DrawableModelElement {
                 backPointTopView.draw(g);
                 sidePointTopView.draw(g);
                 neutralPoint.draw(g);
-                System.out.println(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {
