@@ -31,7 +31,7 @@ import predimrc.model.element.Fuselage;
  */
 public class DrawableFuselage extends DrawableModelElement {
 
-    protected float widthY, widthZ;
+    protected float widthY, widthZ, neutralPointRatio = 20;
     /**
      * *
      * Front view points
@@ -133,7 +133,7 @@ public class DrawableFuselage extends DrawableModelElement {
      * @param g
      */
     public Fuselage generateModel() {
-        return new Fuselage(filename, getPositionDimension3D(), width, widthY, widthZ);
+        return new Fuselage(filename, getPositionDimension3D(), width, widthY, widthZ, neutralPointRatio);
     }
 
     @Override
@@ -233,6 +233,14 @@ public class DrawableFuselage extends DrawableModelElement {
         return p.equals(sidePointLeftView);
     }
 
+    public float getNeutralPointRatio() {
+        return neutralPointRatio;
+    }
+
+    public void setNeutralPointRatio(float _neutralPointRatio) {
+        neutralPointRatio = _neutralPointRatio;
+    }
+
     @Override
     public DrawableModel getBelongsTo() {
         return (DrawableModel) belongsTo;
@@ -240,7 +248,7 @@ public class DrawableFuselage extends DrawableModelElement {
 
     @Override
     public String toString() {
-        return "DrawableFuselage " + filename + getPositionDimension3D() + ",widthX=" + width + ",widthY=" + widthY + ",widthZ=" + widthZ;
+        return "DrawableFuselage " + filename + getPositionDimension3D() + ",widthX=" + width + ",widthY=" + widthY + ",widthZ=" + widthZ + " ,neutralPointRatio=" + neutralPointRatio;
     }
 
     @Override
