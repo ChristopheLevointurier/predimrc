@@ -264,7 +264,11 @@ public class DrawablePoint {
         if (selectable) {
             g.setColor(Color.BLUE.brighter());
         } else {
-            g.setColor(belongsTo.getUsedFor().getColor());
+            if (null != belongsTo) {
+                g.setColor(belongsTo.getUsedFor().getColor());
+            } else {
+                g.setColor(Utils.USED_FOR.DEFAULT.getColor());
+            }
         }
         if (isSelected()) {
             //  g.setColor(Color.RED);
