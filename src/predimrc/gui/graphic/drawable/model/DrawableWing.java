@@ -14,8 +14,6 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
-import predimrc.gui.graphic.drawable.tool.DrawablePoint;
-import predimrc.gui.graphic.drawable.tool.DrawableNeutralPoint;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -26,6 +24,8 @@ import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.AbstractDrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.drawable.tool.DrawableNeutralPoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.element.Wing;
 import predimrc.model.element.WingSection;
 
@@ -58,7 +58,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         super(m);
         used_for = _used_for;
         drawableWingSection = new LinkedList<>();
-        switch (_used_for) {
+        switch (used_for) {
             case VERTICAL_PLAN: {
                 setPosXYZ(Utils.defaultDeriveConnection, true);
                 width = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
@@ -143,11 +143,11 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
          */
         double areaTemp = 0;
         double meanChordTempCalc = 0;
-        double meanChordTempI = 0;
+        double meanChordTempI;
         float previousCord = getWidth();
         float previousSweep = 0;
-        double areaI = 0;
-        double xFI = 0;
+        double areaI;
+        double xFI;
         double xFTempCalc = 0;
 
         span = 0;
