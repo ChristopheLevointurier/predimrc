@@ -133,6 +133,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {
             PredimRC.getInstanceDrawableModel().draw((Graphics2D) g, view);
+            Utils.REF_POINT.draw((Graphics2D) g, view, "REF_POINT");
         }
     }
 
