@@ -125,7 +125,7 @@ public class DrawableFuselage extends DrawableModelElement {
             sidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() + widthZ / 2);
             mirrorSidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() - widthZ / 2);
         }
-        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * getNeutralPointRatio() + getxPos()); //foyer
+        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * (getNeutralPointRatio() / 100) + getxPos()); //foyer
 
     }
 
