@@ -23,7 +23,7 @@ import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.ModelController;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
  *

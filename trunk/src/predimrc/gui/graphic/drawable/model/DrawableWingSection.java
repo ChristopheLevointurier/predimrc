@@ -14,6 +14,7 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.ArrayList;

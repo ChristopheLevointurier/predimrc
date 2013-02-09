@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.drawable.tool.DrawableNeutralPoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.element.Fuselage;
 
 /**
@@ -31,7 +33,8 @@ import predimrc.model.element.Fuselage;
  */
 public class DrawableFuselage extends DrawableModelElement {
 
-    protected float widthY, widthZ, neutralPointRatio = 20;
+    private float widthY, widthZ, neutralPointRatio = 20;
+    private DrawableNeutralPoint neutralPoint;  //foyer
     /**
      * *
      * Front view points
@@ -98,6 +101,7 @@ public class DrawableFuselage extends DrawableModelElement {
             backPointLeftView = new DrawablePoint(frontPointLeftView.getX() + width, frontPointLeftView.getY(), true, this, VIEW_TYPE.LEFT_VIEW);
             sidePointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() + widthZ / 2, true, this, VIEW_TYPE.LEFT_VIEW);
             mirrorSidePointLeftView = new DrawablePoint(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() - widthZ / 2, false, this, VIEW_TYPE.LEFT_VIEW);
+            neutralPoint = new DrawableNeutralPoint(this);  //foyer
             pointsCalculed = true;
         } else {
             /**
@@ -121,6 +125,8 @@ public class DrawableFuselage extends DrawableModelElement {
             sidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() + widthZ / 2);
             mirrorSidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() - widthZ / 2);
         }
+        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * getNeutralPointRatio() + getxPos()); //foyer
+
     }
 
     @Override
@@ -149,6 +155,7 @@ public class DrawableFuselage extends DrawableModelElement {
                 ret.add(frontPointTopView);
                 ret.add(backPointTopView);
                 ret.add(sidePointTopView);
+                ret.add(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {
@@ -192,6 +199,8 @@ public class DrawableFuselage extends DrawableModelElement {
                 frontPointTopView.draw(g);
                 backPointTopView.draw(g);
                 sidePointTopView.draw(g);
+                neutralPoint.draw(g);
+                System.out.println(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {
