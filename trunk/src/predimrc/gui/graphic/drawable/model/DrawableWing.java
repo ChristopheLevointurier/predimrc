@@ -82,7 +82,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 filename = Utils.defaultWingFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 drawableWingSection.add(new DrawableWingSection(4, -7.8f, 40, 200, -3.5f, this));
-                drawableWingSection.add(new DrawableWingSection(6, -7.6f, 30, 80, -3f, this));
+                drawableWingSection.add(new DrawableWingSection(6, 6f, 30, 80, -3f, this));
                 break;
             }
         }
