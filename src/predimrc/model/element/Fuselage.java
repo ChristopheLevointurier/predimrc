@@ -27,9 +27,9 @@ import predimrc.model.ModelElement;
  */
 public class Fuselage extends ModelElement {
 
-    private float widthX, widthY, widthZ;
+    private float widthX, widthY, widthZ, neutralPointRatio;
 
-    public Fuselage(String _filename, Dimension3D xyz, float _length, float _widthY, float _widthZ) {
+    public Fuselage(String _filename, Dimension3D xyz, float _length, float _widthY, float _widthZ, float _neutralPointRatio) {
         filename = _filename;
         xPos = xyz.getX();
         yPos = xyz.getY();
@@ -37,6 +37,7 @@ public class Fuselage extends ModelElement {
         widthX = _length;
         widthY = _widthY;
         widthZ = _widthZ;
+        neutralPointRatio = _neutralPointRatio;
     }
 
     public float getLength() {
@@ -51,8 +52,16 @@ public class Fuselage extends ModelElement {
         return widthZ;
     }
 
+    public float getNeutralPointRatio() {
+        return neutralPointRatio;
+    }
+
+    public void setNeutralPointRatio(float neutralPointRatio) {
+        this.neutralPointRatio = neutralPointRatio;
+    }
+
     @Override
     public String toString() {
-        return "Fuselage " + super.toString() + ",widthX=" + widthX + ",widthY=" + widthY + ",widthZ=" + widthZ;
+        return "Fuselage " + super.toString() + ",widthX=" + widthX + ",widthY=" + widthY + ",widthZ=" + widthZ + " , neutralPointRatio=" + neutralPointRatio;
     }
 }
