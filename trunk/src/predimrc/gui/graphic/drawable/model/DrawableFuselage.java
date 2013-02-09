@@ -57,6 +57,7 @@ public class DrawableFuselage extends DrawableModelElement {
         widthZ = f.getWidthZ();
         filename = f.getFilename();
         used_for = Utils.USED_FOR.FUSELAGE;
+        neutralPointRatio = f.getNeutralPointRatio();
     }
 
     public DrawableFuselage(DrawableModel _belongsTo) {
