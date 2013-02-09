@@ -14,6 +14,11 @@
  */
 package predimrc.common;
 
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import predimrc.common.Utils.VIEW_TYPE;
+import predimrc.gui.graphic.drawable.DrawablePanel;
+
 /**
  *
  * @author Christophe Levointurier, 5 janv. 2013, (UTF-8)
@@ -71,5 +76,32 @@ public class Dimension3D {
 
     public Dimension3D sub(Dimension3D ret) {
         return new Dimension3D(x - ret.x, y - ret.y, z - ret.z);
+    }
+
+    public void draw(Graphics2D g, VIEW_TYPE view, String toWrite) {
+        g.setStroke(new BasicStroke(1));
+        g.setColor(Utils.USED_FOR.DEFAULT.getColor());
+
+        int xdrawPos = (int) getY() + DrawablePanel.panY;
+        int ydrawPos = (int) getX() + DrawablePanel.panX;
+
+        switch (view) {
+            case FRONT_VIEW: {
+                ydrawPos = (int) getZ() + DrawablePanel.panZ;
+                break;
+            }
+
+            case TOP_VIEW: {
+                break;
+            }
+            case LEFT_VIEW:
+                xdrawPos = (int) x + DrawablePanel.panX;
+                ydrawPos = (int) getZ() + DrawablePanel.panZ;
+                break;
+        }
+
+        g.drawLine(xdrawPos, ydrawPos, xdrawPos - 25, ydrawPos - 25);
+        g.drawLine(xdrawPos - 120, ydrawPos - 25, xdrawPos - 25, ydrawPos - 25);
+        g.drawString(toWrite, xdrawPos - 100, ydrawPos - 27);
     }
 }
