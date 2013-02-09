@@ -26,7 +26,7 @@ import java.io.Serializable;
  */
 public class ModelVersion implements Serializable {
 
-    public String VERSION_MODEL = "3.62";
+    public String VERSION_MODEL = "3.63";
 
     public ModelVersion() {
     }

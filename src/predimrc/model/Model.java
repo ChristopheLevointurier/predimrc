@@ -41,8 +41,9 @@ public class Model extends ModelElement implements Serializable {
     private ArrayList<Wing> tail;
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
+    private float margeStatiqueDeCentrage;
 
-    public Model(String _filename, String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage) {
+    public Model(String _filename, String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage) {
         name = _name;
         note = _note;
         wings = _wings;
@@ -50,6 +51,7 @@ public class Model extends ModelElement implements Serializable {
         derive = _derive;
         fuselage = _fuselage;
         filename = _filename;
+        margeStatiqueDeCentrage = _margeStatiqueDeCentrage;
 
     }
 
@@ -80,6 +82,14 @@ public class Model extends ModelElement implements Serializable {
         return fuselage;
     }
 
+    public float getMargeStatiqueDeCentrage() {
+        return margeStatiqueDeCentrage;
+    }
+
+    public void setMargeStatiqueDeCentrage(float margeStatiqueDeCentrage) {
+        this.margeStatiqueDeCentrage = margeStatiqueDeCentrage;
+    }
+
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder("Model:");
@@ -88,6 +98,7 @@ public class Model extends ModelElement implements Serializable {
         ret.append(", -->Wings:").append(wings.size());
         ret.append(", -->Tails:").append(tail.size());
         ret.append(",Derive:").append(derive.size());
+        ret.append(",margeStatiqueDeCentrage:").append(margeStatiqueDeCentrage);
         return ret.toString();
     }
 
@@ -108,6 +119,7 @@ public class Model extends ModelElement implements Serializable {
         for (Wing w : derive) {
             ret.append(w.toStringAll());
         }
+        ret.append(",margeStatiqueDeCentrage:").append(margeStatiqueDeCentrage);
         ret.append("\n*****NOTE****\n").append(note);
         ret.append("\n*************\n\n");
         return ret.toString();
