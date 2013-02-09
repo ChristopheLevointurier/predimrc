@@ -25,7 +25,7 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableFuselage;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;

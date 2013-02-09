@@ -23,7 +23,7 @@ import java.util.Enumeration;
 import javagl.jglcore.JGL_3DMesh;
 import javagl.jglcore.JGL_3DTriangle;
 import javagl.jglcore.JGL_3DVector;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
  *

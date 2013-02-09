@@ -26,9 +26,9 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
-import predimrc.gui.graphic.drawable.model.DrawableInfo;
+import predimrc.gui.graphic.drawable.tool.DrawableInfo;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
-import predimrc.gui.graphic.drawable.model.DrawablePoint;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
 
 /**
