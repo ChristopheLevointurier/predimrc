@@ -37,9 +37,9 @@ public class ConfigPopUp extends JFrame {
     protected JButton cancelBut = new JButton("Cancel");
     protected TYPE_MODIF usedFor;
     protected JPanel widgets, but;
-    protected MegaLabel xposLabel = new MegaLabel("Xpos:", true);
-    protected MegaLabel yposLabel = new MegaLabel("Ypos:", true);
-    protected MegaLabel zposLabel = new MegaLabel("Zpos:", true);
+    protected MegaLabel xposLabel = new MegaLabel("Position in X axis:", true);
+    protected MegaLabel yposLabel = new MegaLabel("Position in Y axis:", true);
+    protected MegaLabel zposLabel = new MegaLabel("Position in Z axis:", true);
 
     public ConfigPopUp(String title, TYPE_MODIF _usedFor) {
         super(title);
