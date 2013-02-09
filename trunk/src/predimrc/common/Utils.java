@@ -61,6 +61,7 @@ public class Utils {
     public static final int MAIN_FRAME_SIZE_X = 1144;
     public static final int MAIN_FRAME_SIZE_Y = 800;
     public static final int DEFAULT_X_FRAME = 800;
+    public static Dimension3D REF_POINT;
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg);
@@ -111,13 +112,11 @@ public class Utils {
     }
 
     public static Dimension3D getRefPos(Dimension3D in) {
-        Dimension3D ret = predimrc.PredimRC.getInstanceDrawableModel().getWings().get(0).getPositionDimension3D();
-        return in.sub(ret);
+        return in.sub(REF_POINT);
     }
 
     public static Dimension3D getWorldPos(Dimension3D in) {
-        Dimension3D ret = predimrc.PredimRC.getInstanceDrawableModel().getWings().get(0).getPositionDimension3D();
-        return in.add(ret);
+        return in.add(REF_POINT);
     }
 
     public static double distance(DrawablePoint p1, int x, int y) {
