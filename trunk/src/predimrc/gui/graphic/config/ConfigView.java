@@ -24,6 +24,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 import predimrc.controller.IModelListener;
 import predimrc.gui.frame.Compare_Frame;
 import predimrc.gui.frame.Engine_Frame;
@@ -151,6 +152,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         add(fuseButtons);
 
         compareBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new Compare_Frame(compareBut);
             }
@@ -158,6 +160,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
         engineBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new Engine_Frame(engineBut);
             }
@@ -165,11 +168,13 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
         vlmBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new Vlm_Frame(vlmBut);
             }
         });
         vlmStabBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new VlmStab_Frame(vlmStabBut);
             }
@@ -177,6 +182,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
         optimBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new Optim_Frame(optimBut);
             }
@@ -184,11 +190,11 @@ public final class ConfigView extends JPanel implements IModelListener {
 
 
         xFoilBut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 new XFoil_Frame(xFoilBut);
             }
         });
-
 
     }
 
@@ -279,17 +285,17 @@ public final class ConfigView extends JPanel implements IModelListener {
         }
         tailDiedre_label.setValue(diedre);
 
-        wingspan_label.setValue("" + m.getWings().get(0).getSpan());
-        wingarea_label.setValue("" + m.getWings().get(0).getArea());
+        wingspan_label.setValue("" + Utils.round(m.getWings().get(0).getSpan()));
+        wingarea_label.setValue("" + Utils.round(m.getWings().get(0).getArea()));
         airFoil_label.setValue("" + m.getWings().get(0).getFilename());
-        wingratio_label.setValue("" + m.getWings().get(0).getAspectRatio());
-        wingcorde_label.setValue("" + m.getWings().get(0).getMeanCord());
+        wingratio_label.setValue("" + Utils.round(m.getWings().get(0).getAspectRatio()));
+        wingcorde_label.setValue("" + Utils.round(m.getWings().get(0).getMeanCord()));
 
 
-        stabspan_label.setValue("" + m.getTail().get(0).getSpan());
-        stabarea_label.setValue("" + m.getTail().get(0).getArea());
+        stabspan_label.setValue("" + Utils.round(m.getTail().get(0).getSpan()));
+        stabarea_label.setValue("" + Utils.round(m.getTail().get(0).getArea()));
         stabFoil_label.setValue("" + m.getTail().get(0).getFilename());
-        stabratio_label.setValue("" + m.getTail().get(0).getAspectRatio());
-        stabcorde_label.setValue("" + m.getTail().get(0).getMeanCord());
+        stabratio_label.setValue("" + Utils.round(m.getTail().get(0).getAspectRatio()));
+        stabcorde_label.setValue("" + Utils.round(m.getTail().get(0).getMeanCord()));
     }
 }
