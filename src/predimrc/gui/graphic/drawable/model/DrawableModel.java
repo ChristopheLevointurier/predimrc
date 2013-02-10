@@ -23,6 +23,7 @@ import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.drawable.tool.DrawableGravityCenter;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.element.Wing;
@@ -45,6 +46,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private ArrayList<DrawableWing> drawableTail = new ArrayList<>();
     private ArrayList<DrawableWing> drawableDerive = new ArrayList<>();
     private DrawableFuselage drawableFuselage;
+    private DrawableGravityCenter gravityCenter;
     private float staticMargin = 0;
 
     /**
@@ -65,6 +67,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         }
         drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
         staticMargin = me.getStaticMargin();
+        gravityCenter = new DrawableGravityCenter(100, 100, this);
         Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
@@ -79,6 +82,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableTail.add(new DrawableWing(USED_FOR.HORIZONTAL_PLAN, this));
         drawableDerive.add(new DrawableWing(USED_FOR.VERTICAL_PLAN, this));
         drawableFuselage = new DrawableFuselage(this);
+        gravityCenter = new DrawableGravityCenter(100, 100, this);
         Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
@@ -113,7 +117,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         this.note = note;
     }
 
-    public ArrayList<DrawableWing> getWings() {
+    public final ArrayList<DrawableWing> getWings() {
         return drawableWing;
     }
 
@@ -238,14 +242,11 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing d : this) {
             d.draw(g, view);
         }
+        if (view.equals(VIEW_TYPE.TOP_VIEW)) {
+            gravityCenter.draw(g);
+        }
     }
 
-    /**
-     * g.setStroke(new BasicStroke(5)); DrawablePoint previous = connection; for
-     * (DrawablePoint p : points) { g.drawLine((int) previous.getIntX(), (int)
-     * previous.getIntY(), p.getIntX(), p.getIntY()); previous = p; } * for
-     * (DrawablePoint p : points) { p.draw((Graphics2D) g); } *
-     */
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
@@ -253,10 +254,12 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
             ret.addAll(w.getPoints(view));
         }
         ret.addAll(drawableFuselage.getPoints(view));
+        if (view.equals(VIEW_TYPE.TOP_VIEW)) {
+            ret.add(gravityCenter);
+        }
         return ret;
     }
 
-    //TODO
     public Model generateModel() {
         ArrayList<Wing> realWings = new ArrayList<>();
         ArrayList<Wing> realTails = new ArrayList<>();
@@ -284,6 +287,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
     @Override
     public String toInfoString() { //should never be called
-        return "Model";
+        return "Model ";
     }
 }
