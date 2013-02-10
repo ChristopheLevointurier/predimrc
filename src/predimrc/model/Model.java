@@ -41,7 +41,7 @@ public class Model extends ModelElement implements Serializable {
     private ArrayList<Wing> tail;
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
-    private float margeStatiqueDeCentrage;
+    private float staticMargin;
 
     public Model(String _filename, String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage) {
         name = _name;
@@ -51,7 +51,7 @@ public class Model extends ModelElement implements Serializable {
         derive = _derive;
         fuselage = _fuselage;
         filename = _filename;
-        margeStatiqueDeCentrage = _margeStatiqueDeCentrage;
+        staticMargin = _margeStatiqueDeCentrage;
 
     }
 
@@ -82,12 +82,12 @@ public class Model extends ModelElement implements Serializable {
         return fuselage;
     }
 
-    public float getMargeStatiqueDeCentrage() {
-        return margeStatiqueDeCentrage;
+    public float getStaticMargin() {
+        return staticMargin;
     }
 
-    public void setMargeStatiqueDeCentrage(float margeStatiqueDeCentrage) {
-        this.margeStatiqueDeCentrage = margeStatiqueDeCentrage;
+    public void setStaticMargin(float staticMargin) {
+        this.staticMargin = staticMargin;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Model extends ModelElement implements Serializable {
         ret.append(", -->Wings:").append(wings.size());
         ret.append(", -->Tails:").append(tail.size());
         ret.append(",Derive:").append(derive.size());
-        ret.append(",margeStatiqueDeCentrage:").append(margeStatiqueDeCentrage);
+        ret.append(",margeStatiqueDeCentrage:").append(staticMargin);
         return ret.toString();
     }
 
@@ -119,7 +119,7 @@ public class Model extends ModelElement implements Serializable {
         for (Wing w : derive) {
             ret.append(w.toStringAll());
         }
-        ret.append(",margeStatiqueDeCentrage:").append(margeStatiqueDeCentrage);
+        ret.append(",margeStatiqueDeCentrage:").append(staticMargin);
         ret.append("\n*****NOTE****\n").append(note);
         ret.append("\n*************\n\n");
         return ret.toString();

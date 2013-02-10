@@ -35,7 +35,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
     private DrawableFuselage drawableBelongsTo;
     private MegaLabel fileLabel = new MegaLabel("Filename:", true);
     private MegaLabel widthLabel = new MegaLabel("Width:", true);
-    private MegaLabel margeLabel = new MegaLabel("margeStatiques:", true);
+    private MegaLabel margeLabel = new MegaLabel("Static Margin:", true);
 
     public ConfigFuselage_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("WingSection Configuration", _usedfor);
@@ -49,7 +49,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
                 xposLabel.setValue("" + pos.getX());
                 yposLabel.setValue("" + pos.getY());
                 zposLabel.setValue("" + pos.getZ());
-                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getMargeStatiqueDeCentrage());
+                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getStaticMargin());
 
 
                 widgets.add(makePanelPos());
@@ -61,7 +61,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setFilename(fileLabel.getValue());
                         drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue())), true);
-                        drawableBelongsTo.getBelongsTo().setMargeStatiqueDeCentrage(margeLabel.getFloatValue());
+                        drawableBelongsTo.getBelongsTo().setStaticMargin(margeLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }
