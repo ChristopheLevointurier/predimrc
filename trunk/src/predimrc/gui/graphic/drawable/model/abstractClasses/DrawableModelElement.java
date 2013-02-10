@@ -51,12 +51,13 @@ public abstract class DrawableModelElement {
     /**
      * position coord
      */
-    protected float xPos, yPos, zPos;
+    protected Dimension3D pos = new Dimension3D();
+    //  protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
     protected String filename = "notYetDefined";
     protected float width;
-    protected Utils.USED_FOR used_for= Utils.USED_FOR.DEFAULT; //default value
+    protected Utils.USED_FOR used_for = Utils.USED_FOR.DEFAULT; //default value
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
@@ -74,17 +75,17 @@ public abstract class DrawableModelElement {
         return toString();
     }
 
-    public void setPos(float _xPos, float _Ypox, float _Zpos) {
-        xPos = _xPos;
-        yPos = _Ypox;
-        zPos = _Zpos;
+    public void setPos(float _xPos, float _yPos, float _zPos) {
+        pos.setX(_xPos);
+        pos.setY(_yPos);
+        pos.setZ(_zPos);
         apply();
     }
 
     public final void setPosXYZ(Dimension3D _XYZpos, boolean silent) {
-        xPos = _XYZpos.getX();
-        yPos = _XYZpos.getY();
-        zPos = _XYZpos.getZ();
+        pos.setX(_XYZpos.getX());
+        pos.setY(_XYZpos.getY());
+        pos.setZ(_XYZpos.getZ());
         if (!silent) {
             apply();
         }
@@ -95,11 +96,11 @@ public abstract class DrawableModelElement {
     }
 
     public JGL_3DVector getPosition3DVector() {
-        return new JGL_3DVector(xPos, yPos, zPos);
+        return new JGL_3DVector(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public Dimension3D getPositionDimension3D() {
-        return new Dimension3D(xPos, yPos, zPos);
+        return pos;
     }
 
     public float getWidth() {
@@ -112,27 +113,27 @@ public abstract class DrawableModelElement {
     }
 
     public float getxPos() {
-        return xPos;
+        return pos.getX();
     }
 
     public float getyPos() {
-        return yPos;
+        return pos.getY();
     }
 
     public float getzPos() {
-        return zPos;
+        return pos.getZ();
     }
 
     public void setxPos(float xPos) {
-        this.xPos = xPos;
+        pos.setX(xPos);
     }
 
     public void setyPos(float yPos) {
-        this.yPos = yPos;
+        pos.setY(yPos);
     }
 
     public void setzPos(float zPos) {
-        this.zPos = zPos;
+        pos.setZ(zPos);
     }
 
     public DrawableModelElement getBelongsTo() {
