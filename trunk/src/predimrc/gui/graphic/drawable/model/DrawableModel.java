@@ -14,15 +14,16 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
-import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.element.Wing;
 
@@ -64,6 +65,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         }
         drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
         margeStatiqueDeCentrage = me.getMargeStatiqueDeCentrage();
+        Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
     /**
@@ -77,6 +79,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableTail.add(new DrawableWing(USED_FOR.HORIZONTAL_PLAN, this));
         drawableDerive.add(new DrawableWing(USED_FOR.VERTICAL_PLAN, this));
         drawableFuselage = new DrawableFuselage(this);
+        Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
     /**

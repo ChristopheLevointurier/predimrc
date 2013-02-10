@@ -107,20 +107,20 @@ public class DrawableFuselage extends DrawableModelElement {
             /**
              * Front points*
              */
-            frontPointFrontView.setLocation(yPos, zPos);
+            frontPointFrontView.setLocation(getyPos(), getzPos());
             upPointFrontView.setLocation(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() - widthZ / 2);
             downPointFrontView.setLocation(frontPointFrontView.getX() - widthY / 2, frontPointFrontView.getY() + widthZ / 2);
             /**
              * Top points*
              */
-            frontPointTopView.setLocation(yPos, xPos);
+            frontPointTopView.setLocation(getyPos(), getxPos());
             backPointTopView.setLocation(frontPointTopView.getX(), frontPointTopView.getY() + width);
             sidePointTopView.setLocation(frontPointTopView.getX() - widthY / 2, frontPointTopView.getY() + width / 2);
             /**
              * *
              * Left view points
              */
-            frontPointLeftView.setLocation(xPos, zPos);
+            frontPointLeftView.setLocation(getxPos(), getzPos());
             backPointLeftView.setLocation(frontPointLeftView.getX() + width, frontPointLeftView.getY());
             sidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() + widthZ / 2);
             mirrorSidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() - widthZ / 2);
