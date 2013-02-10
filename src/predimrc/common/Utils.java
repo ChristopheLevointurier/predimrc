@@ -191,4 +191,12 @@ public class Utils {
         Utils.drawline(p1.getMirror(), p2.getMirror(), g);
         Utils.drawline(p2.getMirror(), p2, g);
     }
+
+    public static double round(double in) {
+        return Math.round(in * 100.0) / 100.0;
+    }
+
+    public static float round(float in) {
+        return (float) (Math.round(in * 100.0) / 100.0);
+    }
 }
