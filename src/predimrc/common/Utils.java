@@ -61,7 +61,7 @@ public class Utils {
     public static final int MAIN_FRAME_SIZE_X = 1144;
     public static final int MAIN_FRAME_SIZE_Y = 800;
     public static final int DEFAULT_X_FRAME = 800;
-    public static Dimension3D REF_POINT;
+    public static Dimension3D REF_POINT = new Dimension3D();
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg);
