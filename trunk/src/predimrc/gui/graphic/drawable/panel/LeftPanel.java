@@ -139,6 +139,7 @@ public class LeftPanel extends DrawablePanel {
                             {
                                 currentAngle = 180 - Utils.calcAngle(selectedElement.getFrontPointLeftView(), getXcur(e), getYcur(e));
                                 applyAngle();
+                                info.setDetailedInfo(" angle : " + ((DrawableWing) selectedPoint.getBelongsTo()).getAngle());
                                 break;
                             }
                             case VERTICAL_PLAN:
@@ -186,24 +187,14 @@ public class LeftPanel extends DrawablePanel {
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
-        //   backgroundImage = PredimRC.getImage("left.png");
+
     }
 
     private void applyAngle() {
         currentAngle = currentAngle > 180 ? currentAngle - 360 : currentAngle;
-        currentAngle = currentAngle > 45 ? 45 : currentAngle;
-        currentAngle = currentAngle < -45 ? -45 : currentAngle;
-        /**
-         * switch (((DrawableWing) selectedElement).getUsedFor()) { case
-         * HORIZONTAL_PLAN: { currentDiedre = currentDiedre > 60 ? 60 :
-         * currentDiedre; currentDiedre = currentDiedre < -60 ? -60 :
-         * currentDiedre; break; } case MAIN_WING: { currentDiedre =
-         * currentDiedre > 30 ? 30 : currentDiedre; currentDiedre =
-         * currentDiedre < -30 ? -30 : currentDiedre; break; } case
-         * VERTICAL_PLAN: { return; } }*
-         */
+        currentAngle = currentAngle > 10 ? 10 : currentAngle;
+        currentAngle = currentAngle < -10 ? -10 : currentAngle;
         ((DrawableWing) selectedPoint.getBelongsTo()).setAngle(currentAngle);
-        info.setDetailedInfo(" angle : " + ((DrawableWing) selectedPoint.getBelongsTo()).getAngle());
     }
 
     @Override
