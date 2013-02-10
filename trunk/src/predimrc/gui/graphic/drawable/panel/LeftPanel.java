@@ -127,7 +127,6 @@ public class LeftPanel extends DrawablePanel {
                             }
                             info.setDetailedInfo(" Lenght=" + ((DrawableWingSection) selectedElement).getLenght() + ", Fleche=" + ((DrawableWingSection) selectedElement).getSweep());
                         }
-
                     }
 
 
@@ -151,7 +150,6 @@ public class LeftPanel extends DrawablePanel {
                                 }
                                 break;
                             }
-
                         }
                     }
 
@@ -163,9 +161,6 @@ public class LeftPanel extends DrawablePanel {
                             info.setDetailedInfo(" Width Z=" + ((DrawableFuselage) selectedElement).getWidthZ());
                         }
                     }
-
-
-
                 }
 
                 if (SwingUtilities.isRightMouseButton(e)) //Pan
@@ -187,7 +182,6 @@ public class LeftPanel extends DrawablePanel {
             }
         });
         //    backgroundImage = PredimRC.getImage("pegleft.png");
-
     }
 
     private void applyAngle() {
