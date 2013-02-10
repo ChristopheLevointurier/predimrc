@@ -96,7 +96,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.54";
+    private static final String VERSION = "Alpha 0.55";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -119,9 +119,7 @@ public class PredimRC extends JFrame {
     private static StringBuffer log = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
-    private static String[] tabNames = {"Model", "Airfoils", "Performances", "Motorization", "rudders", "Model comparison"};
-    private static String[] tabTooltip = {"Model configuration", "Selection of the airfoil", "Dynamic performances of the model", "Allow to define motorization of the model", "Rudders definition", "Allow to compare several predimRC models"};
-    private DrawableModel drawableModel;
+     private DrawableModel drawableModel;
     public static boolean warnClosePopup = true;
     /**
      *
@@ -153,7 +151,6 @@ public class PredimRC extends JFrame {
         getInstance();
         loadConfiguration();
         getInstance().setUpAndFillComponents();
-        Utils.REF_POINT = predimrc.PredimRC.getInstanceDrawableModel().getWings().get(0).getPositionDimension3D();
         initDone = true;
         logln("-- PredimRC " + VERSION + " started. --");
     }
@@ -200,7 +197,8 @@ public class PredimRC extends JFrame {
 
 
         help.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+          @Override
+              public void actionPerformed(ActionEvent e) {
                 try {
                     Runtime.getRuntime().exec("cmd /c start " + externalRefDoc);
                 } catch (IOException ex) {
@@ -211,6 +209,7 @@ public class PredimRC extends JFrame {
 
 
         the3DViewButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (the3DViewButton.isEnabled()) {
                     new The3D_Frame(the3DViewButton);
@@ -222,7 +221,8 @@ public class PredimRC extends JFrame {
 
 
         modelNoteBut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+           @Override
+             public void actionPerformed(ActionEvent e) {
                 new Note_Frame(modelNoteBut);
             }
         });
@@ -233,6 +233,7 @@ public class PredimRC extends JFrame {
 
 
         logbut.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (!logbut.isSelected()) {
                     logbut.setSelected(true);
@@ -277,7 +278,8 @@ public class PredimRC extends JFrame {
                     }
                 });
                 temp.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+                 @Override
+               public void actionPerformed(ActionEvent e) {
                         {
                             logbut.setSelected(false);
                             d.dispose();
@@ -287,7 +289,8 @@ public class PredimRC extends JFrame {
                 });
 
                 clearr.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+               @Override
+                 public void actionPerformed(ActionEvent e) {
                         {
                             log = new StringBuffer();
                             tf.setText(log.toString());
@@ -296,7 +299,8 @@ public class PredimRC extends JFrame {
                 });
 
                 refr.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+               @Override
+                 public void actionPerformed(ActionEvent e) {
                         {
                             tf.setText(log.toString());
                         }
@@ -317,7 +321,8 @@ public class PredimRC extends JFrame {
         });
 
         opentarget.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+              @Override
+          public void actionPerformed(ActionEvent e) {
                 PredimRC.loadModelWithChooser();
             }
         });
@@ -325,20 +330,23 @@ public class PredimRC extends JFrame {
 
 
         savetarget.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+           @Override
+             public void actionPerformed(ActionEvent e) {
                 PredimRC.saveModelWithChooser();
             }
         });
 
 
         savebut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+         @Override
+               public void actionPerformed(ActionEvent e) {
                 PredimRC.saveModel();
             }
         });
 
         aboutbut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+           @Override
+             public void actionPerformed(ActionEvent e) {
                 //  setAlwaysOnTop(false);
                 JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(icon));
                 //   setAlwaysOnTop(true);
@@ -346,6 +354,7 @@ public class PredimRC extends JFrame {
         });
 
         quit.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 quit();
             }
@@ -363,7 +372,7 @@ public class PredimRC extends JFrame {
     }
 
     public static void quit() {
-        getInstance().saveConfiguration();
+        PredimRC.saveConfiguration();
         // saveXMLConfig();
         System.exit(0);
     }
@@ -432,13 +441,13 @@ public class PredimRC extends JFrame {
         try {
             config.load(new FileInputStream(appRep + configFile));
             PredimRC.getInstance().setFilename(config.getProperty("FILENAME", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "FILENAME =" + PredimRC.getInstance().filename);
+            logDebugln("config load : " + "FILENAME =" + PredimRC.filename);
             airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
             logDebugln("config load : " + "AIRFOILS =" + airfoilsDirectory);
             PredimRC.getInstanceDrawableModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
             logDebugln("config load : " + "NOTES =" + PredimRC.getInstanceDrawableModel().getNote());
-            PredimRC.getInstance().warnClosePopup = Boolean.parseBoolean(config.getProperty("WARNPOPUP", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "WARNPOPUP =" + PredimRC.getInstance().warnClosePopup);
+            PredimRC.warnClosePopup = Boolean.parseBoolean(config.getProperty("WARNPOPUP", DEFAULT_KEY_VALUE));
+            logDebugln("config load : " + "WARNPOPUP =" + PredimRC.warnClosePopup);
             /**
              * ********
              */
@@ -458,8 +467,8 @@ public class PredimRC extends JFrame {
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + airfoilsDirectory);
         config.setProperty("NOTES", "" + PredimRC.getInstanceDrawableModel().getNote());
-        config.setProperty("FILENAME", "" + PredimRC.getInstance().filename);
-        config.setProperty("WARNPOPUP", "" + PredimRC.getInstance().warnClosePopup);
+        config.setProperty("FILENAME", "" + PredimRC.filename);
+        config.setProperty("WARNPOPUP", "" + PredimRC.warnClosePopup);
         try {
             File fout = new File(appRep);
             if (!fout.exists()) {
@@ -484,9 +493,9 @@ public class PredimRC extends JFrame {
 
     public static URL getResourceUrl(String path) {
         path = "resource/" + path;
-        URL u = Thread.currentThread().getContextClassLoader().getSystemResource(path);
+        URL u = ClassLoader.getSystemResource(path);
         if (null == u) {
-            u = ClassLoader.getSystemClassLoader().getSystemResource(path);
+            u = ClassLoader.getSystemResource(path);
         }
         if (null == u) {
             u = Thread.currentThread().getContextClassLoader().getResource(path);
@@ -544,7 +553,7 @@ public class PredimRC extends JFrame {
         return drawableModel;
     }
 
-    public static final JGL_3DMesh mergeMesh(JGL_3DMesh m1, JGL_3DMesh m2) {
+    public static JGL_3DMesh mergeMesh(JGL_3DMesh m1, JGL_3DMesh m2) {
         JGL_3DMesh mesh = new JGL_3DMesh();
         Enumeration e1 = m1.getFaces().elements();
         while (e1.hasMoreElements()) {
@@ -584,7 +593,6 @@ public class PredimRC extends JFrame {
                 Logger.getLogger(PredimRC.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
     public static void loadModelWithChooser() {
@@ -621,13 +629,13 @@ public class PredimRC extends JFrame {
         File fichier = new File(filename);
         PredimRC.log("Save model to " + fichier.getAbsolutePath());
         try {
-            FileOutputStream ostream = new FileOutputStream(fichier);
-            ObjectOutputStream p = new ObjectOutputStream(ostream);
-            p.writeObject(new ModelVersion());
-            p.writeObject(PredimRC.getInstanceDrawableModel().generateModel());
-            p.flush();
-            ostream.close();
-            PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
+            try (FileOutputStream ostream = new FileOutputStream(fichier)) {
+                ObjectOutputStream p = new ObjectOutputStream(ostream);
+                p.writeObject(new ModelVersion());
+                p.writeObject(PredimRC.getInstanceDrawableModel().generateModel());
+                p.flush();
+            }
+            PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.filename);
             PredimRC.logln(" success.");
         } catch (Exception p) {
             PredimRC.logln(" failed. error while trying to write file :" + fichier.getAbsolutePath() + ":" + p.toString());
@@ -669,9 +677,8 @@ public class PredimRC extends JFrame {
     public static void resetModel() {
         logDebugln("resetModel()");
         getInstance().drawableModel = DrawableModel.makeDefaultModel();
-        ModelController.applyChange();
-
-    }
+       ModelController.applyChange();
+   }
 
     public static void repaintDrawPanels() {
         getInstance().mainView.repaintDrawPanels();
