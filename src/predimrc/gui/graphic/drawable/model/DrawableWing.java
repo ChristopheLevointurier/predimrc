@@ -123,10 +123,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             neutralPoint = new DrawableNeutralPoint(this);  //foyer
             pointsCalculed = true;
         } else {
-            frontPointFrontView.setFloatLocation(yPos, zPos);
-            frontPointTopView.setFloatLocation(yPos, xPos);
+            frontPointFrontView.setFloatLocation(getyPos(), getzPos());
+            frontPointTopView.setFloatLocation(getyPos(), getxPos());
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + (float) (getWidth() * Math.cos(Math.toRadians(calageAngulaire))));
-            frontPointLeftView.setFloatLocation(xPos, zPos);
+            frontPointLeftView.setFloatLocation(getxPos(), getzPos());
             backPointLeftView.setLocation(Utils.getCoordOnCircle(DrawablePoint.makePointForLeftView(getPositionDimension3D()), -calageAngulaire, width));
         }
 
@@ -172,13 +172,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         switch (used_for) {
             case VERTICAL_PLAN:
             case HORIZONTAL_PLAN: {
-                return new Point2D.Float(yPos, zPos);
+                return new Point2D.Float(getyPos(), getzPos());
             }
             default:
             case MAIN_WING: {
 
                 if (index == 0) {
-                    return new Point2D.Float(yPos, zPos);
+                    return new Point2D.Float(getyPos(), getzPos());
                 } else {
                     return new Point2D.Float(get(index).getyPos(), get(index).getzPos());
                 }
