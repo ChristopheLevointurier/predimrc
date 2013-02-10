@@ -119,7 +119,7 @@ public class LeftPanel extends DrawablePanel {
                         if (selectedElement instanceof DrawableWingSection) {
                             //change  length & fleche
                             float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.LEFT_VIEW));
-                            float newFleche = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX() - getXcur(e));
+                            float newFleche = (float) (getXcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX());
 
                             ((DrawableWingSection) selectedElement).setSweep(newFleche);
                             if (newlenght > 1) {
