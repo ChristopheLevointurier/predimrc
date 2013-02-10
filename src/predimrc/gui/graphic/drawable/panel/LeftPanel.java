@@ -125,7 +125,7 @@ public class LeftPanel extends DrawablePanel {
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatY()));
+                            info.setDetailedInfo(" Lenght=" + ((DrawableWingSection) selectedElement).getLenght() + ", Fleche=" + ((DrawableWingSection) selectedElement).getSweep());
                         }
 
                     }
@@ -146,7 +146,7 @@ public class LeftPanel extends DrawablePanel {
                                 int newlenght = getXcur(e) - (int) selectedElement.getFrontPointLeftView().getX();
                                 if (newlenght > 1) {
                                     selectedElement.setWidth(newlenght);
-                                    info.setDetailedInfo(" Width=" + newlenght);
+                                    info.setDetailedInfo(" Width=" + selectedElement.getWidth());
                                 }
                                 break;
                             }
@@ -159,7 +159,7 @@ public class LeftPanel extends DrawablePanel {
                         float newlenght = (getYcur(e) - selectedElement.getFrontPointLeftView().getFloatY()) * 2;
                         if (newlenght > 1) {
                             ((DrawableFuselage) selectedElement).setWidthZ(newlenght);
-                            info.setDetailedInfo(" Width Z=" + newlenght);
+                            info.setDetailedInfo(" Width Z=" + ((DrawableFuselage) selectedElement).getWidthZ());
                         }
                     }
 
@@ -203,7 +203,7 @@ public class LeftPanel extends DrawablePanel {
          * VERTICAL_PLAN: { return; } }*
          */
         ((DrawableWing) selectedPoint.getBelongsTo()).setAngle(currentAngle);
-        info.setDetailedInfo(" angle : " + currentAngle);
+        info.setDetailedInfo(" angle : " + ((DrawableWing) selectedPoint.getBelongsTo()).getAngle());
     }
 
     @Override

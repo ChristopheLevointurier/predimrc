@@ -234,7 +234,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public void setDiedre(float _diedre) {
         for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
-            w.setDiedre(_diedre, true);
+            w.setDiedre(Utils.round(_diedre), true);
         }
         apply();
     }
@@ -361,9 +361,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     @Override
     public void setAngle(float angle) {
-        calageAngulaire = angle;
+        calageAngulaire = Utils.round(angle);
         for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
-            w.setAngle(angle, true);
+            w.setAngle(Utils.round(angle), true);
         }
         apply();
     }

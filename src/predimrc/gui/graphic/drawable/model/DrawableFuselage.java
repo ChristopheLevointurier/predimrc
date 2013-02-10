@@ -225,12 +225,12 @@ public class DrawableFuselage extends DrawableModelElement {
     }
 
     public void setWidthY(float _width) {
-        widthY = _width;
+        widthY = Utils.round(_width);
         apply();
     }
 
     public void setWidthZ(float _width) {
-        widthZ = _width;
+        widthZ = Utils.round(_width);
         apply();
     }
 
@@ -247,7 +247,7 @@ public class DrawableFuselage extends DrawableModelElement {
     }
 
     public void setNeutralPointRatio(float _neutralPointRatio) {
-        neutralPointRatio = _neutralPointRatio;
+        neutralPointRatio = Utils.round(_neutralPointRatio);
     }
 
     @Override

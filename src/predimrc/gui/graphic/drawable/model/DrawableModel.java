@@ -134,7 +134,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     }
 
     public void setStaticMargin(float _margeStatiqueDeCentrage) {
-        staticMargin = _margeStatiqueDeCentrage;
+        staticMargin = Utils.round(_margeStatiqueDeCentrage);
     }
 
     /**
