@@ -49,7 +49,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
                 xposLabel.setValue("" + pos.getX());
                 yposLabel.setValue("" + pos.getY());
                 zposLabel.setValue("" + pos.getZ());
-                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getStaticMargin());
+                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getStaticMarginRatio());
 
 
                 widgets.add(makePanelPos());
@@ -61,7 +61,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setFilename(fileLabel.getValue());
                         drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue())), true);
-                        drawableBelongsTo.getBelongsTo().setStaticMargin(margeLabel.getFloatValue());
+                        drawableBelongsTo.getBelongsTo().setStaticMarginRatio(margeLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }

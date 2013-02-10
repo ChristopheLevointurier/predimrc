@@ -47,7 +47,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private ArrayList<DrawableWing> drawableDerive = new ArrayList<>();
     private DrawableFuselage drawableFuselage;
     private DrawableGravityCenter gravityCenter;
-    private float staticMargin = 0;
+    private float staticMarginRatio = 3;
 
     /**
      * Constructor
@@ -66,7 +66,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
             drawableDerive.add(new DrawableWing(w, this));
         }
         drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
-        staticMargin = me.getStaticMargin();
+        staticMarginRatio = me.getStaticMargin();
         gravityCenter = new DrawableGravityCenter(100, 100, this);
         Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
@@ -133,12 +133,12 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         return drawableFuselage;
     }
 
-    public float getStaticMargin() {
-        return staticMargin;
+    public float getStaticMarginRatio() {
+        return staticMarginRatio;
     }
 
-    public void setStaticMargin(float _margeStatiqueDeCentrage) {
-        staticMargin = Utils.round(_margeStatiqueDeCentrage);
+    public void setStaticMarginRatio(float _margeStatiqueDeCentrage) {
+        staticMarginRatio = Utils.round(_margeStatiqueDeCentrage);
     }
 
     /**
@@ -273,7 +273,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMargin);
+        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio);
     }
 
     @Override
