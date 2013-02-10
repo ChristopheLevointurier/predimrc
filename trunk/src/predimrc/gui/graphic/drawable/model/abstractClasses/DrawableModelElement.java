@@ -108,7 +108,7 @@ public abstract class DrawableModelElement {
     }
 
     public void setWidth(float _width) {
-        width = _width;
+        width = Utils.round(_width);
         apply();
     }
 

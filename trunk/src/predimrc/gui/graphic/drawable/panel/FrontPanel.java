@@ -116,7 +116,7 @@ public class FrontPanel extends DrawablePanel {
         }
 
         ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
-        info.setDetailedInfo(" diedre : " + currentDiedre);
+        info.setDetailedInfo(" diedre : " + ((DrawableWingSection) selectedPoint.getBelongsTo()).getDiedre());
     }
 
     @Override

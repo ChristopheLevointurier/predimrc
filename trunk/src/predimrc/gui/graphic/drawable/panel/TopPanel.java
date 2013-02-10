@@ -111,7 +111,7 @@ public class TopPanel extends DrawablePanel {
                             float newlenght = getYcur(e) - selectedElement.getFrontPointTopView().getFloatY();
                             if (newlenght > 1) {
                                 selectedElement.setWidth(newlenght);
-                                info.setDetailedInfo(" Width=" + newlenght);
+                                info.setDetailedInfo(" Width=" + selectedElement.getWidth());
                             }
                         }
 
@@ -119,7 +119,7 @@ public class TopPanel extends DrawablePanel {
                             float newlenght = (selectedElement.getFrontPointTopView().getFloatX() - getXcur(e)) * 2;
                             if (newlenght > 1) {
                                 ((DrawableFuselage) selectedElement).setWidthY(newlenght);
-                                info.setDetailedInfo(" Width Y=" + newlenght);
+                                info.setDetailedInfo(" Width Y=" +  ((DrawableFuselage) selectedElement).getWidthY());
                             }
                         }
 
@@ -134,13 +134,13 @@ public class TopPanel extends DrawablePanel {
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            info.setDetailedInfo(" Lenght=" + newlenght + ", Fleche=" + newFleche);
+                            info.setDetailedInfo(" Lenght=" + ((DrawableWingSection) selectedElement).getLenght() + ", Fleche=" +  ((DrawableWingSection) selectedElement).getSweep());
                         }
                         if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
                             float newlenght = getYcur(e) - selectedElement.getFrontPointTopView().getFloatY();
                             if (newlenght > 1) {
                                 selectedElement.setWidth(newlenght);
-                                info.setDetailedInfo(" Width=" + newlenght);
+                                info.setDetailedInfo(" Width=" + selectedElement.getWidth());
                             }
                         }
 

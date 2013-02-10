@@ -251,8 +251,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         return previous.getFrontPointLeftView();
     }
 
-    public void setLenght(float lenght) {
-        this.lenght = lenght;
+    public void setLenght(float _lenght) {
+        lenght = Utils.round(_lenght);
         apply();
     }
 
@@ -260,8 +260,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         return sweep;
     }
 
-    public void setSweep(float sweep) {
-        this.sweep = sweep;
+    public void setSweep(float _sweep) {
+        sweep = Utils.round(_sweep);
         apply();
     }
 
@@ -279,13 +279,13 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             ((DrawableWing) belongsTo).setDiedre(_diedre);
             return;
         }
-        diedre = _diedre;
+        diedre = Utils.round(_diedre);
         apply();
     }
 
     public void setDiedre(float _diedre, boolean silent) {
         if (silent) {
-            diedre = _diedre;
+            diedre = Utils.round(_diedre);
         } else {
             setDiedre(diedre);
         }
@@ -293,7 +293,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     public void setAngle(float _angle, boolean silent) {
         if (silent) {
-            calageAngulaire = _angle;
+            calageAngulaire = Utils.round(_angle);
         } else {
             setAngle(_angle);
         }
@@ -316,7 +316,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
     @Override
     public void setAngle(float angle) {
-        calageAngulaire = angle;
+        calageAngulaire = Utils.round(angle);
         apply();
     }
 
