@@ -88,6 +88,6 @@ public class ConfigPopUp extends JFrame {
 
     public static enum TYPE_MODIF {
 
-        FRONT_POINT, BACK_POINT;
+        FRONT_POINT, BACK_POINT, CG_POINT;
     }
 }
