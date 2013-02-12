@@ -25,10 +25,12 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableFuselage;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;
+import predimrc.gui.graphic.popup.ConfigModel_PopUp;
 import predimrc.gui.graphic.popup.ConfigPopUp;
 import predimrc.gui.graphic.popup.ConfigWingSection_PopUp;
 import predimrc.gui.graphic.popup.ConfigWing_PopUp;
@@ -87,6 +89,10 @@ public class TopPanel extends DrawablePanel {
                         }
 
                     }
+
+                    if (selectedElement instanceof DrawableModel) {
+                        new ConfigModel_PopUp(selectedElement, ConfigPopUp.TYPE_MODIF.CG_POINT);
+                    }
                 }
             }
         });
@@ -119,7 +125,7 @@ public class TopPanel extends DrawablePanel {
                             float newlenght = (selectedElement.getFrontPointTopView().getFloatX() - getXcur(e)) * 2;
                             if (newlenght > 1) {
                                 ((DrawableFuselage) selectedElement).setWidthY(newlenght);
-                                info.setDetailedInfo(" Width Y=" +  ((DrawableFuselage) selectedElement).getWidthY());
+                                info.setDetailedInfo(" Width Y=" + ((DrawableFuselage) selectedElement).getWidthY());
                             }
                         }
 
@@ -134,7 +140,7 @@ public class TopPanel extends DrawablePanel {
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
                             }
-                            info.setDetailedInfo(" Lenght=" + ((DrawableWingSection) selectedElement).getLenght() + ", Fleche=" +  ((DrawableWingSection) selectedElement).getSweep());
+                            info.setDetailedInfo(" Lenght=" + ((DrawableWingSection) selectedElement).getLenght() + ", Fleche=" + ((DrawableWingSection) selectedElement).getSweep());
                         }
                         if (selectedPoint.equals(selectedElement.getBackPointTopView())) {
                             float newlenght = getYcur(e) - selectedElement.getFrontPointTopView().getFloatY();
