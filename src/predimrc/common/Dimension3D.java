@@ -79,6 +79,7 @@ public class Dimension3D {
     }
 
     public void draw(Graphics2D g, VIEW_TYPE view, String toWrite) {
+        
         g.setStroke(new BasicStroke(1));
         g.setColor(Utils.USED_FOR.DEFAULT.getColor());
 
