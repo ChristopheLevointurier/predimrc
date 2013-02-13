@@ -479,14 +479,18 @@ public class PredimRC extends JFrame {
         Properties config = new Properties();
         try {
             config.load(new FileInputStream(appRep + configFile));
-            PredimRC.getInstance().setFilename(loadConfig(config,"FILENAME"));
-            UserConfig.airfoilsDirectory = loadConfig(config,"AIRFOILS");
-            PredimRC.getInstanceDrawableModel().setNote(loadConfig(config,"NOTES"));
-            UserConfig.warnClosePopup = Boolean.parseBoolean(loadConfig(config,"WARNPOPUP"));
-            UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config,"VIEWCG"));
-            UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config,"VIEWNP"));
-            UserConfig.viewRefAxis = Boolean.parseBoolean(loadConfig(config,"VIEWRA"));
-            UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config,"VIEWRP"));
+            PredimRC.getInstance().setFilename(loadConfig(config, "FILENAME"));
+            UserConfig.airfoilsDirectory = loadConfig(config, "AIRFOILS");
+            PredimRC.getInstanceDrawableModel().setNote(loadConfig(config, "NOTES"));
+            UserConfig.warnClosePopup = Boolean.parseBoolean(loadConfig(config, "WARNPOPUP"));
+            UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config, "VIEWCG"));
+            UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config, "VIEWNP"));
+            UserConfig.viewRefAxis = Boolean.parseBoolean(loadConfig(config, "VIEWRA"));
+            UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config, "VIEWRP"));
+            viewNeutralPoints.setSelected(UserConfig.viewNeutralPoints);
+            viewCG.setSelected(UserConfig.viewCG);
+            viewRefPoint.setSelected(UserConfig.viewRefPoint);
+            viewRefAxis.setSelected(UserConfig.viewRefAxis);
             /**
              */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
@@ -496,13 +500,11 @@ public class PredimRC extends JFrame {
         }
         return ok;
     }
-    
-    
-    
-    private static String loadConfig(Properties p, String key){
-        String prop=p.getProperty(key, DEFAULT_KEY_VALUE);
-        logDebugln("config load : " +key+ " = " + prop);
-            return prop;
+
+    private static String loadConfig(Properties p, String key) {
+        String prop = p.getProperty(key, DEFAULT_KEY_VALUE);
+        logDebugln("config load : " + key + " = " + prop);
+        return prop;
     }
 
     /**

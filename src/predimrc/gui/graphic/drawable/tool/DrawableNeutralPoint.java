@@ -18,6 +18,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import predimrc.common.Dimension3D;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -47,7 +48,9 @@ public class DrawableNeutralPoint extends DrawablePoint {
 
     @Override
     public void draw(Graphics2D g) {
-
+        if (!UserConfig.viewNeutralPoints) {
+            return;
+        }
         if (selected) {
             g.setColor(Color.BLUE.brighter());
         } else {
