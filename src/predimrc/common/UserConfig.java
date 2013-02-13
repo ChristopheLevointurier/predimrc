@@ -29,5 +29,5 @@ public class UserConfig {
      */
     public static String airfoilsDirectory = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static String filename = "";
-    public static boolean viewNeutralPoints = true, viewCG = true, viewRefPoint = true, viewRefAxis = true;
+    public static boolean viewNeutralPoints = true, viewCG = true, viewRefPoint = true;
 }

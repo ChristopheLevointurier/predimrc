@@ -96,7 +96,7 @@ public class PredimRC extends JFrame {
      */
     private static JButton aboutbut, help, savebut;
     private static JMenuItem savetarget, opentarget, save;
-    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, viewRefAxis;
+    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint;
     private static JMenuItem quit, openConfigRep;
     private static JToggleButton logbut, modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
@@ -160,8 +160,7 @@ public class PredimRC extends JFrame {
 
         viewNeutralPoints = new JCheckBoxMenuItem("View neutral points", UserConfig.viewNeutralPoints);
         viewCG = new JCheckBoxMenuItem("View gravity center", UserConfig.viewCG);
-        viewRefPoint = new JCheckBoxMenuItem("View reference point for X and Z dimensiond", UserConfig.viewRefPoint);
-        viewRefAxis = new JCheckBoxMenuItem("View reference axis for Y dimensiond", UserConfig.viewRefAxis);
+        viewRefPoint = new JCheckBoxMenuItem("View reference point for X, Y and Z dimensions", UserConfig.viewRefPoint);
 
         JMenuBar menu = new JMenuBar();
         JMenu filemenu = new JMenu("File");
@@ -182,7 +181,6 @@ public class PredimRC extends JFrame {
         editmenu.add(viewNeutralPoints);
         editmenu.add(viewCG);
         editmenu.add(viewRefPoint);
-        editmenu.add(viewRefAxis);
         editmenu.addSeparator();
 
 
@@ -375,13 +373,7 @@ public class PredimRC extends JFrame {
                 ModelController.applyChange();
             }
         });
-        viewRefAxis.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UserConfig.viewRefAxis = viewRefAxis.isSelected();
-                ModelController.applyChange();
-            }
-        });
+
 
         aboutbut.addActionListener(new ActionListener() {
             @Override
@@ -485,12 +477,10 @@ public class PredimRC extends JFrame {
             UserConfig.warnClosePopup = Boolean.parseBoolean(loadConfig(config, "WARNPOPUP"));
             UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config, "VIEWCG"));
             UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config, "VIEWNP"));
-            UserConfig.viewRefAxis = Boolean.parseBoolean(loadConfig(config, "VIEWRA"));
             UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config, "VIEWRP"));
             viewNeutralPoints.setSelected(UserConfig.viewNeutralPoints);
             viewCG.setSelected(UserConfig.viewCG);
             viewRefPoint.setSelected(UserConfig.viewRefPoint);
-            viewRefAxis.setSelected(UserConfig.viewRefAxis);
             /**
              */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
@@ -519,7 +509,6 @@ public class PredimRC extends JFrame {
         config.setProperty("WARNPOPUP", "" + UserConfig.warnClosePopup);
         config.setProperty("VIEWCG", "" + UserConfig.viewCG);
         config.setProperty("VIEWNP", "" + UserConfig.viewNeutralPoints);
-        config.setProperty("VIEWRA", "" + UserConfig.viewRefAxis);
         config.setProperty("VIEWRP", "" + UserConfig.viewRefPoint);
         try {
             File fout = new File(appRep);
