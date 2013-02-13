@@ -59,7 +59,7 @@ public class Utils {
     public static final String defaultDeriveFoil = "naca0006";
     public static final int DEFAULT_Y_FRAME = 600;
     public static final int MAIN_FRAME_SIZE_X = 1144;
-    public static final int MAIN_FRAME_SIZE_Y = 800;
+    public static final int MAIN_FRAME_SIZE_Y = 780;
     public static final int DEFAULT_X_FRAME = 800;
     public static Dimension3D REF_POINT = new Dimension3D();
 
