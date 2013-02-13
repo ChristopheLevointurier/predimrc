@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import predimrc.PredimRC;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
@@ -133,7 +134,13 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         g.setColor(Color.GRAY.brighter());
         if (PredimRC.initDone) {
             PredimRC.getInstanceDrawableModel().draw((Graphics2D) g, view);
-            Utils.REF_POINT.draw((Graphics2D) g, view, "REF_POINT X-Z");
+            if (UserConfig.viewRefPoint) {
+                Utils.REF_POINT.draw((Graphics2D) g, view, "REF_POINT X-Z");
+            }
+            if (UserConfig.viewRefAxis && view.equals(VIEW_TYPE.TOP_VIEW)) {
+                g.setColor(Utils.USED_FOR.DEFAULT.getColor());
+                g.drawLine(Utils.TOP_SCREEN_X / 2 + panY, Integer.MIN_VALUE, Utils.TOP_SCREEN_X / 2 + panY, Integer.MAX_VALUE);
+            }
         }
     }
 
