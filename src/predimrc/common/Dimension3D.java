@@ -102,6 +102,6 @@ public class Dimension3D {
 
         g.drawLine(xdrawPos, ydrawPos, xdrawPos - 25, ydrawPos - 25);
         g.drawLine(xdrawPos - 120, ydrawPos - 25, xdrawPos - 25, ydrawPos - 25);
-        g.drawString(toWrite, xdrawPos - 100, ydrawPos - 27);
+        g.drawString(toWrite, xdrawPos - 120, ydrawPos - 27);
     }
 }
