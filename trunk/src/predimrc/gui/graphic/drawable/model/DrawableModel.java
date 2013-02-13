@@ -68,7 +68,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
         staticMarginRatio = me.getStaticMargin();
         gravityCenter = new DrawableGravityCenter(100, 100, this);
-        Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
     /**
@@ -83,7 +82,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableDerive.add(new DrawableWing(USED_FOR.VERTICAL_PLAN, this));
         drawableFuselage = new DrawableFuselage(this);
         gravityCenter = new DrawableGravityCenter(100, 100, this);
-        Utils.REF_POINT = getWings().get(0).getPositionDimension3D();
     }
 
     /**
@@ -150,6 +148,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
             w.computePositions();
         }
         drawableFuselage.computePositions();
+        Utils.REF_POINT.setX(getWings().get(0).getPositionDimension3D().getX());
+        Utils.REF_POINT.setZ(getWings().get(0).getPositionDimension3D().getZ());
+
     }
 
     public void setWingAmount(int _i, USED_FOR usedFor) {
