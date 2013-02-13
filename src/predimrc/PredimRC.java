@@ -43,6 +43,7 @@ import javagl.jglcore.JGL_3DTriangle;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -55,6 +56,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
 import predimrc.gui.frame.Note_Frame;
@@ -82,7 +84,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.57";
+    private static final String VERSION = "Alpha 0.58";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -90,13 +92,11 @@ public class PredimRC extends JFrame {
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
     /**
-     *
+     * menu
      */
-    public static String airfoilsDirectory = System.getProperty("user.home") + "\\PredimRCFiles\\";
-    public static String filename = "";
     private static JButton aboutbut, help, savebut;
-    ;
-    private static JMenuItem savetarget, opentarget;
+    private static JMenuItem savetarget, opentarget, save;
+    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, viewRefAxis;
     private static JMenuItem quit, openConfigRep;
     private static JToggleButton logbut, modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
@@ -105,8 +105,7 @@ public class PredimRC extends JFrame {
     private static StringBuffer log = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
-     private DrawableModel drawableModel;
-    public static boolean warnClosePopup = true;
+    private DrawableModel drawableModel;
     /**
      *
      * componentns of the view
@@ -152,13 +151,21 @@ public class PredimRC extends JFrame {
         the3DViewButton = new JToggleButton("3D View");
         help = new JButton("Help!");
         logbut = new JToggleButton("log", false);
-        modelNoteBut = new JToggleButton("Notes", false);
+        modelNoteBut = new JToggleButton(getImageIcon("note.png"), false);
+        save = new JMenuItem("Save model");
         savetarget = new JMenuItem("Save model...");
         opentarget = new JMenuItem("Open model");
         quit = new JMenuItem("Quit");
 
+
+        viewNeutralPoints = new JCheckBoxMenuItem("View neutral points", UserConfig.viewNeutralPoints);
+        viewCG = new JCheckBoxMenuItem("View gravity center", UserConfig.viewCG);
+        viewRefPoint = new JCheckBoxMenuItem("View reference point for X and Z dimensiond", UserConfig.viewRefPoint);
+        viewRefAxis = new JCheckBoxMenuItem("View reference axis for Y dimensiond", UserConfig.viewRefAxis);
+
         JMenuBar menu = new JMenuBar();
         JMenu filemenu = new JMenu("File");
+        JMenu editmenu = new JMenu("Config");
 
         /**
          * register new listener of the model*
@@ -167,11 +174,20 @@ public class PredimRC extends JFrame {
 
 
         filemenu.add(opentarget);
+        filemenu.add(save);
         filemenu.add(savetarget);
         filemenu.addSeparator();
         filemenu.add(quit);
 
+        editmenu.add(viewNeutralPoints);
+        editmenu.add(viewCG);
+        editmenu.add(viewRefPoint);
+        editmenu.add(viewRefAxis);
+        editmenu.addSeparator();
+
+
         menu.add(filemenu);
+        menu.add(editmenu);
         menu.add(modelNoteBut);
         menu.add(the3DViewButton);
         menu.add(logbut);
@@ -183,8 +199,8 @@ public class PredimRC extends JFrame {
 
 
         help.addActionListener(new ActionListener() {
-          @Override
-              public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     Runtime.getRuntime().exec("cmd /c start " + externalRefDoc);
                 } catch (IOException ex) {
@@ -207,8 +223,8 @@ public class PredimRC extends JFrame {
 
 
         modelNoteBut.addActionListener(new ActionListener() {
-           @Override
-             public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 new Note_Frame(modelNoteBut);
             }
         });
@@ -264,8 +280,8 @@ public class PredimRC extends JFrame {
                     }
                 });
                 temp.addActionListener(new ActionListener() {
-                 @Override
-               public void actionPerformed(ActionEvent e) {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
                         {
                             logbut.setSelected(false);
                             d.dispose();
@@ -275,8 +291,8 @@ public class PredimRC extends JFrame {
                 });
 
                 clearr.addActionListener(new ActionListener() {
-               @Override
-                 public void actionPerformed(ActionEvent e) {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
                         {
                             log = new StringBuffer();
                             tf.setText(log.toString());
@@ -285,8 +301,8 @@ public class PredimRC extends JFrame {
                 });
 
                 refr.addActionListener(new ActionListener() {
-               @Override
-                 public void actionPerformed(ActionEvent e) {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
                         {
                             tf.setText(log.toString());
                         }
@@ -307,8 +323,8 @@ public class PredimRC extends JFrame {
         });
 
         opentarget.addActionListener(new ActionListener() {
-              @Override
-          public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 PredimRC.loadModelWithChooser();
             }
         });
@@ -316,23 +332,60 @@ public class PredimRC extends JFrame {
 
 
         savetarget.addActionListener(new ActionListener() {
-           @Override
-             public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 PredimRC.saveModelWithChooser();
+            }
+        });
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PredimRC.saveModel();
             }
         });
 
 
         savebut.addActionListener(new ActionListener() {
-         @Override
-               public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 PredimRC.saveModel();
             }
         });
 
+
+        viewNeutralPoints.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.viewNeutralPoints = viewNeutralPoints.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        viewRefPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.viewRefPoint = viewRefPoint.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        viewCG.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.viewCG = viewCG.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        viewRefAxis.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.viewRefAxis = viewRefAxis.isSelected();
+                ModelController.applyChange();
+            }
+        });
+
         aboutbut.addActionListener(new ActionListener() {
-           @Override
-             public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 //  setAlwaysOnTop(false);
                 JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(icon));
                 //   setAlwaysOnTop(true);
@@ -385,15 +438,15 @@ public class PredimRC extends JFrame {
 
     public void changeDir() {
         final JFrame f = new JFrame();
-        final JFileChooser chooser = new JFileChooser(airfoilsDirectory);
+        final JFileChooser chooser = new JFileChooser(UserConfig.airfoilsDirectory);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Select a Directory to load airfoils.");
         //f.setAlwaysOnTop(true);
         f.setVisible(true);
         final int returnVal = chooser.showOpenDialog(f);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            airfoilsDirectory = chooser.getSelectedFile().getAbsolutePath();
-            logln(" Selected rep:" + airfoilsDirectory);
+            UserConfig.airfoilsDirectory = chooser.getSelectedFile().getAbsolutePath();
+            logln(" Selected rep:" + UserConfig.airfoilsDirectory);
         }
         f.dispose();
     }
@@ -426,16 +479,15 @@ public class PredimRC extends JFrame {
         Properties config = new Properties();
         try {
             config.load(new FileInputStream(appRep + configFile));
-            PredimRC.getInstance().setFilename(config.getProperty("FILENAME", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "FILENAME =" + PredimRC.filename);
-            airfoilsDirectory = config.getProperty("AIRFOILS", DEFAULT_KEY_VALUE);
-            logDebugln("config load : " + "AIRFOILS =" + airfoilsDirectory);
-            PredimRC.getInstanceDrawableModel().setNote(config.getProperty("NOTES", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "NOTES =" + PredimRC.getInstanceDrawableModel().getNote());
-            PredimRC.warnClosePopup = Boolean.parseBoolean(config.getProperty("WARNPOPUP", DEFAULT_KEY_VALUE));
-            logDebugln("config load : " + "WARNPOPUP =" + PredimRC.warnClosePopup);
+            PredimRC.getInstance().setFilename(loadConfig(config,"FILENAME"));
+            UserConfig.airfoilsDirectory = loadConfig(config,"AIRFOILS");
+            PredimRC.getInstanceDrawableModel().setNote(loadConfig(config,"NOTES"));
+            UserConfig.warnClosePopup = Boolean.parseBoolean(loadConfig(config,"WARNPOPUP"));
+            UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config,"VIEWCG"));
+            UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config,"VIEWNP"));
+            UserConfig.viewRefAxis = Boolean.parseBoolean(loadConfig(config,"VIEWRA"));
+            UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config,"VIEWRP"));
             /**
-             * ********
              */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
         } catch (final Throwable t) {
@@ -444,6 +496,14 @@ public class PredimRC extends JFrame {
         }
         return ok;
     }
+    
+    
+    
+    private static String loadConfig(Properties p, String key){
+        String prop=p.getProperty(key, DEFAULT_KEY_VALUE);
+        logDebugln("config load : " +key+ " = " + prop);
+            return prop;
+    }
 
     /**
      * Save on properties File the configuration .
@@ -451,10 +511,14 @@ public class PredimRC extends JFrame {
     public static void saveConfiguration() {
         logln("\n*******************************************\n**** Saving  configuration... ****");
         Properties config = new Properties();
-        config.setProperty("AIRFOILS", "" + airfoilsDirectory);
+        config.setProperty("AIRFOILS", "" + UserConfig.airfoilsDirectory);
         config.setProperty("NOTES", "" + PredimRC.getInstanceDrawableModel().getNote());
-        config.setProperty("FILENAME", "" + PredimRC.filename);
-        config.setProperty("WARNPOPUP", "" + PredimRC.warnClosePopup);
+        config.setProperty("FILENAME", "" + UserConfig.filename);
+        config.setProperty("WARNPOPUP", "" + UserConfig.warnClosePopup);
+        config.setProperty("VIEWCG", "" + UserConfig.viewCG);
+        config.setProperty("VIEWNP", "" + UserConfig.viewNeutralPoints);
+        config.setProperty("VIEWRA", "" + UserConfig.viewRefAxis);
+        config.setProperty("VIEWRP", "" + UserConfig.viewRefPoint);
         try {
             File fout = new File(appRep);
             if (!fout.exists()) {
@@ -553,16 +617,16 @@ public class PredimRC extends JFrame {
     }
 
     public static void loadModel() throws FileNotFoundException {
-        PredimRC.log("load of :" + filename);
+        PredimRC.log("load of :" + UserConfig.filename);
         String versionInfile = "unknown";
-        FileInputStream in_pute = new FileInputStream(filename);
+        FileInputStream in_pute = new FileInputStream(UserConfig.filename);
         try {
             ObjectInputStream p = new ObjectInputStream(in_pute);
             versionInfile = ((ModelVersion) p.readObject()).VERSION_MODEL;
             PredimRC.log(", version in file to load:" + versionInfile);
             if (versionInfile.equals((new ModelVersion()).VERSION_MODEL)) {
                 PredimRC.getInstance().drawableModel = new DrawableModel((Model) p.readObject());
-                PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.getInstance().filename);
+                PredimRC.getInstance().setTitle("PredimRC  --  " + UserConfig.filename);
                 PredimRC.logln(" success.");
                 ModelController.applyChange();
             } else {
@@ -570,7 +634,7 @@ public class PredimRC extends JFrame {
             }
         } catch (IOException | ClassNotFoundException p) {
             PredimRC.logln(" failed!");
-            JOptionPane.showMessageDialog(null, "error while opening file " + filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "error while opening file " + UserConfig.filename + ",  model version:" + versionInfile + ". I can only open version " + (new ModelVersion()).VERSION_MODEL + ".", null, JOptionPane.ERROR_MESSAGE);
             PredimRC.resetModel();
         } finally {
             try {
@@ -597,7 +661,7 @@ public class PredimRC extends JFrame {
                 int i = fich.lastIndexOf('.');
                 extension = fich.substring(i + 1).toLowerCase();
                 if (extension.equals(FILE_EXTENSION)) {
-                    filename = selectedFile.getAbsolutePath();
+                    UserConfig.filename = selectedFile.getAbsolutePath();
                     try {
                         loadModel();
                     } catch (HeadlessException | IOException p) {
@@ -612,7 +676,7 @@ public class PredimRC extends JFrame {
     }
 
     public static void saveModel() {
-        File fichier = new File(filename);
+        File fichier = new File(UserConfig.filename);
         PredimRC.log("Save model to " + fichier.getAbsolutePath());
         try {
             try (FileOutputStream ostream = new FileOutputStream(fichier)) {
@@ -621,7 +685,7 @@ public class PredimRC extends JFrame {
                 p.writeObject(PredimRC.getInstanceDrawableModel().generateModel());
                 p.flush();
             }
-            PredimRC.getInstance().setTitle("PredimRC  --  " + PredimRC.filename);
+            PredimRC.getInstance().setTitle("PredimRC  --  " + UserConfig.filename);
             PredimRC.logln(" success.");
         } catch (Exception p) {
             PredimRC.logln(" failed. error while trying to write file :" + fichier.getAbsolutePath() + ":" + p.toString());
@@ -635,8 +699,8 @@ public class PredimRC extends JFrame {
 
         if (chooser.showSaveDialog(PredimRC.getInstance()) == JFileChooser.APPROVE_OPTION) {
             //If they clicked yes call fileSaver method
-            filename = chooser.getSelectedFile().getAbsolutePath();
-            filename = filename.endsWith(FILE_EXTENSION) ? filename : filename + "." + FILE_EXTENSION;
+            UserConfig.filename = chooser.getSelectedFile().getAbsolutePath();
+            UserConfig.filename = UserConfig.filename.endsWith(FILE_EXTENSION) ? UserConfig.filename : UserConfig.filename + "." + FILE_EXTENSION;
             saveModel();
         } else {
             //Show cancelled message
@@ -657,14 +721,14 @@ public class PredimRC extends JFrame {
     }
 
     private void setFilename(String property) {
-        filename = property;
+        UserConfig.filename = property;
     }
 
     public static void resetModel() {
         logDebugln("resetModel()");
         getInstance().drawableModel = DrawableModel.makeDefaultModel();
-       ModelController.applyChange();
-   }
+        ModelController.applyChange();
+    }
 
     public static void repaintDrawPanels() {
         getInstance().mainView.repaintDrawPanels();
