@@ -70,14 +70,14 @@ public class Utils {
         return new Point2D.Float((float) x, (float) y);
     }
 
-    public static float calcAngle(Point2D.Float ref, int x, int y) {
+    public static float calcAngle(Point2D.Float ref, float x, float y) {
         float d = (float) (Math.atan2(y - ref.getY(), x - ref.getX()) * 180.0 / Math.PI) - 180;
         d = d < 0 ? d + 360 : d;
         d = d > 180 ? d - 360 : d;
         return d;
     }
 
-    public static float calcAngle(DrawablePoint ref, int x, int y) {
+    public static float calcAngle(DrawablePoint ref, float x, float y) {
         float d = (float) (Math.atan2(y - ref.getY(), x - ref.getX()) * 180.0 / Math.PI) - 180;
         d = d < 0 ? d + 360 : d;
         d = d > 180 ? d - 360 : d;
@@ -120,6 +120,10 @@ public class Utils {
     }
 
     public static double distance(DrawablePoint p1, int x, int y) {
+        return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x) + (p1.getFloatY() - y) * (p1.getFloatY() - y));
+    }
+
+    public static double distance(DrawablePoint p1, float x, float y) {
         return Math.sqrt((p1.getFloatX() - x) * (p1.getFloatX() - x) + (p1.getFloatY() - y) * (p1.getFloatY() - y));
     }
 
