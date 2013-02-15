@@ -17,8 +17,11 @@ package predimrc.gui.graphic.drawable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -47,6 +50,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected DrawablePoint selectedPoint = new DrawablePoint();
     protected VIEW_TYPE view;
     protected DrawableModelElement selectedElement;
+    public static float zoom = 1;
     public static int panX = 0;
     public static int panY = 0;
     public static int panZ = 0;
@@ -104,9 +108,27 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 info.undraw(getGraphics());
             }
         });
+
+        addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int notches = e.getWheelRotation();
+                float inc = e.getModifiers() == InputEvent.CTRL_MASK ? 1 : 0.1f;
+                if (notches < 0) {
+                    zoom += inc;
+                } else {
+                    zoom -= inc;
+                    zoom = zoom < 0.1f ? 0.1f : zoom;
+                }
+                PredimRC.logDebugln("New zoom factor:" + zoom);
+                PredimRC.repaintDrawPanels();
+            }
+        });
+
+
     }
 
-    protected void getNearestPoint(int x, int y) {
+    protected void getNearestPoint(float x, float y) {
         double dist = Double.MAX_VALUE;
         // System.out.println("getNearestPoint:" + points.size());
         for (DrawablePoint p : points) {
@@ -147,27 +169,27 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         repaint();
     }
 
-    protected int getXcur(MouseEvent e) {
+    protected float getXcur(MouseEvent e) {
         switch (view) {
             case FRONT_VIEW:
-                return e.getX() - panY;
+                return ((float) e.getX() / DrawablePanel.zoom) - panY;
             case TOP_VIEW:
-                return e.getX() - panY;
+                return ((float) e.getX() / DrawablePanel.zoom) - panY;
             default:
             case LEFT_VIEW:
-                return e.getX() - panX;
+                return ((float) e.getX() / DrawablePanel.zoom) - panX;
         }
     }
 
-    protected int getYcur(MouseEvent e) {
+    protected float getYcur(MouseEvent e) {
         switch (view) {
             case FRONT_VIEW:
-                return e.getY() - panZ;
+                return ((float) e.getY() / DrawablePanel.zoom) - panZ;
             case TOP_VIEW:
-                return e.getY() - panX;
+                return ((float) e.getY() / DrawablePanel.zoom) - panX;
             default:
             case LEFT_VIEW:
-                return e.getY() - panZ;
+                return ((float) e.getY() / DrawablePanel.zoom) - panZ;
         }
     }
 }

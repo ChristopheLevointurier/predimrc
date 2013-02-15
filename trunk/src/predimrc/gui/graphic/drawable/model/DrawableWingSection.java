@@ -184,8 +184,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
 
         switch (view) {
             case FRONT_VIEW: {
-                Utils.drawLine((int) getyPos() + DrawablePanel.panY, (int) getzPos() + DrawablePanel.panZ, frontPointFrontView, g, view);
-                Utils.drawLine((int) (2 * Utils.FRONT_SCREEN_X - getyPos() + DrawablePanel.panY), (int) getzPos() + DrawablePanel.panZ, frontPointFrontView.getMirror(), g, view);
+                Utils.drawLine((int) ((getyPos() + DrawablePanel.panY) * DrawablePanel.zoom), (int) ((getzPos() + DrawablePanel.panZ) * DrawablePanel.zoom), frontPointFrontView, g, view);
+                Utils.drawLine((int) (((2 * Utils.FRONT_SCREEN_X - getyPos() + DrawablePanel.panY) * DrawablePanel.zoom)), (int) ((getzPos() + DrawablePanel.panZ) * DrawablePanel.zoom), frontPointFrontView.getMirror(), g, view);
                 frontPointFrontView.draw(g);
                 //     frontPointFrontView.getMirror().draw(g);
                 break;

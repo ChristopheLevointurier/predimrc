@@ -143,7 +143,7 @@ public class LeftPanel extends DrawablePanel {
                             }
                             case VERTICAL_PLAN:
                             case FUSELAGE: {
-                                int newlenght = getXcur(e) - (int) selectedElement.getFrontPointLeftView().getX();
+                                int newlenght = (int) (getXcur(e) - selectedElement.getFrontPointLeftView().getX());
                                 if (newlenght > 1) {
                                     selectedElement.setWidth(newlenght);
                                     info.setDetailedInfo(" Width=" + selectedElement.getWidth());
