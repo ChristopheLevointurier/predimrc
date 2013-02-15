@@ -79,16 +79,16 @@ public class Dimension3D {
     }
 
     public void draw(Graphics2D g, VIEW_TYPE view, String toWrite) {
-        
+
         g.setStroke(new BasicStroke(1));
         g.setColor(Utils.USED_FOR.DEFAULT.getColor());
 
-        int xdrawPos = (int) getY() + DrawablePanel.panY;
-        int ydrawPos = (int) getX() + DrawablePanel.panX;
+        int xdrawPos = (int) ((getY() + DrawablePanel.panY) * DrawablePanel.zoom);
+        int ydrawPos = (int) ((getX() + DrawablePanel.panX) * DrawablePanel.zoom);
 
         switch (view) {
             case FRONT_VIEW: {
-                ydrawPos = (int) getZ() + DrawablePanel.panZ;
+                ydrawPos = (int) ((getZ() + DrawablePanel.panZ) * DrawablePanel.zoom);
                 break;
             }
 
@@ -96,8 +96,8 @@ public class Dimension3D {
                 break;
             }
             case LEFT_VIEW:
-                xdrawPos = (int) x + DrawablePanel.panX;
-                ydrawPos = (int) getZ() + DrawablePanel.panZ;
+                xdrawPos = (int) ((x + DrawablePanel.panX) * DrawablePanel.zoom);
+                ydrawPos = (int) ((getZ() + DrawablePanel.panZ) * DrawablePanel.zoom);
                 break;
         }
 
