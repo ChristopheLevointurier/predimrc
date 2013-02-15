@@ -197,11 +197,11 @@ public class DrawablePoint {
 
         switch (view) {
             case FRONT_VIEW:
-                return (int) x + DrawablePanel.panY;
+                return (int) ((x + DrawablePanel.panY) * DrawablePanel.zoom);
             case LEFT_VIEW:
-                return (int) x + DrawablePanel.panX;
+                return (int) ((x + DrawablePanel.panX) * DrawablePanel.zoom);
             case TOP_VIEW:
-                return (int) x + DrawablePanel.panY;
+                return (int) ((x + DrawablePanel.panY) * DrawablePanel.zoom);
         }
 
         return (int) x;
@@ -211,11 +211,11 @@ public class DrawablePoint {
 
         switch (view) {
             case FRONT_VIEW:
-                return (int) y + DrawablePanel.panZ;
+                return (int) ((y + DrawablePanel.panZ) * DrawablePanel.zoom);
             case LEFT_VIEW:
-                return (int) y + DrawablePanel.panZ;
+                return (int) ((y + DrawablePanel.panZ) * DrawablePanel.zoom);
             case TOP_VIEW:
-                return (int) y + DrawablePanel.panX;
+                return (int) ((y + DrawablePanel.panX) * DrawablePanel.zoom);
         }
 
         return (int) y;
