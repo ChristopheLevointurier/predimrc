@@ -25,9 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import predimrc.PredimRC;
-import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.controller.IModelListener;
+import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.widget.MegaCombo;
 import predimrc.gui.widget.MegaLabel;
@@ -46,6 +46,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
      */
     private MegaLabel modelTitle;
     private JButton reset = new JButton("Reset model");
+    private JButton resetView = new JButton("Reset view");
     private JButton compute = new JButton("reCompute");
     private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
     private MegaCombo tailCombo = new MegaCombo("Number of stab :", true, "0", "1", "2", "3", "4");
@@ -87,6 +88,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         //add(tailCombo);  Not yet
         add(deriveCombo);
         add(reset);
+        add(resetView);
         //     add(compute);
 
         /**
@@ -96,6 +98,17 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PredimRC.resetModel();
+            }
+        });
+
+        resetView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DrawablePanel.panX = 0;
+                DrawablePanel.panY = 0;
+                DrawablePanel.panZ = 0;
+                DrawablePanel.zoom = 1;
+                PredimRC.repaintDrawPanels();
             }
         });
 
