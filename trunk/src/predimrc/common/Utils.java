@@ -70,6 +70,15 @@ public class Utils {
         return new Point2D.Float((float) x, (float) y);
     }
 
+    public static double getCoordXOnCircleWithY(DrawablePoint center, float yValue, float radius) {
+        if (radius == 0) {
+            return center.getX();
+        }
+        double deg = 90 * (yValue / radius);
+        double x = center.getX() - radius * Math.cos(Math.toRadians(deg));
+        return (float) x;
+    }
+
     public static float calcAngle(Point2D.Float ref, float x, float y) {
         float d = (float) (Math.atan2(y - ref.getY(), x - ref.getX()) * 180.0 / Math.PI) - 180;
         d = d < 0 ? d + 360 : d;
