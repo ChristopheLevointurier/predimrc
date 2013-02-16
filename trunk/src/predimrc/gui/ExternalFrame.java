@@ -88,7 +88,6 @@ public abstract class ExternalFrame extends JFrame {
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                             null, options, options[0]);
                     UserConfig.warnClosePopup = (ret != 1);
-
                 }
                 save();
                 caller.setEnabled(true);
@@ -96,20 +95,6 @@ public abstract class ExternalFrame extends JFrame {
                 dispose();
             }
         });
-
-
-
-        /**
-         * TODO * addKeyListener(new KeyListener() {
-         *
-         * @Override public void keyTyped(KeyEvent e) { }
-         *
-         * @Override public void keyPressed(KeyEvent keyEvent) { if
-         * (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) { closer.doClick(); } }
-         *
-         * @Override public void keyReleased(KeyEvent e) { } });
-         *
-         */
     }
 
     public abstract void save();
