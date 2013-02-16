@@ -135,7 +135,7 @@ public class TopPanel extends DrawablePanel {
                         //change  length & fleche
                         if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
                             float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
-                            float newFleche = (float) (getYcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getY());
+                            float newFleche = (float) (getYcur(e) - ((DrawableWing) selectedElement.getBelongsTo()).getFrontPointTopView().getFloatY());
                             ((DrawableWingSection) selectedElement).setSweep(newFleche);
                             if (newlenght > 1) {
                                 ((DrawableWingSection) selectedElement).setLenght(newlenght);
