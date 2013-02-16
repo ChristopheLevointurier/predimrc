@@ -389,4 +389,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public double getAspectRatio() {
         return aspectRatio;
     }
+
+    @Override
+    public float getSweep() {
+        return 0;
+    }
 }
