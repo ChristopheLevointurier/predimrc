@@ -22,6 +22,7 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -40,10 +41,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javagl.jglcore.JGL_3DMesh;
 import javagl.jglcore.JGL_3DTriangle;
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -54,6 +59,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import predimrc.common.UserConfig;
@@ -84,7 +90,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.63";
+    private static final String VERSION = "Alpha 0.64";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -403,9 +409,17 @@ public class PredimRC extends JFrame {
     }
 
     public static void quit() {
-        PredimRC.saveConfiguration();
-        // saveXMLConfig();
-        System.exit(0);
+
+        Object[] options = {"OK", "Nooo"};
+        int ret = JOptionPane.showOptionDialog(null, "Quit to windows?", "Warning",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, options, options[0]);
+        if (ret == 0) {
+
+            PredimRC.saveConfiguration();
+            // saveXMLConfig();
+            System.exit(0);
+        }
     }
 
     private void setUpAndFillComponents() {
@@ -429,7 +443,28 @@ public class PredimRC extends JFrame {
         setSize(Utils.MAIN_FRAME_SIZE_X, Utils.MAIN_FRAME_SIZE_Y);
         setLocationRelativeTo(null);
         // setAlwaysOnTop(true);
+
+        Action quitActionListener = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                PredimRC.quit();
+            }
+        };
+
+        Action saveActionListener = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                PredimRC.saveModel();
+            }
+        };
+
         validate();
+
+        InputMap inputMap = ((JPanel) getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "CLOSE");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK), "SAVE");
+        ((JPanel) getContentPane()).getActionMap().put("CLOSE", quitActionListener);
+        ((JPanel) getContentPane()).getActionMap().put("SAVE", saveActionListener);
     }
 
     public void changeDir() {
