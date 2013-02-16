@@ -151,6 +151,34 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         Utils.REF_POINT.setX(getWings().get(0).getPositionDimension3D().getX());
         Utils.REF_POINT.setZ(getWings().get(0).getPositionDimension3D().getZ());
 
+        /**
+         * Center of gravity computation
+         */
+        DrawableWing mainWing = getWings().get(0);
+        DrawableWing stab = getTail().get(0);
+
+        double XDs = stab.getxPos() - mainWing.getNeutralPoint().getX() + stab.getNeutralPoint().getX();
+        double XDf = getFuselage().getxPos() + mainWing.getNeutralPoint().getX() - getStaticMarginRatio() * getFuselage().getWidth();
+
+        double Vs = (XDs * stab.getArea()) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
+
+        double Aa = mainWing.getAspectRatio() / (2 + mainWing.getAspectRatio());// wing efficiency
+        double As = stab.getAspectRatio() / (2 + stab.getAspectRatio());//  stab efficiency
+
+
+        double Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
+        if (Vs < -0.1) {
+            Af = 0.2 * (1 + stab.getAspectRatio() / getFuselage().getWidthY());
+        }
+        if (Vs >= -0.1 && Vs <= 0.1) {
+            Af = 0.4;
+        }
+
+        double ZDs = 0;/// valeur inconnue???
+
+        double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * ZDs) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
+
+
     }
 
     public void setWingAmount(int _i, USED_FOR usedFor) {
