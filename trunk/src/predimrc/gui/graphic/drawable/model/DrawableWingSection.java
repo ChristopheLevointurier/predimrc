@@ -117,6 +117,11 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
 
+        if (lenght < Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep())) {
+            lenght = Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep());
+        }
+
+
         float viewableLengthY = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
         float viewableLengthZ = (float) (lenght * (Math.cos(Math.toRadians(diedre + 90))));
         float yref = belongsTo.getxPos();
