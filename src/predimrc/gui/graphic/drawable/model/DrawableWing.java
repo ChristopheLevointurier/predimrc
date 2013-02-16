@@ -44,7 +44,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      * aerodynamics caracs
      */
     private double meanChord = 0;  //corde moyenne
-    private DrawableNeutralPoint neutralPoint;  //foyer
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
