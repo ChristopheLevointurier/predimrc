@@ -50,7 +50,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
     private JButton compute = new JButton("reCompute");
     private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
     private MegaCombo tailCombo = new MegaCombo("Number of stab :", true, "0", "1", "2", "3", "4");
-    private MegaCombo deriveCombo = new MegaCombo("Number of fin :", true, "0", "1", "2", "3", "4");
+    private MegaCombo deriveCombo = new MegaCombo("Number of fin :", true, "0", "1", "2");
 
     public ConfigBasicView() {
         super();
