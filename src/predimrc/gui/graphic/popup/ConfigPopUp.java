@@ -16,11 +16,16 @@ package predimrc.gui.graphic.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import predimrc.PredimRC;
 import predimrc.gui.widget.MegaLabel;
 
@@ -61,6 +66,27 @@ public class ConfigPopUp extends JFrame {
         but.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder()));
         but.add(okBut);
         but.add(cancelBut);
+
+        Action quitActionListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                cancelBut.doClick();
+            }
+        };
+
+        Action okActionListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                okBut.doClick();
+            }
+        };
+
+        validate();
+
+        InputMap inputMap = ((JPanel) getContentPane()).getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "CLOSE");
+        inputMap.put(KeyStroke.getKeyStroke("ENTER"), "SAVE");
+        ((JPanel) getContentPane()).getActionMap().put("CLOSE", quitActionListener);
+        ((JPanel) getContentPane()).getActionMap().put("SAVE", okActionListener);
+
     }
 
     protected void finish() {
