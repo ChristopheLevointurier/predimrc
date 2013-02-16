@@ -412,7 +412,11 @@ public class PredimRC extends JFrame {
 
         logln("set up components...");
         try {
-            loadModel();
+            if (UserConfig.filename.equals("")) {
+                resetModel();
+            } else {
+                loadModel();
+            }
         } catch (IOException ex) {
         }
         logln("filling components...");
@@ -667,6 +671,10 @@ public class PredimRC extends JFrame {
     }
 
     public static void saveModel() {
+        if (UserConfig.filename.equals("")) {
+            saveModelWithChooser();
+            return;
+        }
         File fichier = new File(UserConfig.filename);
         PredimRC.log("Save model to " + fichier.getAbsolutePath());
         try {
@@ -713,11 +721,13 @@ public class PredimRC extends JFrame {
 
     private void setFilename(String property) {
         UserConfig.filename = property;
+        setTitle("PredimRC  --  " + UserConfig.filename);
     }
 
     public static void resetModel() {
         logDebugln("resetModel()");
         getInstance().drawableModel = DrawableModel.makeDefaultModel();
+        getInstance().setFilename("");
         ModelController.applyChange();
     }
 
