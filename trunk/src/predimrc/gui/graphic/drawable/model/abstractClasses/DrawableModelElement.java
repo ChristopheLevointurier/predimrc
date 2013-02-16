@@ -23,6 +23,7 @@ import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.ModelController;
+import predimrc.gui.graphic.drawable.tool.DrawableNeutralPoint;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
@@ -52,12 +53,15 @@ public abstract class DrawableModelElement {
      * position coord
      */
     protected Dimension3D pos = new Dimension3D();
-    //  protected float xPos, yPos, zPos;
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
     protected String filename = "notYetDefined";
     protected float width;
     protected Utils.USED_FOR used_for = Utils.USED_FOR.DEFAULT; //default value
+   /***
+    * 
+    ***/
+    protected DrawableNeutralPoint neutralPoint;  
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
@@ -172,6 +176,10 @@ public abstract class DrawableModelElement {
 
     public DrawablePoint getFrontPointFrontView() {
         return frontPointFrontView;
+    }
+
+    public DrawableNeutralPoint getNeutralPoint() {
+        return neutralPoint;
     }
 
     abstract public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view);
