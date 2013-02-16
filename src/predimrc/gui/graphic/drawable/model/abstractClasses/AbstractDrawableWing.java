@@ -15,4 +15,6 @@ public interface AbstractDrawableWing {
     public void setAngle(float currentAngle);
 
     public float getAngle();
+
+    public float getSweep();
 }
