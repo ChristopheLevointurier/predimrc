@@ -175,9 +175,9 @@ public class LeftPanel extends DrawablePanel {
                     } else {
                         panZ = oldPanZ + e.getY() - startPanZ;
                     }
-                    PredimRC.logDebugln("Panx=" + (oldPanX + panX) + " Pany=" + (oldPanY + panY) + " PanZ=" + (oldPanZ + panZ));
+                    PredimRC.logDebugln("Panx=" + panX + " Pany=" + panY + " PanZ=" + panZ + " zoom=" + zoom);
                     PredimRC.repaintDrawPanels();
-                    getGraphics().drawLine(startPanX, startPanZ, e.getX(), e.getY());
+                    getGraphics().drawLine((int) startPanX, (int) startPanZ, e.getX(), e.getY());
                 }
             }
         });
