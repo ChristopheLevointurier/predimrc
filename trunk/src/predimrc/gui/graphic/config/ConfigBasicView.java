@@ -107,6 +107,9 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
                 DrawablePanel.panX = 0;
                 DrawablePanel.panY = 0;
                 DrawablePanel.panZ = 0;
+                DrawablePanel.oldPanX = 0;
+                DrawablePanel.oldPanY = 0;
+                DrawablePanel.oldPanZ = 0;
                 DrawablePanel.zoom = 1;
                 PredimRC.repaintDrawPanels();
             }
