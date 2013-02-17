@@ -51,15 +51,15 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected VIEW_TYPE view;
     protected DrawableModelElement selectedElement;
     public static float zoom = 1;
-    public static int panX = 0;
-    public static int panY = 0;
-    public static int panZ = 0;
-    public static int oldPanX = 0;
-    public static int oldPanY = 0;
-    public static int oldPanZ = 0;
-    public static int startPanX = 0;
-    public static int startPanY = 0;
-    public static int startPanZ = 0;
+    public static float panX = 0;
+    public static float panY = 0;
+    public static float panZ = 0;
+    public static float oldPanX = 0;
+    public static float oldPanY = 0;
+    public static float oldPanZ = 0;
+    public static float startPanX = 0;
+    public static float startPanY = 0;
+    public static float startPanZ = 0;
 
     public DrawablePanel() {
         addMouseMotionListener(new MouseAdapter() {
@@ -113,12 +113,23 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
-                float inc = e.getModifiers() == InputEvent.CTRL_MASK ? 1 : 0.1f;
+                float inc = e.getModifiers() == InputEvent.CTRL_MASK ? 0.5f : 0.05f;
+                double decalX = (((float) Utils.TOP_SCREEN_X / (float) 2)) * inc;
+                double decalY = (((float) Utils.TOP_SCREEN_Y / (float) 2)) * inc;
                 if (notches < 0) {
+                    panX -= decalY;
+                    panY -= decalX;
+                    oldPanY = panY;
+                    oldPanX = panX;
                     zoom += inc;
                 } else {
-                    zoom -= inc;
-                    zoom = zoom < 0.1f ? 0.1f : zoom;
+                    if (zoom - inc > 0) {
+                        panX += decalY;
+                        panY += decalX;
+                        oldPanX = panX;
+                        oldPanY = panY;
+                        zoom -= inc;
+                    }
                 }
                 PredimRC.logDebugln("New zoom factor:" + zoom);
                 PredimRC.repaintDrawPanels();
