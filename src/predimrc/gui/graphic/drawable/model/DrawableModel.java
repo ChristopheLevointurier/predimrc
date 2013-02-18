@@ -223,7 +223,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
                 wingsTemp.add(new DrawableWing(usedFor, this));
             }
         }
-        if (wingsTemp.isEmpty()) {
+        if (wingsTemp.isEmpty() && !usedFor.equals(USED_FOR.VERTICAL_PLAN)) {
             wingsTemp.add(DrawableWing.MakeEmptyWing(used_for));
         }
         switch (usedFor) {
