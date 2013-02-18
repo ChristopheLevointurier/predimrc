@@ -50,7 +50,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
     private JButton resetView = new JButton("Reset view");
     private JButton compute = new JButton("reCompute");
     private MegaCheck fuseCheck = new MegaCheck("Fuselage", true, true);
-    private MegaCheck tailCheck = new MegaCheck("Tail", true, true);
+    private MegaCheck stabCheck = new MegaCheck("Stab", true, true);
     private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
     private MegaCombo tailCombo = new MegaCombo("Number of stab :", true, "0", "1", "2", "3", "4");
     private MegaCombo deriveCombo = new MegaCombo("Number of fin :", true, "0", "1", "2");
@@ -92,7 +92,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
 
         add(deriveCombo);
         add(fuseCheck);
-        add(tailCheck);
+        add(stabCheck);
         add(reset);
         add(resetView);
         //     add(compute);
@@ -128,11 +128,11 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
             }
         });
 
-        tailCheck.addActionListener(new ActionListener() {
+        stabCheck.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("pute");
-                if (tailCheck.getValue()) {
+                if (stabCheck.getValue()) {
                     PredimRC.getInstanceDrawableModel().setWingAmount(1, USED_FOR.HORIZONTAL_PLAN);
                 } else {
                     PredimRC.getInstanceDrawableModel().setWingAmount(0, USED_FOR.HORIZONTAL_PLAN);
@@ -178,7 +178,7 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         wingCombo.setSelectedValue(m.getWings().size(), false);
         tailCombo.setSelectedValue(m.getTail().size(), false);
         deriveCombo.setSelectedValue(m.getDerive().size(), false);
-        tailCheck.setValue(m.hasTail(), false);
+        stabCheck.setValue(m.hasStab(), false);
         fuseCheck.setValue(m.hasFuse(), false);
         modelTitle.setValue(m.getName());
         modelTitle.setDefaultColor();
