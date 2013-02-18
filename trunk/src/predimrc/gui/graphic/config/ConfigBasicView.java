@@ -131,7 +131,6 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         stabCheck.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("pute");
                 if (stabCheck.getValue()) {
                     PredimRC.getInstanceDrawableModel().setWingAmount(1, USED_FOR.HORIZONTAL_PLAN);
                 } else {
@@ -144,7 +143,6 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
         fuseCheck.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("chienne");
                 PredimRC.getInstanceDrawableModel().setFuseOnOff(fuseCheck.getValue());
             }
         });
