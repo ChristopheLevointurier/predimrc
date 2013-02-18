@@ -119,6 +119,14 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         return drawableWing;
     }
 
+    public boolean hasStab() {
+        return (!drawableTail.get(0).isFake());
+    }
+
+    public boolean hasFuse() {
+        return (!drawableFuselage.isFake());
+    }
+
     public ArrayList<DrawableWing> getTail() {
         return drawableTail;
     }
@@ -181,6 +189,16 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
     }
 
+    public void setFuseOnOff(boolean on) {
+        if (on && drawableFuselage.isFake()) {
+            drawableFuselage = new DrawableFuselage(this);
+        }
+        if (!on && !drawableFuselage.isFake()) {
+            drawableFuselage = DrawableFuselage.makeFake();
+        }
+        ModelController.applyChange();
+    }
+
     public void setWingAmount(int _i, USED_FOR usedFor) {
         ArrayList<DrawableWing> wingList = null;
         switch (usedFor) {
@@ -199,15 +217,14 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         predimrc.PredimRC.logDebugln("setWingAmount:" + _i + " for " + usedFor);
         ArrayList<DrawableWing> wingsTemp = new ArrayList<>();
         for (int i = 0; i < _i; i++) {
-            if (!wingList.isEmpty()) {
+            if (!wingList.isEmpty() && !wingList.get(0).isFake()) {
                 wingsTemp.add(wingList.remove(0));
             } else {
-                //  if (wingsTemp.isEmpty()) {
                 wingsTemp.add(new DrawableWing(usedFor, this));
-                // } else {
-                //     wingsTemp.add(new Wing(wingsTemp.get(0), this));
-                //  }
             }
+        }
+        if (wingsTemp.isEmpty()) {
+            wingsTemp.add(DrawableWing.MakeEmptyWing(used_for));
         }
         switch (usedFor) {
             case HORIZONTAL_PLAN:

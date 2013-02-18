@@ -72,13 +72,31 @@ public class DrawableFuselage extends DrawableModelElement {
         filename = "fuse";
     }
 
+    public static DrawableFuselage makeFake() {
+        return new DrawableFuselage();
+    }
+
+    private DrawableFuselage() {
+        width = 0;
+        widthY = 0;
+        widthZ = 0;
+        used_for = Utils.USED_FOR.FUSELAGE;
+        setPosXYZ(Utils.defaultFuselageNose, false);
+        fake = true;
+    }
+
     /**
-     * getters adn setters
+     * getters and setters
      *
      * @return
      */
     @Override
     public void computePositions() {
+        if (fake) {
+            return;
+        }
+
+
         if (!pointsCalculed) {
             /**
              * Front points*
@@ -145,6 +163,9 @@ public class DrawableFuselage extends DrawableModelElement {
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
+        if (fake) {
+            return ret;
+        }
         switch (view) {
             case FRONT_VIEW: {
                 //    ret.add(frontPointFrontView);
@@ -174,7 +195,7 @@ public class DrawableFuselage extends DrawableModelElement {
      */
     @Override
     public void draw(Graphics2D g, VIEW_TYPE view) {
-        if (!pointsCalculed) {
+        if (!pointsCalculed || fake) {
             return;
         }
         g.setColor(used_for.getColor());
@@ -253,7 +274,6 @@ public class DrawableFuselage extends DrawableModelElement {
     public DrawableModel getBelongsTo() {
         return (DrawableModel) belongsTo;
     }
-
 
     @Override
     public String toString() {

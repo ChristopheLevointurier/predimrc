@@ -38,8 +38,12 @@ import predimrc.model.element.WingSection;
  */
 public class DrawableWing extends DrawableModelElement implements Iterable<DrawableWingSection>, AbstractDrawableWing {
 
-    private LinkedList<DrawableWingSection> drawableWingSection;
-    private float calageAngulaire;
+    public static DrawableWing MakeEmptyWing(USED_FOR _used_for) {
+        return new DrawableWing(_used_for);
+    }
+    private LinkedList<DrawableWingSection> drawableWingSection = new LinkedList<>();
+    private float calageAngulaire = 0f;
+    ;
     /**
      * aerodynamics caracs
      */
@@ -47,6 +51,12 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
+
+    private DrawableWing(USED_FOR _used_for) {
+        used_for = _used_for;
+        neutralPoint = new DrawableNeutralPoint(this);
+        fake = true;
+    }
 
     /**
      *
@@ -106,7 +116,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
-
+if (fake) {
+            return ;
+        }
         /**
          * **
          * Points *
@@ -270,7 +282,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             d.draw(g, view);
         }
 
-        if (!pointsCalculed) {
+        if (!pointsCalculed || fake) {
             return;
         }
         switch (view) {
@@ -314,6 +326,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
+        if (fake) {
+            return ret;
+        }
+
         for (DrawableWingSection ws : this) {
             ret.addAll(ws.getPoints(view));
         }
