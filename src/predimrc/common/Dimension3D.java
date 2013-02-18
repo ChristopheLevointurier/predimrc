@@ -43,7 +43,7 @@ public class Dimension3D {
     }
 
     public String toString() {
-        return "(" + x + "," + y + "," + z + ")";
+        return "(" + Utils.round(x) + "," + Utils.round(y) + "," + Utils.round(z) + ")";
     }
 
     public float getX() {
