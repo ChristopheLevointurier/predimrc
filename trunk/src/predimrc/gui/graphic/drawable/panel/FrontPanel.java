@@ -82,7 +82,6 @@ public class FrontPanel extends DrawablePanel {
                     } else {
                         panZ = oldPanZ + e.getY() - startPanZ;
                     }
-                    PredimRC.logDebugln("Panx=" + panX + " Pany=" + panY + " PanZ=" + panZ + " zoom=" + zoom);
                     PredimRC.repaintDrawPanels();
                     getGraphics().drawLine((int) startPanY, (int) startPanZ, e.getX(), e.getY());
                 }
