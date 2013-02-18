@@ -55,13 +55,16 @@ public abstract class DrawableModelElement {
     protected Dimension3D pos = new Dimension3D();
     protected DrawableModelElement belongsTo;
     protected boolean pointsCalculed = false;
+    protected boolean fake = false;
     protected String filename = "notYetDefined";
     protected float width;
     protected Utils.USED_FOR used_for = Utils.USED_FOR.DEFAULT; //default value
-   /***
-    * 
-    ***/
-    protected DrawableNeutralPoint neutralPoint;  
+    /**
+     * *
+     *
+     **
+     */
+    protected DrawableNeutralPoint neutralPoint;
 
     public DrawableModelElement(Dimension3D d, DrawableModelElement _belongsTo) {
         setPosXYZ(d, true);
@@ -148,6 +151,10 @@ public abstract class DrawableModelElement {
         if (PredimRC.initDone) {
             ModelController.applyChange();
         }
+    }
+
+    public boolean isFake() {
+        return fake;
     }
 
     public String getFilename() {
