@@ -55,6 +55,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     private DrawableWing(USED_FOR _used_for) {
         used_for = _used_for;
         neutralPoint = new DrawableNeutralPoint(this);
+        filename = Utils.FAKE_FILENAME;
         fake = true;
     }
 
@@ -109,6 +110,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (WingSection ws : w.getWingsSection()) {
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
         }
+        neutralPoint = new DrawableNeutralPoint(this);
+        if (filename.equals(Utils.FAKE_FILENAME)) {
+            fake = true;
+        }
     }
 
     /**
@@ -116,8 +121,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
      */
     @Override
     public void computePositions() {
-if (fake) {
-            return ;
+        if (fake) {
+            return;
         }
         /**
          * **

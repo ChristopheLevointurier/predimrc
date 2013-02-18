@@ -60,6 +60,9 @@ public class DrawableFuselage extends DrawableModelElement {
         filename = f.getFilename();
         used_for = Utils.USED_FOR.FUSELAGE;
         neutralPointRatio = f.getNeutralPointRatio();
+        if (filename.equals(Utils.FAKE_FILENAME)) {
+            fake = true;
+        }
     }
 
     public DrawableFuselage(DrawableModel _belongsTo) {
@@ -83,6 +86,7 @@ public class DrawableFuselage extends DrawableModelElement {
         used_for = Utils.USED_FOR.FUSELAGE;
         setPosXYZ(Utils.defaultFuselageNose, false);
         fake = true;
+        filename = Utils.FAKE_FILENAME;
     }
 
     /**
