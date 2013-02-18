@@ -164,7 +164,6 @@ public class TopPanel extends DrawablePanel {
                     } else {
                         panX = oldPanX + e.getY() - startPanX;
                     }
-                    PredimRC.logDebugln("Panx=" + panX + " Pany=" + panY + " PanZ=" + panZ + " zoom=" + zoom);
                     PredimRC.repaintDrawPanels();
                     getGraphics().drawLine((int) startPanY, (int) startPanX, e.getX(), e.getY());
                 }
