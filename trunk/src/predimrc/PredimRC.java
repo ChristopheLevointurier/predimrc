@@ -90,7 +90,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.65";
+    private static final String VERSION = "Alpha 0.66";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -410,16 +410,18 @@ public class PredimRC extends JFrame {
 
     public static void quit() {
 
-        Object[] options = {"OK", "Nooo"};
+        Object[] options = {"OK", "Save&Quit", "Nooo"};
         int ret = JOptionPane.showOptionDialog(null, "Quit to windows?", "Warning",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
                 null, options, options[0]);
-        if (ret == 0) {
-
-            PredimRC.saveConfiguration();
-            // saveXMLConfig();
-            System.exit(0);
+        if (ret == 2) {
+            return;
         }
+        if (ret == 1) {
+            PredimRC.saveModel();
+        }
+        PredimRC.saveConfiguration();
+        System.exit(0);
     }
 
     private void setUpAndFillComponents() {
@@ -512,7 +514,6 @@ public class PredimRC extends JFrame {
             config.load(new FileInputStream(appRep + configFile));
             PredimRC.getInstance().setFilename(loadConfig(config, "FILENAME"));
             UserConfig.airfoilsDirectory = loadConfig(config, "AIRFOILS");
-            PredimRC.getInstanceDrawableModel().setNote(loadConfig(config, "NOTES"));
             UserConfig.warnClosePopup = Boolean.parseBoolean(loadConfig(config, "WARNPOPUP"));
             UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config, "VIEWCG"));
             UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config, "VIEWNP"));
@@ -543,7 +544,6 @@ public class PredimRC extends JFrame {
         logln("\n*******************************************\n**** Saving  configuration... ****");
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + UserConfig.airfoilsDirectory);
-        config.setProperty("NOTES", "" + PredimRC.getInstanceDrawableModel().getNote());
         config.setProperty("FILENAME", "" + UserConfig.filename);
         config.setProperty("WARNPOPUP", "" + UserConfig.warnClosePopup);
         config.setProperty("VIEWCG", "" + UserConfig.viewCG);
