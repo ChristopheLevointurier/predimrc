@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.config.ConfigBasicView;
 import predimrc.gui.graphic.drawable.panel.FrontPanel;
@@ -44,23 +45,22 @@ public class MainView extends JPanel implements MouseMotionListener {
 
     public MainView() {
         super();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         basicConfig = new ConfigBasicView();
         add(basicConfig);
         ModelController.addModelListener(basicConfig);
-
-        JPanel topDraw = new JPanel();
         diedrepanel = new FrontPanel();
         calagepanel = new LeftPanel();
         toppanel = new TopPanel();
         ModelController.addModelListener(diedrepanel);
         ModelController.addModelListener(calagepanel);
         ModelController.addModelListener(toppanel);
-        topDraw.add(diedrepanel, BorderLayout.WEST);
-        topDraw.add(calagepanel, BorderLayout.EAST);
-        add(topDraw);
-        add(toppanel, BorderLayout.SOUTH);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, diedrepanel, calagepanel);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setResizeWeight(0.5);
+        JSplitPane topSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, toppanel);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setResizeWeight(0.5);
+        add(topSplitPane);
         addMouseMotionListener(this);
     }
 
