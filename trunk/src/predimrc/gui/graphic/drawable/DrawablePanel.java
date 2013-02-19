@@ -97,6 +97,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 oldPanX = panX;
                 oldPanY = panY;
                 oldPanZ = panZ;
+                PredimRC.logDebugln("PanX=" + panX + " PanY=" + panY + " PanZ=" + panZ + " zoom=" + zoom);
             }
         });
 
@@ -114,24 +115,23 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
                 float inc = e.getModifiers() == InputEvent.CTRL_MASK ? 0.5f : 0.05f;
-                double decalX = (((float) Utils.TOP_SCREEN_X / (float) 2)) * inc;
-                double decalY = (((float) Utils.TOP_SCREEN_Y / (float) 2)) * inc;
+
                 if (notches < 0) {
-                    panX -= decalY;
-                    panY -= decalX;
-                    oldPanY = panY;
-                    oldPanX = panX;
                     zoom += inc;
                 } else {
                     if (zoom - inc > 0) {
-                        panX += decalY;
-                        panY += decalX;
-                        oldPanX = panX;
-                        oldPanY = panY;
                         zoom -= inc;
                     }
                 }
-                PredimRC.logDebugln("New zoom factor:" + zoom);
+                panX = -(Utils.REF_POINT.getX() - (Utils.REF_POINT.getX() / (float) (zoom)));
+                oldPanX = panX;
+
+                panY = -(Utils.REF_POINT.getY() - (Utils.REF_POINT.getY() / (float) (zoom)));
+                oldPanY = panY;
+
+                panZ = -(Utils.REF_POINT.getZ() - (Utils.REF_POINT.getZ() / (float) (zoom)));
+                oldPanZ = panZ;
+                PredimRC.logDebugln("New zoom factor:" + zoom + "scr/2*zoom=" + ((Utils.TOP_SCREEN_X / 2) / (double) (zoom)) + " panY=" + panY);
                 PredimRC.repaintDrawPanels();
             }
         });
@@ -183,9 +183,8 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
     protected float getXcur(MouseEvent e) {
         switch (view) {
             case FRONT_VIEW:
-                return ((float) e.getX() / DrawablePanel.zoom) - panY;
             case TOP_VIEW:
-                return ((float) e.getX() / DrawablePanel.zoom) - panY;
+                return ((float) (((double) e.getX() / DrawablePanel.zoom) - panY));
             default:
             case LEFT_VIEW:
                 return ((float) e.getX() / DrawablePanel.zoom) - panX;
