@@ -116,10 +116,10 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             previous = belongsTo;
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
-
+        /**
         if (lenght < Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep())) {
             lenght = Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep());
-        }
+        }**/
 
 
         float viewableLengthY = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
@@ -128,8 +128,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         float viewableWidthCoef = (float) (Math.cos(Math.toRadians(calageAngulaire + ((DrawableWing) belongsTo).getAngle())));
 
         if (!pointsCalculed) {
-            frontPointTopView = new DrawablePoint(Utils.getCoordXOnCircleWithY(previous.getFrontPointTopView(), sweep - ((AbstractDrawableWing) previous).getSweep(), viewableLengthY), belongsTo.getFrontPointTopView().getFloatY() + sweep, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
-            //frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, belongsTo.getFrontPointTopView().getFloatY() + sweep, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
+            // frontPointTopView = new DrawablePoint(Utils.getCoordXOnCircleWithY(previous.getFrontPointTopView(), sweep - ((AbstractDrawableWing) previous).getSweep(), viewableLengthY), belongsTo.getFrontPointTopView().getFloatY() + sweep, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
+            frontPointTopView = new DrawablePoint(previous.getFrontPointTopView().getFloatX() - viewableLengthY, belongsTo.getFrontPointTopView().getFloatY() + sweep, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
             backPointTopView = new DrawablePoint(frontPointTopView.getFloatX(), frontPointTopView.getY() + width, !((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.TOP_VIEW);
             frontPointLeftView = new DrawablePoint(belongsTo.getFrontPointLeftView().getFloatX() + sweep, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ, ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.LEFT_VIEW);
             backPointLeftView = new DrawablePoint(Utils.getCoordOnCircle(frontPointLeftView, calageAngulaire + ((DrawableWing) belongsTo).getAngle(), width), ((DrawableWing) belongsTo).getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN), this, VIEW_TYPE.LEFT_VIEW);
@@ -143,7 +143,8 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             pointsCalculed = true;
         } else {
 
-            frontPointTopView.setLocation(Utils.getCoordXOnCircleWithY(previous.getFrontPointTopView(), sweep - ((AbstractDrawableWing) previous).getSweep(), viewableLengthY), belongsTo.getFrontPointTopView().getFloatY() + sweep);
+            //  frontPointTopView.setLocation(Utils.getCoordXOnCircleWithY(previous.getFrontPointTopView(), sweep - ((AbstractDrawableWing) previous).getSweep(), viewableLengthY), belongsTo.getFrontPointTopView().getFloatY() + sweep);
+            frontPointTopView.setFloatLocation(previous.getFrontPointTopView().getFloatX() - viewableLengthY, belongsTo.getFrontPointTopView().getFloatY() + sweep);
             backPointTopView.setFloatLocation(frontPointTopView.getFloatX(), frontPointTopView.getFloatY() + width);
             frontPointLeftView.setFloatLocation(belongsTo.getFrontPointLeftView().getFloatX() + sweep, previous.getFrontPointLeftView().getFloatY() + viewableLengthZ);
             backPointLeftView.setLocation(Utils.getCoordOnCircle(frontPointLeftView, calageAngulaire + ((DrawableWing) belongsTo).getAngle(), width));
@@ -263,6 +264,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         apply();
     }
 
+    @Override
     public float getSweep() {
         return sweep;
     }

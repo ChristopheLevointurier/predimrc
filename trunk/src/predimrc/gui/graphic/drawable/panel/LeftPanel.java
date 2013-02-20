@@ -25,7 +25,6 @@ import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.DrawablePanel;
 import predimrc.gui.graphic.drawable.model.DrawableFuselage;
-import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;
@@ -118,7 +117,7 @@ public class LeftPanel extends DrawablePanel {
                         }
                         if (selectedElement instanceof DrawableWingSection) {
                             //change  length & fleche
-                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.LEFT_VIEW));
+                            float newlenght = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getFloatY() - getYcur(e));
                             float newFleche = (float) (getXcur(e) - ((DrawableWingSection) selectedElement).getPreviousFrontPointLeftView().getX());
 
                             ((DrawableWingSection) selectedElement).setSweep(newFleche);
