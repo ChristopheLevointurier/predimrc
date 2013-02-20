@@ -18,7 +18,6 @@ package predimrc.gui.graphic;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import predimrc.controller.ModelController;
@@ -46,7 +45,8 @@ public class MainView extends JPanel implements MouseMotionListener {
     public MainView() {
         super();
         basicConfig = new ConfigBasicView();
-        add(basicConfig);
+        this.setLayout(new BorderLayout());
+        add(basicConfig, BorderLayout.NORTH);
         ModelController.addModelListener(basicConfig);
         diedrepanel = new FrontPanel();
         calagepanel = new LeftPanel();
@@ -58,9 +58,9 @@ public class MainView extends JPanel implements MouseMotionListener {
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.5);
         JSplitPane topSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, toppanel);
-        splitPane.setOneTouchExpandable(true);
-        splitPane.setResizeWeight(0.5);
-        add(topSplitPane);
+        topSplitPane.setOneTouchExpandable(true);
+        topSplitPane.setResizeWeight(0.25);
+        add(topSplitPane, BorderLayout.CENTER);
         addMouseMotionListener(this);
     }
 
