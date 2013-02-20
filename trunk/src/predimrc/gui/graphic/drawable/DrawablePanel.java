@@ -30,10 +30,10 @@ import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.controller.IModelListener;
-import predimrc.gui.graphic.drawable.tool.DrawableInfo;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
-import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
+import predimrc.gui.graphic.drawable.tool.DrawableInfo;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
  *
@@ -184,7 +184,7 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
         switch (view) {
             case FRONT_VIEW:
             case TOP_VIEW:
-                return ((float) (((double) e.getX() / DrawablePanel.zoom) - panY));
+                return ((float) e.getX() / DrawablePanel.zoom) - panY;
             default:
             case LEFT_VIEW:
                 return ((float) e.getX() / DrawablePanel.zoom) - panX;
