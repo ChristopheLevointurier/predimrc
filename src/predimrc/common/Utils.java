@@ -70,7 +70,14 @@ public class Utils {
         double y = center.getY() + radius * Math.sin(angleRad);
         return new Point2D.Float((float) x, (float) y);
     }
-
+    
+    /**
+     * return the point on circle with y value on the west side
+     * @param center
+     * @param yValue
+     * @param radius
+     * @return 
+     */
     public static double getCoordXOnCircleWithY(DrawablePoint center, float yValue, float radius) {
         if (radius == 0) {
             return center.getX();
