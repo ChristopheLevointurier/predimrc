@@ -93,7 +93,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         SimpleAttributeSet[] attrs = new SimpleAttributeSet[5];
         attrs[0] = new SimpleAttributeSet();
         StyleConstants.setFontFamily(attrs[0], "SansSerif");
-        StyleConstants.setFontSize(attrs[0], 16);
+        StyleConstants.setFontSize(attrs[0], 20);
         attrs[1] = new SimpleAttributeSet(attrs[0]);
         StyleConstants.setBold(attrs[1], true);
         attrs[2] = new SimpleAttributeSet(attrs[0]);
