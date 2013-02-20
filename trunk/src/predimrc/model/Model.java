@@ -17,6 +17,7 @@ package predimrc.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.text.DefaultStyledDocument;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Wing;
 
@@ -36,14 +37,14 @@ public class Model extends ModelElement implements Serializable {
      *
      */
     private String name;
-    private String note;
+    private DefaultStyledDocument note;
     private ArrayList<Wing> wings;
     private ArrayList<Wing> tail;
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
     private float staticMargin;
 
-    public Model(String _filename, String _name, String _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage) {
+    public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage) {
         name = _name;
         note = _note;
         wings = _wings;
@@ -62,7 +63,7 @@ public class Model extends ModelElement implements Serializable {
         return name;
     }
 
-    public String getNote() {
+    public DefaultStyledDocument getNote() {
         return note;
     }
 

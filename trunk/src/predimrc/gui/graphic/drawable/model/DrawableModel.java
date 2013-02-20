@@ -17,6 +17,10 @@ package predimrc.gui.graphic.drawable.model;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -41,7 +45,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         return new DrawableModel();
     }
     private String name;
-    private String note;
+    private DefaultStyledDocument note;
     private ArrayList<DrawableWing> drawableWing = new ArrayList<>();
     private ArrayList<DrawableWing> drawableTail = new ArrayList<>();
     private ArrayList<DrawableWing> drawableDerive = new ArrayList<>();
@@ -76,12 +80,40 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     public DrawableModel() {
         super();
         name = "the magnificent one";
-        note = "no note here yet";
+        note = initDocument();
         drawableWing.add(new DrawableWing(USED_FOR.MAIN_WING, this));
         drawableTail.add(new DrawableWing(USED_FOR.HORIZONTAL_PLAN, this));
         drawableDerive.add(new DrawableWing(USED_FOR.VERTICAL_PLAN, this));
         drawableFuselage = new DrawableFuselage(this);
         gravityCenter = new DrawableGravityCenter(100, 100, this);
+    }
+
+    protected DefaultStyledDocument initDocument() {
+        String initString[] = {"\n\n          Here you can type ", "styled", " notes", " related to your", " model"};
+        SimpleAttributeSet[] attrs = new SimpleAttributeSet[5];
+        attrs[0] = new SimpleAttributeSet();
+        StyleConstants.setFontFamily(attrs[0], "SansSerif");
+        StyleConstants.setFontSize(attrs[0], 16);
+        attrs[1] = new SimpleAttributeSet(attrs[0]);
+        StyleConstants.setBold(attrs[1], true);
+        attrs[2] = new SimpleAttributeSet(attrs[0]);
+        StyleConstants.setItalic(attrs[2], true);
+        attrs[3] = new SimpleAttributeSet(attrs[0]);
+        StyleConstants.setFontSize(attrs[3], 20);
+        attrs[4] = new SimpleAttributeSet(attrs[0]);
+        StyleConstants.setFontSize(attrs[4], 12);
+
+
+        DefaultStyledDocument ret = new DefaultStyledDocument();
+
+        try {
+            for (int i = 0; i < initString.length; i++) {
+                ret.insertString(ret.getLength(), initString[i], attrs[i]);
+            }
+        } catch (BadLocationException ble) {
+            //
+        }
+        return ret;
     }
 
     /**
@@ -107,12 +139,12 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         ModelController.applyChange();
     }
 
-    public String getNote() {
+    public DefaultStyledDocument getNote() {
         return note;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNote(DefaultStyledDocument _note) {
+        note = _note;
     }
 
     public final ArrayList<DrawableWing> getWings() {
