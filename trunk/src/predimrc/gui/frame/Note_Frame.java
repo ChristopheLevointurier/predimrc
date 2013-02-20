@@ -7,13 +7,17 @@ package predimrc.gui.frame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import javax.swing.AbstractButton;
+import javax.swing.InputMap;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledEditorKit;
 import predimrc.common.Utils;
@@ -89,6 +93,21 @@ public class Note_Frame extends ExternalFrame {
         setJMenuBar(menu);
         setLayout(new BorderLayout());
         getContentPane().add(paneScrollPane, BorderLayout.CENTER);
+
+
+        InputMap inputMap = textPane.getInputMap();
+        //bold
+        KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_B, Event.CTRL_MASK);
+        inputMap.put(key, new StyledEditorKit.BoldAction());
+
+        //underline
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_U, Event.CTRL_MASK);
+        inputMap.put(key, new StyledEditorKit.UnderlineAction());
+
+        //italic
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.CTRL_MASK);
+        inputMap.put(key, new StyledEditorKit.ItalicAction());
+
     }
 
     @Override
