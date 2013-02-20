@@ -28,7 +28,6 @@ import predimrc.gui.graphic.drawable.model.DrawableFuselage;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.DrawableWingSection;
-import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.graphic.popup.ConfigFuselage_PopUp;
 import predimrc.gui.graphic.popup.ConfigModel_PopUp;
 import predimrc.gui.graphic.popup.ConfigPopUp;
@@ -134,7 +133,8 @@ public class TopPanel extends DrawablePanel {
                     if (selectedElement instanceof DrawableWingSection) {
                         //change  length & fleche
                         if (selectedPoint.equals(((DrawableWingSection) selectedElement).getFrontPointTopView())) {
-                            float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
+                            //   float newlenght = (float) Utils.distance(((DrawableWingSection) selectedElement).getPreviousFrontPointTopView(), new DrawablePoint(getXcur(e), getYcur(e), Utils.VIEW_TYPE.TOP_VIEW));
+                            float newlenght = (float) (((DrawableWingSection) selectedElement).getPreviousFrontPointTopView().getFloatX() - getXcur(e));
                             float newFleche = (float) (getYcur(e) - ((DrawableWing) selectedElement.getBelongsTo()).getFrontPointTopView().getFloatY());
                             ((DrawableWingSection) selectedElement).setSweep(newFleche);
                             if (newlenght > 1) {
