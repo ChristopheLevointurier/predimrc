@@ -90,7 +90,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.7";
+    private static final String VERSION = "Alpha 0.71";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -102,7 +102,7 @@ public class PredimRC extends JFrame {
      */
     private static JButton aboutbut, help, savebut;
     private static JMenuItem savetarget, opentarget, save;
-    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint;
+    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStap;
     private static JMenuItem quit, openConfigRep;
     private static JToggleButton logbut, modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
@@ -163,10 +163,26 @@ public class PredimRC extends JFrame {
         opentarget = new JMenuItem("Open model");
         quit = new JMenuItem("Quit");
 
+        JMenu view = new JMenu("View special points:");
 
-        viewNeutralPoints = new JCheckBoxMenuItem("View neutral points", UserConfig.viewNeutralPoints);
-        viewCG = new JCheckBoxMenuItem("View gravity center", UserConfig.viewCG);
-        viewRefPoint = new JCheckBoxMenuItem("View reference point for X, Y and Z dimensions", UserConfig.viewRefPoint);
+        viewNeutralPoints = new JCheckBoxMenuItem("neutral points", UserConfig.viewNeutralPoints);
+        viewCG = new JCheckBoxMenuItem("gravity center", UserConfig.viewCG);
+        viewRefPoint = new JCheckBoxMenuItem("reference point for X, Y and Z dimensions", UserConfig.viewRefPoint);
+        view.add(viewNeutralPoints);
+        view.add(viewCG);
+        view.add(viewRefPoint);
+
+
+        JMenu manip = new JMenu("Show points of");
+        manipFuse = new JCheckBoxMenuItem("Fuse", UserConfig.manipFuse);
+        manipWing = new JCheckBoxMenuItem("Wing", UserConfig.manipWing);
+        manipStap = new JCheckBoxMenuItem("Stab", UserConfig.manipStab);
+        manipFin = new JCheckBoxMenuItem("Fin(s)", UserConfig.manipFin);
+
+        manip.add(manipFuse);
+        manip.add(manipWing);
+        manip.add(manipStap);
+        manip.add(manipFin);
 
         JMenuBar menu = new JMenuBar();
         JMenu filemenu = new JMenu("File");
@@ -184,9 +200,8 @@ public class PredimRC extends JFrame {
         filemenu.addSeparator();
         filemenu.add(quit);
 
-        editmenu.add(viewNeutralPoints);
-        editmenu.add(viewCG);
-        editmenu.add(viewRefPoint);
+        editmenu.add(view);
+        editmenu.add(manip);
         editmenu.addSeparator();
 
 
@@ -518,6 +533,12 @@ public class PredimRC extends JFrame {
             UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config, "VIEWCG"));
             UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config, "VIEWNP"));
             UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config, "VIEWRP"));
+            UserConfig.rotX = Boolean.parseBoolean(loadConfig(config, "ROTX"));
+            UserConfig.rotY = Boolean.parseBoolean(loadConfig(config, "ROTY"));
+            UserConfig.rotZ = Boolean.parseBoolean(loadConfig(config, "ROTZ"));
+            UserConfig.cull = Boolean.parseBoolean(loadConfig(config, "CULL"));
+            UserConfig.light = Boolean.parseBoolean(loadConfig(config, "LIGHT"));
+            UserConfig.solid = Boolean.parseBoolean(loadConfig(config, "SOLID"));
             viewNeutralPoints.setSelected(UserConfig.viewNeutralPoints);
             viewCG.setSelected(UserConfig.viewCG);
             viewRefPoint.setSelected(UserConfig.viewRefPoint);
@@ -549,6 +570,16 @@ public class PredimRC extends JFrame {
         config.setProperty("VIEWCG", "" + UserConfig.viewCG);
         config.setProperty("VIEWNP", "" + UserConfig.viewNeutralPoints);
         config.setProperty("VIEWRP", "" + UserConfig.viewRefPoint);
+
+
+        config.setProperty("ROTX", "" + UserConfig.rotX);
+        config.setProperty("ROTY", "" + UserConfig.rotY);
+        config.setProperty("ROTZ", "" + UserConfig.rotZ);
+
+        config.setProperty("CULL", "" + UserConfig.cull);
+        config.setProperty("SOLID", "" + UserConfig.solid);
+        config.setProperty("LIGHT", "" + UserConfig.light);
+
         try {
             File fout = new File(appRep);
             if (!fout.exists()) {
