@@ -66,8 +66,10 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
             @Override
             public void mouseMoved(MouseEvent e) {
                 getNearestPoint(getXcur(e), getYcur(e));
-                info.setInfo(selectedElement.toInfoString());
-                info.setDetailedInfo(selectedPoint.toInfoString());
+                if (null != selectedElement) {
+                    info.setInfo(selectedElement.toInfoString());
+                    info.setDetailedInfo(selectedPoint.toInfoString());
+                }
                 for (DrawablePoint p : points) {
                     p.draw((Graphics2D) getGraphics());
                 }

@@ -102,7 +102,7 @@ public class PredimRC extends JFrame {
      */
     private static JButton aboutbut, help, savebut;
     private static JMenuItem savetarget, opentarget, save;
-    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStap;
+    private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStab;
     private static JMenuItem quit, openConfigRep;
     private static JToggleButton logbut, modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
@@ -176,12 +176,12 @@ public class PredimRC extends JFrame {
         JMenu manip = new JMenu("Show points of");
         manipFuse = new JCheckBoxMenuItem("Fuse", UserConfig.manipFuse);
         manipWing = new JCheckBoxMenuItem("Wing", UserConfig.manipWing);
-        manipStap = new JCheckBoxMenuItem("Stab", UserConfig.manipStab);
+        manipStab = new JCheckBoxMenuItem("Stab", UserConfig.manipStab);
         manipFin = new JCheckBoxMenuItem("Fin(s)", UserConfig.manipFin);
 
         manip.add(manipFuse);
         manip.add(manipWing);
-        manip.add(manipStap);
+        manip.add(manipStab);
         manip.add(manipFin);
 
         JMenuBar menu = new JMenuBar();
@@ -396,6 +396,38 @@ public class PredimRC extends JFrame {
         });
 
 
+
+
+        manipFin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.manipFin = manipFin.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        manipFuse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.manipFuse = manipFuse.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        manipWing.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.manipWing = manipWing.isSelected();
+                ModelController.applyChange();
+            }
+        });
+        manipStab.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserConfig.manipStab = manipStab.isSelected();
+                ModelController.applyChange();
+            }
+        });
+
+
         aboutbut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -533,6 +565,11 @@ public class PredimRC extends JFrame {
             UserConfig.viewCG = Boolean.parseBoolean(loadConfig(config, "VIEWCG"));
             UserConfig.viewNeutralPoints = Boolean.parseBoolean(loadConfig(config, "VIEWNP"));
             UserConfig.viewRefPoint = Boolean.parseBoolean(loadConfig(config, "VIEWRP"));
+            UserConfig.manipFin = Boolean.parseBoolean(loadConfig(config, "MFIN"));
+            UserConfig.manipFuse = Boolean.parseBoolean(loadConfig(config, "MFUSE"));
+            UserConfig.manipStab = Boolean.parseBoolean(loadConfig(config, "MSTAB"));
+            UserConfig.manipWing = Boolean.parseBoolean(loadConfig(config, "MWING"));
+
             UserConfig.rotX = Boolean.parseBoolean(loadConfig(config, "ROTX"));
             UserConfig.rotY = Boolean.parseBoolean(loadConfig(config, "ROTY"));
             UserConfig.rotZ = Boolean.parseBoolean(loadConfig(config, "ROTZ"));
@@ -570,6 +607,10 @@ public class PredimRC extends JFrame {
         config.setProperty("VIEWCG", "" + UserConfig.viewCG);
         config.setProperty("VIEWNP", "" + UserConfig.viewNeutralPoints);
         config.setProperty("VIEWRP", "" + UserConfig.viewRefPoint);
+        config.setProperty("MFIN", "" + UserConfig.manipFin);
+        config.setProperty("MFUSE", "" + UserConfig.manipFuse);
+        config.setProperty("MSTAB", "" + UserConfig.manipStab);
+        config.setProperty("MWING", "" + UserConfig.manipWing);
 
 
         config.setProperty("ROTX", "" + UserConfig.rotX);

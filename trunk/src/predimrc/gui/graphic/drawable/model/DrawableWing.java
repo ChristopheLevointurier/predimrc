@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -331,7 +332,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
-        if (fake) {
+        if (fake
+                || (used_for.equals(USED_FOR.MAIN_WING) && !UserConfig.manipWing)
+                || (used_for.equals(USED_FOR.HORIZONTAL_PLAN) && !UserConfig.manipStab)
+                || (used_for.equals(USED_FOR.VERTICAL_PLAN) && !UserConfig.manipFin)) {
             return ret;
         }
 
