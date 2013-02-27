@@ -17,6 +17,7 @@ package predimrc.gui.graphic.drawable.model;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -167,7 +168,7 @@ public class DrawableFuselage extends DrawableModelElement {
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
-        if (fake) {
+        if (fake ||!UserConfig.manipFuse) {
             return ret;
         }
         switch (view) {
