@@ -36,6 +36,7 @@ import javagl.jglcore.JGL_Sorter;
 import javagl.jglcore.JGL_Time;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import predimrc.common.UserConfig;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.graphic.config.Config3DView;
 import predimrc.model.element.loader.FuselageLoader;
@@ -55,8 +56,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     private float mouseX, mouseY;
     private float angleX, angleY, angleZ;
     private float zoom;
-    private boolean rotationX = false, rotationY = true, rotationZ = false, move = true, moveVertex = false;
-    private boolean cullface = false, solid = false, light = true;
+    private boolean move = true, moveVertex = false;
     private JGL_3DVector toMove;
     private Config3DView config;
 
@@ -157,40 +157,46 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
 
         config.getRotX_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                rotationX = config.getRotX_check().isSelected();
+                UserConfig.rotX = config.getRotX_check().isSelected();
             }
         });
         config.getRotY_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                rotationY = config.getRotY_check().isSelected();
+                UserConfig.rotY = config.getRotY_check().isSelected();
             }
         });
         config.getRotZ_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                rotationZ = config.getRotZ_check().isSelected();
+                UserConfig.rotZ = config.getRotZ_check().isSelected();
             }
         });
 
         config.getCull_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                cullface = config.getCull_check().isSelected();
-                JGL.setCullFacing(cullface);
+                UserConfig.cull = config.getCull_check().isSelected();
+                JGL.setCullFacing(UserConfig.cull);
             }
         });
 
 
         config.getSolid_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                solid = config.getSolid_check().isSelected();
-                JGL.setSolidFace(solid);
+                UserConfig.solid = config.getSolid_check().isSelected();
+                JGL.setSolidFace(UserConfig.solid);
             }
         });
 
         config.getLighting_check().addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                light = config.getLighting_check().isSelected();
-                JGL.setLighting(light);
+                UserConfig.light = config.getLighting_check().isSelected();
+                JGL.setLighting(UserConfig.light);
             }
         });
 
@@ -202,17 +208,17 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
         pack();
         JGL.setDisplayTarget(screen);
         JGL.setPerspective(75f);
-        JGL.setCullFacing(cullface);
-        JGL.setSolidFace(solid);
-        JGL.setLighting(light);
+        JGL.setCullFacing(UserConfig.cull);
+        JGL.setSolidFace(UserConfig.solid);
+        JGL.setLighting(UserConfig.light);
         JGL.setShininess(50f);
 
-        config.getRotX_check().setSelected(rotationX);
-        config.getRotY_check().setSelected(rotationY);
-        config.getRotZ_check().setSelected(rotationZ);
-        config.getLighting_check().setSelected(light);
-        config.getSolid_check().setSelected(solid);
-        config.getCull_check().setSelected(cullface);
+        config.getRotX_check().setSelected(UserConfig.rotX);
+        config.getRotY_check().setSelected(UserConfig.rotY);
+        config.getRotZ_check().setSelected(UserConfig.rotZ);
+        config.getLighting_check().setSelected(UserConfig.light);
+        config.getSolid_check().setSelected(UserConfig.solid);
+        config.getCull_check().setSelected(UserConfig.cull);
         stop = false;
         new Thread(this).start();
     }
@@ -254,15 +260,15 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
             JGL_Time.setTimer();
 
             // Updates rotation angles
-            if (move && rotationX) {
+            if (move && UserConfig.rotX) {
                 angleX += 1.2f * JGL_Time.getTimer();
                 angleX %= 360;
             }
-            if (move && rotationY) {
+            if (move && UserConfig.rotY) {
                 angleY += 1.2f * JGL_Time.getTimer();
                 angleY %= 360;
             }
-            if (move && rotationZ) {
+            if (move && UserConfig.rotZ) {
                 angleZ += 1.2f * JGL_Time.getTimer();
                 angleZ %= 360;
             }
