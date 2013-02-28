@@ -168,12 +168,12 @@ public class DrawableFuselage extends DrawableModelElement {
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
-        if (fake ||!UserConfig.manipFuse) {
+        if (fake || !UserConfig.manipFuse) {
             return ret;
         }
         switch (view) {
             case FRONT_VIEW: {
-                //    ret.add(frontPointFrontView);
+                ret.add(frontPointFrontView);
                 break;
             }
             case TOP_VIEW: {
@@ -203,7 +203,12 @@ public class DrawableFuselage extends DrawableModelElement {
         if (!pointsCalculed || fake) {
             return;
         }
+
+        for (DrawablePoint p : getPoints(view)) {
+            p.draw(g);
+        }
         g.setColor(used_for.getColor());
+
         switch (view) {
             case FRONT_VIEW: {
                 Utils.drawline(frontPointFrontView, upPointFrontView, g);
@@ -211,7 +216,6 @@ public class DrawableFuselage extends DrawableModelElement {
                 Utils.drawRect(upPointFrontView, downPointFrontView, g);
                 Utils.drawline(frontPointFrontView, upPointFrontView.getMirror(), g);
                 Utils.drawline(frontPointFrontView, downPointFrontView.getMirror(), g);
-                frontPointFrontView.draw(g);
                 break;
             }
 
@@ -221,10 +225,6 @@ public class DrawableFuselage extends DrawableModelElement {
                 g.drawLine(sidePointTopView.getDrawCoordX(), frontPointTopView.getDrawCoordY(), sidePointTopView.getDrawCoordX(), backPointTopView.getDrawCoordY());
                 g.drawLine(sidePointTopView.getMirror().getDrawCoordX(), frontPointTopView.getDrawCoordY(), sidePointTopView.getMirror().getDrawCoordX(), backPointTopView.getDrawCoordY());
                 g.drawLine(sidePointTopView.getDrawCoordX(), backPointTopView.getDrawCoordY(), sidePointTopView.getMirror().getDrawCoordX(), backPointTopView.getDrawCoordY());
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
-                sidePointTopView.draw(g);
-                neutralPoint.draw(g);
                 break;
             }
             case LEFT_VIEW: {
@@ -233,9 +233,6 @@ public class DrawableFuselage extends DrawableModelElement {
                 g.drawLine(frontPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY());
                 g.drawLine(backPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY());
                 g.drawLine(frontPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY());
-                frontPointLeftView.draw(g);
-                backPointLeftView.draw(g);
-                sidePointLeftView.draw(g);
                 break;
             }
         }

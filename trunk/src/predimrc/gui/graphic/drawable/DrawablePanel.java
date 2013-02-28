@@ -83,8 +83,10 @@ public abstract class DrawablePanel extends JPanel implements IModelListener {
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     //detect nearest point;
                     getNearestPoint(getXcur(e), getYcur(e));
-                    info.setInfo(selectedElement.toInfoString());
-                    info.setDetailedInfo("");
+                    if (null != selectedElement) {
+                        info.setInfo(selectedElement.toInfoString());
+                        info.setDetailedInfo("");
+                    }
                     repaint();
                 }
             }

@@ -18,6 +18,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import predimrc.common.Dimension3D;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
 import predimrc.gui.graphic.drawable.DrawablePanel;
@@ -117,11 +118,10 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             setPosXYZ(belongsTo.getPositionDimension3D(), true);
         }
         /**
-        if (lenght < Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep())) {
-            lenght = Math.abs(sweep - ((AbstractDrawableWing) previous).getSweep());
-        }**/
-
-
+         * if (lenght < Math.abs(sweep - ((AbstractDrawableWing)
+         * previous).getSweep())) { lenght = Math.abs(sweep -
+         * ((AbstractDrawableWing) previous).getSweep()); }*
+         */
         float viewableLengthY = (float) (lenght * (Math.cos(Math.toRadians(diedre))));
         float viewableLengthZ = (float) (lenght * (Math.cos(Math.toRadians(diedre + 90))));
         float yref = belongsTo.getxPos();
@@ -187,28 +187,28 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
             return;
         }
 
+
+        for (DrawablePoint p : getPoints(view)) {
+            p.draw(g);
+        }
         g.setStroke(new BasicStroke(4));
         g.setColor(belongsTo.getUsedFor().getColor());
+
 
         switch (view) {
             case FRONT_VIEW: {
                 Utils.drawLine((int) ((getyPos() + DrawablePanel.panY) * DrawablePanel.zoom), (int) ((getzPos() + DrawablePanel.panZ) * DrawablePanel.zoom), frontPointFrontView, g, view);
                 Utils.drawLine((int) (((2 * Utils.FRONT_SCREEN_X - getyPos() + DrawablePanel.panY) * DrawablePanel.zoom)), (int) ((getzPos() + DrawablePanel.panZ) * DrawablePanel.zoom), frontPointFrontView.getMirror(), g, view);
-                frontPointFrontView.draw(g);
                 //     frontPointFrontView.getMirror().draw(g);
                 break;
             }
 
             case TOP_VIEW: {
                 Utils.drawRect(frontPointTopView, backPointTopView, previous.getFrontPointTopView(), previous.getBackPointTopView(), g, true);
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
                 break;
             }
             case LEFT_VIEW:
                 Utils.drawRect(frontPointLeftView, backPointLeftView, previous.getFrontPointLeftView(), previous.getBackPointLeftView(), g, false);
-                frontPointLeftView.draw(g);
-                backPointLeftView.draw(g);
                 break;
         }
     }
@@ -216,6 +216,14 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
+        if (fake
+                || (belongsTo.getUsedFor().equals(Utils.USED_FOR.MAIN_WING) && !UserConfig.manipWing)
+                || (belongsTo.getUsedFor().equals(Utils.USED_FOR.HORIZONTAL_PLAN) && !UserConfig.manipStab)
+                || (belongsTo.getUsedFor().equals(Utils.USED_FOR.VERTICAL_PLAN) && !UserConfig.manipFin)) {
+            return ret;
+        }
+
+
         switch (view) {
             case FRONT_VIEW: {
                 ret.add(frontPointFrontView);

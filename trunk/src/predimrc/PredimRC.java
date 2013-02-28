@@ -90,7 +90,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.71";
+    private static final String VERSION = "Alpha 0.72";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -403,6 +403,7 @@ public class PredimRC extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserConfig.manipFin = manipFin.isSelected();
                 ModelController.applyChange();
+                repaintDrawPanels();
             }
         });
         manipFuse.addActionListener(new ActionListener() {
@@ -410,6 +411,7 @@ public class PredimRC extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserConfig.manipFuse = manipFuse.isSelected();
                 ModelController.applyChange();
+                repaintDrawPanels();
             }
         });
         manipWing.addActionListener(new ActionListener() {
@@ -417,6 +419,7 @@ public class PredimRC extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserConfig.manipWing = manipWing.isSelected();
                 ModelController.applyChange();
+                repaintDrawPanels();
             }
         });
         manipStab.addActionListener(new ActionListener() {
@@ -424,6 +427,7 @@ public class PredimRC extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserConfig.manipStab = manipStab.isSelected();
                 ModelController.applyChange();
+                repaintDrawPanels();
             }
         });
 
@@ -579,6 +583,13 @@ public class PredimRC extends JFrame {
             viewNeutralPoints.setSelected(UserConfig.viewNeutralPoints);
             viewCG.setSelected(UserConfig.viewCG);
             viewRefPoint.setSelected(UserConfig.viewRefPoint);
+
+            manipFin.setSelected(UserConfig.manipFin);
+            manipFuse.setSelected(UserConfig.manipFuse);
+            manipStab.setSelected(UserConfig.manipStab);
+            manipWing.setSelected(UserConfig.manipWing);
+
+
             /**
              */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
