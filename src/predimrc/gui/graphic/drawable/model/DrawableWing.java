@@ -291,25 +291,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         if (!pointsCalculed || fake) {
             return;
         }
-        switch (view) {
-            case FRONT_VIEW: {
-                frontPointFrontView.draw(g);
-                break;
-            }
 
-            case TOP_VIEW: {
-                frontPointTopView.draw(g);
-                backPointTopView.draw(g);
-                neutralPoint.draw(g);
-                break;
-            }
-            case LEFT_VIEW: {
-                g.setColor(used_for.getColor());
-                Utils.drawline(frontPointLeftView, backPointLeftView, g);
-                frontPointLeftView.draw(g);
-                backPointLeftView.draw(g);
-                break;
-            }
+        for (DrawablePoint p : getPoints(view)) {
+            p.draw(g);
+        }
+        if (view.equals(VIEW_TYPE.LEFT_VIEW)) {
+            g.setColor(used_for.getColor());
+            Utils.drawline(frontPointLeftView, backPointLeftView, g);
         }
 
     }
