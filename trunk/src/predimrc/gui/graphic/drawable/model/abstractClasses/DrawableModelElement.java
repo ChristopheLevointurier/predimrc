@@ -58,6 +58,7 @@ public abstract class DrawableModelElement {
     protected boolean fake = false;
     protected String filename = "notYetDefined";
     protected float width;
+    protected double XF=0;  //neutral point coord
     protected Utils.USED_FOR used_for = Utils.USED_FOR.DEFAULT; //default value
     /**
      * *
@@ -188,6 +189,15 @@ public abstract class DrawableModelElement {
     public DrawableNeutralPoint getNeutralPoint() {
         return neutralPoint;
     }
+
+    public double getXF() {
+        return XF;
+    }
+
+    public void setXF(double XF) {
+        this.XF = XF;
+    }
+    
 
     abstract public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view);
 
