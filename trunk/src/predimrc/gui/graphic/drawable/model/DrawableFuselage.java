@@ -35,6 +35,7 @@ import predimrc.model.element.Fuselage;
 public class DrawableFuselage extends DrawableModelElement {
 
     private float widthY, widthZ, neutralPointRatio = 20;
+    private float area=0;
     /**
      * *
      * Front view points
@@ -286,4 +287,15 @@ public class DrawableFuselage extends DrawableModelElement {
     public String toInfoString() {
         return "Fuselage";
     }
+
+    public float getArea() {
+        return area;
+    }
+
+    public void setArea(float area) {
+        this.area = area;
+    }
+
+    
+    
 }
