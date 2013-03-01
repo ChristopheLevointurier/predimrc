@@ -88,7 +88,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         gravityCenter = new DrawableGravityCenter(100, 100, this);
     }
 
-    protected DefaultStyledDocument initDocument() {
+    protected final DefaultStyledDocument initDocument() {
         String initString[] = {"\n\n          Here you can type ", "styled", " notes", " related to your", " model"};
         SimpleAttributeSet[] attrs = new SimpleAttributeSet[5];
         attrs[0] = new SimpleAttributeSet();
@@ -102,8 +102,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         StyleConstants.setFontSize(attrs[3], 20);
         attrs[4] = new SimpleAttributeSet(attrs[0]);
         StyleConstants.setFontSize(attrs[4], 12);
-
-
         DefaultStyledDocument ret = new DefaultStyledDocument();
 
         try {
@@ -111,7 +109,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
                 ret.insertString(ret.getLength(), initString[i], attrs[i]);
             }
         } catch (BadLocationException ble) {
-            //
+            //dont care
         }
         return ret;
     }
@@ -196,8 +194,11 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
          */
         DrawableWing mainWing = getWings().get(0);
         DrawableWing stab = getTail().get(0);
+        DrawableWing fin = getDerive().get(0); //todo if winglet it will fail!
+
 
         double XDs = stab.getxPos() - mainWing.getNeutralPoint().getX() + stab.getNeutralPoint().getX();
+        double XDd = fin.getxPos() - mainWing.getNeutralPoint().getX() + fin.getNeutralPoint().getX();
         double XDf = getFuselage().getxPos() + mainWing.getNeutralPoint().getX() - getStaticMarginRatio() * getFuselage().getWidth();
 
         double Vs = (XDs * stab.getArea()) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
@@ -206,19 +207,21 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         double As = stab.getAspectRatio() / (2 + stab.getAspectRatio());//  stab efficiency
 
 
-        double Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
+        double Af = 0.4;
         if (Vs < -0.1) {
             Af = 0.2 * (1 + stab.getAspectRatio() / getFuselage().getWidthY());
         }
-        if (Vs >= -0.1 && Vs <= 0.1) {
-            Af = 0.4;
+        if (Vs > -0.1) {
+            Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
         }
 
-        double ZDs = 0;/// valeur inconnue???
+        double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * -stab.getzPos()) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
 
-        double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * ZDs) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
-
-
+        double xF = 0.25 + (XDs * stab.getArea() * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + fin.getArea() * Af + stab.getArea() * As * (1 - E)));
+        XF = mainWing.getXF() + (xF - 0.25) * mainWing.getMeanCord();
+        double xCG = xF - staticMarginRatio;
+        double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
+        gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG + mainWing.getxPos());
     }
 
     public void setFuseOnOff(boolean on) {

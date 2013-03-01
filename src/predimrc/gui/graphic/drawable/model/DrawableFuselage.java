@@ -169,6 +169,9 @@ public class DrawableFuselage extends DrawableModelElement {
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
+        if (view.equals(VIEW_TYPE.TOP_VIEW)) {
+            ret.add(neutralPoint);
+        }
         if (fake || !UserConfig.manipFuse) {
             return ret;
         }
@@ -181,7 +184,6 @@ public class DrawableFuselage extends DrawableModelElement {
                 ret.add(frontPointTopView);
                 ret.add(backPointTopView);
                 ret.add(sidePointTopView);
-                ret.add(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {

@@ -182,7 +182,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         area = 2 * areaTemp;  //surface
         meanChord = 2 * meanChordTempCalc / area;  //corde moyenne
         aspectRatio = span * span / area;  //allongement
-        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, 2 * xFTempCalc / area + getxPos()); //foyer
+        XF = 2 * xFTempCalc / area + getxPos();
+        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, XF); //foyer
     }
 
     public Point2D.Float getPreviousPointForDiedre(int index) {
@@ -320,6 +321,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public ArrayList<DrawablePoint> getPoints(VIEW_TYPE view) {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
+        if (view.equals(VIEW_TYPE.TOP_VIEW)) {
+            ret.add(neutralPoint);
+        }
         if (fake
                 || (used_for.equals(USED_FOR.MAIN_WING) && !UserConfig.manipWing)
                 || (used_for.equals(USED_FOR.HORIZONTAL_PLAN) && !UserConfig.manipStab)
@@ -339,7 +343,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             case TOP_VIEW: {
                 ret.add(frontPointTopView);
                 ret.add(backPointTopView);
-                ret.add(neutralPoint);
                 break;
             }
             case LEFT_VIEW: {
