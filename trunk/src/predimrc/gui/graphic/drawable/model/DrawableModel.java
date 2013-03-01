@@ -197,9 +197,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         DrawableWing fin = getDerive().get(0); //todo if winglet it will fail!
 
 
-        double XDs = stab.getxPos() - mainWing.getNeutralPoint().getX() + stab.getNeutralPoint().getX();
-        double XDd = fin.getxPos() - mainWing.getNeutralPoint().getX() + fin.getNeutralPoint().getX();
-        double XDf = getFuselage().getxPos() + mainWing.getNeutralPoint().getX() - getFuselage().getNeutralPointRatio() * getFuselage().getWidth();
+        double XDs = stab.getXF() - mainWing.getXF();
+        double XDd = fin.getXF() - mainWing.getXF();
+        double XDf = getFuselage().getxPos() - mainWing.getXF() - getFuselage().getNeutralPointRatio() * getFuselage().getWidth();
 
         double Vs = (XDs * stab.getArea()) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
@@ -215,7 +215,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
             Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
         }
 
-        double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * -stab.getzPos()) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
+        double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
 
         double xF = 0.25 + (XDs * stab.getArea() * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * As * (1 - E)));
         XF = mainWing.getXF() + (xF - 0.25) * mainWing.getMeanCord();
