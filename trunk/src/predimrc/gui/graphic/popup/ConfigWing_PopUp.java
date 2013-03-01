@@ -38,6 +38,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
     private MegaCombo nbrCombo = new MegaCombo("Number of section:", true, "1", "2", "3", "4", "5");
     private MegaLabel angleLabel = new MegaLabel("Angle:", true);
     private MegaLabel fileLabel = new MegaLabel("Filename:", true);
+    private MegaLabel czLabel = new MegaLabel("CZ adjustment:", true);
     private MegaLabel widthLabel = new MegaLabel("Width:", true);
 
     public ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
@@ -83,13 +84,16 @@ public class ConfigWing_PopUp extends ConfigPopUp {
             case BACK_POINT: {
                 angleLabel.setValue("" + drawableBelongsTo.getAngle());
                 widthLabel.setValue("" + drawableBelongsTo.getWidth());
+                czLabel.setValue("" + drawableBelongsTo.getCzCalage());
                 widgets.add(angleLabel);
                 widgets.add(widthLabel);
+                widgets.add(czLabel);
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setWidth(widthLabel.getFloatValue());
                         drawableBelongsTo.setAngle(angleLabel.getFloatValue());
+                        drawableBelongsTo.setCzCalage(czLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }
