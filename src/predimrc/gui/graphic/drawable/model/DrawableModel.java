@@ -199,7 +199,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         double XDs = stab.getxPos() - mainWing.getNeutralPoint().getX() + stab.getNeutralPoint().getX();
         double XDd = fin.getxPos() - mainWing.getNeutralPoint().getX() + fin.getNeutralPoint().getX();
-        double XDf = getFuselage().getxPos() + mainWing.getNeutralPoint().getX() - getStaticMarginRatio() * getFuselage().getWidth();
+        double XDf = getFuselage().getxPos() + mainWing.getNeutralPoint().getX() - getFuselage().getNeutralPointRatio() * getFuselage().getWidth();
 
         double Vs = (XDs * stab.getArea()) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
