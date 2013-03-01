@@ -217,11 +217,11 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * -stab.getzPos()) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
 
-        double xF = 0.25 + (XDs * stab.getArea() * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + fin.getArea() * Af + stab.getArea() * As * (1 - E)));
+        double xF = 0.25 + (XDs * stab.getArea() * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * As * (1 - E)));
         XF = mainWing.getXF() + (xF - 0.25) * mainWing.getMeanCord();
         double xCG = xF - staticMarginRatio;
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
-        gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG + mainWing.getxPos());
+        gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
     }
 
     public void setFuseOnOff(boolean on) {
