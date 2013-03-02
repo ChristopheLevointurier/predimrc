@@ -21,7 +21,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import java.math.*;
 import predimrc.common.Utils;
 import predimrc.common.Utils.USED_FOR;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -195,24 +194,24 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
          */
         DrawableWing mainWing = getWings().get(0);
         DrawableWing stab = getTail().get(0);
-        
+
         //DrawableWing fin =  getDerive().get(0); //todo if winglet it will fail!
         double XDs = stab.getXF() - mainWing.getXF();
-       // double XDd = fin.getXF() - mainWing.getXF();
-        double XDf =  (getFuselage().getNeutralPointRatio()/100) * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
+        // double XDd = fin.getXF() - mainWing.getXF();
+        double XDf = (getFuselage().getNeutralPointRatio() / 100) * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
         double Vs = (XDs * stab.getArea() * Math.cos(stab.getDihedral() * Math.PI / 180) * Math.cos(stab.getDihedral() * Math.PI / 180)) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
         double Aa = mainWing.getAspectRatio() / (2 + mainWing.getAspectRatio());// wing efficiency
         double As = stab.getAspectRatio() / (2 + stab.getAspectRatio());//  stab efficiency
 
         double Af = 0.4;
-            if (Vs < -0.1 && getFuselage().getArea() > 0) {
-                Af = 0.2 * (1 + stab.getAspectRatio() / getFuselage().getWidthY());
-            }
-            if (Vs > -0.1 && getFuselage().getArea() > 0) {
-                Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
-            }
-        
+        if (Vs < -0.1 && getFuselage().getArea() > 0) {
+            Af = 0.2 * (1 + stab.getAspectRatio() / getFuselage().getWidthY());
+        }
+        if (Vs > -0.1 && getFuselage().getArea() > 0) {
+            Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
+        }
+
         double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
 
         double xF = 0.25 + (XDs * stab.getArea() * Math.cos(stab.getDihedral() * Math.PI / 180) * Math.cos(stab.getDihedral() * Math.PI / 180) * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * Math.cos(stab.getDihedral() * Math.PI / 180) * Math.cos(stab.getDihedral() * Math.PI / 180) * As * (1 - E)));
@@ -332,7 +331,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : this) {
             ret.addAll(w.getPoints(view));
         }
-        ret.addAll(drawableFuselage.getPoints(view));
+        if (!drawableFuselage.isFake()) {
+            ret.addAll(drawableFuselage.getPoints(view));
+        }
         if (view.equals(VIEW_TYPE.TOP_VIEW)) {
             ret.add(gravityCenter);
         }
