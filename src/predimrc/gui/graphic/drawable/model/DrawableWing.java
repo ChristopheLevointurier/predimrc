@@ -44,7 +44,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
     private LinkedList<DrawableWingSection> drawableWingSection = new LinkedList<>();
     private float calageAngulaire = 0f;
-     private float czCalage = 0f;
+    private float czCalage = 0f;
     /**
      * aerodynamics caracs
      */
@@ -52,12 +52,13 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
-  
+
     private DrawableWing(USED_FOR _used_for) {
         used_for = _used_for;
         neutralPoint = new DrawableNeutralPoint(this);
         filename = Utils.FAKE_FILENAME;
         fake = true;
+        drawableWingSection.add(new DrawableWingSection(0, 0, 0, 0, 0, this));
     }
 
     /**
@@ -74,7 +75,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultDeriveConnection, true);
                 width = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
                 calageAngulaire = 0;
-                czCalage=0;
+                czCalage = 0;
                 width = 55;
                 filename = Utils.defaultDeriveFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
@@ -84,7 +85,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultTailConnection, true);
                 width = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
                 calageAngulaire = -0.8f;
-                czCalage=0;
+                czCalage = 0;
                 filename = Utils.defaultTailFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
@@ -94,7 +95,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultWingConnection, true);
                 width = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
                 calageAngulaire = 4;
-                czCalage=0;
+                czCalage = 0;
                 filename = Utils.defaultWingFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 drawableWingSection.add(new DrawableWingSection(4, -7.8f, 40, 200, -3.5f, this));
@@ -110,7 +111,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         width = w.getWidth();
         drawableWingSection = new LinkedList<>();
         calageAngulaire = w.getCalageAngulaire();
-        czCalage=w.getCzAdjustment();
+        czCalage = w.getCzAdjustment();
         filename = w.getFilename();
         for (WingSection ws : w.getWingsSection()) {
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDihedral(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
@@ -183,7 +184,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             previousSweep += ws.getSweep();
             span += 2 * ws.getLenght(); //envergure
         }
-        
+
         area = 2 * areaTemp;  //surface
         meanChord = 2 * meanChordTempCalc / area;  //corde moyenne
         aspectRatio = span * span / area;  //allongement
@@ -253,7 +254,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public int getSize() {
         return drawableWingSection.size();
     }
-    
 
     @Override
     public void setDihedral(float _diedre) {
@@ -399,7 +399,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         this.czCalage = czCalage;
     }
 
-    
     @Override
     public DrawablePoint getFrontPointFrontView() {
         return drawableWingSection.getLast().getFrontPointFrontView();
@@ -420,8 +419,8 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     public double getAspectRatio() {
         return aspectRatio;
     }
-    
-      @Override
+
+    @Override
     public float getSweep() {
         return 0;
     }
