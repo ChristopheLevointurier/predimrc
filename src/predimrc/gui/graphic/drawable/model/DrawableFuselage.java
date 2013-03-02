@@ -34,7 +34,7 @@ import predimrc.model.element.Fuselage;
  */
 public class DrawableFuselage extends DrawableModelElement {
 
-    private float widthY, widthZ, neutralPointRatio = 20;
+    private float widthY, widthZ, neutralPointRatio = 20; //default value for the moment, will be define in fuse.dat
     private float area=0;
     /**
      * *
