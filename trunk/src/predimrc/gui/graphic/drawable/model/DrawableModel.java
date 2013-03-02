@@ -51,7 +51,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private ArrayList<DrawableWing> drawableDerive = new ArrayList<>();
     private DrawableFuselage drawableFuselage;
     private DrawableGravityCenter gravityCenter;
-    private float staticMarginRatio = 3;
+    private float staticMarginRatio = 0.03f;
 
     /**
      * Constructor
