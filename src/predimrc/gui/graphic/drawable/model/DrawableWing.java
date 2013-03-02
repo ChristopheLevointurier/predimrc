@@ -52,6 +52,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     private double area = 0;  //surface
     private double span = 0; //envergure
     private double aspectRatio = 0;  //allongement
+    private double dihedral = 0;  //dièdre
 
     private DrawableWing(USED_FOR _used_for) {
         used_for = _used_for;
@@ -182,6 +183,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
             previousCord = ws.getWidth();
             previousSweep += ws.getSweep();
             span += 2 * ws.getLenght(); //envergure
+            dihedral = ws.getDiedre();
         }
         area = 2 * areaTemp;  //surface
         meanChord = 2 * meanChordTempCalc / area;  //corde moyenne
@@ -417,6 +419,10 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
 
     public double getAspectRatio() {
         return aspectRatio;
+    }
+    
+    public double getDihedral() {
+        return dihedral;
     }
 
     @Override
