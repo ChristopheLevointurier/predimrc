@@ -29,18 +29,18 @@ public class WingSection extends ModelElement {
 
     //position x,y,z of the wing is the front first point.
     //diedre and calageAngulaire are in degree.
-    private float diedre, calageAngulaire;
+    private float dihedral, calageAngulaire;
     private float width, lenght, fleche;
 
     public WingSection() {
         fleche = 0f;
-        diedre = 2f;
+        dihedral = 2f;
         width = 65f;
         lenght = 60f;
     }
 
     public WingSection(String _filename, Dimension3D xyz, float _diedre, float _fleche, float _width, float _lenght, float _calageAngulaire) {
-        diedre = _diedre;
+        dihedral = _diedre;
         fleche = _fleche;
         width = _width;
         lenght = _lenght;
@@ -54,8 +54,8 @@ public class WingSection extends ModelElement {
     /**
      * getters
      */
-    public float getDiedre() {
-        return diedre;
+    public float getDihedral() {
+        return dihedral;
     }
 
     public float getFleche() {
@@ -76,6 +76,6 @@ public class WingSection extends ModelElement {
 
     @Override
     public String toString() {
-        return "\nWingSection  fleche=" + fleche + ", diedre=" + diedre + ", width=" + width + ", lenght=" + lenght + ", calageAngulaire=" + calageAngulaire + super.toString();
+        return "\nWingSection  fleche=" + fleche + ", diedre=" + dihedral + ", width=" + width + ", lenght=" + lenght + ", calageAngulaire=" + calageAngulaire + super.toString();
     }
 }

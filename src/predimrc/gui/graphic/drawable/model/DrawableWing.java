@@ -113,7 +113,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         czCalage=w.getCzAdjustment();
         filename = w.getFilename();
         for (WingSection ws : w.getWingsSection()) {
-            drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDiedre(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
+            drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDihedral(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
         }
         neutralPoint = new DrawableNeutralPoint(this);
         if (filename.equals(Utils.FAKE_FILENAME)) {
@@ -256,7 +256,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     
 
     @Override
-    public void setDiedre(float _diedre) {
+    public void setDihedral(float _diedre) {
         for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
             w.setDiedre(Utils.round(_diedre), true);
         }

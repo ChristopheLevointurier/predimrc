@@ -10,7 +10,7 @@ package predimrc.gui.graphic.drawable.model.abstractClasses;
  */
 public interface AbstractDrawableWing {
 
-    abstract public void setDiedre(float diedre);
+    abstract public void setDihedral(float diedre);
 
     public void setAngle(float currentAngle);
 

@@ -199,7 +199,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         double XDs = stab.getXF() - mainWing.getXF();
         double XDd = fin.getXF() - mainWing.getXF();
         double XDf = (getFuselage().getNeutralPointRatio() / 100) * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
-        double Vs = (XDs * stab.getArea() * Math.cos(stab.get(0).getDiedre() * Math.PI / 180) * Math.cos(stab.get(0).getDiedre() * Math.PI / 180)) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
+        double Vs = (XDs * stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180)) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
         double Aa = mainWing.getAspectRatio() / (2 + mainWing.getAspectRatio());// wing efficiency
         double As = stab.getAspectRatio() / (2 + stab.getAspectRatio());//  stab efficiency
@@ -214,7 +214,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         double E = Vs <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (XDs + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
 
-        double xF = 0.25 + (XDs * stab.getArea() * Math.cos(stab.get(0).getDiedre() * Math.PI / 180) * Math.cos(stab.get(0).getDiedre() * Math.PI / 180) * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * Math.cos(stab.get(0).getDiedre() * Math.PI / 180) * Math.cos(stab.get(0).getDiedre() * Math.PI / 180) * As * (1 - E)));
+        double xF = 0.25 + (XDs * stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * As * (1 - E) - XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * As * (1 - E)));
         XF = mainWing.getXF() + (xF - 0.25) * mainWing.getMeanCord();
         double xCG = xF - staticMarginRatio;
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
