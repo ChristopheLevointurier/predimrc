@@ -275,13 +275,13 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         String diedre = "";
         for (DrawableWingSection w : m.getWings().get(0)) {
-            diedre += "#" + df.format(w.getDiedre());
+            diedre += "#" + df.format(w.getDihedral());
         }
         wingDiedre_label.setValue(diedre);
 
         diedre = "";
         for (DrawableWingSection w : m.getTail().get(0)) {
-            diedre += "#" + df.format(w.getDiedre());
+            diedre += "#" + df.format(w.getDihedral());
         }
         tailDiedre_label.setValue(diedre);
 

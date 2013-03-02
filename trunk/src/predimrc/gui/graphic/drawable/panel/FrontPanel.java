@@ -114,8 +114,8 @@ public class FrontPanel extends DrawablePanel {
             }
         }
 
-        ((DrawableWingSection) selectedPoint.getBelongsTo()).setDiedre(currentDiedre);
-        info.setDetailedInfo(" diedre : " + ((DrawableWingSection) selectedPoint.getBelongsTo()).getDiedre());
+        ((DrawableWingSection) selectedPoint.getBelongsTo()).setDihedral(currentDiedre);
+        info.setDetailedInfo(" diedre : " + ((DrawableWingSection) selectedPoint.getBelongsTo()).getDihedral());
     }
 
     @Override
