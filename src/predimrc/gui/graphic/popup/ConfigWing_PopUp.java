@@ -54,7 +54,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                 Dimension3D pos = Utils.getRefPos(drawableBelongsTo.getPositionDimension3D());
                 xposLabel.setValue("" + pos.getX());
                 yposLabel.setValue("" + pos.getY());
-                zposLabel.setValue("" + pos.getZ());
+                zposLabel.setValue("" + (-pos.getZ()));
 
 
 
@@ -74,7 +74,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                     public void actionPerformed(ActionEvent e) {
                         ((DrawableWing) drawableBelongsTo).setAngle(angleLabel.getFloatValue());
                         drawableBelongsTo.setFilename(fileLabel.getValue());
-                        drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), zposLabel.getFloatValue())), true);
+                        drawableBelongsTo.setPosXYZ(Utils.getWorldPos(new Dimension3D(xposLabel.getFloatValue(), yposLabel.getFloatValue(), -zposLabel.getFloatValue())), true);
                         ModelController.applyChange();
                         dispose();
                     }
