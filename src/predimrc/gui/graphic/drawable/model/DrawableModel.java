@@ -51,6 +51,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private ArrayList<DrawableWing> drawableDerive = new ArrayList<>();
     private DrawableFuselage drawableFuselage;
     private DrawableGravityCenter gravityCenter;
+    private DrawableGravityCenter gravityCenterLeft;
     private float staticMarginRatio = 0.03f;
 
     /**
@@ -71,7 +72,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         }
         drawableFuselage = new DrawableFuselage(me.getFuselage(), this);
         staticMarginRatio = me.getStaticMargin();
-        gravityCenter = new DrawableGravityCenter(100, 100, this);
+        gravityCenter = new DrawableGravityCenter(this, VIEW_TYPE.TOP_VIEW);
+        gravityCenterLeft = new DrawableGravityCenter(this, VIEW_TYPE.LEFT_VIEW);
     }
 
     /**
@@ -85,7 +87,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableTail.add(new DrawableWing(USED_FOR.HORIZONTAL_PLAN, this));
         drawableDerive.add(new DrawableWing(USED_FOR.VERTICAL_PLAN, this));
         drawableFuselage = new DrawableFuselage(this);
-        gravityCenter = new DrawableGravityCenter(100, 100, this);
+        gravityCenter = new DrawableGravityCenter(this, VIEW_TYPE.TOP_VIEW);
+        gravityCenterLeft = new DrawableGravityCenter(this, VIEW_TYPE.LEFT_VIEW);
     }
 
     protected final DefaultStyledDocument initDocument() {
@@ -219,6 +222,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         double xCG = xF - staticMarginRatio;
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
+        gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
+
     }
 
     public void setFuseOnOff(boolean on) {
@@ -323,6 +328,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         if (view.equals(VIEW_TYPE.TOP_VIEW)) {
             gravityCenter.draw(g);
         }
+        if (view.equals(VIEW_TYPE.LEFT_VIEW)) {
+            gravityCenterLeft.draw(g);
+        }
     }
 
     @Override
@@ -336,6 +344,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         }
         if (view.equals(VIEW_TYPE.TOP_VIEW)) {
             ret.add(gravityCenter);
+        }
+        if (view.equals(VIEW_TYPE.LEFT_VIEW)) {
+            ret.add(gravityCenterLeft);
         }
         return ret;
     }

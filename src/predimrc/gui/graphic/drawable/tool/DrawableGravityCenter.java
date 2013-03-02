@@ -33,20 +33,17 @@ import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
  */
 public class DrawableGravityCenter extends DrawablePoint {
 
-    public DrawableGravityCenter(DrawableModelElement _belongsTo) {
-        super(0, 0, _belongsTo, VIEW_TYPE.TOP_VIEW);
+    public DrawableGravityCenter(DrawableModelElement _belongsTo,VIEW_TYPE _view) {
+        super(0, 0, _belongsTo, _view);
     }
 
-    public DrawableGravityCenter(float _x, float _y, DrawableModelElement _belongsTo) {
-        super(_x, _y, _belongsTo, VIEW_TYPE.TOP_VIEW);
-    }
+  
 
     @Override
     public DrawableGravityCenter getMirror() {
         return this;
     }
 
-    @Override
     public void draw(Graphics2D g) {
         if (!UserConfig.viewCG) {
             return;
@@ -57,11 +54,14 @@ public class DrawableGravityCenter extends DrawablePoint {
             g.setColor(Utils.USED_FOR.DEFAULT.getColor());
         }
 
+
         g.setStroke(new BasicStroke(1));
         int neutralYpos = (int) (getDrawCoordY());
         g.drawOval(getDrawCoordX() - 8, neutralYpos - 8, 16, 16);
         g.fillArc(getDrawCoordX() - 8, neutralYpos - 8, 16, 16, -90, 90);
         g.fillArc(getDrawCoordX() - 8, neutralYpos - 8, 16, 16, 90, 90);
+
+
     }
 
     @Override
