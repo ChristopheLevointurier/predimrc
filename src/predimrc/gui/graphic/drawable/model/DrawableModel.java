@@ -195,9 +195,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         DrawableWing mainWing = getWings().get(0);
         DrawableWing stab = getTail().get(0);
 
-        //DrawableWing fin =  getDerive().get(0); //todo if winglet it will fail!
+        DrawableWing fin = getDerive().size() > 0 ? getDerive().get(0) : DrawableWing.MakeEmptyWing(USED_FOR.VERTICAL_PLAN); //todo if winglet it will fail!
         double XDs = stab.getXF() - mainWing.getXF();
-        // double XDd = fin.getXF() - mainWing.getXF();
+        double XDd = fin.getXF() - mainWing.getXF();
         double XDf = (getFuselage().getNeutralPointRatio() / 100) * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
         double Vs = (XDs * stab.getArea() * Math.cos(stab.getDihedral() * Math.PI / 180) * Math.cos(stab.getDihedral() * Math.PI / 180)) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
