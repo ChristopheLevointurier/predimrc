@@ -31,7 +31,7 @@ import predimrc.gui.widget.MegaLabel;
 public class ConfigModel_PopUp extends ConfigPopUp {
 
     private DrawableModel drawableBelongsTo;
-    private MegaLabel margeLabel = new MegaLabel("Static Margin:", true);
+    private MegaLabel margeLabel = new MegaLabel("Static Margin(%):", true);
 
     public ConfigModel_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("Model Configuration", _usedfor);
@@ -40,13 +40,13 @@ public class ConfigModel_PopUp extends ConfigPopUp {
 
         switch (usedFor) {
             case CG_POINT: {
-                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getStaticMarginRatio());
+                margeLabel.setValue("" + drawableBelongsTo.getBelongsTo().getStaticMarginRatio()*100);
                 widgets.add(margeLabel);
 
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        drawableBelongsTo.setStaticMarginRatio(margeLabel.getFloatValue());
+                        drawableBelongsTo.setStaticMarginRatio(margeLabel.getFloatValue()/100);
                         ModelController.applyChange();
                         dispose();
                     }
