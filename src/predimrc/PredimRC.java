@@ -90,7 +90,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.74";
+    private static final String VERSION = "Alpha 0.76";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -100,11 +100,11 @@ public class PredimRC extends JFrame {
     /**
      * menu
      */
-    private static JButton aboutbut, help, savebut;
+    private static JButton aboutbut, help, savebut, logbut;
     private static JMenuItem savetarget, opentarget, save;
     private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStab;
     private static JMenuItem quit, openConfigRep;
-    private static JToggleButton logbut, modelNoteBut, the3DViewButton;
+    private static JToggleButton modelNoteBut, the3DViewButton;
     // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
     //  public static long threadsCount = 0;
     private static PredimRC instance;
@@ -152,11 +152,15 @@ public class PredimRC extends JFrame {
         drawableModel = new DrawableModel();
         mainView = new MainView();
         configView = new ConfigView();
-        aboutbut = new JButton("About...");
-        savebut = new JButton(getImageIcon("harddisk.jpg"));
-        the3DViewButton = new JToggleButton("3D View");
-        help = new JButton("Help!");
-        logbut = new JToggleButton("log", false);
+        aboutbut = new JButton(getImageIcon("info.png"));
+        aboutbut.setToolTipText("About...");
+        savebut = new JButton(getImageIcon("disk.png"));
+        savebut.setToolTipText("Save on disk");
+        the3DViewButton = new JToggleButton(getImageIcon("3d.png"));
+        the3DViewButton.setToolTipText("3 Dimension View");
+        help = new JButton(getImageIcon("help.png"));
+        help.setToolTipText("Help(link to internet)");
+        logbut = new JButton("log");
         modelNoteBut = new JToggleButton(getImageIcon("note.png"), false);
         save = new JMenuItem("Save model");
         savetarget = new JMenuItem("Save model...");
@@ -209,7 +213,6 @@ public class PredimRC extends JFrame {
         menu.add(editmenu);
         menu.add(modelNoteBut);
         menu.add(the3DViewButton);
-        menu.add(logbut);
         menu.add(savebut);
         menu.add(help);
         menu.add(aboutbut);
@@ -252,94 +255,6 @@ public class PredimRC extends JFrame {
 
 
 
-
-        logbut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!logbut.isSelected()) {
-                    logbut.setSelected(true);
-                    return;
-                }
-                // setAlwaysOnTop(false);
-                final JFrame d = new JFrame("Log de l'exécution");
-                final JTextArea tf = new JTextArea(log.toString(), 45, 55);
-                d.setLayout(new BorderLayout());
-                JScrollPane ts = new JScrollPane(tf, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                d.add(ts, BorderLayout.NORTH);
-                JPanel bout = new JPanel();
-                bout.setLayout(new BorderLayout());
-                JButton clearr = new JButton("Clear");
-                JButton refr = new JButton("Refresh");
-                final JButton temp = new JButton("Close");
-                bout.add(clearr, BorderLayout.WEST);
-                bout.add(temp, BorderLayout.CENTER);
-                bout.add(refr, BorderLayout.EAST);
-                d.add(bout, BorderLayout.SOUTH);
-                d.pack();
-                d.setResizable(false);
-                ts.updateUI();
-                d.setLocationRelativeTo(null);
-                d.setVisible(true);
-                //  d.setAlwaysOnTop(true);
-                d.requestFocusInWindow();
-                d.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent keyEvent) {
-                        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            temp.doClick();
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                    }
-                });
-                temp.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        {
-                            logbut.setSelected(false);
-                            d.dispose();
-                            //      setAlwaysOnTop(true);
-                        }
-                    }
-                });
-
-                clearr.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        {
-                            log = new StringBuffer();
-                            tf.setText(log.toString());
-                        }
-                    }
-                });
-
-                refr.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        {
-                            tf.setText(log.toString());
-                        }
-                    }
-                });
-
-
-                d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                d.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(final WindowEvent e) {
-                        logbut.setSelected(false);
-                        d.dispose();
-                        //        setAlwaysOnTop(true);
-                    }
-                });
-            }
-        });
 
         opentarget.addActionListener(new ActionListener() {
             @Override
@@ -435,9 +350,87 @@ public class PredimRC extends JFrame {
         aboutbut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //  setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, VERSION, "PredimRC", JOptionPane.WARNING_MESSAGE, new ImageIcon(icon));
-                //   setAlwaysOnTop(true);
+
+                Object[] options = {"OK", "View log"};
+                int ret = JOptionPane.showOptionDialog(null, "PredimRC project\n  V " + VERSION + "\n\nhttps://code.google.com/p/predimrc/", "About",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                        null, options, options[0]);
+                if (ret == 1) {
+                    final JFrame d = new JFrame("Log de l'exécution");
+                    final JTextArea tf = new JTextArea(log.toString(), 45, 55);
+                    d.setLayout(new BorderLayout());
+                    JScrollPane ts = new JScrollPane(tf, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    d.add(ts, BorderLayout.NORTH);
+                    JPanel bout = new JPanel();
+                    bout.setLayout(new BorderLayout());
+                    JButton clearr = new JButton("Clear");
+                    JButton refr = new JButton("Refresh");
+                    final JButton temp = new JButton("Close");
+                    bout.add(clearr, BorderLayout.WEST);
+                    bout.add(temp, BorderLayout.CENTER);
+                    bout.add(refr, BorderLayout.EAST);
+                    d.add(bout, BorderLayout.SOUTH);
+                    d.pack();
+                    d.setResizable(false);
+                    ts.updateUI();
+                    d.setLocationRelativeTo(null);
+                    d.setVisible(true);
+                    //  d.setAlwaysOnTop(true);
+                    d.requestFocusInWindow();
+                    d.addKeyListener(new KeyListener() {
+                        @Override
+                        public void keyTyped(KeyEvent e) {
+                        }
+
+                        @Override
+                        public void keyPressed(KeyEvent keyEvent) {
+                            if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                                temp.doClick();
+                            }
+                        }
+
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                        }
+                    });
+                    temp.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            {
+                                d.dispose();
+                            }
+                        }
+                    });
+
+                    clearr.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            {
+                                log = new StringBuffer();
+                                tf.setText(log.toString());
+                            }
+                        }
+                    });
+
+                    refr.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            {
+                                tf.setText(log.toString());
+                            }
+                        }
+                    });
+
+
+                    d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    d.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(final WindowEvent e) {
+                            d.dispose();
+
+                        }
+                    });
+                }
             }
         });
 
