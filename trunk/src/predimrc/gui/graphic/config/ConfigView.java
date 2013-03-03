@@ -76,7 +76,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
     private MegaLabel wingCalage_label = makeLabel("Calage aile");
-    private MegaLabel wingRecommandedForCz_label = makeLabel("Angle of wing for Cz:");
+    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle for Cz -->");
     private MegaLabel wingIncidence_label = makeLabel("Incidence wing");
     /**
      * Labels for tail data
