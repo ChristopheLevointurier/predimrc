@@ -85,7 +85,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
             case BACK_POINT: {
                 angleLabel.setValue("" + drawableBelongsTo.getAngle());
                 widthLabel.setValue("" + drawableBelongsTo.getWidth());
-                czLabel.setValue("" + drawableBelongsTo.getBelongsTo().getCzCalage());
+                czLabel.setValue("" + drawableBelongsTo.getBelongsTo().getCzAdjustment());
                 widgets.add(angleLabel);
                 widgets.add(widthLabel);
                 if (drawableBelongsTo.getUsedFor().equals(USED_FOR.MAIN_WING)) {
@@ -96,7 +96,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setWidth(widthLabel.getFloatValue());
                         drawableBelongsTo.setAngle(angleLabel.getFloatValue());
-                        drawableBelongsTo.getBelongsTo().setCzCalage(czLabel.getFloatValue());
+                        drawableBelongsTo.getBelongsTo().setCzAdjustment(czLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }

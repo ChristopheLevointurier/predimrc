@@ -43,7 +43,7 @@ public class Model extends ModelElement implements Serializable {
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
     private float staticMargin;
-    private float czCalage;
+    private float czAdjustment;
 
     public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage, float _czCalage) {
         name = _name;
@@ -54,7 +54,7 @@ public class Model extends ModelElement implements Serializable {
         fuselage = _fuselage;
         filename = _filename;
         staticMargin = _margeStatiqueDeCentrage;
-        czCalage = _czCalage;
+        czAdjustment = _czCalage;
     }
 
     /**
@@ -92,12 +92,12 @@ public class Model extends ModelElement implements Serializable {
         this.staticMargin = staticMargin;
     }
 
-    public float getCzCalage() {
-        return czCalage;
+    public float getCzAdjustment() {
+        return czAdjustment;
     }
 
-    public void setCzCalage(float czCalage) {
-        this.czCalage = czCalage;
+    public void setCzAdjustment(float czAdjustment) {
+        this.czAdjustment = czAdjustment;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class Model extends ModelElement implements Serializable {
         ret.append(", -->Tails:").append(tail.size());
         ret.append(",Derive:").append(derive.size());
         ret.append(",statiqueMargin:").append(staticMargin);
-        ret.append(",CzAdjutment:").append(czCalage);
+        ret.append(",CzAdjutment:").append(czAdjustment);
         return ret.toString();
     }
 
@@ -131,7 +131,7 @@ public class Model extends ModelElement implements Serializable {
             ret.append(w.toStringAll());
         }
         ret.append(",statiqueMargin:").append(staticMargin);
-        ret.append(",CzAdjutment:").append(czCalage);
+        ret.append(",CzAdjutment:").append(czAdjustment);
         ret.append("\n*****NOTE****\n").append(note);
         ret.append("\n*************\n\n");
         return ret.toString();
