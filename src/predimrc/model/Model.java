@@ -43,8 +43,9 @@ public class Model extends ModelElement implements Serializable {
     private ArrayList<Wing> derive;
     private Fuselage fuselage;
     private float staticMargin;
+    private float czCalage;
 
-    public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage) {
+    public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage, float _czCalage) {
         name = _name;
         note = _note;
         wings = _wings;
@@ -53,7 +54,7 @@ public class Model extends ModelElement implements Serializable {
         fuselage = _fuselage;
         filename = _filename;
         staticMargin = _margeStatiqueDeCentrage;
-
+        czCalage = _czCalage;
     }
 
     /**
@@ -91,6 +92,14 @@ public class Model extends ModelElement implements Serializable {
         this.staticMargin = staticMargin;
     }
 
+    public float getCzCalage() {
+        return czCalage;
+    }
+
+    public void setCzCalage(float czCalage) {
+        this.czCalage = czCalage;
+    }
+
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder("Model:");
@@ -99,7 +108,8 @@ public class Model extends ModelElement implements Serializable {
         ret.append(", -->Wings:").append(wings.size());
         ret.append(", -->Tails:").append(tail.size());
         ret.append(",Derive:").append(derive.size());
-        ret.append(",margeStatiqueDeCentrage:").append(staticMargin);
+        ret.append(",statiqueMargin:").append(staticMargin);
+        ret.append(",CzAdjutment:").append(czCalage);
         return ret.toString();
     }
 
@@ -120,7 +130,8 @@ public class Model extends ModelElement implements Serializable {
         for (Wing w : derive) {
             ret.append(w.toStringAll());
         }
-        ret.append(",margeStatiqueDeCentrage:").append(staticMargin);
+        ret.append(",statiqueMargin:").append(staticMargin);
+        ret.append(",CzAdjutment:").append(czCalage);
         ret.append("\n*****NOTE****\n").append(note);
         ret.append("\n*************\n\n");
         return ret.toString();

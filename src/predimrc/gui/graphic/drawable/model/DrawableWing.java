@@ -44,7 +44,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     }
     private LinkedList<DrawableWingSection> drawableWingSection = new LinkedList<>();
     private float calageAngulaire = 0f;
-    private float czCalage = 0f;
     /**
      * aerodynamics caracs
      */
@@ -75,7 +74,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultDeriveConnection, true);
                 width = Utils.DEFAULT_DERIVE_WING_WIDTH_VALUE;
                 calageAngulaire = 0;
-                czCalage = 0;
                 width = 55;
                 filename = Utils.defaultDeriveFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
@@ -85,7 +83,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultTailConnection, true);
                 width = Utils.DEFAULT_TAIL_WING_WIDTH_VALUE;
                 calageAngulaire = -0.8f;
-                czCalage = 0;
                 filename = Utils.defaultTailFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 break;
@@ -95,7 +92,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
                 setPosXYZ(Utils.defaultWingConnection, true);
                 width = Utils.DEFAULT_MAIN_WING_WIDTH_VALUE;
                 calageAngulaire = 4;
-                czCalage = 0;
                 filename = Utils.defaultWingFoil;
                 drawableWingSection.add(new DrawableWingSection(getPositionDimension3D(), this));
                 drawableWingSection.add(new DrawableWingSection(4, -7.8f, 40, 200, -3.5f, this));
@@ -111,7 +107,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         width = w.getWidth();
         drawableWingSection = new LinkedList<>();
         calageAngulaire = w.getCalageAngulaire();
-        czCalage = w.getCzAdjustment();
         filename = w.getFilename();
         for (WingSection ws : w.getWingsSection()) {
             drawableWingSection.add(new DrawableWingSection(ws.getPositionDimension3D(), ws.getDihedral(), ws.getFleche(), ws.getWidth(), ws.getLenght(), ws.getCalageAngulaire(), this));
@@ -365,7 +360,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection ws : this) {
             wsl.add(ws.generateModel());
         }
-        return new Wing(filename, used_for, getPositionDimension3D(), width, calageAngulaire, czCalage, wsl);
+        return new Wing(filename, used_for, getPositionDimension3D(), width, calageAngulaire, wsl);
     }
 
     @Override
@@ -389,14 +384,6 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
     @Override
     public float getAngle() {
         return calageAngulaire;
-    }
-
-    public float getCzCalage() {
-        return czCalage;
-    }
-
-    public void setCzCalage(float czCalage) {
-        this.czCalage = czCalage;
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import predimrc.common.Dimension3D;
 import predimrc.common.Utils;
+import predimrc.common.Utils.USED_FOR;
 import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableWing;
 import predimrc.gui.graphic.drawable.model.abstractClasses.DrawableModelElement;
@@ -84,16 +85,18 @@ public class ConfigWing_PopUp extends ConfigPopUp {
             case BACK_POINT: {
                 angleLabel.setValue("" + drawableBelongsTo.getAngle());
                 widthLabel.setValue("" + drawableBelongsTo.getWidth());
-                czLabel.setValue("" + drawableBelongsTo.getCzCalage());
+                czLabel.setValue("" + drawableBelongsTo.getBelongsTo().getCzCalage());
                 widgets.add(angleLabel);
                 widgets.add(widthLabel);
-                widgets.add(czLabel);
+                if (drawableBelongsTo.getUsedFor().equals(USED_FOR.MAIN_WING)) {
+                    widgets.add(czLabel);
+                }
                 okBut.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         drawableBelongsTo.setWidth(widthLabel.getFloatValue());
                         drawableBelongsTo.setAngle(angleLabel.getFloatValue());
-                        drawableBelongsTo.setCzCalage(czLabel.getFloatValue());
+                        drawableBelongsTo.getBelongsTo().setCzCalage(czLabel.getFloatValue());
                         ModelController.applyChange();
                         dispose();
                     }

@@ -34,16 +34,14 @@ public class Wing extends ModelElement {
     private USED_FOR used_for;
     private float width;
     private float calageAngulaire;
-    private float czAdjustment;
 
-    public Wing(String _filename, USED_FOR _used_for, Dimension3D xyz, float _width, float _calageAngulaire, float _czAdjustment, LinkedList<WingSection> _wingsSection) {
+    public Wing(String _filename, USED_FOR _used_for, Dimension3D xyz, float _width, float _calageAngulaire, LinkedList<WingSection> _wingsSection) {
         used_for = _used_for;
         width = _width;
         xPos = xyz.getX();
         yPos = xyz.getY();
         zPos = xyz.getZ();
         calageAngulaire = _calageAngulaire;
-        czAdjustment = _czAdjustment;
         wingsSection = _wingsSection;
         filename = _filename;
     }
@@ -66,12 +64,6 @@ public class Wing extends ModelElement {
     public float getCalageAngulaire() {
         return calageAngulaire;
     }
-
-    public float getCzAdjustment() {
-        return czAdjustment;
-    }
-    
-    
 
     @Override
     public String toString() {
