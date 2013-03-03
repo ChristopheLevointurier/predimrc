@@ -53,7 +53,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private DrawableGravityCenter gravityCenter;
     private DrawableGravityCenter gravityCenterLeft;
     private float staticMarginRatio = 0.03f;
-    private float czCalage = 0f;
+    private float czAdjustment = 0f;
 
     /**
      * Constructor
@@ -75,7 +75,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         staticMarginRatio = me.getStaticMargin();
         gravityCenter = new DrawableGravityCenter(this, VIEW_TYPE.TOP_VIEW);
         gravityCenterLeft = new DrawableGravityCenter(this, VIEW_TYPE.LEFT_VIEW);
-        czCalage = me.getCzCalage();
+        czAdjustment = me.getCzAdjustment();
 
     }
 
@@ -183,12 +183,12 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         staticMarginRatio = Utils.round(_margeStatiqueDeCentrage);
     }
 
-    public float getCzCalage() {
-        return czCalage;
+    public float getCzAdjustment() {
+        return czAdjustment;
     }
 
-    public void setCzCalage(float czCalage) {
-        this.czCalage = czCalage;
+    public void setCzAdjustment(float czAdjustment) {
+        this.czAdjustment = czAdjustment;
     }
 
     /**
@@ -375,7 +375,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czCalage);
+        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czAdjustment);
     }
 
     @Override

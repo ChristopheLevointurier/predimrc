@@ -312,7 +312,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         airFoil_label.setValue("" + m.getWings().get(0).getFilename());
         wingratio_label.setValue("" + Utils.round(m.getWings().get(0).getAspectRatio()));
         wingcorde_label.setValue("" + Utils.round(m.getWings().get(0).getMeanCord()));
-        wingCzCalage_label.setValue("" + Utils.round(m.getCzCalage()));
+        wingCzCalage_label.setValue("" + Utils.round(m.getCzAdjustment()));
         staticMargin_label.setValue("" + Utils.round(m.getStaticMarginRatio() * 100));
         wingRecommandedForCz_label.setValue("...");
         stabspan_label.setValue("" + Utils.round(m.getTail().get(0).getSpan()));
