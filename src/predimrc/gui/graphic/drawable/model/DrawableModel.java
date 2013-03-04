@@ -54,6 +54,15 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private DrawableGravityCenter gravityCenterLeft;
     private float staticMarginRatio = 0.03f;
     private float czAdjustment = 0f;
+    private float cm0 = 0f;
+    private float alpha0a = 0f;
+    private float alpha0s = 0f;
+    /**
+     * * computed values *
+     */
+    private double czAStab = 0f;
+    private double alphaWing = 0f;
+    private double alphaStab = 0f;
 
     /**
      * Constructor
@@ -191,6 +200,54 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         this.czAdjustment = czAdjustment;
     }
 
+    public float getCm0() {
+        return cm0;
+    }
+
+    public void setCm0(float cm0) {
+        this.cm0 = cm0;
+    }
+
+    public float getAlpha0a() {
+        return alpha0a;
+    }
+
+    public void setAlpha0a(float alpha0a) {
+        this.alpha0a = alpha0a;
+    }
+
+    public float getAlpha0s() {
+        return alpha0s;
+    }
+
+    public void setAlpha0s(float alpha0s) {
+        this.alpha0s = alpha0s;
+    }
+
+    public double getCzAStab() {
+        return czAStab;
+    }
+
+    public void setCzAStab(double czAStab) {
+        this.czAStab = czAStab;
+    }
+
+    public double getAlphaWing() {
+        return alphaWing;
+    }
+
+    public void setAlphaWing(double alphaWing) {
+        this.alphaWing = alphaWing;
+    }
+
+    public double getAlphaStab() {
+        return alphaStab;
+    }
+
+    public void setAlphaStab(double alphaStab) {
+        this.alphaStab = alphaStab;
+    }
+
     /**
      * Compute methods
      */
@@ -235,6 +292,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
         gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
 
+        alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
+        czAStab = (czAdjustment * (xCG - 0.25f) + cm0) / Vs;
+        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s;
     }
 
     public void setFuseOnOff(boolean on) {
