@@ -19,10 +19,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import javagl.jglcore.JGL_3DMesh;
 import javagl.jglcore.JGL_3DTriangle;
 import javagl.jglcore.JGL_3DVector;
+import predimrc.PredimRC;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
@@ -70,13 +75,14 @@ public class Utils {
         double y = center.getY() + radius * Math.sin(angleRad);
         return new Point2D.Float((float) x, (float) y);
     }
-    
+
     /**
      * return the point on circle with y value on the west side
+     *
      * @param center
      * @param yValue
      * @param radius
-     * @return 
+     * @return
      */
     public static double getCoordXOnCircleWithY(DrawablePoint center, float yValue, float radius) {
         if (radius == 0) {
@@ -219,5 +225,50 @@ public class Utils {
 
     public static float round(float in) {
         return (float) (Math.round(in * 100.0) / 100.0);
+    }
+
+    public static ArrayList<Point2D.Float> load2DPoints(String file) {
+        ArrayList<Point2D.Float> points = new ArrayList<>();
+        if (file.toLowerCase().endsWith(".dat")) {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
+                String line;
+                try {
+                    PredimRC.logln("opening" + file + ":" + reader.readLine());
+                    while ((line = reader.readLine()) != null) {
+                        float f1 = 0f, f2 = 0f;
+                        int cpt = 0;
+                        String[] data = line.split(" ");
+                        for (String d : data) {
+                            if (d.length() > 0) {
+                                f1 = cpt == 0 ? Float.parseFloat(d) : f1;
+                                f2 = cpt == 1 ? Float.parseFloat(d) : f2;
+                                if (cpt > 1) {
+                                    PredimRC.logDebugln("dropped string:" + d);
+                                    cpt++;
+                                }
+                            }
+
+                        }
+                        if (cpt > 1) {
+                            PredimRC.logDebugln("new point:(" + f1 + "," + f2);
+                            points.add(new Point2D.Float(f1, f2));
+                        }
+                    }
+
+                    PredimRC.logDebugln("points amount:" + points.size());
+
+                } catch (IOException ex) {
+                    predimrc.PredimRC.log("IOException:" + ex.getLocalizedMessage());
+                } catch (NumberFormatException ex) {
+                    predimrc.PredimRC.log("NumberFormatException, non data line in file:" + ex.getLocalizedMessage());
+                } finally {
+                    reader.close();
+                }
+            } catch (IOException | NullPointerException ex) {
+                predimrc.PredimRC.log("IOException|NullPointerException:" + ex.getLocalizedMessage());
+            }
+        }
+        return points;
     }
 }
