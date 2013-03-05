@@ -84,19 +84,22 @@ public class PredimRC extends JFrame {
     /**
      * consts
      */
-    public static boolean initDone = false;
     private static final String externalRefDoc = "https://code.google.com/p/predimrc/downloads/detail?name=CDC_PredimRc.pdf&can=2&q=";
     private static final String DEFAULT_KEY_VALUE = "Unknown Key - Old version file problem";
     private static final String FILE_EXTENSION = "predimodel";
-    final static float dash1[] = {10.0f};
+    private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.76";
+    private static final String VERSION = "Alpha 0.77";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
     private static final boolean DEBUG_MODE = true;
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
+    /**
+     * flag
+     */
+    public static boolean initDone = false;
     /**
      * menu
      */
