@@ -229,6 +229,8 @@ public class Utils {
 
     public static ArrayList<DrawablePoint> loadDrawablePoints(String file, VIEW_TYPE view) {
         ArrayList<DrawablePoint> points = new ArrayList<>();
+        float maxX = 0.0000001f, maxY = 0.000000001f, minX = 1f, minY = 1f;
+
         if (file.toLowerCase().endsWith(".dat")) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
@@ -247,6 +249,10 @@ public class Utils {
                                 if (cpt > 1) {
                                     PredimRC.logDebugln("dropped string:" + d);
                                 }
+                                minX = f1 < minX ? f1 : minX;
+                                minY = f2 < minY ? f2 : minY;
+                                maxX = f1 > maxX ? f1 : maxX;
+                                maxY = f2 > maxY ? f2 : maxY;
                                 cpt++;
                             }
                         }
@@ -255,6 +261,19 @@ public class Utils {
                             points.add(new DrawablePoint(f1, f2, view));
                         }
                     }
+                    //moving to 0,0
+                    for (DrawablePoint p : points) {
+                        p.setFloatX(p.getFloatX() - minX);
+                        p.setFloatY(p.getFloatY() - minY);
+                    }
+                    maxX -= minX;
+                    maxY -= minY;
+                    //scalling to 1,1
+                    for (DrawablePoint p : points) {
+                        p.setFloatX(p.getFloatX() * (1 / maxX));
+                        p.setFloatY(p.getFloatY() * (1 / maxY));
+                    }
+
                     PredimRC.logDebugln("points amount:" + points.size());
                 } catch (IOException ex) {
                     predimrc.PredimRC.logln("IOException:" + ex.getLocalizedMessage());
@@ -266,6 +285,10 @@ public class Utils {
             } catch (IOException | NullPointerException ex) {
                 predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + " \n" + ex.getLocalizedMessage());
             }
+
+
+
+
         }
         return points;
     }
