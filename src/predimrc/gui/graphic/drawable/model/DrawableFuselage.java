@@ -35,7 +35,7 @@ import predimrc.model.element.Fuselage;
 public class DrawableFuselage extends DrawableModelElement {
 
     private float widthY, widthZ, neutralPointRatio = 20; //default value for the moment, will be define in fuse.dat
-    private float area=0;
+    private float area = 0;
     /**
      * *
      * Front view points
@@ -53,18 +53,19 @@ public class DrawableFuselage extends DrawableModelElement {
      */
     private DrawablePoint sidePointLeftView;
     private DrawablePoint mirrorSidePointLeftView;
+    private ArrayList<DrawablePoint> shapeTop;
+    private ArrayList<DrawablePoint> shapeLeft;
+    private ArrayList<DrawablePoint> scalledShapeTop;
+    private ArrayList<DrawablePoint> scalledShapeLeft;
 
     public DrawableFuselage(Fuselage f, DrawableModel _belongsTo) {
         super(f.getPositionDimension3D(), _belongsTo);
         width = f.getLength();
         widthY = f.getWidthY();
         widthZ = f.getWidthZ();
-        filename = f.getFilename();
+        setFilename(f.getFilename());
         used_for = Utils.USED_FOR.FUSELAGE;
         neutralPointRatio = f.getNeutralPointRatio();
-        if (filename.equals(Utils.FAKE_FILENAME)) {
-            fake = true;
-        }
     }
 
     public DrawableFuselage(DrawableModel _belongsTo) {
@@ -74,7 +75,7 @@ public class DrawableFuselage extends DrawableModelElement {
         widthZ = 26;
         used_for = Utils.USED_FOR.FUSELAGE;
         setPosXYZ(Utils.defaultFuselageNose, false);
-        filename = "fuse";
+        setFilename("fuse");
     }
 
     public static DrawableFuselage makeFake() {
@@ -88,7 +89,7 @@ public class DrawableFuselage extends DrawableModelElement {
         used_for = Utils.USED_FOR.FUSELAGE;
         setPosXYZ(Utils.defaultFuselageNose, false);
         fake = true;
-        filename = Utils.FAKE_FILENAME;
+        setFilename(Utils.FAKE_FILENAME);
     }
 
     /**
@@ -150,6 +151,21 @@ public class DrawableFuselage extends DrawableModelElement {
         }
         neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * (getNeutralPointRatio() / 100) + getxPos()); //foyer
 
+
+
+        if (shapeTop.size() > 0) {
+            scalledShapeTop = new ArrayList<>();
+            for (DrawablePoint p : shapeTop) {
+                scalledShapeTop.add(new DrawablePoint(p.getFloatY() * widthY + getyPos() - widthY / 2, p.getFloatX() * width + getxPos(), VIEW_TYPE.TOP_VIEW));
+            }
+        }
+
+        if (shapeLeft.size() > 0) {
+            scalledShapeLeft = new ArrayList<>();
+            for (DrawablePoint p : shapeLeft) {
+                scalledShapeLeft.add(new DrawablePoint(p.getFloatX() * width + getxPos(), p.getFloatY() * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.LEFT_VIEW));
+            }
+        }
     }
 
     @Override
@@ -224,6 +240,8 @@ public class DrawableFuselage extends DrawableModelElement {
 
             case TOP_VIEW: {
                 g.setStroke(new BasicStroke(2));
+                shapeRender(g, scalledShapeTop);
+                g.setStroke(predimrc.PredimRC.dashed);
                 g.drawLine(sidePointTopView.getDrawCoordX(), frontPointTopView.getDrawCoordY(), sidePointTopView.getMirror().getDrawCoordX(), frontPointTopView.getDrawCoordY());
                 g.drawLine(sidePointTopView.getDrawCoordX(), frontPointTopView.getDrawCoordY(), sidePointTopView.getDrawCoordX(), backPointTopView.getDrawCoordY());
                 g.drawLine(sidePointTopView.getMirror().getDrawCoordX(), frontPointTopView.getDrawCoordY(), sidePointTopView.getMirror().getDrawCoordX(), backPointTopView.getDrawCoordY());
@@ -232,12 +250,37 @@ public class DrawableFuselage extends DrawableModelElement {
             }
             case LEFT_VIEW: {
                 g.setStroke(new BasicStroke(2));
+                shapeRender(g, scalledShapeLeft);
+                g.setStroke(predimrc.PredimRC.dashed);
                 g.drawLine(frontPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY(), frontPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY());
                 g.drawLine(frontPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY());
                 g.drawLine(backPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), mirrorSidePointLeftView.getDrawCoordY());
                 g.drawLine(frontPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY(), backPointLeftView.getDrawCoordX(), sidePointLeftView.getDrawCoordY());
                 break;
             }
+        }
+    }
+
+    private void shapeRender(Graphics2D g, ArrayList<DrawablePoint> scalledShape) {
+        if (scalledShape.size() > 0) {
+            DrawablePoint temp = scalledShape.get(scalledShape.size() - 1);
+            for (DrawablePoint p : scalledShape) {
+                g.drawLine(temp.getDrawCoordX(), temp.getDrawCoordY(), p.getDrawCoordX(), p.getDrawCoordY());
+                temp = p;
+            }
+        }
+    }
+
+    @Override
+    public final void setFilename(String file) {
+        filename = file;
+        if (filename.equals(Utils.FAKE_FILENAME)) {
+            fake = true;
+            shapeTop = new ArrayList<>();
+            shapeLeft = new ArrayList<>();
+        } else {
+            shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW);
+            shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW);
         }
     }
 
@@ -297,7 +340,4 @@ public class DrawableFuselage extends DrawableModelElement {
     public void setArea(float area) {
         this.area = area;
     }
-
-    
-    
 }
