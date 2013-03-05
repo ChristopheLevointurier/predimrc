@@ -165,6 +165,7 @@ public class PredimRC extends JFrame {
         help.setToolTipText("Help(link to internet)");
         logbut = new JButton("log");
         modelNoteBut = new JToggleButton(getImageIcon("note.png"), false);
+        modelNoteBut.setToolTipText("Model's notes");
         save = new JMenuItem("Save model");
         savetarget = new JMenuItem("Save model...");
         opentarget = new JMenuItem("Open model");
