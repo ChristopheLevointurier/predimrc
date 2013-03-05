@@ -191,7 +191,7 @@ public class DrawableWingSection extends DrawableModelElement implements Abstrac
         for (DrawablePoint p : getPoints(view)) {
             p.draw(g);
         }
-        g.setStroke(new BasicStroke(4));
+        g.setStroke(new BasicStroke(2));
         g.setColor(belongsTo.getUsedFor().getColor());
 
 

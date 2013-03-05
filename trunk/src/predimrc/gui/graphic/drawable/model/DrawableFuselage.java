@@ -230,6 +230,7 @@ public class DrawableFuselage extends DrawableModelElement {
 
         switch (view) {
             case FRONT_VIEW: {
+                g.setStroke(predimrc.PredimRC.dashed);
                 Utils.drawline(frontPointFrontView, upPointFrontView, g);
                 Utils.drawline(frontPointFrontView, downPointFrontView, g);
                 Utils.drawRect(upPointFrontView, downPointFrontView, g);

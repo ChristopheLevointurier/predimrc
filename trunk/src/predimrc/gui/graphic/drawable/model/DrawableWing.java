@@ -14,6 +14,7 @@
  */
 package predimrc.gui.graphic.drawable.model;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -299,9 +300,9 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         }
         if (view.equals(VIEW_TYPE.LEFT_VIEW)) {
             g.setColor(used_for.getColor());
+            g.setStroke(new BasicStroke(2));
             Utils.drawline(frontPointLeftView, backPointLeftView, g);
         }
-
     }
 
     @Override
