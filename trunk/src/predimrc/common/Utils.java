@@ -227,12 +227,13 @@ public class Utils {
         return (float) (Math.round(in * 100.0) / 100.0);
     }
 
-    public static ArrayList<Point2D.Float> load2DPoints(String file) {
-        ArrayList<Point2D.Float> points = new ArrayList<>();
+    public static ArrayList<DrawablePoint> loadDrawablePoints(String file, VIEW_TYPE view) {
+        ArrayList<DrawablePoint> points = new ArrayList<>();
         if (file.toLowerCase().endsWith(".dat")) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
                 String line;
+                //  System.out.println("stream ok:" + file);
                 try {
                     PredimRC.logln("opening" + file + ":" + reader.readLine());
                     while ((line = reader.readLine()) != null) {
@@ -245,28 +246,25 @@ public class Utils {
                                 f2 = cpt == 1 ? Float.parseFloat(d) : f2;
                                 if (cpt > 1) {
                                     PredimRC.logDebugln("dropped string:" + d);
-                                    cpt++;
                                 }
+                                cpt++;
                             }
-
                         }
                         if (cpt > 1) {
                             PredimRC.logDebugln("new point:(" + f1 + "," + f2);
-                            points.add(new Point2D.Float(f1, f2));
+                            points.add(new DrawablePoint(f1, f2, view));
                         }
                     }
-
                     PredimRC.logDebugln("points amount:" + points.size());
-
                 } catch (IOException ex) {
-                    predimrc.PredimRC.log("IOException:" + ex.getLocalizedMessage());
+                    predimrc.PredimRC.logln("IOException:" + ex.getLocalizedMessage());
                 } catch (NumberFormatException ex) {
-                    predimrc.PredimRC.log("NumberFormatException, non data line in file:" + ex.getLocalizedMessage());
+                    predimrc.PredimRC.logln("NumberFormatException, non data line in file:" + ex.getLocalizedMessage());
                 } finally {
                     reader.close();
                 }
             } catch (IOException | NullPointerException ex) {
-                predimrc.PredimRC.log("IOException|NullPointerException:" + ex.getLocalizedMessage());
+                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + " \n" + ex.getLocalizedMessage());
             }
         }
         return points;
