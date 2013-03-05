@@ -14,7 +14,6 @@
  */
 package predimrc.common;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -192,12 +191,10 @@ public class Utils {
     }
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
-        ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawLine(a.getDrawCoordX(), a.getDrawCoordY(), b.getDrawCoordX(), b.getDrawCoordY());
     }
 
     public static void drawLine(int x, int y, DrawablePoint b, Graphics g, VIEW_TYPE view) {
-        ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawLine(x, y, b.getDrawCoordX(), b.getDrawCoordY());
     }
 
@@ -241,7 +238,7 @@ public class Utils {
                     while ((line = reader.readLine()) != null) {
                         float f1 = 0f, f2 = 0f;
                         int cpt = 0;
-                        String[] data = line.split(" ");
+                        String[] data = line.split("\\s+");
                         for (String d : data) {
                             if (d.length() > 0) {
                                 f1 = cpt == 0 ? Float.parseFloat(d) : f1;
