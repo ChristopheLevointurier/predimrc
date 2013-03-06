@@ -7,7 +7,6 @@ package predimrc.gui.frame;
 
 import java.awt.Image;
 import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
@@ -34,6 +33,6 @@ public class Engine_Frame extends ExternalFrame {
 
     @Override
     public void save() {
-        predimrc.PredimRC.logDebugln("Save de " + title);
+        predimrc.PredimRC.logln("Save from " + title);
     }
 }

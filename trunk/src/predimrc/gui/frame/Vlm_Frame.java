@@ -33,6 +33,6 @@ public class Vlm_Frame extends ExternalFrame {
 
     @Override
     public void save() {
-        predimrc.PredimRC.logDebugln("Save de " + title);
+         predimrc.PredimRC.logln("Save from " + title);
     }
 }

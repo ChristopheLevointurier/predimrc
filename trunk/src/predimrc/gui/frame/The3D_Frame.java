@@ -236,7 +236,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     @Override
     public void save() {
         stop = true;
-        predimrc.PredimRC.logDebugln("Save de " + title);
+          predimrc.PredimRC.logln("Save from " + title);
     }
 
     @Override
