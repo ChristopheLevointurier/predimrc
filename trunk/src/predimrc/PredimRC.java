@@ -672,7 +672,7 @@ public class PredimRC extends JFrame {
             logln("fail to load " + path + " image");
             return java.awt.Toolkit.getDefaultToolkit().getImage("http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png");
         }
-        logDebugln("load " + path + " image ok");
+        logln("load " + path + " image ok");
         return java.awt.Toolkit.getDefaultToolkit().getImage(u);
     }
 
