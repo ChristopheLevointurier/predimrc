@@ -55,8 +55,10 @@ public class DrawableFuselage extends DrawableModelElement {
     private DrawablePoint mirrorSidePointLeftView;
     private ArrayList<DrawablePoint> shapeTop;
     private ArrayList<DrawablePoint> shapeLeft;
+    private ArrayList<DrawablePoint> shapeFront;
     private ArrayList<DrawablePoint> scalledShapeTop;
     private ArrayList<DrawablePoint> scalledShapeLeft;
+    private ArrayList<DrawablePoint> scalledShapeFront;
 
     public DrawableFuselage(Fuselage f, DrawableModel _belongsTo) {
         super(f.getPositionDimension3D(), _belongsTo);
@@ -163,7 +165,13 @@ public class DrawableFuselage extends DrawableModelElement {
         if (shapeLeft.size() > 0) {
             scalledShapeLeft = new ArrayList<>();
             for (DrawablePoint p : shapeLeft) {
-                scalledShapeLeft.add(new DrawablePoint(p.getFloatX() * width + getxPos(), p.getFloatY() * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.LEFT_VIEW));
+                scalledShapeLeft.add(new DrawablePoint(p.getFloatX() * width + getxPos(), Math.abs(1 - p.getFloatY()) * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.LEFT_VIEW));
+            }
+        }
+        if (shapeFront.size() > 0) {
+            scalledShapeFront = new ArrayList<>();
+            for (DrawablePoint p : shapeFront) {
+                scalledShapeFront.add(new DrawablePoint(p.getFloatX() * widthY + getyPos() - widthY / 2, Math.abs(1 - p.getFloatY()) * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.FRONT_VIEW));
             }
         }
     }
@@ -230,6 +238,8 @@ public class DrawableFuselage extends DrawableModelElement {
 
         switch (view) {
             case FRONT_VIEW: {
+                g.setStroke(new BasicStroke(2));
+                shapeRender(g, scalledShapeFront);
                 g.setStroke(predimrc.PredimRC.dashed);
                 Utils.drawline(frontPointFrontView, upPointFrontView, g);
                 Utils.drawline(frontPointFrontView, downPointFrontView, g);
@@ -279,9 +289,11 @@ public class DrawableFuselage extends DrawableModelElement {
             fake = true;
             shapeTop = new ArrayList<>();
             shapeLeft = new ArrayList<>();
+            shapeFront = new ArrayList<>();
         } else {
             shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW);
             shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW);
+            shapeFront = Utils.loadDrawablePoints("Fuselages/" + filename + "_front.dat", VIEW_TYPE.FRONT_VIEW);
         }
     }
 
