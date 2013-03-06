@@ -82,7 +82,7 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabFoil_label = makeLabel("stab airFoil");
     private MegaLabel stabratio_label = makeLabel("stab aspect ratio");
     private MegaLabel stabcorde_label = makeLabel("stab mean chord");
-    private MegaLabel stablevier_label = makeLabel("Bras de levier");
+    private MegaLabel stablevier_label = makeLabel("stab lever");
     private MegaLabel vstab_label = makeLabel("vstab ");
     private MegaLabel stabRecommandedForCz_label = makeLabel("Stab angle for Cz =>");
     /**
@@ -303,5 +303,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         stabFoil_label.setValue("" + m.getTail().get(0).getFilename());
         stabratio_label.setValue("" + Utils.round(m.getTail().get(0).getAspectRatio()));
         stabcorde_label.setValue("" + Utils.round(m.getTail().get(0).getMeanCord()));
+        vstab_label.setValue("" + Utils.round(m.getvStab()));
+        stablevier_label.setValue("" + Utils.round(m.getStabLever()));
     }
 }
