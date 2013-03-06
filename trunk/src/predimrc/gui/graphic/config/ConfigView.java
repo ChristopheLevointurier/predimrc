@@ -33,7 +33,6 @@ import predimrc.gui.frame.VlmStab_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
-import predimrc.gui.graphic.drawable.model.DrawableWingSection;
 import predimrc.gui.widget.MegaLabel;
 
 /**
@@ -72,11 +71,8 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel airFoil_label = makeLabel("airFoil");
     private MegaLabel wingratio_label = makeLabel("aspect ratio");
     private MegaLabel wingcorde_label = makeLabel("mean chord");
-    private MegaLabel wingDiedre_label = makeLabel("Diedre wing");
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
-    private MegaLabel wingCalage_label = makeLabel("Calage aile");
-    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle for Cz =>");
     private MegaLabel wingIncidence_label = makeLabel("Incidence wing");
     /**
      * Labels for tail data
@@ -87,16 +83,15 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabratio_label = makeLabel("stab aspect ratio");
     private MegaLabel stabcorde_label = makeLabel("stab mean chord");
     private MegaLabel stablevier_label = makeLabel("Bras de levier");
-    private MegaLabel stabouverture_label = makeLabel("stab Ouverture");
     private MegaLabel vstab_label = makeLabel("vstab ");
-    private MegaLabel tailDiedre_label = makeLabel("Diedre tail");
     private MegaLabel stabRecommandedForCz_label = makeLabel("Stab angle for Cz =>");
-    private MegaLabel stabCz_label = makeLabel("Stab Cz =>");
     /**
      * Labels for model data
      */
     private MegaLabel wingCzCalage_label = makeLabel("Cz adjustment");
     private MegaLabel staticMargin_label = makeLabel("Static margin(%)");
+    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle for Cz =>");
+    private MegaLabel stabCz_label = makeLabel("Stab Cz =>");
 
     /**
      * widgets for structure config
@@ -113,9 +108,9 @@ public final class ConfigView extends JPanel implements IModelListener {
         model.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Model specs:"));
         model.add(wingCzCalage_label);
         model.add(staticMargin_label);
-        model.add(wingAlpha0_label);
-        model.add(wingCm0_label);
-
+        model.add(wingRecommandedForCz_label);
+        model.add(stabRecommandedForCz_label);
+        model.add(stabCz_label);
         add(model);
 
 
@@ -127,12 +122,12 @@ public final class ConfigView extends JPanel implements IModelListener {
         mainWing.add(wingspan_label);
         mainWing.add(wingarea_label);
         mainWing.add(airFoil_label);
+        mainWing.add(wingAlpha0_label);
+        mainWing.add(wingCm0_label);
+
         mainWing.add(wingratio_label);
         mainWing.add(wingcorde_label);
-        mainWing.add(wingCalage_label);
-        mainWing.add(wingRecommandedForCz_label);
         mainWing.add(wingIncidence_label);
-        mainWing.add(wingDiedre_label);
         mainWingButtons.add(vlmBut);
         mainWingButtons.add(optimBut);
         mainWingButtons.add(xFoilBut);
@@ -152,11 +147,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         tail.add(stabratio_label);
         tail.add(stabcorde_label);
         tail.add(stablevier_label);
-        tail.add(stabouverture_label);
         tail.add(vstab_label);
-        tail.add(tailDiedre_label);
-        tail.add(stabCz_label);
-        tail.add(stabRecommandedForCz_label);
         tail.add(vlmStabBut);
         add(tail);
 
@@ -248,10 +239,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         return wingCm0_label;
     }
 
-    public MegaLabel getWingCalage_label() {
-        return wingCalage_label;
-    }
-
     public MegaLabel getWingCzCalage_label() {
         return wingCzCalage_label;
     }
@@ -276,10 +263,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         return wingIncidence_label;
     }
 
-    public MegaLabel getWingDiedre_label() {
-        return wingDiedre_label;
-    }
-
     public MegaLabel getStabspan_label() {
         return stabspan_label;
     }
@@ -300,24 +283,8 @@ public final class ConfigView extends JPanel implements IModelListener {
         return stabcorde_label;
     }
 
-    public MegaLabel getStabouverture_label() {
-        return stabouverture_label;
-    }
-
     @Override
     public void updateModel(DrawableModel m) {
-
-        String diedre = "";
-        for (DrawableWingSection w : m.getWings().get(0)) {
-            diedre += "#" + df.format(w.getDihedral());
-        }
-        wingDiedre_label.setValue(diedre);
-
-        diedre = "";
-        for (DrawableWingSection w : m.getTail().get(0)) {
-            diedre += "#" + df.format(w.getDihedral());
-        }
-        tailDiedre_label.setValue(diedre);
 
         wingspan_label.setValue("" + Utils.round(m.getWings().get(0).getSpan()));
         wingarea_label.setValue("" + Utils.round(m.getWings().get(0).getArea()));
