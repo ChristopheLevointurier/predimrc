@@ -112,7 +112,7 @@ public class Note_Frame extends ExternalFrame {
 
     @Override
     public void save() {
-        predimrc.PredimRC.logDebugln("Save de " + title);
+        predimrc.PredimRC.logln("Save from " + title);
         drawableModel.setNote((DefaultStyledDocument) textPane.getStyledDocument());
         caller.setSelected(false);
         dispose();
