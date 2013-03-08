@@ -304,8 +304,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
         czAStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;
-        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s;
-        stabLever = XDs;  
+        double alphaA = 0;
+        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s + alphaA - alphaWing;
+        stabLever = XDs;
     }
 
     public void setFuseOnOff(boolean on) {
