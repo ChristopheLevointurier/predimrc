@@ -264,6 +264,7 @@ public class DrawableWing extends DrawableModelElement implements Iterable<Drawa
         for (DrawableWingSection w : (LinkedList<DrawableWingSection>) drawableWingSection.clone()) {
             w.setFilename(_file);
         }
+        setFilename(_file);
         apply();
     }
 
