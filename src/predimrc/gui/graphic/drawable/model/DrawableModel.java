@@ -304,8 +304,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
         czAStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;
-        double alphaA = 0;
-        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s + alphaA - alphaWing;
+        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
         stabLever = XDs;
     }
 
