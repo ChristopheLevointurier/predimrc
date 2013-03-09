@@ -51,16 +51,16 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
     private JButton compute = new JButton("reCompute");
     private MegaCheck fuseCheck = new MegaCheck("Fuselage", true, true);
     private MegaCheck stabCheck = new MegaCheck("Stab", true, true);
-    private MegaCombo wingCombo = new MegaCombo("Number of wing :", true, "1", "2", "3", "4");
-    private MegaCombo tailCombo = new MegaCombo("Number of stab :", true, "0", "1", "2", "3", "4");
-    private MegaCombo deriveCombo = new MegaCombo("Number of fin :", true, "0", "1", "2");
+    private MegaCombo wingCombo = new MegaCombo("Number of wing", true, "1", "2", "3", "4");
+    private MegaCombo tailCombo = new MegaCombo("Number of stab", true, "0", "1", "2", "3", "4");
+    private MegaCombo deriveCombo = new MegaCombo("Number of fin", true, "0", "1", "2");
 
     public ConfigBasicView() {
         super();
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        modelTitle = new MegaLabel("Model name (Enter to validate):", "undefined", true, 100);
+        modelTitle = new MegaLabel("Model name (Enter to validate)", "undefined", true, 100);
         modelTitle.addKeyListener("ENTER", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
