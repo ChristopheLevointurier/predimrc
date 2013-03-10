@@ -111,7 +111,8 @@ public class LeftPanel extends DrawablePanel {
                         if (selectedElement instanceof DrawableWing || selectedElement instanceof DrawableFuselage) {
                             //move Connection
                             float zpos = selectedElement.equals(PredimRC.getInstanceDrawableModel().getWings().get(0)) ? selectedElement.getzPos() : getYcur(e);
-                            selectedElement.setPos(getXcur(e), selectedElement.getyPos(), zpos);
+                            float xpos = selectedElement.equals(PredimRC.getInstanceDrawableModel().getWings().get(0)) ? selectedElement.getxPos() : getXcur(e);
+                            selectedElement.setPos(xpos, selectedElement.getyPos(), zpos);
                             info.setDetailedInfo(" moved to : " + Utils.getRefPos(selectedElement.getPositionDimension3D()));
 
                         }
