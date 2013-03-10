@@ -16,7 +16,10 @@ package predimrc.gui.graphic.drawable.model;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
+import predimrc.PredimRC;
 import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.common.Utils.VIEW_TYPE;
@@ -34,8 +37,9 @@ import predimrc.model.element.Fuselage;
  */
 public class DrawableFuselage extends DrawableModelElement {
 
-    private float widthY, widthZ, neutralPointRatio = 20; //default value for the moment, will be define in fuse.dat
+    private float widthY, widthZ;
     private float area = 0;
+    private float kSf = 0.68f, kSMf = 0.68f, neutralPointRatio = 19f; //default value, defined in fuse.txt
     /**
      * *
      * Front view points
@@ -174,6 +178,7 @@ public class DrawableFuselage extends DrawableModelElement {
                 scalledShapeFront.add(new DrawablePoint(p.getFloatX() * widthY + getyPos() - widthY / 2, Math.abs(1 - p.getFloatY()) * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.FRONT_VIEW));
             }
         }
+        area = widthY * width * kSf;
     }
 
     @Override
@@ -290,10 +295,23 @@ public class DrawableFuselage extends DrawableModelElement {
             shapeTop = new ArrayList<>();
             shapeLeft = new ArrayList<>();
             shapeFront = new ArrayList<>();
+            kSf = 0.68f;
+            kSMf = 0.68f;
+            neutralPointRatio = 19f;
         } else {
             shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW);
             shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW);
             shapeFront = Utils.loadDrawablePoints("Fuselages/" + filename + "_front.dat", VIEW_TYPE.FRONT_VIEW);
+            Properties config = new Properties();
+            try {
+                config.load(predimrc.PredimRC.getResourceUrl("Fuselages/" + filename + "_coeff.txt").openStream());
+                kSf = Float.parseFloat(config.getProperty("kSf", "0.65"));
+                kSMf = Float.parseFloat(config.getProperty("kSMf", "0.65"));
+                neutralPointRatio = Float.parseFloat(config.getProperty("xFf", "0.20"));
+                PredimRC.logDebugln("fuse values:kSf " + kSf + ", kSMf " + kSMf + " , neutralPointRatio " + neutralPointRatio);
+            } catch (final IOException | NumberFormatException t) {
+                PredimRC.logln("IOException while attempting to load fuse File " + filename + "_coeff.txt \n" + t.getLocalizedMessage());
+            }
         }
     }
 
@@ -350,7 +368,11 @@ public class DrawableFuselage extends DrawableModelElement {
         return area;
     }
 
-    public void setArea(float area) {
-        this.area = area;
+    public float getkSf() {
+        return kSf;
+    }
+
+    public float getkSMf() {
+        return kSMf;
     }
 }
