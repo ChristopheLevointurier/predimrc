@@ -133,7 +133,6 @@ public class LeftPanel extends DrawablePanel {
 
                     if (selectedPoint.equals(selectedElement.getBackPointLeftView())) {
                         switch (selectedElement.getUsedFor()) {
-                            case HORIZONTAL_PLAN:
                             case MAIN_WING: //change calage angulaire
                             {
                                 currentAngle = 180 + Utils.calcAngle(selectedElement.getFrontPointLeftView(), getXcur(e), getYcur(e));
@@ -150,6 +149,8 @@ public class LeftPanel extends DrawablePanel {
                                 }
                                 break;
                             }
+                            case HORIZONTAL_PLAN:
+                                break;
                         }
                     }
 
