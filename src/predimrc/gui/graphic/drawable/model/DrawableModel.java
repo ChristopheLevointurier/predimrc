@@ -305,6 +305,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
         czAStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;
         alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
+        //apply stable angle of attack for cz
+        stab.setAngle((float) alphaStab);
     }
 
     public void setFuseOnOff(boolean on) {
