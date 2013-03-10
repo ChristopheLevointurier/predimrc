@@ -73,7 +73,6 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel wingcorde_label = makeLabel("mean chord");
     private MegaLabel wingAlpha0_label = makeLabel("Alpha0");
     private MegaLabel wingCm0_label = makeLabel("Cm0");
-    private MegaLabel wingIncidence_label = makeLabel("Incidence wing");
     /**
      * Labels for tail data
      */
@@ -84,13 +83,13 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabcorde_label = makeLabel("stab mean chord");
     private MegaLabel stablevier_label = makeLabel("stab lever");
     private MegaLabel vstab_label = makeLabel("vstab ");
-    private MegaLabel stabRecommandedForCz_label = makeLabel("Stab angle for Cz =>");
+    private MegaLabel stabRecommandedForCz_label = makeLabel("Stab angle of attack for Cz =>");
     /**
      * Labels for model data
      */
     private MegaLabel wingCzCalage_label = makeLabel("Cz adjustment");
     private MegaLabel staticMargin_label = makeLabel("Static margin(%)");
-    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle for Cz =>");
+    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle of attack for Cz =>");
     private MegaLabel stabCz_label = makeLabel("Stab Cz =>");
 
     /**
@@ -127,7 +126,6 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         mainWing.add(wingratio_label);
         mainWing.add(wingcorde_label);
-        mainWing.add(wingIncidence_label);
         mainWingButtons.add(vlmBut);
         mainWingButtons.add(optimBut);
         mainWingButtons.add(xFoilBut);
@@ -259,10 +257,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         return stabCz_label;
     }
 
-    public MegaLabel getWingIncidence_label() {
-        return wingIncidence_label;
-    }
-
+  
     public MegaLabel getStabspan_label() {
         return stabspan_label;
     }
