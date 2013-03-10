@@ -83,14 +83,14 @@ public final class ConfigView extends JPanel implements IModelListener {
     private MegaLabel stabcorde_label = makeLabel("stab mean chord");
     private MegaLabel stablevier_label = makeLabel("stab lever");
     private MegaLabel vstab_label = makeLabel("vstab ");
-    private MegaLabel stabRecommandedForCz_label = makeLabel("Stab angle of attack for Cz =>");
+    private MegaLabel stabRecommandedForCz_label = makeLabel("Stab ");
     /**
      * Labels for model data
      */
     private MegaLabel wingCzCalage_label = makeLabel("Cz adjustment");
     private MegaLabel staticMargin_label = makeLabel("Static margin(%)");
-    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing angle of attack for Cz =>");
-    private MegaLabel stabCz_label = makeLabel("Stab Cz =>");
+    private MegaLabel wingRecommandedForCz_label = makeLabel("Wing ");
+    private MegaLabel stabCz_label = makeLabel("Stab Cz");
 
     /**
      * widgets for structure config
@@ -102,14 +102,17 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-
         model.setLayout(new BoxLayout(model, BoxLayout.Y_AXIS));
         model.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Model specs:"));
-        model.add(wingCzCalage_label);
         model.add(staticMargin_label);
-        model.add(wingRecommandedForCz_label);
-        model.add(stabRecommandedForCz_label);
-        model.add(stabCz_label);
+        model.add(wingCzCalage_label);
+
+        JPanel cz = new JPanel();
+        cz.setLayout(new BoxLayout(cz, BoxLayout.Y_AXIS));
+        cz.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Angle of attack for Cz:"));
+        cz.add(wingRecommandedForCz_label);
+        cz.add(stabRecommandedForCz_label);
+        model.add(cz);
         add(model);
 
 
@@ -133,10 +136,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         add(mainWing);
 
 
-
-
-
-
         tail.setLayout(new BoxLayout(tail, BoxLayout.Y_AXIS));
         tail.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Horizontal tail specs:"));
         tail.add(stabspan_label);
@@ -147,6 +146,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         tail.add(stablevier_label);
         tail.add(vstab_label);
         tail.add(vlmStabBut);
+        tail.add(stabCz_label);
         add(tail);
 
 
@@ -257,7 +257,6 @@ public final class ConfigView extends JPanel implements IModelListener {
         return stabCz_label;
     }
 
-  
     public MegaLabel getStabspan_label() {
         return stabspan_label;
     }
