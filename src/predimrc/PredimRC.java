@@ -65,8 +65,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import predimrc.common.UserConfig;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
+import predimrc.gui.frame.Compare_Frame;
+import predimrc.gui.frame.Engine_Frame;
 import predimrc.gui.frame.Note_Frame;
+import predimrc.gui.frame.Optim_Frame;
 import predimrc.gui.frame.The3D_Frame;
+import predimrc.gui.frame.Vlm_Frame;
+import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.MainView;
 import predimrc.gui.graphic.config.ConfigView;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
@@ -89,7 +94,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.77";
+    private static final String VERSION = "Alpha 0.78";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -108,9 +113,12 @@ public class PredimRC extends JFrame {
     private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStab;
     private static JMenuItem quit, openConfigRep;
     private static JToggleButton modelNoteBut, the3DViewButton;
-    // public static NumSelect amountThread = new NumSelect(3, 10, false, 1, 99);
-    //  public static long threadsCount = 0;
-    private static PredimRC instance;
+    private JToggleButton vlmBut = new JToggleButton("VLM");
+    private JToggleButton optimBut = new JToggleButton("Optim");
+    private JToggleButton xFoilBut = new JToggleButton("xFoil");
+    private JToggleButton compareBut = new JToggleButton("Compare Models");
+    private JToggleButton engineBut = new JToggleButton("Engine");
+     private static PredimRC instance;
     private static StringBuffer log = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
@@ -195,13 +203,12 @@ public class PredimRC extends JFrame {
         JMenuBar menu = new JMenuBar();
         JMenu filemenu = new JMenu("File");
         JMenu editmenu = new JMenu("Config");
+        JMenu perfmenu = new JMenu("Performance");
 
         /**
          * register new listener of the model*
          */
         ModelController.addModelListener(configView);
-
-
         filemenu.add(opentarget);
         filemenu.add(save);
         filemenu.add(savetarget);
@@ -213,8 +220,20 @@ public class PredimRC extends JFrame {
         editmenu.addSeparator();
 
 
+
+        perfmenu.add(vlmBut);
+        perfmenu.add(xFoilBut);
+        perfmenu.add(optimBut);
+        perfmenu.add(engineBut);
+        perfmenu.add(compareBut);
+
+
+
+
+
         menu.add(filemenu);
         menu.add(editmenu);
+        menu.add(perfmenu);
         menu.add(modelNoteBut);
         menu.add(the3DViewButton);
         menu.add(savebut);
@@ -222,6 +241,48 @@ public class PredimRC extends JFrame {
         menu.add(aboutbut);
 
         setJMenuBar(menu);
+
+
+
+
+        compareBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Compare_Frame(compareBut);
+            }
+        });
+
+
+        engineBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Engine_Frame(engineBut);
+            }
+        });
+
+
+        vlmBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Vlm_Frame(vlmBut);
+            }
+        });
+
+        optimBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Optim_Frame(optimBut);
+            }
+        });
+
+
+        xFoilBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new XFoil_Frame(xFoilBut);
+            }
+        });
+
 
 
         help.addActionListener(new ActionListener() {
