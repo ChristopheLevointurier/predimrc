@@ -49,20 +49,10 @@ public final class ConfigView extends JPanel implements IModelListener {
     private JPanel mainWing = new JPanel();
     private JPanel tail = new JPanel();
     private JPanel mainWingButtons = new JPanel();
-    private JPanel fuseButtons = new JPanel();
-    private JToggleButton vlmBut = new JToggleButton("VLM");
-    private JToggleButton optimBut = new JToggleButton("Optim");
-    private JToggleButton xFoilBut = new JToggleButton("xFoil");
-    /**
+     /**
      * Buttons
      */
     private JToggleButton vrillageBut = new JToggleButton("vrillage");
-    private JToggleButton vlmStabBut = new JToggleButton("VLM");
-    private JToggleButton engineBut = new JToggleButton("Engine");
-    private JToggleButton rzBut = new JToggleButton("Rz cste");
-    private JToggleButton vxBut = new JToggleButton("Vx cste");
-    private JToggleButton compareBut = new JToggleButton("Compare Models");
-    private JCheckBox fuseCheck = new JCheckBox("Fuse");
     /**
      * Labels for wing data
      */
@@ -109,7 +99,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         JPanel cz = new JPanel();
         cz.setLayout(new BoxLayout(cz, BoxLayout.Y_AXIS));
-        cz.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Angle of attack for Cz:"));
+        cz.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Angle of attack for Cz:   "));
         cz.add(wingRecommandedForCz_label);
         cz.add(stabRecommandedForCz_label);
         model.add(cz);
@@ -129,10 +119,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         mainWing.add(wingratio_label);
         mainWing.add(wingcorde_label);
-        mainWingButtons.add(vlmBut);
-        mainWingButtons.add(optimBut);
-        mainWingButtons.add(xFoilBut);
-        mainWing.add(mainWingButtons);
+         mainWing.add(mainWingButtons);
         add(mainWing);
 
 
@@ -145,63 +132,8 @@ public final class ConfigView extends JPanel implements IModelListener {
         tail.add(stabcorde_label);
         tail.add(stablevier_label);
         tail.add(vstab_label);
-        tail.add(vlmStabBut);
         tail.add(stabCz_label);
         add(tail);
-
-
-
-        fuseButtons.setLayout(new BoxLayout(fuseButtons, BoxLayout.X_AXIS));
-        fuseButtons.add(engineBut);
-        // fuseButtons.add(rzBut);
-        //  fuseButtons.add(vxBut);
-        fuseButtons.add(compareBut);
-        add(fuseButtons);
-
-        compareBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Compare_Frame(compareBut);
-            }
-        });
-
-
-        engineBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Engine_Frame(engineBut);
-            }
-        });
-
-
-        vlmBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Vlm_Frame(vlmBut);
-            }
-        });
-        vlmStabBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VlmStab_Frame(vlmStabBut);
-            }
-        });
-
-
-        optimBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Optim_Frame(optimBut);
-            }
-        });
-
-
-        xFoilBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new XFoil_Frame(xFoilBut);
-            }
-        });
 
     }
 
