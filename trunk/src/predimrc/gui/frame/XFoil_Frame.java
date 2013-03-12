@@ -6,18 +6,22 @@ package predimrc.gui.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,10 +36,9 @@ import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import predimrc.common.UserConfig;
 import predimrc.common.Utils;
-
-
-
+import predimrc.gui.widget.MegaCombo;
 
 /**
  *
@@ -46,12 +49,35 @@ import predimrc.common.Utils;
  */
 public class XFoil_Frame extends ExternalFrame {
     
+    
     private JPanel  panel           = new JPanel();
+    private JPanel  reynolds_panel  = new JPanel(); // en cours
+    private JPanel  airfoil_ncrit_panel = new JPanel(); // en cours
     private JPanel  panel_choice    = new JPanel();
     private JPanel  panel_choice1   = new JPanel();
     private JPanel  panel_choice2   = new JPanel();
     private JPanel  panel_choice3   = new JPanel();
     private JPanel  panel_airfoils  = new JPanel();
+    private JCheckBox reynolds_25k_check = new JCheckBox("25 k", true);
+    private JCheckBox reynolds_50k_check = new JCheckBox("50 k", true);
+    private JCheckBox reynolds_100k_check = new JCheckBox("100 k", true);
+    private JCheckBox reynolds_250k_check = new JCheckBox("250 k", true);
+    private JCheckBox reynolds_750k_check = new JCheckBox("750 k", true);
+    private JCheckBox reynolds_1500k_check = new JCheckBox("1500 k", true);
+    
+    
+    private JComboBox ncrit1_combobox = new JComboBox();
+    private JComboBox ncrit2_combobox = new JComboBox();
+    private JComboBox ncrit3_combobox = new JComboBox();
+    
+    private JComboBox airfoil1_combobox = new JComboBox();
+    private JComboBox airfoil2_combobox = new JComboBox();
+    private JComboBox airfoil3_combobox = new JComboBox();
+    //private MegaCombo airfoil1_combobox = new MegaCombo("", true, "");
+    //private MegaCombo airfoil2_combobox = new MegaCombo("", true, "");
+    //private MegaCombo airfoil3_combobox = new MegaCombo("", true, "");
+    
+    
     private JButton button_airfoil1 = new JButton("Airfoil 1");
     private JButton button_airfoil2 = new JButton("Airfoil 2");
     private JButton button_airfoil3 = new JButton("Airfoil 3");
@@ -69,6 +95,51 @@ public class XFoil_Frame extends ExternalFrame {
         super(_caller, _icon, _x, _y);
         title = "xFoil";
         setTitle(title);
+        
+        // Reynolds panel
+        reynolds_panel.setLayout(new BoxLayout(reynolds_panel, BoxLayout.Y_AXIS));
+        reynolds_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Reynolds"));
+        reynolds_panel.add(reynolds_25k_check);
+        reynolds_panel.add(reynolds_50k_check);
+        reynolds_panel.add(reynolds_100k_check);
+        reynolds_panel.add(reynolds_250k_check);
+        reynolds_panel.add(reynolds_750k_check);
+        reynolds_panel.add(reynolds_1500k_check);
+        
+        // AirFoil panel
+        
+        airfoil1_combobox.setForeground(Color.RED);
+        airfoil2_combobox.setForeground(Color.GREEN);
+        airfoil3_combobox.setForeground(Color.BLUE);
+    
+            
+        airfoil_ncrit_panel.setLayout(new GridLayout(3,1));
+        airfoil_ncrit_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Airfoils & NCrit"));
+        airfoil_ncrit_panel.add(airfoil1_combobox);
+        airfoil_ncrit_panel.add(ncrit1_combobox);
+        airfoil_ncrit_panel.add(airfoil2_combobox);
+        airfoil_ncrit_panel.add(ncrit2_combobox);
+        airfoil_ncrit_panel.add(airfoil3_combobox);
+        airfoil_ncrit_panel.add(ncrit3_combobox);
+        
+        File dir_airfoil = new File(".\\src\\resource\\AirFoils"); 
+           
+
+
+String [] listefichiers; 
+
+listefichiers=dir_airfoil.list(); 
+ System.out.println(dir_airfoil);
+ 
+for(int i=0;i<listefichiers.length;i++){ 
+if(listefichiers[i].endsWith(".dat")==true){ 
+        airfoil1_combobox.addItem(listefichiers[i]);
+        airfoil2_combobox.addItem(listefichiers[i]);
+        airfoil3_combobox.addItem(listefichiers[i]);
+     } 
+}     
+
+
         
         label_airfoil1.setText("Airfoil 1");
         label_airfoil2.setText("Airfoil 2");
@@ -97,7 +168,10 @@ public class XFoil_Frame extends ExternalFrame {
         panel_choice.add(panel_choice2);
         panel_choice.add(panel_choice3);
         
-        panel.add(panel_choice,BorderLayout.NORTH);
+        // panel.add(panel_choice,BorderLayout.NORTH);
+        panel.add(reynolds_panel,BorderLayout.SOUTH);
+        panel.add(airfoil_ncrit_panel,BorderLayout.NORTH);
+        
         
         getContentPane().add(panel);
         
@@ -144,8 +218,6 @@ public class XFoil_Frame extends ExternalFrame {
             }
         });
       
-       
-              
         //data1 = createSampleData();
         
         //JPanel content = createDemoPanel();
@@ -182,13 +254,10 @@ public class XFoil_Frame extends ExternalFrame {
     }
     
     public static XYDataset getCollectionSeries(String filePath) {
-        
-        
-        XYSeries series1 = new XYSeries("1");
-        XYSeries series2 = new XYSeries("2");
-        
-        
-        
+               
+        XYSeries series1 = new XYSeries("Naca");
+        XYSeries series2 = new XYSeries(" ");
+                
         try{   
             Scanner scanner=new Scanner(new File(filePath));
             while (scanner.hasNextLine()) {
@@ -228,7 +297,7 @@ System.out.println("Erreur --" + ioe.toString());
      return result;
 
     }
-        
+    
     public static JPanel createDemoPanel() {
         
         
@@ -241,12 +310,14 @@ System.out.println("Erreur --" + ioe.toString());
         XYSplineRenderer renderer1 = new XYSplineRenderer();
         renderer1.setSeriesPaint(0, Color.RED);
         renderer1.setSeriesPaint(1, Color.RED);
-    
+        renderer1.setBaseToolTipGenerator(null);
         
-        renderer1.setSeriesOutlinePaint(0,null);
-        renderer1.setSeriesShape(0,null);
+     
+        renderer1.setSeriesShapesVisible(0, false);
+        renderer1.setSeriesShapesVisible(1, false);
         
         
+      //  renderer1.setLegendItemLabelGenerator(null);
       // renderer1.setSeriesStroke(1, null, false);
        /*
         BasicStroke newStroke = new BasicStroke((float) (4.0)); 
@@ -261,8 +332,7 @@ System.out.println("Erreur --" + ioe.toString());
 
         XYPlot plot = new XYPlot(data1, xAxis, yAxis, renderer1);
      
-        
-       
+    
      //   plot.setAxisOffset(new RectangleInsets(4, 4, 4, 4));
       //  plot.setDomainPannable(true);
     //    plot.setRangePannable(true);
@@ -294,6 +364,20 @@ renderer2.setSeriesVisibleInLegend(0,false);
         chartPanel.setMouseWheelEnabled(true);
         return chartPanel;
     }
+    
+    
+class DATFilter implements FilenameFilter {
+    @Override
+    public boolean accept(File dir, String name) {
+        return (name.endsWith(".dat"));
+    }
+}
 
+
+
+
+    
+    
+    
     
 }
