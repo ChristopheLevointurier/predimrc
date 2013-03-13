@@ -99,7 +99,7 @@ public final class ConfigView extends JPanel implements IModelListener {
 
         JPanel cz = new JPanel();
         cz.setLayout(new BoxLayout(cz, BoxLayout.Y_AXIS));
-        cz.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Angle of attack for Cz:   "));
+        cz.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "AngleOfAttack for Cz:"));
         cz.add(wingRecommandedForCz_label);
         cz.add(stabRecommandedForCz_label);
         model.add(cz);
