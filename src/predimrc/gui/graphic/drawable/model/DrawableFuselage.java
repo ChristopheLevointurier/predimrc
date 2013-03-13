@@ -39,7 +39,7 @@ public class DrawableFuselage extends DrawableModelElement {
 
     private float widthY, widthZ;
     private float area = 0;
-    private float kSf = 0.68f, kSMf = 0.68f, neutralPointRatio = 19f; //default value, defined in fuse.txt
+    private float kSf = 0.68f, kSMf = 0.68f, neutralPointRatio = 0.19f; //default value, defined in fuse.txt
     /**
      * *
      * Front view points
@@ -155,7 +155,7 @@ public class DrawableFuselage extends DrawableModelElement {
             sidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() + widthZ / 2);
             mirrorSidePointLeftView.setLocation(frontPointLeftView.getX() + width / 2, frontPointLeftView.getY() - widthZ / 2);
         }
-        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * (getNeutralPointRatio() / 100) + getxPos()); //foyer
+        neutralPoint.setLocation(Utils.TOP_SCREEN_X / 2, getWidth() * getNeutralPointRatio() + getxPos()); //foyer
 
 
 
@@ -297,7 +297,7 @@ public class DrawableFuselage extends DrawableModelElement {
             shapeFront = new ArrayList<>();
             kSf = 0.68f;
             kSMf = 0.68f;
-            neutralPointRatio = 19f;
+            neutralPointRatio = 0.19f;
         } else {
             shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW);
             shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW);
