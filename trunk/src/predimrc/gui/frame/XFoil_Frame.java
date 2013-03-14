@@ -8,17 +8,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.io.File;
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
-import predimrc.gui.widget.MegaCombo;
+import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
+import predimrc.gui.frame.subframe.ReynoldsConfig;
 
 /**
  *
@@ -28,6 +27,11 @@ import predimrc.gui.widget.MegaCombo;
  * @since
  */
 public class XFoil_Frame extends ExternalFrame {
+
+    private JTabbedPane foilSelect = new JTabbedPane();
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1,  this);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2,  this);
+    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3,  this);
 
     public XFoil_Frame(AbstractButton _caller) {
         this(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME);
@@ -41,20 +45,6 @@ public class XFoil_Frame extends ExternalFrame {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2, 2));
-
-
-        String[] fileList;
-        fileList = new File(".\\src\\resource\\AirFoils").list();
-        MegaCombo airfoil1_combo = new MegaCombo("Foil 1", true, fileList);
-        MegaCombo airfoil2_combo = new MegaCombo("Foil 2", true, fileList);
-        MegaCombo airfoil3_combo = new MegaCombo("Foil 3", true, fileList);
-        JCheckBox reynolds_25k_check = new JCheckBox("25 k", true);
-        JCheckBox reynolds_50k_check = new JCheckBox("50 k", true);
-        JCheckBox reynolds_100k_check = new JCheckBox("100 k", true);
-        JCheckBox reynolds_250k_check = new JCheckBox("250 k", true);
-        JCheckBox reynolds_750k_check = new JCheckBox("750 k", true);
-        JCheckBox reynolds_1500k_check = new JCheckBox("1500 k", true);
-
         JPanel zone3 = new JPanel();
         zone3.setLayout(new BoxLayout(zone3, BoxLayout.Y_AXIS));
         zone3.add(new JButton(PredimRC.getImageIcon("xfoil4.png")));
@@ -63,40 +53,30 @@ public class XFoil_Frame extends ExternalFrame {
         // Reynolds panel
         JPanel user_panel = new JPanel();
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
-        JPanel reynolds_panel = new JPanel();
-        reynolds_panel.setLayout(new BoxLayout(reynolds_panel, BoxLayout.Y_AXIS));
-        reynolds_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Selected Reynolds"));
-        reynolds_panel.add(reynolds_25k_check);
-        reynolds_panel.add(reynolds_50k_check);
-        reynolds_panel.add(reynolds_100k_check);
-        reynolds_panel.add(reynolds_250k_check);
-        reynolds_panel.add(reynolds_750k_check);
-        reynolds_panel.add(reynolds_1500k_check);
 
-        airfoil1_combo.getLabel().setForeground(Color.RED);
-        airfoil2_combo.getLabel().setForeground(Color.GREEN);
-        airfoil3_combo.getLabel().setForeground(Color.BLUE);
-
-        JPanel foilCombo_panel = new JPanel();
-        foilCombo_panel.setLayout(new BoxLayout(foilCombo_panel, BoxLayout.Y_AXIS));
-        foilCombo_panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Selected Foils"));
-        foilCombo_panel.add(airfoil1_combo);
-        foilCombo_panel.add(airfoil2_combo);
-        foilCombo_panel.add(airfoil3_combo);
-
-
-        user_panel.add(reynolds_panel);
-        user_panel.add(foilCombo_panel);
+        foilSelect.add(foil1);
+        foilSelect.setForegroundAt(0, Color.red);
+        foilSelect.add(foil2);
+        foilSelect.setForegroundAt(1, Color.blue);
+        foilSelect.add(foil3);
+        foilSelect.setForegroundAt(2, Color.green.darker());
+        user_panel.add(new ReynoldsConfig());
+        user_panel.add(foilSelect);
 
         zone3.add(user_panel);
-
-
-
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil1.png")));
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil2.png")));
         mainPanel.add(zone3);
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil3.png")));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
+        updateData();
+    }
+
+    public final void updateData() {
+        foilSelect.setTitleAt(0, foil1.getSelectedFoil());
+        foilSelect.setTitleAt(1, foil2.getSelectedFoil());
+        foilSelect.setTitleAt(2, foil3.getSelectedFoil());
+
     }
 
     @Override
