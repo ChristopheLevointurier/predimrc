@@ -299,9 +299,9 @@ public class DrawableFuselage extends DrawableModelElement {
             kSMf = 0.68f;
             neutralPointRatio = 0.19f;
         } else {
-            shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW);
-            shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW);
-            shapeFront = Utils.loadDrawablePoints("Fuselages/" + filename + "_front.dat", VIEW_TYPE.FRONT_VIEW);
+            shapeTop = Utils.loadDrawablePoints("Fuselages/" + filename + "_top.dat", VIEW_TYPE.TOP_VIEW, true);
+            shapeLeft = Utils.loadDrawablePoints("Fuselages/" + filename + "_left.dat", VIEW_TYPE.LEFT_VIEW, true);
+            shapeFront = Utils.loadDrawablePoints("Fuselages/" + filename + "_front.dat", VIEW_TYPE.FRONT_VIEW, true);
             Properties config = new Properties();
             try {
                 config.load(predimrc.PredimRC.getResourceUrl("Fuselages/" + filename + "_coeff.txt").openStream());
