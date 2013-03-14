@@ -187,7 +187,7 @@ public class Utils {
 
     public static enum VIEW_TYPE {
 
-        FRONT_VIEW, TOP_VIEW, LEFT_VIEW;
+        FRONT_VIEW, TOP_VIEW, LEFT_VIEW, GRAPH;
     }
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
@@ -224,7 +224,7 @@ public class Utils {
         return (float) (Math.round(in * 100.0) / 100.0);
     }
 
-    public static ArrayList<DrawablePoint> loadDrawablePoints(String file, VIEW_TYPE view) {
+    public static ArrayList<DrawablePoint> loadDrawablePoints(String file, VIEW_TYPE view, boolean scalling) {
         ArrayList<DrawablePoint> points = new ArrayList<>();
         float maxX = 0.0000001f, maxY = 0.000000001f, minX = 1f, minY = 1f;
 
@@ -258,19 +258,20 @@ public class Utils {
                             points.add(new DrawablePoint(f1, f2, view));
                         }
                     }
-                    //moving to 0,0
-                    for (DrawablePoint p : points) {
-                        p.setFloatX(p.getFloatX() - minX);
-                        p.setFloatY(p.getFloatY() - minY);
+                    if (scalling) {
+                        //moving to 0,0
+                        for (DrawablePoint p : points) {
+                            p.setFloatX(p.getFloatX() - minX);
+                            p.setFloatY(p.getFloatY() - minY);
+                        }
+                        maxX -= minX;
+                        maxY -= minY;
+                        //scalling to 1,1
+                        for (DrawablePoint p : points) {
+                            p.setFloatX(p.getFloatX() * (1 / maxX));
+                            p.setFloatY(p.getFloatY() * (1 / maxY));
+                        }
                     }
-                    maxX -= minX;
-                    maxY -= minY;
-                    //scalling to 1,1
-                    for (DrawablePoint p : points) {
-                        p.setFloatX(p.getFloatX() * (1 / maxX));
-                        p.setFloatY(p.getFloatY() * (1 / maxY));
-                    }
-
                     PredimRC.logDebugln("points amount:" + points.size());
                 } catch (IOException ex) {
                     predimrc.PredimRC.logln("IOException:" + ex.getLocalizedMessage());
@@ -282,10 +283,8 @@ public class Utils {
             } catch (IOException | NullPointerException ex) {
                 predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + " \n" + ex.getLocalizedMessage());
             }
-
-
-
-
+        } else {
+            predimrc.PredimRC.logln(file + " don't seems to be a data file.");
         }
         return points;
     }
