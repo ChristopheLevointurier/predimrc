@@ -11,6 +11,7 @@ import java.awt.Image;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import predimrc.PredimRC;
@@ -29,9 +30,13 @@ import predimrc.gui.frame.subframe.ReynoldsConfig;
 public class XFoil_Frame extends ExternalFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
-    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1,  this);
-    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2,  this);
-    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3,  this);
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this);
+    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3, this);
+    private JButton modif = new JButton("edit a foil");
+    private JButton create = new JButton("create a foil");
+    private JButton del = new JButton("delete a foil");
+    private JButton calc = new JButton("compute");
 
     public XFoil_Frame(AbstractButton _caller) {
         this(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME);
@@ -70,6 +75,17 @@ public class XFoil_Frame extends ExternalFrame {
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil3.png")));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
         updateData();
+
+
+
+        JMenuBar menu = new JMenuBar();
+        menu.add(create);
+        menu.add(modif);
+        menu.add(del);
+        menu.add(calc);
+
+        setJMenuBar(menu);
+
     }
 
     public final void updateData() {
