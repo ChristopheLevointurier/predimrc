@@ -279,7 +279,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         DrawableWing fin = getDerive().size() > 0 ? getDerive().get(0) : DrawableWing.MakeEmptyWing(USED_FOR.VERTICAL_PLAN); //todo if winglet it will fail!
         stabLever = stab.getXF() - mainWing.getXF();
         double XDd = fin.getXF() - mainWing.getXF();
-        double XDf = (getFuselage().getNeutralPointRatio() / 100) * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
+        double XDf = getFuselage().getNeutralPointRatio() * getFuselage().getWidth() + getFuselage().getxPos() - mainWing.getXF(); // should become "Fuselage.getXF() - mainWing.getXF()" like wing or others components
         vStab = (stabLever * stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180)) / (mainWing.getMeanCord() * mainWing.getArea());  //stab volume
 
         double Aa = mainWing.getAspectRatio() / (2 + mainWing.getAspectRatio());// wing efficiency
@@ -287,10 +287,10 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         double Af = 0.4;
         if (vStab < -0.1 && getFuselage().getArea() > 0) {
-            Af = 0.2 * (1 + stab.getAspectRatio() / getFuselage().getWidthY());
+            Af = 0.2 * (1 + stab.getMeanCord() / getFuselage().getWidthY());
         }
-        if (vStab > -0.1 && getFuselage().getArea() > 0) {
-            Af = 0.2 * (1 + mainWing.getAspectRatio() / getFuselage().getWidthY());
+        if (vStab > 0.1 && getFuselage().getArea() > 0) {
+            Af = 0.2 * (1 + mainWing.getMeanCord() / getFuselage().getWidthY());
         }
 
         double E = vStab <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (stabLever + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
