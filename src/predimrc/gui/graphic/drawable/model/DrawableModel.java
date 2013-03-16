@@ -293,7 +293,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
             Af = 0.2 * (1 + mainWing.getMeanCord() / getFuselage().getWidthY());
         }
 
-        double E = vStab <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (stabLever + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
+        double E = vStab <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (stabLever + 5 * (mainWing.getzPos() - stab.getzPos() + (stab.getSpan() / 2) * (Math.sin(stab.get(0).getDihedral() * Math.PI / 180) / 2.5 ))) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
+   
         double kProjHStab = Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180);
         double xF = 0.25 + (stabLever * stab.getArea() * kProjHStab * As * (1 - E) + XDf * getFuselage().getArea() * Af)
                            / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * kProjHStab * As * (1 - E)));
