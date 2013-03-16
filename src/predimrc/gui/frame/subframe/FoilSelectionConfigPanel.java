@@ -15,7 +15,6 @@
 package predimrc.gui.frame.subframe;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -41,22 +40,25 @@ public class FoilSelectionConfigPanel extends JPanel {
 
     static ArrayList<Color> colors = new ArrayList();
     static String[] fileList = new File(".\\src\\resource\\AirFoils").list();
-    private MegaCombo airfoil1_combo;
+    private MegaCombo airfoil_combo;
     private XFoil_Frame from;
     private JRadioButton crit3 = new JRadioButton("3", true);
     private JRadioButton crit6 = new JRadioButton("6", false);
     private JRadioButton crit9 = new JRadioButton("9", false);
     private JRadioButton crit12 = new JRadioButton("12", false);
+    private MegaLabel xtrTop = new MegaLabel("XTRtop", true);
+    private MegaLabel xtrBot = new MegaLabel("XTRbottom", true);
 
-    public FoilSelectionConfigPanel(int i, XFoil_Frame _from) {
+    public FoilSelectionConfigPanel(int i, XFoil_Frame _from, String selected, int crits, int _xtrBot, int _xtrTop) {
         super();
         from = _from;
-        airfoil1_combo = new MegaCombo("Foil", true, fileList);
+        airfoil_combo = new MegaCombo("Foil", true, fileList);
+        airfoil_combo.addItem("");
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Foil " + i + " configuration."));
-        add(airfoil1_combo);
+        add(airfoil_combo);
 
-        airfoil1_combo.addActionListener(new ActionListener() {
+        airfoil_combo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 from.updateData();
@@ -77,11 +79,38 @@ public class FoilSelectionConfigPanel extends JPanel {
         crit.add(crit9);
         crit.add(crit12);
         add(crit);
-        add(new MegaLabel("XTRtop"));
-        add(new MegaLabel("XTRbottom"));
+        add(xtrTop);
+        add(xtrBot);
+        setConfig(selected, crits, _xtrBot, _xtrTop);
+    }
+
+    public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
+        airfoil_combo.setValue(selected, false);
+        xtrBot.setValue("" + _xtrBot);
+        xtrTop.setValue("" + _xtrTop);
+        switch (crits) {
+            case (3): {
+                crit3.setSelected(true);
+                break;
+            }
+            case (6): {
+                crit6.setSelected(true);
+                break;
+            }
+            case (9): {
+                crit9.setSelected(true);
+                break;
+            }
+            case (12): {
+                crit12.setSelected(true);
+                break;
+            }
+            default:
+                break;
+        }
     }
 
     public String getSelectedFoil() {
-        return airfoil1_combo.getValue();
+        return airfoil_combo.getValue();
     }
 }
