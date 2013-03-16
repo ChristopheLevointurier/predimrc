@@ -173,9 +173,9 @@ public final class ConfigBasicView extends JPanel implements IModelListener {
     @Override
     public void updateModel(DrawableModel m) {
         //  System.out.println("updateModel:" + m.getWings().size() + "," + m.getTail().size() + "," + m.getDerive().size());
-        wingCombo.setSelectedValue("" + m.getWings().size(), false);
-        tailCombo.setSelectedValue("" + m.getTail().size(), false);
-        deriveCombo.setSelectedValue("" + m.getDerive().size(), false);
+        wingCombo.setValue("" + m.getWings().size(), false);
+        tailCombo.setValue("" + m.getTail().size(), false);
+        deriveCombo.setValue("" + m.getDerive().size(), false);
         stabCheck.setValue(m.hasStab(), false);
         fuseCheck.setValue(m.hasFuse(), false);
         modelTitle.setValue(m.getName());

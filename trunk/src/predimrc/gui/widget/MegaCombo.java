@@ -67,21 +67,6 @@ public class MegaCombo extends JPanel {
         }
     }
 
-    public void setSelectedValue(String item, boolean withAction) {
-        ActionListener[] al = value.getActionListeners();
-        if (!withAction) {
-            for (ActionListener a : al) {
-                value.removeActionListener(a);
-            }
-        }
-        value.setSelectedItem(item);
-        if (!withAction) {
-            for (ActionListener a : al) {
-                value.addActionListener(a);
-            }
-        }
-    }
-
     public String getValue() {
         return (String) value.getSelectedItem();
     }
@@ -97,5 +82,11 @@ public class MegaCombo extends JPanel {
 
     public void addActionListener(ActionListener a) {
         value.addActionListener(a);
+    }
+
+    public void addItem(String string) {
+        if (model.getIndexOf(name) == -1) {
+            value.addItem(string);
+        }
     }
 }
