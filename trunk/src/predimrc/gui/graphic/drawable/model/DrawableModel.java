@@ -416,6 +416,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : m.getDerive()) {
             drawableDerive.add(w);
         }
+        xfoilConfig = m.getXfoilConfig();
     }
 
     @Override
@@ -463,7 +464,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czAdjustment, new XfoilConfig());
+        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czAdjustment, xfoilConfig);
     }
 
     @Override

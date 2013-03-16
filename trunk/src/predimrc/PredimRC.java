@@ -94,7 +94,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.79";
+    private static final String VERSION = "Alpha 0.80";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
@@ -118,7 +118,7 @@ public class PredimRC extends JFrame {
     private JToggleButton xFoilBut = new JToggleButton("xFoil");
     private JToggleButton compareBut = new JToggleButton("Compare Models");
     private JToggleButton engineBut = new JToggleButton("Engine");
-     private static PredimRC instance;
+    private static PredimRC instance;
     private static StringBuffer log = new StringBuffer();
     public static Image icon;
     public static ImageIcon imageIcon;
@@ -279,7 +279,7 @@ public class PredimRC extends JFrame {
         xFoilBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new XFoil_Frame(xFoilBut);
+                new XFoil_Frame(xFoilBut, getInstanceDrawableModel().getXfoilConfig());
             }
         });
 
