@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.*;
 import predimrc.common.Utils;
@@ -35,9 +34,7 @@ import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 public class FoilRenderer extends JPanel {
 
     private ChartPanel chart;
-    private String s1 = "FAD05.dat";
-    private String s2 = "FAD05.dat";
-    private String s3 = "FAD05.dat";
+    private String s1, s2, s3;
 
     public FoilRenderer(String _s1, String _s2, String _s3) {
         s1 = _s1;
@@ -49,10 +46,10 @@ public class FoilRenderer extends JPanel {
     public final void updateChart() {
         removeAll();
         chart = createChart(createDataset());
-        chart.setPreferredSize(new Dimension(500, 200));
+        chart.setPreferredSize(new Dimension(480, 110));
         chart.setMouseWheelEnabled(true);
         add(chart);
-        repaint();
+         chart.repaint();
     }
 
     private XYSeriesCollection createDataset() {
@@ -64,43 +61,39 @@ public class FoilRenderer extends JPanel {
     }
 
     private void addFoil(XYSeriesCollection xyseriescollection, int i, String s) {
+
         XYSeries series = new XYSeries(i);
         XYSeries seriesBis = new XYSeries(i + "bis");
-        ArrayList<DrawablePoint> l = Utils.loadDrawablePoints("AirFoils/" + s, Utils.VIEW_TYPE.GRAPH, false);
+        if (s.length() != 0) {
+            ArrayList<DrawablePoint> l = Utils.loadDrawablePoints("AirFoils/" + s, Utils.VIEW_TYPE.GRAPH, false);
 
-        float xbase = l.get(0).getFloatX();
-        for (DrawablePoint p : l) {
-            if (p.getFloatX() > xbase) {
-                series.add(p.getFloatX(), p.getFloatY());
+            float xbase = l.get(0).getFloatX();
+            for (DrawablePoint p : l) {
+                if (p.getFloatX() > xbase) {
+                    series.add(p.getFloatX(), p.getFloatY());
+                }
+                if (p.getFloatX() < xbase) {
+                    seriesBis.add(p.getFloatX(), p.getFloatY());
+                }
+                if (p.getFloatX() == 0) {
+                    series.add(p.getFloatX(), p.getFloatY());
+                    seriesBis.add(p.getFloatX(), p.getFloatY());
+                }
+                if (p.getFloatX() == 1) {
+                    series.add(p.getFloatX(), p.getFloatY());
+                    seriesBis.add(p.getFloatX(), p.getFloatY());
+                }
+                xbase = p.getFloatX();
             }
-            if (p.getFloatX() < xbase) {
-                seriesBis.add(p.getFloatX(), p.getFloatY());
-            }
-            if (p.getFloatX() == 0) {
-                series.add(p.getFloatX(), p.getFloatY());
-                seriesBis.add(p.getFloatX(), p.getFloatY());
-            }
-            if (p.getFloatX() == 1) {
-                series.add(p.getFloatX(), p.getFloatY());
-                seriesBis.add(p.getFloatX(), p.getFloatY());
-            }
-            xbase = p.getFloatX();
         }
         xyseriescollection.addSeries(series);
         xyseriescollection.addSeries(seriesBis);
     }
 
     public ChartPanel createChart(XYDataset xydataset) {
-        JFreeChart jfreechart = ChartFactory.createXYLineChart("Selected foil", "X", "Z", xydataset, PlotOrientation.VERTICAL, false, false, false);
-        XYPlot xyplot = (XYPlot) jfreechart.getPlot();
-        //  xyplot.setDomainZeroBaselineVisible(true);
-        //   xyplot.setDomainPannable(true);
-        //    xyplot.setRangePannable(true);
-        //   ValueAxis valueaxis = xyplot.getRangeAxis();
-        //  valueaxis.setAutoRange(true);
-        // valueaxis.setLowerMargin(0.0D);
-        // valueaxis.setUpperMargin(0.0D);
-        XYLineAndShapeRenderer xylineandshaperenderer = (XYLineAndShapeRenderer) xyplot.getRenderer();
+        JFreeChart jfreechart = ChartFactory.createXYLineChart("", "", "", xydataset, PlotOrientation.VERTICAL, false, false, false);
+        jfreechart.getXYPlot().getRangeAxis().setRange(-0.10, 0.10);
+        XYLineAndShapeRenderer xylineandshaperenderer = (XYLineAndShapeRenderer) jfreechart.getXYPlot().getRenderer();
         //  XYItemRenderer r=  xyplot.getRenderer();
         //   r.setSeriesPaint(0, new Paint());
         // xylineandshaperenderer.setDrawSeriesLineAsPath(false);
@@ -122,8 +115,8 @@ public class FoilRenderer extends JPanel {
         xylineandshaperenderer.setSeriesPaint(1, Color.RED);
         xylineandshaperenderer.setSeriesPaint(2, Color.BLUE);
         xylineandshaperenderer.setSeriesPaint(3, Color.BLUE);
-        xylineandshaperenderer.setSeriesPaint(4, Color.GREEN);
-        xylineandshaperenderer.setSeriesPaint(5, Color.GREEN);
+        xylineandshaperenderer.setSeriesPaint(4, Color.GREEN.darker());
+        xylineandshaperenderer.setSeriesPaint(5, Color.GREEN.darker());
         ChartPanel chartPanel = new ChartPanel(jfreechart);
         chartPanel.setMouseWheelEnabled(true);
         return chartPanel;

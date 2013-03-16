@@ -30,14 +30,14 @@ import predimrc.gui.frame.subframe.ReynoldsConfig;
 public class XFoil_Frame extends ExternalFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
-    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this);
-    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this);
-    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3, this);
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this, "fad05.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this, "fad07.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3, this, "fad15.dat", 6, 100, 100);
     private FoilRenderer foilRenderer;
-    private JButton modif = new JButton("edit a foil");
-    private JButton create = new JButton("create a foil");
-    private JButton del = new JButton("delete a foil");
-    private JButton calc = new JButton("compute");
+    private JButton modif = new JButton("Edit a foil");
+    private JButton create = new JButton("Import a foil");
+    private JButton del = new JButton("Delete a foil");
+    private JButton calc = new JButton("Recaculate");
 
     public XFoil_Frame(AbstractButton _caller) {
         this(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME);
@@ -69,16 +69,14 @@ public class XFoil_Frame extends ExternalFrame {
         user_panel.add(foilSelect);
 
         foilRenderer = new FoilRenderer(foil1.getSelectedFoil(), foil2.getSelectedFoil(), foil3.getSelectedFoil());
-        zone3.add(foilRenderer);
         zone3.add(user_panel);
+        zone3.add(foilRenderer);
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil1.png")));
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil2.png")));
         mainPanel.add(zone3);
         mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil3.png")));
         getContentPane().add(mainPanel);
         updateData();
-
-
 
         JMenuBar menu = new JMenuBar();
         menu.add(create);
@@ -87,7 +85,7 @@ public class XFoil_Frame extends ExternalFrame {
         menu.add(calc);
 
         setJMenuBar(menu);
-pack();
+        pack();
     }
 
     public final void updateData() {
@@ -101,6 +99,7 @@ pack();
         foilRenderer.setS2(s2);
         foilRenderer.setS3(s3);
         foilRenderer.updateChart();
+
     }
 
     @Override
