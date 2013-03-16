@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.text.DefaultStyledDocument;
 import predimrc.model.element.Fuselage;
 import predimrc.model.element.Wing;
+import predimrc.model.element.XfoilConfig;
 
 /**
  * This class contains all model caracteristics for I/O
@@ -44,8 +45,11 @@ public class Model extends ModelElement implements Serializable {
     private Fuselage fuselage;
     private float staticMargin;
     private float czAdjustment;
-
-    public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage, float _czCalage) {
+    private XfoilConfig xfoilConfig;
+    
+    
+    
+    public Model(String _filename, String _name, DefaultStyledDocument _note, ArrayList<Wing> _wings, ArrayList<Wing> _tail, ArrayList<Wing> _derive, Fuselage _fuselage, float _margeStatiqueDeCentrage, float _czCalage, XfoilConfig _xfoilConfig) {
         name = _name;
         note = _note;
         wings = _wings;
@@ -55,6 +59,7 @@ public class Model extends ModelElement implements Serializable {
         filename = _filename;
         staticMargin = _margeStatiqueDeCentrage;
         czAdjustment = _czCalage;
+        xfoilConfig=_xfoilConfig;
     }
 
     /**
@@ -87,17 +92,13 @@ public class Model extends ModelElement implements Serializable {
     public float getStaticMargin() {
         return staticMargin;
     }
-
-    public void setStaticMargin(float staticMargin) {
-        this.staticMargin = staticMargin;
-    }
-
+    
     public float getCzAdjustment() {
         return czAdjustment;
     }
 
-    public void setCzAdjustment(float czAdjustment) {
-        this.czAdjustment = czAdjustment;
+    public XfoilConfig getXfoilConfig() {
+        return xfoilConfig;
     }
 
     @Override
