@@ -64,6 +64,11 @@ public class MegaLabel extends JPanel {
         this(_name, false);
     }
 
+    public MegaLabel(String _name, String _value, boolean _editable) {
+        this(_name, _editable);
+        setValue(_value);
+    }
+
     public MegaLabel(String _name, String _value, boolean _editable, int nbrCarac) {
         this(_name, _editable);
         setValue(_value);
@@ -88,7 +93,7 @@ public class MegaLabel extends JPanel {
     }
 
     public float getFloatValue() {
-        float ret = 0;
+        float ret;
         try {
             ret = Float.parseFloat(getValue());
         } catch (java.lang.NumberFormatException | NullPointerException exxx) {
