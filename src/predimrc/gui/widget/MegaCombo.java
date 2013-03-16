@@ -18,6 +18,7 @@ package predimrc.gui.widget;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,11 +36,13 @@ public class MegaCombo extends JPanel {
     private JComboBox value;
     private boolean editable = false;
     public final Color backColor = new Color(175, 220, 235);
+    private DefaultComboBoxModel model;
 
     public MegaCombo(String _name, boolean _editable, String... val) {
         name = new JLabel(_name + " : ");
         editable = _editable;
-        value = new JComboBox(val);
+        model = new DefaultComboBoxModel(val);
+        value = new JComboBox(model);
         value.setBackground(backColor);
         value.setEnabled(editable);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -64,14 +67,14 @@ public class MegaCombo extends JPanel {
         }
     }
 
-    public void setSelectedValue(int ind, boolean withAction) {
+    public void setSelectedValue(String item, boolean withAction) {
         ActionListener[] al = value.getActionListeners();
         if (!withAction) {
             for (ActionListener a : al) {
                 value.removeActionListener(a);
             }
         }
-        value.setSelectedItem("" + ind);
+        value.setSelectedItem(item);
         if (!withAction) {
             for (ActionListener a : al) {
                 value.addActionListener(a);
