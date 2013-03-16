@@ -31,6 +31,7 @@ import predimrc.gui.graphic.drawable.tool.DrawableGravityCenter;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.Model;
 import predimrc.model.element.Wing;
+import predimrc.model.element.XfoilConfig;
 
 /**
  *
@@ -52,6 +53,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     private DrawableFuselage drawableFuselage;
     private DrawableGravityCenter gravityCenter;
     private DrawableGravityCenter gravityCenterLeft;
+    private XfoilConfig xfoilConfig;
     private float staticMarginRatio = 0.03f;
     private float czAdjustment = 0f;
     private float cm0 = 0f;
@@ -87,7 +89,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         gravityCenter = new DrawableGravityCenter(this, VIEW_TYPE.TOP_VIEW);
         gravityCenterLeft = new DrawableGravityCenter(this, VIEW_TYPE.LEFT_VIEW);
         czAdjustment = me.getCzAdjustment();
-
+xfoilConfig=me.getXfoilConfig();
     }
 
     /**
@@ -120,7 +122,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         attrs[4] = new SimpleAttributeSet(attrs[0]);
         StyleConstants.setFontSize(attrs[4], 12);
         DefaultStyledDocument ret = new DefaultStyledDocument();
-
         try {
             for (int i = 0; i < initString.length; i++) {
                 ret.insertString(ret.getLength(), initString[i], attrs[i]);
@@ -258,6 +259,15 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         return vStab;
     }
 
+    public XfoilConfig getXfoilConfig() {
+        return xfoilConfig;
+    }
+
+    public void setXfoilConfig(XfoilConfig xfoilConfig) {
+        this.xfoilConfig = xfoilConfig;
+    }
+
+    
     /**
      * Compute methods
      */
@@ -453,7 +463,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         for (DrawableWing w : drawableDerive) {
             realDerives.add(w.generateModel());
         }
-        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czAdjustment);
+        return new Model("", name, note, realWings, realTails, realDerives, drawableFuselage.generateModel(), staticMarginRatio, czAdjustment, new XfoilConfig());
     }
 
     @Override
@@ -467,6 +477,6 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
     @Override
     public String toInfoString() { //should never be called
-        return "Model ";
+        return "DrawableModel ";
     }
 }
