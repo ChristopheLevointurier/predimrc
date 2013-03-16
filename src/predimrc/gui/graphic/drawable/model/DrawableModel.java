@@ -105,6 +105,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         drawableFuselage = new DrawableFuselage(this);
         gravityCenter = new DrawableGravityCenter(this, VIEW_TYPE.TOP_VIEW);
         gravityCenterLeft = new DrawableGravityCenter(this, VIEW_TYPE.LEFT_VIEW);
+        xfoilConfig = new XfoilConfig();
     }
 
     protected final DefaultStyledDocument initDocument() {
