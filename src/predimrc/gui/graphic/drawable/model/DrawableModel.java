@@ -62,7 +62,7 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
     /**
      * * computed values *
      */
-    private double czAStab = 0f;
+    private double czStab = 0f;
     private double alphaWing = 0f;
     private double alphaStab = 0f;
 
@@ -226,12 +226,12 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         this.alpha0s = alpha0s;
     }
 
-    public double getCzAStab() {
-        return czAStab;
+    public double getCzStab() {
+        return czStab;
     }
 
-    public void setCzAStab(double czAStab) {
-        this.czAStab = czAStab;
+    public void setCzStab(double czStab) {
+        this.czStab = czStab;
     }
 
     public double getAlphaWing() {
@@ -302,9 +302,9 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
         gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
 
-        alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
-        czAStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;
-        alphaStab = 9.1f * (E * czAdjustment / Aa + czAStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
+        alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;      
+        czStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;        
+        alphaStab = 9.1f * (E * czAdjustment / Aa + czStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
         //apply stable angle of attack for cz
         stab.setAngle((float) alphaStab);
     }

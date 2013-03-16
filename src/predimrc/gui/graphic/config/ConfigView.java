@@ -223,7 +223,7 @@ public final class ConfigView extends JPanel implements IModelListener {
         stabRecommandedForCz_label.setValue("" + Utils.round(m.getAlphaStab()));
         wingAlpha0_label.setValue("" + Utils.round(m.getAlpha0a()));
         wingCm0_label.setValue("" + Utils.round(m.getCm0()));
-        stabCz_label.setValue("" + Utils.round(m.getCzAStab()));
+        stabCz_label.setValue("" + Utils.round(m.getCzStab()));
         stabspan_label.setValue("" + Utils.round(m.getTail().get(0).getSpan()));
         stabarea_label.setValue("" + Utils.round(m.getTail().get(0).getArea()));
         stabFoil_label.setValue("" + m.getTail().get(0).getFilename());
