@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.widget.MegaCombo;
-import predimrc.gui.widget.MegaLabel;
 
 /**
  *
@@ -40,20 +39,21 @@ public class FoilSelectionConfigPanel extends JPanel {
 
     static ArrayList<Color> colors = new ArrayList();
     static String[] fileList = new File(".\\src\\resource\\AirFoils").list();
-    private MegaCombo airfoil_combo;
+    static String[] xtr = {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "100"};
+    private MegaCombo airfoil_combo, xtrTop, xtrBot;
     private XFoil_Frame from;
     private JRadioButton crit3 = new JRadioButton("3", true);
     private JRadioButton crit6 = new JRadioButton("6", false);
     private JRadioButton crit9 = new JRadioButton("9", false);
     private JRadioButton crit12 = new JRadioButton("12", false);
-    private MegaLabel xtrTop = new MegaLabel("XTRtop", true);
-    private MegaLabel xtrBot = new MegaLabel("XTRbottom", true);
 
     public FoilSelectionConfigPanel(int i, XFoil_Frame _from, String selected, int crits, int _xtrBot, int _xtrTop) {
         super();
         from = _from;
         airfoil_combo = new MegaCombo("Foil", true, fileList);
         airfoil_combo.addItem("");
+        xtrTop = new MegaCombo("XTRtop", true, xtr);
+        xtrBot = new MegaCombo("XTRbottom", true, xtr);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Foil " + i + " configuration."));
         add(airfoil_combo);
@@ -86,8 +86,8 @@ public class FoilSelectionConfigPanel extends JPanel {
 
     public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
         airfoil_combo.setValue(selected, false);
-        xtrBot.setValue("" + _xtrBot);
-        xtrTop.setValue("" + _xtrTop);
+        xtrBot.setValue("" + _xtrBot, false);
+        xtrTop.setValue("" + _xtrTop, false);
         switch (crits) {
             case (3): {
                 crit3.setSelected(true);
@@ -112,5 +112,27 @@ public class FoilSelectionConfigPanel extends JPanel {
 
     public String getSelectedFoil() {
         return airfoil_combo.getValue();
+    }
+
+    public int getCrit() {
+        int ret = 3;
+        if (crit6.isSelected()) {
+            ret = 6;
+        }
+        if (crit9.isSelected()) {
+            ret = 9;
+        }
+        if (crit12.isSelected()) {
+            ret = 12;
+        }
+        return ret;
+    }
+
+    public int getXtrTop() {
+        return Integer.parseInt(xtrTop.getValue());
+    }
+
+    public int getXtrBot() {
+        return Integer.parseInt(xtrBot.getValue());
     }
 }
