@@ -294,18 +294,23 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         }
 
         double E = vStab <= 0 ? 0 : (1 / (2 + mainWing.getAspectRatio()) * (4.5 - (stabLever + 5 * (mainWing.getzPos() - stab.getzPos())) / (mainWing.getAspectRatio() * mainWing.getMeanCord())));
-
-        double xF = 0.25 + (stabLever * stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * As * (1 - E) + XDf * getFuselage().getArea() * Af) / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * As * (1 - E)));
+        double kProjHStab = Math.cos(stab.get(0).getDihedral() * Math.PI / 180) * Math.cos(stab.get(0).getDihedral() * Math.PI / 180);
+        double xF = 0.25 + (stabLever * stab.getArea() * kProjHStab * As * (1 - E) + XDf * getFuselage().getArea() * Af)
+                           / (mainWing.getMeanCord() * (mainWing.getArea() * Aa + getFuselage().getArea() * Af + stab.getArea() * kProjHStab * As * (1 - E)));
         XF = mainWing.getXF() + (xF - 0.25) * mainWing.getMeanCord();
         double xCG = xF - staticMarginRatio;
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
         gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
 
-        alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;      
-        czStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab;        
+        alphaWing = (9.1f * czAdjustment / Aa) + alpha0a; 
+             
+        //czStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab; //simple formula whitout fuse        
+        czStab = (mainWing.getArea() * mainWing.getMeanCord()*(czAdjustment * (xCG - 0.25f) + cm0)
+                - XDf * getFuselage().getArea() * 0.11f * Af * (alphaWing - mainWing.getAngle()))
+                / (stab.getArea() * (stabLever - mainWing.getMeanCord() * (xCG - 0.25f)));
         alphaStab = 9.1f * (E * czAdjustment / Aa + czStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
-        //apply stable angle of attack for cz
+        //apply longitudinal equilibrium angle of attack for czAdjustment
         stab.setAngle((float) alphaStab);
     }
 
