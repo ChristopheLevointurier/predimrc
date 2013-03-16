@@ -17,6 +17,7 @@ package predimrc.model.element;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
 
 /**
  *
@@ -36,9 +37,6 @@ public class XfoilConfig implements Serializable {
     public XfoilConfig() {
     }
 
-    public XfoilConfig(int i, String selectedFoil, int crit, int xtrTop, int xtrBot) {
-        setFoilConfig(i, selectedFoil, crit, xtrTop, xtrBot);
-    }
 
     public ArrayList<Boolean> getReynolds() {
         ArrayList<Boolean> ret = new ArrayList<>();
@@ -96,19 +94,21 @@ public class XfoilConfig implements Serializable {
         }
     }
 
-    public final void setFoilConfig(int i, String foil, int crit, int xtrTop, int xtrBot) {
+    public final String setFoilConfig(String foil, int crit, int xtrTop, int xtrBot) {
+        return foil + "¤" + crit + "¤" + xtrTop + "¤" + xtrBot + "¤";
+    }
+
+    public void setFoilConfig(int i, FoilSelectionConfigPanel foilConf) {
         switch (i) {
             case 1:
-                foil1Config = foil + "¤" + crit + "¤" + xtrTop + "¤" + xtrBot + "¤";
-                break;
-            case 2:
-                foil2Config = foil + "¤" + crit + "¤" + xtrTop + "¤" + xtrBot + "¤";
-                break;
-            case 3:
-                foil3Config = foil + "¤" + crit + "¤" + xtrTop + "¤" + xtrBot + "¤";
-                break;
-            default:
+                foil1Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
                 return;
+            case 2:
+                foil2Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
+                return;
+            case 3:
+                foil3Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
+            default:
         }
     }
 }
