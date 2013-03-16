@@ -49,7 +49,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
 
         switch (usedFor) {
             case FRONT_POINT: {
-                nbrCombo.setSelectedValue("" + ((DrawableWing) drawableBelongsTo).getSize(), false);
+                nbrCombo.setValue("" + ((DrawableWing) drawableBelongsTo).getSize(), false);
                 fileLabel.setValue("" + drawableBelongsTo.getFilename());
 
                 Dimension3D pos = Utils.getRefPos(drawableBelongsTo.getPositionDimension3D());
