@@ -297,10 +297,10 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
 
         double Af = 0.4;
         if (vStab < -0.1 && getFuselage().getArea() > 0) {
-            Af = 0.2 * (1 + stab.getMeanCord() / getFuselage().getWidthY());
+            Af = (0.0217 * stab.getMeanCord() / getFuselage().getWidthY() + 0.0204) / 0.11;
         }
         if (vStab > 0.1 && getFuselage().getArea() > 0) {
-            Af = 0.2 * (1 + mainWing.getMeanCord() / getFuselage().getWidthY());
+            Af = (0.0217 * mainWing.getMeanCord() / getFuselage().getWidthY() + 0.0204) / 0.11;
         }
 
         //downwash computation
@@ -324,13 +324,13 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
         gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
-      
+           
         // Wing angle of attack for Cz adjust
         alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
         //czStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab; //simple formula whitout fuse        
         czStab = (mainWing.getArea() * mainWing.getMeanCord() * (czAdjustment * (xCG - 0.25f) + cm0)
-                - XDf * getFuselage().getArea() * 0.11f * Af * (alphaWing - mainWing.getAngle()))
-                / (stab.getArea() * (stabLever - mainWing.getMeanCord() * (xCG - 0.25f)));
+                 - ((XDf - mainWing.getMeanCord() * (xCG - 0.25f)) * getFuselage().getArea() * 0.11f * Af * (alphaWing - mainWing.getAngle()))
+                 ) /(stab.getArea() * (stabLever - mainWing.getMeanCord() * (xCG - 0.25f)));
         alphaStab = 9.1f * (E * czAdjustment / Aa + czStab / As) + alpha0s + mainWing.getAngle() - alphaWing;
         //apply longitudinal equilibrium angle of attack for czAdjustment
         stab.setAngle((float) alphaStab);
