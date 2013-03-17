@@ -324,8 +324,8 @@ public class DrawableModel extends DrawableModelElement implements IModelListene
         double XCG = mainWing.getXF() + (xCG - 0.25) * mainWing.getMeanCord();
         gravityCenter.setLocation(Utils.TOP_SCREEN_X / 2, XCG);
         gravityCenterLeft.setLocation(XCG, Utils.REF_POINT.getZ());
-
-        // Wing incidence for Cz adjust
+      
+        // Wing angle of attack for Cz adjust
         alphaWing = (9.1f * czAdjustment / Aa) + alpha0a;
         //czStab = (czAdjustment * (xCG - 0.25f) + cm0) / vStab; //simple formula whitout fuse        
         czStab = (mainWing.getArea() * mainWing.getMeanCord() * (czAdjustment * (xCG - 0.25f) + cm0)
