@@ -230,7 +230,7 @@ public class Utils {
 
         if (file.toLowerCase().endsWith(".dat")) {
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl(file).openStream()));
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {

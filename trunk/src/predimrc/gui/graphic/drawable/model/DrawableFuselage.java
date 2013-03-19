@@ -304,7 +304,7 @@ public class DrawableFuselage extends DrawableModelElement {
             shapeFront = Utils.loadDrawablePoints("Fuselages/" + filename + "_front.dat", VIEW_TYPE.FRONT_VIEW, true);
             Properties config = new Properties();
             try {
-                config.load(predimrc.PredimRC.getResourceUrl("Fuselages/" + filename + "_coeff.txt").openStream());
+                config.load(predimrc.PredimRC.getDataResourceUrl("Fuselages/" + filename + "_coeff.txt").openStream());
                 kSf = Float.parseFloat(config.getProperty("kSf", "0.65"));
                 kSMf = Float.parseFloat(config.getProperty("kSMf", "0.65"));
                 neutralPointRatio = Float.parseFloat(config.getProperty("xFf", "0.20"));
