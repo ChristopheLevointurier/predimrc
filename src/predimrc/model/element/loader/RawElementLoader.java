@@ -62,7 +62,7 @@ public class RawElementLoader {
         if (file.toLowerCase().endsWith(".dat")) {
             ArrayList<JGL_3DVector> vertices = new ArrayList<>();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getResourceUrl(file).openStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl(file).openStream()));
                 String line;
                 try {
                     title = reader.readLine();
@@ -107,7 +107,7 @@ public class RawElementLoader {
             }
         }
         if (file.toLowerCase().endsWith(".obj")) {
-            JGL_Data3D data = new JGL_Data3D(predimrc.PredimRC.getResourceUrl(file), JGL_Data3D.OBJ);
+            JGL_Data3D data = new JGL_Data3D(predimrc.PredimRC.getDataResourceUrl(file), JGL_Data3D.OBJ);
             mesh = data.mesh;
         }
     }
