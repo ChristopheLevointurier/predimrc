@@ -94,11 +94,11 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.80";
+    private static final String VERSION = "Alpha 0.81";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
-    private static final boolean DEBUG_MODE = true;
+    private static final boolean DEBUG_MODE = false;
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
     /**
@@ -203,7 +203,7 @@ public class PredimRC extends JFrame {
         JMenuBar menu = new JMenuBar();
         JMenu filemenu = new JMenu("File");
         JMenu editmenu = new JMenu("Config");
-        JMenu perfmenu = new JMenu("Performance");
+        //  JMenu perfmenu = new JMenu("Performance");
 
         /**
          * register new listener of the model*
@@ -220,20 +220,17 @@ public class PredimRC extends JFrame {
         editmenu.addSeparator();
 
 
-
-        perfmenu.add(vlmBut);
-        perfmenu.add(xFoilBut);
-        perfmenu.add(optimBut);
-        perfmenu.add(engineBut);
-        perfmenu.add(compareBut);
-
-
-
+        // perfmenu.add(vlmBut);
+        //  perfmenu.add(xFoilBut);
+        //  perfmenu.add(optimBut);
+        //  perfmenu.add(engineBut);
+        //  perfmenu.add(compareBut);
 
 
         menu.add(filemenu);
         menu.add(editmenu);
-        menu.add(perfmenu);
+        //  menu.add(perfmenu);
+        menu.add(xFoilBut);
         menu.add(modelNoteBut);
         menu.add(the3DViewButton);
         menu.add(savebut);
@@ -710,6 +707,10 @@ public class PredimRC extends JFrame {
         } else {
             log("play " + path + " fail");
         }
+    }
+
+    public static URL getDataResourceUrl(String file) {
+        return getResourceUrl(file);
     }
 
     public static URL getResourceUrl(String path) {
