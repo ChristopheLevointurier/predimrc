@@ -18,6 +18,8 @@ import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
+import predimrc.gui.frame.subframe.FreeChartPanel;
+import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
 import predimrc.model.element.XfoilConfig;
 
@@ -78,10 +80,22 @@ public class XFoil_Frame extends ExternalFrame {
         foilRenderer = new FoilRenderer(foil1.getSelectedFoil(), foil2.getSelectedFoil(), foil3.getSelectedFoil());
         zone3.add(user_panel);
         zone3.add(foilRenderer);
-        mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil1.png")));
-        mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil2.png")));
+
+        FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
+        PolarData polData = new PolarData("FAD18", 1500000, 9);
+        cXcZPanel.addSeries(Color.red, polData.getCxCzData());
+        mainPanel.add(cXcZPanel);
+
+        FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
+        cZAlphaPanel.addSeries(Color.red, polData.getCzAlphaData());
+        mainPanel.add(cZAlphaPanel);
+
         mainPanel.add(zone3);
-        mainPanel.add(new JButton(PredimRC.getImageIcon("xfoil3.png")));
+
+        FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
+        cMcz.addSeries(Color.red, polData.getCmCzData());
+        mainPanel.add(cMcz);
+
         getContentPane().add(mainPanel);
 
         JMenuBar menu = new JMenuBar();
