@@ -49,7 +49,7 @@ public class FoilRenderer extends JPanel {
         chart.setPreferredSize(new Dimension(480, 110));
         chart.setMouseWheelEnabled(true);
         add(chart);
-         chart.repaint();
+        chart.repaint();
     }
 
     private XYSeriesCollection createDataset() {
@@ -64,7 +64,7 @@ public class FoilRenderer extends JPanel {
 
         XYSeries series = new XYSeries(i);
         XYSeries seriesBis = new XYSeries(i + "bis");
-        if (s.length() != 0) {
+        if (s.length() > 1) {
             ArrayList<DrawablePoint> l = Utils.loadDrawablePoints("AirFoils/" + s, Utils.VIEW_TYPE.GRAPH, false);
 
             float xbase = l.get(0).getFloatX();

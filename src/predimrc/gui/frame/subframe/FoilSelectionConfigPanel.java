@@ -51,7 +51,7 @@ public class FoilSelectionConfigPanel extends JPanel {
         super();
         from = _from;
         airfoil_combo = new MegaCombo("Foil", true, fileList);
-        airfoil_combo.addItem("");
+        airfoil_combo.addItem(" ");
         xtrTop = new MegaCombo("XTRtop", true, xtr);
         xtrBot = new MegaCombo("XTRbottom", true, xtr);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

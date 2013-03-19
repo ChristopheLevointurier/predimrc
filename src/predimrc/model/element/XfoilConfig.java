@@ -37,7 +37,6 @@ public class XfoilConfig implements Serializable {
     public XfoilConfig() {
     }
 
-
     public ArrayList<Boolean> getReynolds() {
         ArrayList<Boolean> ret = new ArrayList<>();
         StringTokenizer tok = new StringTokenizer(reynolds, DELIM);
@@ -95,7 +94,7 @@ public class XfoilConfig implements Serializable {
     }
 
     public final String setFoilConfig(String foil, int crit, int xtrTop, int xtrBot) {
-        return foil + "¤" + crit + "¤" + xtrTop + "¤" + xtrBot + "¤";
+        return foil + DELIM + crit + DELIM + xtrTop + DELIM + xtrBot + DELIM;
     }
 
     public void setFoilConfig(int i, FoilSelectionConfigPanel foilConf) {
