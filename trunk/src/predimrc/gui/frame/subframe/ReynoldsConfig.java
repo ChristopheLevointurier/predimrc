@@ -34,7 +34,7 @@ import predimrc.controller.ModelController;
  */
 public class ReynoldsConfig extends JPanel {
 
-    private static final int[] reyIntValue = {25, 50, 100, 250, 750, 1500};
+    private static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500};
     public static final ArrayList<Integer> reyValue = new ArrayList<>();
     private ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
    
