@@ -99,7 +99,7 @@ public class PolarData {
         }
     }
 
-    public ArrayList<DrawablePoint> getCxCzData() {
+    public ArrayList<DrawablePoint> getCzCxData() {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (PolardataLine p : data) {
             ret.add(new DrawablePoint(p.getCx(), p.getCz(), Utils.VIEW_TYPE.GRAPH));
@@ -110,7 +110,7 @@ public class PolarData {
     public ArrayList<DrawablePoint> getCzAlphaData() {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (PolardataLine p : data) {
-            ret.add(new DrawablePoint(p.getCz(), p.getAlpha(), Utils.VIEW_TYPE.GRAPH));
+            ret.add(new DrawablePoint(p.getAlpha(), p.getCz(), Utils.VIEW_TYPE.GRAPH));
         }
         return ret;
     }
@@ -118,7 +118,7 @@ public class PolarData {
     public ArrayList<DrawablePoint> getCmCzData() {
         ArrayList<DrawablePoint> ret = new ArrayList<>();
         for (PolardataLine p : data) {
-            ret.add(new DrawablePoint(p.getCm(), p.getCz(), Utils.VIEW_TYPE.GRAPH));
+            ret.add(new DrawablePoint(p.getCz(), p.getCm(), Utils.VIEW_TYPE.GRAPH));
         }
         return ret;
     }
