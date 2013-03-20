@@ -15,12 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
+import predimrc.controller.IModelListener;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
 import predimrc.gui.frame.subframe.FreeChartPanel;
 import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
 /**
@@ -30,7 +32,7 @@ import predimrc.model.element.XfoilConfig;
  * @see
  * @since
  */
-public class XFoil_Frame extends ExternalFrame {
+public class XFoil_Frame extends ExternalFrame{
 
     private JTabbedPane foilSelect = new JTabbedPane();
     private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this, "fad05.dat", 6, 100, 100);
@@ -82,7 +84,7 @@ public class XFoil_Frame extends ExternalFrame {
         zone3.add(foilRenderer);
 
         FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
-        PolarData polData = new PolarData("FAD18", 1500000, 9);
+        PolarData polData = new PolarData("FAD18", 1500, 9, 100, 100);
         cXcZPanel.addSeries(Color.red, polData.getCxCzData());
         mainPanel.add(cXcZPanel);
 
@@ -138,5 +140,11 @@ public class XFoil_Frame extends ExternalFrame {
         xfoilconfig.setFoilConfig(3, foil3);
         xfoilconfig.setReynolds(reynoldConfig.getConfig());
         return xfoilconfig;
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        // todo
+        System.out.println("update xfoil");
     }
 }

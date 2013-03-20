@@ -22,6 +22,7 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledEditorKit;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
  *
@@ -116,5 +117,10 @@ public class Note_Frame extends ExternalFrame {
         drawableModel.setNote((DefaultStyledDocument) textPane.getStyledDocument());
         caller.setSelected(false);
         dispose();
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
