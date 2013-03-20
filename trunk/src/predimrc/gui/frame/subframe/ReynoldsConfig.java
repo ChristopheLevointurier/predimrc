@@ -73,7 +73,6 @@ public class ReynoldsConfig extends JPanel {
         ArrayList<Boolean> ret = new ArrayList<>();
         for (JCheckBox c : reynolds_check) {
             ret.add(c.isSelected());
-
         }
         return ret;
     }
