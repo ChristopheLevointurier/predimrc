@@ -32,6 +32,8 @@ import javax.swing.KeyStroke;
 import predimrc.PredimRC;
 import predimrc.common.UserConfig;
 import predimrc.common.Utils;
+import predimrc.controller.IModelListener;
+import predimrc.controller.ModelController;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
@@ -43,7 +45,7 @@ import predimrc.gui.graphic.drawable.model.DrawableModel;
  * @see
  * @since
  */
-public abstract class ExternalFrame extends JFrame {
+public abstract class ExternalFrame extends JFrame implements IModelListener {
 
     protected String title = "unknown";
     protected Image icon = null;
@@ -92,6 +94,7 @@ public abstract class ExternalFrame extends JFrame {
                 save();
                 caller.setEnabled(true);
                 caller.setSelected(false);
+                ModelController.removeModelListener((IModelListener) e.getWindow());
                 dispose();
             }
         });

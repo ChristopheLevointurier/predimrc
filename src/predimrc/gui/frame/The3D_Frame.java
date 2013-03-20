@@ -39,6 +39,7 @@ import javax.swing.JButton;
 import predimrc.common.UserConfig;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.graphic.config.Config3DView;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.loader.FuselageLoader;
 
 /**
@@ -298,5 +299,10 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
 
     public static void main(String[] poj) {
         new The3D_Frame(new JButton());
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

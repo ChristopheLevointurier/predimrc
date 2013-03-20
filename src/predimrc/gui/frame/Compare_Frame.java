@@ -10,6 +10,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JTextArea;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 
 /**
  *
@@ -34,5 +35,10 @@ public class Compare_Frame extends ExternalFrame {
     @Override
     public void save() {
         predimrc.PredimRC.logln("Save from " + title);
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
