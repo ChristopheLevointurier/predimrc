@@ -14,6 +14,7 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -39,9 +40,8 @@ public class FreeChartPanel extends JPanel {
     private XYLineAndShapeRenderer xylineandshaperenderer;
     private String x, y, title;
     private ChartPanel chartPanel;
-    private final static float[][] dashs = {{5.0f, 10.0f}, {5.0f, 20.0f}, {5.0f, 10.0f, 5.0f}, {5.0f, 5.0f, 10.0f}, {5.0f, 20.0f, 5.0f}, {5.0f, 5.0f, 20.0f}};
-    //private final static  BasicStroke[] dashs = {new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, {10.0f}, 0.0f)};
-
+    private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}};
+  
     public FreeChartPanel(String _title, String _x, String _y) {
         super();
         title = _title;
@@ -61,13 +61,14 @@ public class FreeChartPanel extends JPanel {
         chartPanel.repaint();
     }
 
-    public void addSeries(Color col, ArrayList<DrawablePoint> l) {
+    public void addSeries(Color col, int indexReynolds, String key, ArrayList<DrawablePoint> l) {
         XYSeries series = new XYSeries(xyseriescollection.getSeriesCount());
         for (DrawablePoint p : l) {
             series.add(p.getFloatX(), p.getFloatY());
         }
+        xylineandshaperenderer.setSeriesPaint(xyseriescollection.getSeriesCount(), col);
+        xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
         xyseriescollection.addSeries(series);
-        xylineandshaperenderer.setSeriesPaint(0, col);
         chartPanel.repaint();
     }
 }
