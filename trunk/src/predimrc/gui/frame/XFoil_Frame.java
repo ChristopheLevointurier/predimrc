@@ -142,7 +142,7 @@ public class XFoil_Frame extends ExternalFrame {
 
         PolarData polData = PolarDataBase.getData("pok");
         //  cXcZPanel.addSeries(Color.red, polData.getCxCzData());
-        cXcZPanel.addSeries(Color.red, 2, "pute", polData.getCxCzData());
+        cXcZPanel.addSeries(Color.red, 2, "pute", polData.getCzCxData());
         cZAlphaPanel.addSeries(Color.red, 0, "sdouigh", polData.getCzAlphaData());
         cMcz.addSeries(Color.red, 1, "ergi", polData.getCmCzData());
     }
