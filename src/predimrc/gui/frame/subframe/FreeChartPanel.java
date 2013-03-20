@@ -39,6 +39,8 @@ public class FreeChartPanel extends JPanel {
     private XYLineAndShapeRenderer xylineandshaperenderer;
     private String x, y, title;
     private ChartPanel chartPanel;
+    private final static float[][] dashs = {{5.0f, 10.0f}, {5.0f, 20.0f}, {5.0f, 10.0f, 5.0f}, {5.0f, 5.0f, 10.0f}, {5.0f, 20.0f, 5.0f}, {5.0f, 5.0f, 20.0f}};
+    //private final static  BasicStroke[] dashs = {new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, {10.0f}, 0.0f)};
 
     public FreeChartPanel(String _title, String _x, String _y) {
         super();
@@ -53,7 +55,7 @@ public class FreeChartPanel extends JPanel {
         chartPanel = new ChartPanel(ChartFactory.createXYLineChart(title, x, y, xyseriescollection, PlotOrientation.VERTICAL, false, true, false));
         xylineandshaperenderer = (XYLineAndShapeRenderer) chartPanel.getChart().getXYPlot().getRenderer();
         chartPanel.setMouseWheelEnabled(true);
-        chartPanel.setPreferredSize(new Dimension(480, 400));
+        chartPanel.setPreferredSize(new Dimension(480, 330));
         chartPanel.setMouseWheelEnabled(true);
         add(chartPanel);
         chartPanel.repaint();
