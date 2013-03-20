@@ -14,6 +14,8 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
+import predimrc.controller.ModelController;
 
 /**
  *
@@ -31,12 +34,17 @@ import predimrc.PredimRC;
  */
 public class ReynoldsConfig extends JPanel {
 
-    private JCheckBox reynolds_25k_check = new JCheckBox("25 k", true);
-    private JCheckBox reynolds_50k_check = new JCheckBox("50 k", true);
-    private JCheckBox reynolds_100k_check = new JCheckBox("100 k", true);
-    private JCheckBox reynolds_250k_check = new JCheckBox("250 k", true);
-    private JCheckBox reynolds_750k_check = new JCheckBox("750 k", true);
-    private JCheckBox reynolds_1500k_check = new JCheckBox("1500 k", true);
+    private static final int[] reyIntValue = {25, 50, 100, 250, 750, 1500};
+    public static final ArrayList<Integer> reyValue = new ArrayList<>();
+    private ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
+   
+    private ActionListener check = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PredimRC.getInstanceDrawableModel().getXfoilConfig().setReynolds(getConfig());
+            ModelController.applyChange();
+        }
+    };
 
     public ReynoldsConfig(ArrayList<Boolean> reynolds) {
         super();
@@ -48,54 +56,25 @@ public class ReynoldsConfig extends JPanel {
 
         JPanel reynolds_panel = new JPanel();
         reynolds_panel.setLayout(new BoxLayout(reynolds_panel, BoxLayout.Y_AXIS));
-        reynolds_panel.add(reynolds_25k_check);
-        reynolds_panel.add(reynolds_50k_check);
-        reynolds_panel.add(reynolds_100k_check);
-        reynolds_panel.add(reynolds_250k_check);
-        reynolds_panel.add(reynolds_750k_check);
-        reynolds_panel.add(reynolds_1500k_check);
-        reynolds_25k_check.setSelected(reynolds.get(0));
-        reynolds_50k_check.setSelected(reynolds.get(1));
-        reynolds_100k_check.setSelected(reynolds.get(2));
-        reynolds_250k_check.setSelected(reynolds.get(3));
-        reynolds_750k_check.setSelected(reynolds.get(4));
-        reynolds_1500k_check.setSelected(reynolds.get(5));
+
+
+        for (int i : reyIntValue) {
+            reyValue.add(i);
+            JCheckBox temp = new JCheckBox(i + " k", reynolds.get(reynolds_check.size()));
+            temp.addActionListener(check);
+            reynolds_check.add(temp);
+            reynolds_panel.add(temp);
+        }
         add(drawPanel);
-        add(reynolds_panel);
-    }
-
-    public JCheckBox getReynolds_25k_check() {
-        return reynolds_25k_check;
-    }
-
-    public JCheckBox getReynolds_50k_check() {
-        return reynolds_50k_check;
-    }
-
-    public JCheckBox getReynolds_100k_check() {
-        return reynolds_100k_check;
-    }
-
-    public JCheckBox getReynolds_250k_check() {
-        return reynolds_250k_check;
-    }
-
-    public JCheckBox getReynolds_750k_check() {
-        return reynolds_750k_check;
-    }
-
-    public JCheckBox getReynolds_1500k_check() {
-        return reynolds_1500k_check;
+        add(reynolds_panel); 
     }
 
     public ArrayList<Boolean> getConfig() {
         ArrayList<Boolean> ret = new ArrayList<>();
-        ret.add(reynolds_25k_check.isSelected());
-        ret.add(reynolds_50k_check.isSelected());
-        ret.add(reynolds_100k_check.isSelected());
-        ret.add(reynolds_250k_check.isSelected());
-        ret.add(reynolds_750k_check.isSelected());
-        ret.add(reynolds_1500k_check.isSelected());
+        for (JCheckBox c : reynolds_check) {
+            ret.add(c.isSelected());
+
+        }
         return ret;
     }
 }
