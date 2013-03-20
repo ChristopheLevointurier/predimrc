@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
+import predimrc.gui.frame.subframe.ReynoldsConfig;
 
 /**
  *
@@ -109,5 +110,32 @@ public class XfoilConfig implements Serializable {
                 foil3Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
             default:
         }
+    }
+
+    public ArrayList<String> getConfigsToDisplay() {
+        ArrayList<String> ret = new ArrayList<>();
+        boolean f1 = getFoilName(1).length() > 1;
+        boolean f2 = getFoilName(2).length() > 1;
+        boolean f3 = getFoilName(3).length() > 1;
+        ArrayList<Boolean> r = getReynolds();
+        for (int i = 0; i < r.size(); i++) {
+            if (r.get(i)) {
+                addfoil(ret, "" + ReynoldsConfig.reyValue.get(i), f1, f2, f3);
+            }
+        }
+        return ret;
+    }
+
+    private ArrayList<String> addfoil(ArrayList<String> in, String re, boolean f1, boolean f2, boolean f3) {
+        if (f1) {
+            in.add(foil1Config + DELIM + re);
+        }
+        if (f2) {
+            in.add(foil2Config + DELIM + re);
+        }
+        if (f3) {
+            in.add(foil3Config + DELIM + re);
+        }
+        return in;
     }
 }
