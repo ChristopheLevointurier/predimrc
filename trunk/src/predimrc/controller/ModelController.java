@@ -37,10 +37,12 @@ public class ModelController {
     }
 
     public static void addModelListener(IModelListener l) {
+        predimrc.PredimRC.logDebugln("added listener");
         listeners.add(l);
     }
 
     public static void removeModelListener(IModelListener l) {
+        predimrc.PredimRC.logDebugln("removed listener");
         listeners.remove(l);
     }
 
