@@ -18,9 +18,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
+import predimrc.model.element.XfoilConfig;
 
 /**
  * This class contains data from polars.dat.
@@ -32,21 +34,37 @@ import predimrc.gui.graphic.drawable.tool.DrawablePoint;
  */
 public class PolarData {
 
-    private String file;
-    private String foilName;
-    private int reynolds;
-    private int ncrit;
-    private int xtrt;
-    private int xtrb;
+    private String file = "fail";
+    private String foilName = "fail";
+    private int reynolds = 0;
+    private int ncrit = 0;
+    private int xtrt = 0;
+    private int xtrb = 0;
     private ArrayList<PolardataLine> data;
 
-    public PolarData(String _foilName, int _reynolds, int _ncrit, int _xtrt, int _xtrb) {
+    public PolarData(String _foilName, int _ncrit, int _xtrt, int _xtrb, int _reynolds) {
         foilName = _foilName;
         reynolds = _reynolds;
         ncrit = _ncrit;
         xtrt = _xtrt;
         xtrb = _xtrb;
-        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + reynolds+ ".txt";
+        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + reynolds + ".txt";
+        loadPolarData();
+    }
+
+    public PolarData(String key) {
+
+        StringTokenizer tok = new StringTokenizer(key, XfoilConfig.DELIM);
+        foilName = tok.nextToken();
+        try {
+            ncrit = Integer.parseInt(tok.nextToken());
+            xtrt = Integer.parseInt(tok.nextToken());
+            xtrb = Integer.parseInt(tok.nextToken());
+            reynolds = Integer.parseInt(tok.nextToken());
+        } catch (java.lang.NumberFormatException e) {
+            predimrc.PredimRC.logln("NumberFormatException:" + foilName + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynolds);
+        }
+        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + reynolds + ".txt";
         loadPolarData();
     }
 
