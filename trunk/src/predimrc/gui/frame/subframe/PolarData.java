@@ -36,13 +36,17 @@ public class PolarData {
     private String foilName;
     private int reynolds;
     private int ncrit;
+    private int xtrt;
+    private int xtrb;
     private ArrayList<PolardataLine> data;
 
-    public PolarData(String _foilName, int _reynolds, int _ncrit) {
+    public PolarData(String _foilName, int _reynolds, int _ncrit, int _xtrt, int _xtrb) {
         foilName = _foilName;
         reynolds = _reynolds;
         ncrit = _ncrit;
-        file = "Polars/" + foilName + "_N" + ncrit + "_RE" + reynolds + ".txt";
+        xtrt = _xtrt;
+        xtrb = _xtrb;
+        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + reynolds+ ".txt";
         loadPolarData();
     }
 
