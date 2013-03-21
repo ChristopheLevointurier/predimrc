@@ -71,4 +71,8 @@ public class FreeChartPanel extends JPanel {
         xyseriescollection.addSeries(series);
         chartPanel.repaint();
     }
+    
+    public void clean(){
+        xyseriescollection.removeAllSeries();
+    }
 }
