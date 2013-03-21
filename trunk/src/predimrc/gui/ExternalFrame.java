@@ -54,6 +54,10 @@ public abstract class ExternalFrame extends JFrame implements IModelListener {
     protected AbstractButton caller;
     protected DrawableModel drawableModel;
 
+    public ExternalFrame(AbstractButton _caller) {
+        this(_caller, PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME);
+    }
+
     public ExternalFrame(AbstractButton _caller, Image _icon, int _x, int _y) {
         super();
         caller = _caller;
@@ -105,5 +109,10 @@ public abstract class ExternalFrame extends JFrame implements IModelListener {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        //nothing to do
     }
 }
