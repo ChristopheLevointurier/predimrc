@@ -94,13 +94,15 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.81";
+    private static final String VERSION = "Alpha 0.82";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     public static final String modelRep = System.getProperty("user.home") + "\\PredimRCFiles\\models\\";
     private static final boolean DEBUG_MODE = false;
     private static final String configFile = "config.cfg";
     public static final String defaultLabelContent = "xx";
+    public static Image icon;
+    public static ImageIcon imageIcon;
     /**
      * flag
      */
@@ -120,12 +122,10 @@ public class PredimRC extends JFrame {
     private JToggleButton engineBut = new JToggleButton("Engine");
     private static PredimRC instance;
     private static StringBuffer log = new StringBuffer();
-    public static Image icon;
-    public static ImageIcon imageIcon;
     private DrawableModel drawableModel;
     /**
      *
-     * componentns of the view
+     * components of the view
      */
     private MainView mainView;
     private ConfigView configView;

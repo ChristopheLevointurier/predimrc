@@ -25,7 +25,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import predimrc.controller.ModelController;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.widget.MegaCombo;
 
@@ -99,6 +98,7 @@ public class FoilSelectionConfigPanel extends JPanel {
     }
 
     public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
+        System.out.println("set:" + selected + crits + _xtrBot + _xtrTop);
         airfoil_combo.setValue(selected, false);
         xtrBot.setValue("" + _xtrBot, false);
         xtrTop.setValue("" + _xtrTop, false);

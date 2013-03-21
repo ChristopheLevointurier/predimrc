@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
-import predimrc.controller.ModelController;
+import predimrc.gui.frame.XFoil_Frame;
 
 /**
  *
@@ -37,18 +37,17 @@ public class ReynoldsConfig extends JPanel {
     private static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500};
     public static final ArrayList<Integer> reyValue = new ArrayList<>();
     private ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
-   
+    private XFoil_Frame from;
     private ActionListener check = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            PredimRC.getInstanceDrawableModel().getXfoilConfig().setReynolds(getConfig());
-            ModelController.applyChange();
+            from.setReynolds(getConfig());
         }
     };
 
-    public ReynoldsConfig(ArrayList<Boolean> reynolds) {
+    public ReynoldsConfig(XFoil_Frame _from, ArrayList<Boolean> reynolds) {
         super();
-
+        from = _from;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Selected Reynolds"));
 
@@ -66,7 +65,7 @@ public class ReynoldsConfig extends JPanel {
             reynolds_panel.add(temp);
         }
         add(drawPanel);
-        add(reynolds_panel); 
+        add(reynolds_panel);
     }
 
     public ArrayList<Boolean> getConfig() {

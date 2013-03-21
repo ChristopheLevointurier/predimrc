@@ -15,6 +15,7 @@
 package predimrc.gui.frame.subframe;
 
 import java.util.HashMap;
+import predimrc.common.exception.MissingPolarDataException;
 
 /**
  *
@@ -29,19 +30,20 @@ public class PolarDataBase {
 
     public static PolarData getData(String key) {
         if (!foilsDataBase.containsKey(key)) {  //TODO
-            return new PolarData("FAD18", 9, 100, 100, 1500);
-            //call to xfoil
-            //new PolarData
-            //put new key
+            try {
+                foilsDataBase.put(key, new PolarData(key));
+            } catch (MissingPolarDataException ex) {
+                System.out.println("Missing file:" + key);
+                //call to xfoil
+                //new PolarData
+                //foilsDataBase.put(key, new PolarData(key));
+            }
+
         }
         return foilsDataBase.get(key);
     }
 
     public static void addData(String key, PolarData value) {
         foilsDataBase.put(key, value);
-    }
-
-    public static void addData(String key) {
-        foilsDataBase.put(key, new PolarData(key));
     }
 }
