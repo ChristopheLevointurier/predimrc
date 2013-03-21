@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
-import predimrc.gui.frame.subframe.ReynoldsConfig;
 
 /**
  *
@@ -31,9 +30,9 @@ public class XfoilConfig implements Serializable {
 
     public static final String DELIM = "¤";
     private String reynolds = "true¤true¤true¤true¤true¤true";
-    private String foil1Config = "fad05.dat¤6¤80¤100";
-    private String foil2Config = "fad07.dat¤6¤80¤100";
-    private String foil3Config = "fad15.dat¤6¤80¤100";
+    private String foil0Config = "fad15.dat¤2¤6¤100¤100";
+    private String foil1Config = "fad05.dat¤0¤6¤100¤100";
+    private String foil2Config = "fad07.dat¤1¤6¤100¤100";
 
     public XfoilConfig() {
     }
@@ -83,58 +82,58 @@ public class XfoilConfig implements Serializable {
 
     private StringTokenizer getTok(int i) {
         switch (i) {
+            case 0:
+                return new StringTokenizer(foil0Config, DELIM);
             case 1:
                 return new StringTokenizer(foil1Config, DELIM);
             case 2:
                 return new StringTokenizer(foil2Config, DELIM);
-            case 3:
-                return new StringTokenizer(foil3Config, DELIM);
             default:
-                return new StringTokenizer(foil1Config, DELIM);
+                return new StringTokenizer(foil0Config, DELIM);
         }
     }
 
-    public final String setFoilConfig(String foil, int crit, int xtrTop, int xtrBot) {
-        return foil + DELIM + crit + DELIM + xtrTop + DELIM + xtrBot + DELIM;
+    public final String setFoilConfig(String foil, int cindex, int crit, int xtrTop, int xtrBot) {
+        return foil + DELIM + cindex + DELIM + crit + DELIM + xtrTop + DELIM + xtrBot + DELIM;
     }
 
     public void setFoilConfig(int i, FoilSelectionConfigPanel foilConf) {
         switch (i) {
+            case 0:
+                foil0Config = setFoilConfig(foilConf.getSelectedFoil(), 0, foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
+                return;
             case 1:
-                foil1Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
+                foil1Config = setFoilConfig(foilConf.getSelectedFoil(), 1, foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
                 return;
             case 2:
-                foil2Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
-                return;
-            case 3:
-                foil3Config = setFoilConfig(foilConf.getSelectedFoil(), foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
+                foil2Config = setFoilConfig(foilConf.getSelectedFoil(), 2, foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
             default:
         }
     }
 
     public ArrayList<String> getConfigsToDisplay() {
         ArrayList<String> ret = new ArrayList<>();
+        boolean f0 = getFoilName(0).length() > 1;
         boolean f1 = getFoilName(1).length() > 1;
         boolean f2 = getFoilName(2).length() > 1;
-        boolean f3 = getFoilName(3).length() > 1;
         ArrayList<Boolean> r = getReynolds();
         for (int i = 0; i < r.size(); i++) {
             if (r.get(i)) {
-                addfoil(ret, "" + ReynoldsConfig.reyValue.get(i), f1, f2, f3);
+                addfoil(ret, "" + i, f0, f1, f2);
             }
         }
         return ret;
     }
 
-    private ArrayList<String> addfoil(ArrayList<String> in, String re, boolean f1, boolean f2, boolean f3) {
+    private ArrayList<String> addfoil(ArrayList<String> in, String re, boolean f0, boolean f1, boolean f2) {
+        if (f0) {
+            in.add(foil0Config + re + DELIM);
+        }
         if (f1) {
-            in.add(foil1Config + DELIM + re);
+            in.add(foil1Config + re + DELIM);
         }
         if (f2) {
-            in.add(foil2Config + DELIM + re);
-        }
-        if (f3) {
-            in.add(foil3Config + DELIM + re);
+            in.add(foil2Config + re + DELIM);
         }
         return in;
     }
