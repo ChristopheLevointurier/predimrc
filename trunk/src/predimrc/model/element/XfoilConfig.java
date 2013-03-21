@@ -59,8 +59,15 @@ public class XfoilConfig implements Serializable {
         return tok.nextToken();
     }
 
+    public int getCindex(int i) {
+        StringTokenizer tok = getTok(i);
+        tok.nextToken();
+        return Integer.parseInt(tok.nextToken());
+    }
+
     public int getCrit(int i) {
         StringTokenizer tok = getTok(i);
+        tok.nextToken();
         tok.nextToken();
         return Integer.parseInt(tok.nextToken());
     }
@@ -69,11 +76,13 @@ public class XfoilConfig implements Serializable {
         StringTokenizer tok = getTok(i);
         tok.nextToken();
         tok.nextToken();
+        tok.nextToken();
         return Integer.parseInt(tok.nextToken());
     }
 
     public int getXtrBot(int i) {
         StringTokenizer tok = getTok(i);
+        tok.nextToken();
         tok.nextToken();
         tok.nextToken();
         tok.nextToken();
