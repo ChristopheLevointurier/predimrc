@@ -113,7 +113,6 @@ public class PredimRC extends JFrame {
     /**
      * menu
      */
-    private static JButton logbut;
     private static JMenuItem savetarget, opentarget, save;
     private static JCheckBoxMenuItem viewNeutralPoints, viewCG, viewRefPoint, manipFuse, manipWing, manipFin, manipStab;
     private static JMenuItem quit, openAppRep;
@@ -166,7 +165,6 @@ public class PredimRC extends JFrame {
         configView = new ConfigView();
         xFoilBut.setToolTipText("Foils performances");
         the3DViewButton.setToolTipText("3 Dimension View");
-        logbut = new JButton("log");
         modelNoteBut.setToolTipText("Model's notes");
         save = new JMenuItem("Save model");
         savetarget = new JMenuItem("Save model...");
@@ -213,14 +211,17 @@ public class PredimRC extends JFrame {
 
         JMenuItem help = new JMenuItem("Open Documentation from internet");
         helpMenu.add(help);
-        //  JMenu perfmenu = new JMenu("Performance");
+        JMenuItem logbut = new JMenuItem("log");
+        helpMenu.add(logbut);
         JMenuItem about = new JMenuItem("About PredimRC...");
         helpMenu.add(about);
+
 
         modelNoteBut.setMaximumSize(new Dimension(50, 75));
         xFoilBut.setMaximumSize(new Dimension(100, 75));
         savebut.setMaximumSize(new Dimension(50, 75));
 
+        //  JMenu perfmenu = new JMenu("Performance");
 
         /**
          * register new listener of the model*
@@ -426,88 +427,96 @@ public class PredimRC extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Object[] options = {"OK", "View log"};
+                Object[] options = {"OK"};
                 int ret = JOptionPane.showOptionDialog(null, "PredimRC project\n  V " + VERSION + "\n\nhttps://code.google.com/p/predimrc/", "About",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                         null, options, options[0]);
-                if (ret == 1) {
-                    final JFrame d = new JFrame("Log de l'exécution");
-                    final JTextArea tf = new JTextArea(log.toString(), 45, 55);
-                    d.setLayout(new BorderLayout());
-                    JScrollPane ts = new JScrollPane(tf, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                    d.add(ts, BorderLayout.NORTH);
-                    JPanel bout = new JPanel();
-                    bout.setLayout(new BorderLayout());
-                    JButton clearr = new JButton("Clear");
-                    JButton refr = new JButton("Refresh");
-                    final JButton temp = new JButton("Close");
-                    bout.add(clearr, BorderLayout.WEST);
-                    bout.add(temp, BorderLayout.CENTER);
-                    bout.add(refr, BorderLayout.EAST);
-                    d.add(bout, BorderLayout.SOUTH);
-                    d.pack();
-                    d.setResizable(false);
-                    ts.updateUI();
-                    d.setLocationRelativeTo(null);
-                    d.setVisible(true);
-                    //  d.setAlwaysOnTop(true);
-                    d.requestFocusInWindow();
-                    d.addKeyListener(new KeyListener() {
-                        @Override
-                        public void keyTyped(KeyEvent e) {
-                        }
-
-                        @Override
-                        public void keyPressed(KeyEvent keyEvent) {
-                            if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                                temp.doClick();
-                            }
-                        }
-
-                        @Override
-                        public void keyReleased(KeyEvent e) {
-                        }
-                    });
-                    temp.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            {
-                                d.dispose();
-                            }
-                        }
-                    });
-
-                    clearr.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            {
-                                log = new StringBuffer();
-                                tf.setText(log.toString());
-                            }
-                        }
-                    });
-
-                    refr.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            {
-                                tf.setText(log.toString());
-                            }
-                        }
-                    });
-
-
-                    d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                    d.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosing(final WindowEvent e) {
-                            d.dispose();
-
-                        }
-                    });
-                }
             }
         });
+
+
+        logbut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JFrame d = new JFrame("Log de l'exécution");
+                final JTextArea tf = new JTextArea(log.toString(), 45, 55);
+                d.setLayout(new BorderLayout());
+                JScrollPane ts = new JScrollPane(tf, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                d.add(ts, BorderLayout.NORTH);
+                JPanel bout = new JPanel();
+                bout.setLayout(new BorderLayout());
+                JButton clearr = new JButton("Clear");
+                JButton refr = new JButton("Refresh");
+                final JButton temp = new JButton("Close");
+                bout.add(clearr, BorderLayout.WEST);
+                bout.add(temp, BorderLayout.CENTER);
+                bout.add(refr, BorderLayout.EAST);
+                d.add(bout, BorderLayout.SOUTH);
+                d.pack();
+                d.setResizable(false);
+                ts.updateUI();
+                d.setLocationRelativeTo(null);
+                d.setVisible(true);
+                //  d.setAlwaysOnTop(true);
+                d.requestFocusInWindow();
+                d.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent keyEvent) {
+                        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                            temp.doClick();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                    }
+                });
+                temp.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        {
+                            d.dispose();
+                        }
+                    }
+                });
+
+                clearr.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        {
+                            log = new StringBuffer();
+                            tf.setText(log.toString());
+                        }
+                    }
+                });
+
+                refr.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        {
+                            tf.setText(log.toString());
+                        }
+                    }
+                });
+
+
+                d.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                d.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(final WindowEvent e) {
+                        d.dispose();
+
+                    }
+                });
+            }
+        });
+
+
+
 
         quit.addActionListener(new ActionListener() {
             @Override
@@ -753,9 +762,10 @@ public class PredimRC extends JFrame {
     public static URL getDataResourceUrl(String file) {
         URL ret = getResourceUrl(file);
         try {
-            ret = new URL(appRep + file);
+            ret = new URL("file:"+appRep + file);
+            PredimRC.logDebugln(appRep + file + " resource  found!");
         } catch (MalformedURLException ex) {
-            PredimRC.logln(file + " resource not found!");
+            PredimRC.logln(appRep + file + " resource not found!");
         }
         return ret;
     }
