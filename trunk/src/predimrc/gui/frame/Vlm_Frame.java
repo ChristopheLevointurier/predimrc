@@ -42,7 +42,19 @@ public class Vlm_Frame extends ExternalFrame {
          *
          */
         
-        
+         //  XYItemRenderer r=  xyplot.getRenderer();
+        //   r.setSeriesPaint(0, new Paint());
+        // xylineandshaperenderer.setDrawSeriesLineAsPath(false);
+        /**
+         * xylineandshaperenderer.setSeriesStroke(0, new BasicStroke(1.5F));
+         * xylineandshaperenderer.setSeriesStroke(1, new BasicStroke(2.0F, 1, 1,
+         * 1.0F, new float[]{6F, 4F}, 0.0F));
+         * xylineandshaperenderer.setSeriesStroke(2, new BasicStroke(2.0F, 1, 1,
+         * 1.0F, new float[]{6F, 4F, 3F, 3F}, 0.0F));
+         * xylineandshaperenderer.setSeriesStroke(3, new BasicStroke(2.0F, 1, 1,
+         * 1.0F, new float[]{4F, 4F}, 0.0F));
+         * xylineandshaperenderer.setSeriesVisibleInLegend(i, false); }*
+         */
             /**
      *
      * // private JComboBox ncrit1_combobox = new JComboBox(); // private
