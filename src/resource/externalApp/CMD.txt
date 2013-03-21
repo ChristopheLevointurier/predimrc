@@ -1,0 +1,40 @@
+Load fichierDat
+NomFichierDat
+
+PPAR
+n 60
+_t 1.4
+_p .2
+
+PANE
+GDES
+CADD
+
+
+
+_GDES
+_FLAP 0.7 0 10 / TSET ep camb
+_EXEC
+
+
+
+
+OPER
+VPAR
+N 9.00
+_VACC 0.01 / XTR 0.25 1
+
+TYPE 1
+VISC Reynolds
+MACH 0.0000
+ITER
+100
+PACC
+FIchierOutput
+
+ASEQ -4 12 0.5
+PACC
+
+_save profilmod.dat
+
+QUIT
