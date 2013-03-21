@@ -16,12 +16,13 @@ package predimrc.gui.frame.subframe;
 
 import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.JPanel;
+import javax.swing.AbstractButton;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.*;
 import predimrc.common.Utils;
+import predimrc.gui.ExternalFrame;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
@@ -31,7 +32,7 @@ import predimrc.gui.graphic.drawable.tool.DrawablePoint;
  * @see
  * @since
  */
-public class FoilRenderer extends JPanel {
+public class FoilRenderer extends ExternalFrame {
 
     private ChartPanel chart;
     private String s0, s1, s2;
@@ -43,19 +44,23 @@ public class FoilRenderer extends JPanel {
         listColor.add(Color.green.darker());
     }
 
-    public FoilRenderer(String _s1, String _s2, String _s3) {
+    public FoilRenderer(AbstractButton _caller, String _s1, String _s2, String _s3) {
+        super(_caller);
+        title = "Reynolds Panels";
+        setTitle(title);
         s0 = _s1;
         s1 = _s2;
         s2 = _s3;
+        setSize(800, 200);
         updateChart();
     }
 
     public final void updateChart() {
-        removeAll();
+        getContentPane().removeAll();
         chart = createChart(createDataset());
         chart.setPreferredSize(new Dimension(480, 110));
         chart.setMouseWheelEnabled(true);
-        add(chart);
+        getContentPane().add(chart);
         chart.repaint();
     }
 
@@ -83,7 +88,7 @@ public class FoilRenderer extends JPanel {
         JFreeChart jfreechart = ChartFactory.createXYLineChart("", "", "", xydataset, PlotOrientation.VERTICAL, false, false, false);
         jfreechart.getXYPlot().getRangeAxis().setRange(-0.10, 0.10);
         XYLineAndShapeRenderer xylineandshaperenderer = (XYLineAndShapeRenderer) jfreechart.getXYPlot().getRenderer();
-       
+
         for (int i = 0; i < 3; i++) {
             xylineandshaperenderer.setSeriesPaint(i, listColor.get(i));
         }
@@ -102,5 +107,10 @@ public class FoilRenderer extends JPanel {
 
     public void setS2(String s2) {
         this.s2 = s2;
+    }
+
+    @Override
+    public void save() {
+        //nothing to do
     }
 }

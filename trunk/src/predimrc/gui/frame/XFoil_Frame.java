@@ -41,7 +41,6 @@ public class XFoil_Frame extends ExternalFrame {
     private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, "fad05.dat", 6, 100, 100);
     private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, "fad07.dat", 6, 100, 100);
     private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, "fad15.dat", 6, 100, 100);
-    private FoilRenderer foilRenderer;
     private JButton modif = new JButton("Edit a foil");
     private JButton create = new JButton("Import a foil");
     private JButton del = new JButton("Delete a foil");
@@ -50,7 +49,10 @@ public class XFoil_Frame extends ExternalFrame {
      *
      */
     private JMenuItem reynoldsBut = new JMenuItem("Select reynolds");
+    private JMenuItem foilsBut = new JMenuItem("Select foils");
+    private JMenuItem viewFoilsBut = new JMenuItem("View foils");
     private XfoilConfig xfoilconfig;
+    private FoilRenderer foilRenderer;
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
@@ -80,9 +82,6 @@ public class XFoil_Frame extends ExternalFrame {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2, 2));
-        JPanel zone3 = new JPanel();
-        zone3.setLayout(new BoxLayout(zone3, BoxLayout.Y_AXIS));
-
 
         // Reynolds panel
         JPanel user_panel = new JPanel();
@@ -96,20 +95,19 @@ public class XFoil_Frame extends ExternalFrame {
         foilSelect.setForegroundAt(2, Color.green.darker());
         user_panel.add(foilSelect);
 
-        foilRenderer = new FoilRenderer(foil0.getSelectedFoil(), foil1.getSelectedFoil(), foil2.getSelectedFoil());
-        zone3.add(user_panel);
-        zone3.add(foilRenderer);
 
-        mainPanel.add(cXcZPanel);
         mainPanel.add(cZAlphaPanel);
-        mainPanel.add(zone3);
+        mainPanel.add(cXcZPanel);
         mainPanel.add(cMcz);
+        mainPanel.add(new FreeChartPanel("", "bla", "tructruc"));
 
         getContentPane().add(mainPanel);
 
         JMenuBar menu = new JMenuBar();
 
         menu.add(reynoldsBut);
+        menu.add(foilsBut);
+        menu.add(viewFoilsBut);
         menu.add(create);
         menu.add(modif);
         menu.add(del);
@@ -126,8 +124,18 @@ public class XFoil_Frame extends ExternalFrame {
                 new ReynoldsConfig(reynoldsBut);
             }
         });
-
-
+        foilsBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ReynoldsConfig(reynoldsBut);
+            }
+        });
+        viewFoilsBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                foilRenderer = new FoilRenderer(viewFoilsBut, foil0.getSelectedFoil(), foil1.getSelectedFoil(), foil2.getSelectedFoil());
+            }
+        });
     }
 
     public final void updateModelXfoilConfig() {
@@ -171,10 +179,12 @@ public class XFoil_Frame extends ExternalFrame {
         foilSelect.setTitleAt(1, s1);
         foilSelect.setTitleAt(2, s2);
         //update foilRenderer
-        foilRenderer.setS0(s0);
-        foilRenderer.setS1(s1);
-        foilRenderer.setS2(s2);
-        foilRenderer.updateChart();
+        if (null != foilRenderer) {
+            foilRenderer.setS0(s0);
+            foilRenderer.setS1(s1);
+            foilRenderer.setS2(s2);
+            foilRenderer.updateChart();
+        }
     }
 
     @Override
