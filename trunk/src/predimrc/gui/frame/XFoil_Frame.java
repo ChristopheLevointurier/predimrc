@@ -117,11 +117,10 @@ public class XFoil_Frame extends ExternalFrame {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
-        System.out.println("**************");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
             PolarData p = PolarDataBase.getData(key);
             if (null != p) {
-                System.out.println("update xfoil:" + key);
+                 predimrc.PredimRC.logDebugln("update xfoil:" + key);
                 cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzCxData());
                 cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzAlphaData());
                 cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());

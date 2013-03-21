@@ -38,7 +38,7 @@ import predimrc.gui.widget.MegaCombo;
 public class FoilSelectionConfigPanel extends JPanel {
 
     static ArrayList<Color> colors = new ArrayList();
-    static String[] fileList = new File(".\\src\\resource\\AirFoils").list();
+    static String[] fileList = new File(predimrc.PredimRC.appRep + "/AirFoils").list();
     static String[] xtr = {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "100"};
     private MegaCombo airfoil_combo, xtrTop, xtrBot;
     private XFoil_Frame from;
@@ -98,7 +98,7 @@ public class FoilSelectionConfigPanel extends JPanel {
     }
 
     public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
-        System.out.println("set:" + selected + crits + _xtrBot + _xtrTop);
+    //    System.out.println("set:" + selected + crits + _xtrBot + _xtrTop);
         airfoil_combo.setValue(selected, false);
         xtrBot.setValue("" + _xtrBot, false);
         xtrTop.setValue("" + _xtrTop, false);
