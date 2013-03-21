@@ -25,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import predimrc.controller.ModelController;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.widget.MegaCombo;
 
@@ -46,6 +47,12 @@ public class FoilSelectionConfigPanel extends JPanel {
     private JRadioButton crit6 = new JRadioButton("6", false);
     private JRadioButton crit9 = new JRadioButton("9", false);
     private JRadioButton crit12 = new JRadioButton("12", false);
+    private ActionListener configAction = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            from.updateModelXfoilConfig();
+        }
+    };
 
     public FoilSelectionConfigPanel(int i, XFoil_Frame _from, String selected, int crits, int _xtrBot, int _xtrTop) {
         super();
@@ -57,13 +64,6 @@ public class FoilSelectionConfigPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Foil " + i + " configuration."));
         add(airfoil_combo);
-
-        airfoil_combo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                from.updateData();
-            }
-        });
 
         ButtonGroup b = new ButtonGroup();
         b.add(crit3);
@@ -82,6 +82,20 @@ public class FoilSelectionConfigPanel extends JPanel {
         add(xtrTop);
         add(xtrBot);
         setConfig(selected, crits, _xtrBot, _xtrTop);
+
+        xtrTop.addActionListener(configAction);
+        xtrBot.addActionListener(configAction);
+        crit3.addActionListener(configAction);
+        crit6.addActionListener(configAction);
+        crit9.addActionListener(configAction);
+        crit12.addActionListener(configAction);
+        airfoil_combo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                from.changeFoil();
+            }
+        });
+        airfoil_combo.addActionListener(configAction);
     }
 
     public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
