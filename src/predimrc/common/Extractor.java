@@ -35,9 +35,11 @@ public class Extractor {
 
     public static void extract() {
         String[] files = new File(predimrc.PredimRC.getResourceUrl("").getFile()).list();
-        for (String f : files) {
-            if (!f.equals("Images") && !f.equals("Sounds") && !f.equals("about.html")) {
-                extractDirectory(f);
+        if (null != files) {
+            for (String f : files) {
+                if (!f.equals("Images") && !f.equals("Sounds") && !f.equals("about.html")) {
+                    extractDirectory(f);
+                }
             }
         }
     }
