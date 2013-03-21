@@ -7,11 +7,14 @@ package predimrc.gui.frame;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import predimrc.PredimRC;
@@ -23,7 +26,6 @@ import predimrc.gui.frame.subframe.FreeChartPanel;
 import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.PolarDataBase;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
-import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
 /**
@@ -36,25 +38,38 @@ import predimrc.model.element.XfoilConfig;
 public class XFoil_Frame extends ExternalFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
-    private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, this, "fad05.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this, "fad07.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this, "fad15.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, "fad05.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, "fad07.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, "fad15.dat", 6, 100, 100);
     private FoilRenderer foilRenderer;
-    private ReynoldsConfig reynoldConfig;
     private JButton modif = new JButton("Edit a foil");
     private JButton create = new JButton("Import a foil");
     private JButton del = new JButton("Delete a foil");
     private JButton calc = new JButton("Recaculate");
+    /**
+     *
+     */
+    private JMenuItem reynoldsBut = new JMenuItem("Select reynolds");
     private XfoilConfig xfoilconfig;
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
+    /**
+     *
+     */
+    private static XFoil_Frame instance;
 
-    public XFoil_Frame(AbstractButton _caller, XfoilConfig _xfoilconfig) {
-        this(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME, _xfoilconfig);
+    public static XFoil_Frame getInstance() {
+        return instance;
     }
 
-    public XFoil_Frame(AbstractButton _caller, Image _icon, int _x, int _y, XfoilConfig _xfoilconfig) {
+    public static XFoil_Frame maketInstance(AbstractButton _caller, XfoilConfig _xfoilconfig) {
+        ReynoldsConfig.initReynolds();
+        instance = new XFoil_Frame(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME, _xfoilconfig);
+        return instance;
+    }
+
+    private XFoil_Frame(AbstractButton _caller, Image _icon, int _x, int _y, XfoilConfig _xfoilconfig) {
         super(_caller, _icon, _x, _y);
         title = "xFoil";
         setTitle(title);
@@ -79,8 +94,6 @@ public class XFoil_Frame extends ExternalFrame {
         foilSelect.setForegroundAt(1, Color.blue);
         foilSelect.add(foil2);
         foilSelect.setForegroundAt(2, Color.green.darker());
-        reynoldConfig = new ReynoldsConfig(this, xfoilconfig.getReynolds());
-        user_panel.add(reynoldConfig);
         user_panel.add(foilSelect);
 
         foilRenderer = new FoilRenderer(foil0.getSelectedFoil(), foil1.getSelectedFoil(), foil2.getSelectedFoil());
@@ -95,6 +108,8 @@ public class XFoil_Frame extends ExternalFrame {
         getContentPane().add(mainPanel);
 
         JMenuBar menu = new JMenuBar();
+
+        menu.add(reynoldsBut);
         menu.add(create);
         menu.add(modif);
         menu.add(del);
@@ -103,6 +118,16 @@ public class XFoil_Frame extends ExternalFrame {
         changeFoil();
         updateModelXfoilConfig();
         pack();
+
+
+        reynoldsBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ReynoldsConfig(reynoldsBut);
+            }
+        });
+
+
     }
 
     public final void updateModelXfoilConfig() {
@@ -120,7 +145,7 @@ public class XFoil_Frame extends ExternalFrame {
         for (String key : xfoilconfig.getConfigsToDisplay()) {
             PolarData p = PolarDataBase.getData(key);
             if (null != p) {
-                 predimrc.PredimRC.logDebugln("update xfoil:" + key);
+                predimrc.PredimRC.logDebugln("update xfoil:" + key);
                 cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzCxData());
                 cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzAlphaData());
                 cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());
@@ -131,6 +156,10 @@ public class XFoil_Frame extends ExternalFrame {
     public void setReynolds(ArrayList<Boolean> r) {
         xfoilconfig.setReynolds(r);
         refreshGraphs();
+    }
+
+    public ArrayList<Boolean> getReynolds() {
+        return xfoilconfig.getReynolds();
     }
 
     public final void changeFoil() {
@@ -157,10 +186,5 @@ public class XFoil_Frame extends ExternalFrame {
     @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
-    }
-
-    @Override
-    public void updateModel(DrawableModel m) {
-        //nothing to do
     }
 }
