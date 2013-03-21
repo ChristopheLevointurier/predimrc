@@ -7,6 +7,7 @@ package predimrc.gui.frame;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,9 +36,9 @@ import predimrc.model.element.XfoilConfig;
 public class XFoil_Frame extends ExternalFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
-    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this, "fad05.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this, "fad07.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil3 = new FoilSelectionConfigPanel(3, this, "fad15.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, this, "fad05.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, this, "fad07.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, this, "fad15.dat", 6, 100, 100);
     private FoilRenderer foilRenderer;
     private ReynoldsConfig reynoldConfig;
     private JButton modif = new JButton("Edit a foil");
@@ -58,9 +59,9 @@ public class XFoil_Frame extends ExternalFrame {
         title = "xFoil";
         setTitle(title);
         xfoilconfig = _xfoilconfig;
+        foil0.setConfig(xfoilconfig.getFoilName(0), xfoilconfig.getCrit(0), xfoilconfig.getXtrBot(0), xfoilconfig.getXtrTop(0));
         foil1.setConfig(xfoilconfig.getFoilName(1), xfoilconfig.getCrit(1), xfoilconfig.getXtrBot(1), xfoilconfig.getXtrTop(1));
         foil2.setConfig(xfoilconfig.getFoilName(2), xfoilconfig.getCrit(2), xfoilconfig.getXtrBot(2), xfoilconfig.getXtrTop(2));
-        foil3.setConfig(xfoilconfig.getFoilName(3), xfoilconfig.getCrit(3), xfoilconfig.getXtrBot(3), xfoilconfig.getXtrTop(3));
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2, 2));
@@ -72,17 +73,17 @@ public class XFoil_Frame extends ExternalFrame {
         JPanel user_panel = new JPanel();
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
 
-        foilSelect.add(foil1);
+        foilSelect.add(foil0);
         foilSelect.setForegroundAt(0, Color.red);
-        foilSelect.add(foil2);
+        foilSelect.add(foil1);
         foilSelect.setForegroundAt(1, Color.blue);
-        foilSelect.add(foil3);
+        foilSelect.add(foil2);
         foilSelect.setForegroundAt(2, Color.green.darker());
-        reynoldConfig = new ReynoldsConfig(xfoilconfig.getReynolds());
+        reynoldConfig = new ReynoldsConfig(this, xfoilconfig.getReynolds());
         user_panel.add(reynoldConfig);
         user_panel.add(foilSelect);
 
-        foilRenderer = new FoilRenderer(foil1.getSelectedFoil(), foil2.getSelectedFoil(), foil3.getSelectedFoil());
+        foilRenderer = new FoilRenderer(foil0.getSelectedFoil(), foil1.getSelectedFoil(), foil2.getSelectedFoil());
         zone3.add(user_panel);
         zone3.add(foilRenderer);
 
@@ -99,27 +100,59 @@ public class XFoil_Frame extends ExternalFrame {
         menu.add(del);
         menu.add(calc);
         setJMenuBar(menu);
-        updateData();
+        changeFoil();
+        updateModelXfoilConfig();
         pack();
     }
 
-    public final void updateData() {
+    public final void updateModelXfoilConfig() {
+        //update model config
+        xfoilconfig.setFoilConfig(0, foil0);
+        xfoilconfig.setFoilConfig(1, foil1);
+        xfoilconfig.setFoilConfig(2, foil2);
+        refreshGraphs();
+    }
+
+    private void refreshGraphs() {
+        cXcZPanel.clean();
+        cZAlphaPanel.clean();
+        cMcz.clean();
+        System.out.println("**************");
+        for (String key : xfoilconfig.getConfigsToDisplay()) {
+            PolarData p = PolarDataBase.getData(key);
+            if (null != p) {
+                System.out.println("update xfoil:" + key);
+                cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzCxData());
+                cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzAlphaData());
+                cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());
+            }
+        }
+    }
+
+    public void setReynolds(ArrayList<Boolean> r) {
+        xfoilconfig.setReynolds(r);
+        refreshGraphs();
+    }
+
+    public final void changeFoil() {
+        String s0 = foil0.getSelectedFoil();
         String s1 = foil1.getSelectedFoil();
         String s2 = foil2.getSelectedFoil();
-        String s3 = foil3.getSelectedFoil();
-        foilSelect.setTitleAt(0, s1);
-        foilSelect.setTitleAt(1, s2);
-        foilSelect.setTitleAt(2, s3);
+        //update tabs title
+        foilSelect.setTitleAt(0, s0);
+        foilSelect.setTitleAt(1, s1);
+        foilSelect.setTitleAt(2, s2);
+        //update foilRenderer
+        foilRenderer.setS0(s0);
         foilRenderer.setS1(s1);
         foilRenderer.setS2(s2);
-        foilRenderer.setS3(s3);
         foilRenderer.updateChart();
     }
 
     @Override
     public void save() {
         predimrc.PredimRC.logln("Save from " + title);
-        PredimRC.getInstanceDrawableModel().setXfoilConfig(getXFoilConfig());
+        PredimRC.saveModel();
     }
 
     @Override
@@ -127,23 +160,8 @@ public class XFoil_Frame extends ExternalFrame {
         super.setSize(width, height);
     }
 
-    private XfoilConfig getXFoilConfig() {
-        xfoilconfig.setFoilConfig(1, foil1);
-        xfoilconfig.setFoilConfig(2, foil2);
-        xfoilconfig.setFoilConfig(3, foil3);
-        xfoilconfig.setReynolds(reynoldConfig.getConfig());
-        return xfoilconfig;
-    }
-
     @Override
     public void updateModel(DrawableModel m) {
-        // todo maj xfoilconfig
-        System.out.println("update xfoil");
-
-        PolarData polData = PolarDataBase.getData("pok");
-        //  cXcZPanel.addSeries(Color.red, polData.getCxCzData());
-        cXcZPanel.addSeries(Color.red, 2, "pute", polData.getCzCxData());
-        cZAlphaPanel.addSeries(Color.red, 0, "sdouigh", polData.getCzAlphaData());
-        cMcz.addSeries(Color.red, 1, "ergi", polData.getCmCzData());
+        //nothing to do
     }
 }
