@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
+import predimrc.controller.IBusy;
 
 /**
  *
@@ -32,7 +33,7 @@ import predimrc.common.Utils;
  * @see
  * @since
  */
-public class XFoilInvoker {
+public class XFoilInvoker implements IBusy {
 
     private static final String filenameTag = "FILENAME_TO_MERGE";
     private static final String ncritTag = "NCRIT_TO_MERGE";
@@ -40,6 +41,7 @@ public class XFoilInvoker {
     private static final String xtrBotTag = "XTR_BOT_TO_MERGE";
     private static final String reynoldsTag = "REYNOLDS_TO_MERGE";
     private static final String filenameOutTag = "FILENAME_OUT_TO_MERGE";
+    private boolean busy = true;
 
     public XFoilInvoker(PolarKey k) {
         try {
@@ -64,10 +66,12 @@ public class XFoilInvoker {
                 }
             }
             PredimRC.logln("xfoil call:" + cmd);
-            Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
-        } catch (IOException ex) {
+            Process p = Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
+            p.waitFor();
+        } catch (InterruptedException | IOException ex) {
             PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
         }
+        busy = false;
     }
 
     private void writeFile(String content, String rep) throws IOException {
@@ -90,5 +94,10 @@ public class XFoilInvoker {
             Utils.closeStream(br);
         }
         return ret;
+    }
+
+    @Override
+    public boolean isBusy() {
+        return busy;
     }
 }

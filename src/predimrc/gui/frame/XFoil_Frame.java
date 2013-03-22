@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
+import predimrc.controller.Refresher;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigSubFrame;
@@ -149,5 +150,6 @@ public class XFoil_Frame extends ExternalFrame {
                 cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());
             }
         }
+       // Refresher.refresh();
     }
 }
