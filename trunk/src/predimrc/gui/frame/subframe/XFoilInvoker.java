@@ -73,13 +73,13 @@ public class XFoilInvoker implements Runnable {
             }
             PredimRC.logln("xfoil call:" + cmd);
             Process p = Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
-            new StreamProcessReader(p.getErrorStream(), "ERROR").start();
-            new StreamProcessReader(p.getInputStream(), "OUTPUT").start();
+            new StreamProcessReader(p.getErrorStream(), true).start();
+            new StreamProcessReader(p.getInputStream(), false).start();
             p.waitFor();
         } catch (InterruptedException | IOException ex) {
             PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
         }
-        XFoil_Frame.addPolar(PolarDataBase.getPolar(k, false));
+        XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
     }
 
     private void writeFile(String content, String rep) throws IOException {

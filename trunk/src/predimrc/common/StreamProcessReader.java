@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import predimrc.PredimRC;
 
 /**
  *
@@ -29,11 +30,11 @@ import java.io.InputStreamReader;
 public class StreamProcessReader extends Thread {
 
     private InputStream is;
-    private String type;
+    private boolean error;
 
-    public StreamProcessReader(InputStream _is, String _type) {
+    public StreamProcessReader(InputStream _is, boolean _error) {
         is = _is;
-        type = _type;
+        error = _error;
     }
 
     public void run() {
@@ -41,9 +42,12 @@ public class StreamProcessReader extends Thread {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line = null;
             while ((line = br.readLine()) != null) {
-                if (type.equals("ERROR")) {
-                    System.out.println(type + " xfoil>" + line);
+                if (error) {
+                    PredimRC.logln(" xfoil error >" + line);
                 }
+                //else {
+                //     System.out.println("" + line);
+                // }
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
