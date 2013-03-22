@@ -294,7 +294,7 @@ public class PredimRC extends JFrame {
         xFoilBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModelController.addModelListener( XFoil_Frame.maketInstance(xFoilBut, getInstanceDrawableModel().getXfoilConfig()));
+                ModelController.addModelListener(XFoil_Frame.maketInstance(xFoilBut, getInstanceDrawableModel().getXfoilConfig()));
             }
         });
 
@@ -639,12 +639,12 @@ public class PredimRC extends JFrame {
     }
 
     public static void logln(String t) {
-        log(t + "\n");
+        log(t + System.getProperty("line.separator"));
     }
 
     public static void logDebugln(String t) {
         if (DEBUG_MODE) {
-            log("DEBUG:" + t + "\n");
+            log("DEBUG:" + t + System.getProperty("line.separator"));
         }
     }
 
@@ -698,7 +698,7 @@ public class PredimRC extends JFrame {
              */
             logln("config loaded from properties file: " + appRep + configFile + " ok...");
         } catch (final Throwable t) {
-            logln("IOException while attempting to load File " + appRep + configFile + "...\n" + t.getLocalizedMessage());
+            logln("IOException while attempting to load File " + appRep + configFile + "..." + t.getLocalizedMessage());
             ok = false;
         }
         return ok;
@@ -714,7 +714,7 @@ public class PredimRC extends JFrame {
      * Save on properties File the configuration .
      */
     public static void saveConfiguration() {
-        logln("\n*******************************************\n**** Saving  configuration... ****");
+        logln(System.getProperty("line.separator") + "*******************************************" + System.getProperty("line.separator") + "*** Saving  configuration... ****");
         Properties config = new Properties();
         config.setProperty("AIRFOILS", "" + UserConfig.airfoilsDirectory);
         config.setProperty("FILENAME", "" + UserConfig.filename);
@@ -742,7 +742,7 @@ public class PredimRC extends JFrame {
                 fout.mkdirs();
             }
             config.store(new FileOutputStream(appRep + configFile), "Properties");
-            logln("\n**** Saving  configuration ok ****\n*******************************************\n");
+            logln(System.getProperty("line.separator") + "**** Saving  configuration ok ****" + System.getProperty("line.separator") + "*******************************************");
         } catch (final IOException e) {
             logln("io error for saving configuration:" + e.getLocalizedMessage());
         }

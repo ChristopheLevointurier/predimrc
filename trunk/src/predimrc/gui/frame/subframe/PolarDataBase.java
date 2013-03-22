@@ -28,22 +28,25 @@ public class PolarDataBase {
 
     private static HashMap<String, PolarData> foilsDataBase = new HashMap<>();
 
-    public static PolarData getData(String key) {
+    public static PolarData getPolar(String key) {
         if (!foilsDataBase.containsKey(key)) {  //TODO
+            PolarKey k = new PolarKey(key);
             try {
-                foilsDataBase.put(key, new PolarData(key));
+                foilsDataBase.put(key, new PolarData(k));
             } catch (MissingPolarDataException ex) {
                 predimrc.PredimRC.logDebugln("Missing file:" + key);
-                //call to xfoil
-                //new PolarData
-                //foilsDataBase.put(key, new PolarData(key));
+                XFoilInvoker.doXfoilInvocation(k);  //call to xfoil
+                try {
+                    foilsDataBase.put(key, new PolarData(k));  //new PolarData
+                } catch (MissingPolarDataException ex2) {
+                    predimrc.PredimRC.logDebugln("Failed to add new polar:" + key);
+                }
             }
-
         }
         return foilsDataBase.get(key);
     }
 
-    public static void addData(String key, PolarData value) {
+    public static void putPolar(String key, PolarData value) {
         foilsDataBase.put(key, value);
     }
 }

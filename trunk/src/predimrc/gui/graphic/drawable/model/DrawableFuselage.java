@@ -310,7 +310,7 @@ public class DrawableFuselage extends DrawableModelElement {
                 neutralPointRatio = Float.parseFloat(config.getProperty("xFf", "0.20"));
                 PredimRC.logDebugln("fuse values:kSf " + kSf + ", kSMf " + kSMf + " , neutralPointRatio " + neutralPointRatio);
             } catch (final IOException | NumberFormatException t) {
-                PredimRC.logln("IOException while attempting to load fuse File " + filename + "_coeff.txt \n" + t.getLocalizedMessage());
+                PredimRC.logln("IOException while attempting to load fuse File " + filename + "_coeff.txt "+System.getProperty("line.separator") + t.getLocalizedMessage());
             }
         }
     }

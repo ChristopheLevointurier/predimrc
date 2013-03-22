@@ -18,12 +18,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.common.exception.MissingPolarDataException;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
-import predimrc.model.element.XfoilConfig;
 
 /**
  * This class contains data from polars.dat.
@@ -35,52 +33,28 @@ import predimrc.model.element.XfoilConfig;
  */
 public class PolarData {
 
-    private String file = "fail";
-    private String foilName = "fail";
-    private int reynoldsIndex = 0;
-    private int ncrit = 0;
-    private int xtrt = 0;
-    private int xtrb = 0;
-    private int colIndex = 0;
+    private PolarKey key;
     private ArrayList<PolardataLine> data;
 
     public PolarData(String _foilName, int _cIndex, int _ncrit, int _xtrt, int _xtrb, int _reynoldsIndex) throws MissingPolarDataException {
-        foilName = _foilName;
-        reynoldsIndex = _reynoldsIndex;
-        ncrit = _ncrit;
-        xtrt = _xtrt;
-        xtrb = _xtrb;
-        colIndex = _cIndex;
-        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
+        key = new PolarKey(_foilName, _cIndex, _ncrit, _xtrt, _xtrb, _reynoldsIndex);
         loadPolarData();
     }
 
-    public PolarData(String key) throws MissingPolarDataException {
-        StringTokenizer tok = new StringTokenizer(key, XfoilConfig.DELIM);
-        foilName = tok.nextToken();
-        try {
-            colIndex = Integer.parseInt(tok.nextToken());
-            ncrit = Integer.parseInt(tok.nextToken());
-            xtrt = Integer.parseInt(tok.nextToken());
-            xtrb = Integer.parseInt(tok.nextToken());
-            reynoldsIndex = Integer.parseInt(tok.nextToken());
-            file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
-            loadPolarData();
-        } catch (java.lang.NumberFormatException e) {
-            predimrc.PredimRC.logln("NumberFormatException:" + foilName + ":" + colIndex + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynoldsIndex);
-            throw new MissingPolarDataException();
-        }
+    public PolarData(PolarKey _key) throws MissingPolarDataException {
+        key = _key;
+        loadPolarData();
     }
 
     private void loadPolarData() throws MissingPolarDataException {
         data = new ArrayList<>();
-        if (file.toLowerCase().endsWith(".txt")) {
+        if (key.getFile().toLowerCase().endsWith(".txt")) {
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl(file).openStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl(key.getFile()).openStream()));
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {
-                    PredimRC.logln("opening" + file + ":" + reader.readLine());
+                    PredimRC.logln("opening" + key.getFile() + ":" + reader.readLine());
                     int cpt = 0;
                     while ((line = reader.readLine()) != null) {
                         cpt++;
@@ -96,11 +70,11 @@ public class PolarData {
                     reader.close();
                 }
             } catch (IOException | NullPointerException ex) {
-                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + " \n" + ex.getLocalizedMessage());
+                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + key.getFile() + System.getProperty("line.separator") + ex.getLocalizedMessage());
                 throw new MissingPolarDataException();
             }
         } else {
-            predimrc.PredimRC.logln(file + " don't seems to be a data file.");
+            predimrc.PredimRC.logln(key.getFile() + " don't seems to be a data file.");
             throw new MissingPolarDataException();
         }
     }
@@ -130,10 +104,10 @@ public class PolarData {
     }
 
     public int getColIndex() {
-        return colIndex;
+        return key.getColIndex();
     }
 
     public int getReynoldsIndex() {
-        return reynoldsIndex;
+        return key.getReynoldsIndex();
     }
 }

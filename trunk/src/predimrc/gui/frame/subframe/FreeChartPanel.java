@@ -40,7 +40,7 @@ public class FreeChartPanel extends JPanel {
     private XYLineAndShapeRenderer xylineandshaperenderer;
     private String x, y, title;
     private ChartPanel chartPanel;
-    private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}};
+    private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}, {50.0f, 50.0f}};
   
     public FreeChartPanel(String _title, String _x, String _y) {
         super();

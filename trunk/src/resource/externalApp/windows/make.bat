@@ -1,0 +1,3 @@
+"XFoil" < "CMD.txt"
+exit
+
