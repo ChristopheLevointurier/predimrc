@@ -40,6 +40,7 @@ public class ReynoldsConfig extends ExternalFrame {
     public static final ArrayList<Integer> reyValue = new ArrayList<>();
     private static ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
     private static JPanel reynolds_panel = new JPanel();
+    private static boolean init = false;
     private static ActionListener check = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -48,6 +49,9 @@ public class ReynoldsConfig extends ExternalFrame {
     };
 
     public static void initReynolds() {
+        if (init) {
+            return;
+        }
         for (int i : reyIntValue) {
             reyValue.add(i);
             JCheckBox temp = new JCheckBox(i + " k", PredimRC.getInstanceDrawableModel().getXfoilConfig().getReynolds().get(reynolds_check.size()));
@@ -55,6 +59,7 @@ public class ReynoldsConfig extends ExternalFrame {
             reynolds_check.add(temp);
             reynolds_panel.add(temp);
         }
+        init = true;
     }
 
     public ReynoldsConfig(AbstractButton _caller) {

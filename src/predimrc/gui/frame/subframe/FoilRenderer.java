@@ -24,6 +24,7 @@ import org.jfree.data.xy.*;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
+import predimrc.model.element.XfoilConfig;
 
 /**
  *
@@ -44,13 +45,13 @@ public class FoilRenderer extends ExternalFrame {
         listColor.add(Color.green.darker());
     }
 
-    public FoilRenderer(AbstractButton _caller, String _s1, String _s2, String _s3) {
+    public FoilRenderer(AbstractButton _caller, XfoilConfig xfoilconfig) {
         super(_caller);
         title = "Reynolds Panels";
         setTitle(title);
-        s0 = _s1;
-        s1 = _s2;
-        s2 = _s3;
+        s0 = xfoilconfig.getFoilName(0);
+        s1 = xfoilconfig.getFoilName(1);
+        s2 = xfoilconfig.getFoilName(2);
         setSize(800, 200);
         updateChart();
     }

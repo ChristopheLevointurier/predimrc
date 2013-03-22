@@ -19,13 +19,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.widget.MegaCombo;
 
 /**
@@ -45,21 +43,21 @@ public class FoilSelectionConfigPanel extends JPanel {
     private JRadioButton crit6 = new JRadioButton("6", false);
     private JRadioButton crit9 = new JRadioButton("9", false);
     private JRadioButton crit12 = new JRadioButton("12", false);
+    private FoilSelectionConfigSubFrame from;
     private ActionListener configAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            XFoil_Frame.getInstance().updateModelXfoilConfig();
+            from.updateModelXfoilConfig();
         }
     };
 
-    public FoilSelectionConfigPanel(int i, String selected, int crits, int _xtrBot, int _xtrTop) {
-        super();
+    public FoilSelectionConfigPanel(FoilSelectionConfigSubFrame _from, int i, String selected, int crits, int _xtrBot, int _xtrTop) {
+        from = _from;
         airfoil_combo = new MegaCombo("Foil", true, fileList);
         airfoil_combo.addItem(" ");
         xtrTop = new MegaCombo("XTRtop", true, xtr);
         xtrBot = new MegaCombo("XTRbottom", true, xtr);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Foil " + i + " configuration."));
         add(airfoil_combo);
 
         ButtonGroup b = new ButtonGroup();
@@ -89,7 +87,7 @@ public class FoilSelectionConfigPanel extends JPanel {
         airfoil_combo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                XFoil_Frame.getInstance().changeFoil();
+                from.changeFoil();
             }
         });
         airfoil_combo.addActionListener(configAction);
