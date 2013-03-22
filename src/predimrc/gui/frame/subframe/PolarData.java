@@ -50,7 +50,7 @@ public class PolarData {
         data = new ArrayList<>();
         if (key.getFile().toLowerCase().endsWith(".txt")) {
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl(key.getFile()).openStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl("Polars/" + key.getFile()).openStream()));
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {

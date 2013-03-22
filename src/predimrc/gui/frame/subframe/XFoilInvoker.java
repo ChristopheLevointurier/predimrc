@@ -75,19 +75,14 @@ public class XFoilInvoker {
                 temp = temp.replace(xtrTopTag, "" + (float) (k.getXtrt() / (float) 100));
                 temp = temp.replace(xtrBotTag, "" + (float) (k.getXtrb() / (float) 100));
                 temp = temp.replace(reynoldsTag, "" + ReynoldsConfig.reyValue.get(k.getReynoldsIndex()));
-                temp = temp.replace(filenameOutTag, "../../" + k.getFile());
+                temp = temp.replace(filenameOutTag, "../../Polars/" + k.getFile());
 
 //call to xfoil
-                Runtime r = Runtime.getRuntime();
-                String[] cmd = new String[4];
+                String cmd = "";
                 switch (Utils.getOs()) {
                     case WINDOWS: {
-                        System.out.println("xfoil call in windows mode");
-                        writeFile(temp, "windows/");
-                        cmd[0] = "cmd.exe";
-                        cmd[1] = "/C";
-                        cmd[2] = "start";
-                        cmd[3] = "make";
+                        writeFile(temp, "windows/" + k.getFile());
+                        cmd = "cmd /c start make.bat " + k.getFile();
                         break;
                     }
                     default: {
@@ -95,20 +90,22 @@ public class XFoilInvoker {
                         break;
                     }
                 }
-                r.exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
+                System.out.println("xfoil call:" + cmd);
+                Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
             } catch (IOException ex) {
-                PredimRC.logln("Error creating txt file for Xfoil");
+                PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
             }
             available = true;
         }
     }
 
     private static void writeFile(String content, String rep) throws IOException {
-        File out = new File(PredimRC.appRep + "externalApp/" + rep + "CMD.txt");
+        File out = new File(PredimRC.appRep + "externalApp/" + rep);
         try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out)))) {
             br.write(content);
             Utils.closeStream(br);
         }
+        out.deleteOnExit();
     }
 
     private static StringBuilder loadfile() throws IOException {
