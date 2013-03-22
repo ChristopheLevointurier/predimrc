@@ -35,7 +35,7 @@ public class PolarDataBase {
                 foilsDataBase.put(key, new PolarData(k));
             } catch (MissingPolarDataException ex) {
                 predimrc.PredimRC.logDebugln("Missing file:" + key);
-                XFoilInvoker.doXfoilInvocation(k);  //call to xfoil
+               new XFoilInvoker(k);  //call to xfoil
                 try {
                     foilsDataBase.put(key, new PolarData(k));  //new PolarData
                 } catch (MissingPolarDataException ex2) {
