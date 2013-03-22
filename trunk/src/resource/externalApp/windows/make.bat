@@ -1,3 +1,3 @@
-"XFoil" < "CMD.txt"
+"XFoil" < "%1"
 exit
 
