@@ -24,6 +24,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import predimrc.PredimRC;
+import predimrc.controller.ModelController;
 import predimrc.gui.widget.MegaCombo;
 
 /**
@@ -43,18 +45,20 @@ public class FoilSelectionConfigPanel extends JPanel {
     private JRadioButton crit6 = new JRadioButton("6", false);
     private JRadioButton crit9 = new JRadioButton("9", false);
     private JRadioButton crit12 = new JRadioButton("12", false);
-    private FoilSelectionConfigSubFrame from;
+    private int index = 0;
+    private FoilSelectionConfigPanel instance;
     private ActionListener configAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            from.updateModelXfoilConfig();
+            PredimRC.getInstanceDrawableModel().getXfoilConfig().setFoilConfig(index, instance);
+            ModelController.applyChange();
         }
     };
 
-    public FoilSelectionConfigPanel(FoilSelectionConfigSubFrame _from, int i, String selected, int crits, int _xtrBot, int _xtrTop) {
-        from = _from;
+    public FoilSelectionConfigPanel(int i, String selected, int crits, int _xtrBot, int _xtrTop) {
         airfoil_combo = new MegaCombo("Foil", true, fileList);
         airfoil_combo.addItem(" ");
+        index = i;
         xtrTop = new MegaCombo("XTRtop", true, xtr);
         xtrBot = new MegaCombo("XTRbottom", true, xtr);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -74,8 +78,12 @@ public class FoilSelectionConfigPanel extends JPanel {
         crit.add(crit9);
         crit.add(crit12);
         add(crit);
-        add(xtrTop);
-        add(xtrBot);
+
+        JPanel xt = new JPanel();
+        xt.setLayout(new BoxLayout(xt, BoxLayout.X_AXIS));
+        xt.add(xtrTop);
+        xt.add(xtrBot);
+        add(xt);
         setConfig(selected, crits, _xtrBot, _xtrTop);
 
         xtrTop.addActionListener(configAction);
@@ -84,18 +92,12 @@ public class FoilSelectionConfigPanel extends JPanel {
         crit6.addActionListener(configAction);
         crit9.addActionListener(configAction);
         crit12.addActionListener(configAction);
-        airfoil_combo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                from.changeFoil();
-            }
-        });
         airfoil_combo.addActionListener(configAction);
+        instance = this;
     }
 
     public final void setConfig(String selected, int crits, int _xtrBot, int _xtrTop) {
         //    System.out.println("set:" + selected + crits + _xtrBot + _xtrTop);
-        airfoil_combo.setValue(selected, false);
         xtrBot.setValue("" + _xtrBot, false);
         xtrTop.setValue("" + _xtrTop, false);
         switch (crits) {
@@ -118,6 +120,7 @@ public class FoilSelectionConfigPanel extends JPanel {
             default:
                 break;
         }
+        airfoil_combo.setValue(selected, false);
     }
 
     public String getSelectedFoil() {

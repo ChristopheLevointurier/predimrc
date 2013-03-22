@@ -294,7 +294,7 @@ public class PredimRC extends JFrame {
         xFoilBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                XFoil_Frame.maketInstance(xFoilBut, getInstanceDrawableModel().getXfoilConfig());
+                ModelController.addModelListener( XFoil_Frame.maketInstance(xFoilBut, getInstanceDrawableModel().getXfoilConfig()));
             }
         });
 
