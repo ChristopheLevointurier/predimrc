@@ -61,7 +61,7 @@ public class PolarKey {
     }
 
     private void makeFile() {
-        file = "Polars/" + foilName.substring(0, foilName.lastIndexOf(".")) + "N" + ncrit + "X" + xtrt + "-" + xtrb + "R" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
+        file =  foilName.substring(0, foilName.lastIndexOf(".")) + "N" + ncrit + "X" + xtrt + "-" + xtrb + "R" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
     }
 
     public String getFile() {
