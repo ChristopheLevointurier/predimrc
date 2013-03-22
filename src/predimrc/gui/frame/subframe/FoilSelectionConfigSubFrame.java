@@ -18,7 +18,7 @@ import java.awt.Color;
 import javax.swing.AbstractButton;
 import javax.swing.JTabbedPane;
 import predimrc.gui.ExternalFrame;
-import predimrc.gui.frame.XFoil_Frame;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
 /**
@@ -31,9 +31,9 @@ import predimrc.model.element.XfoilConfig;
 public class FoilSelectionConfigSubFrame extends ExternalFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
-    private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(this, 0, "fad05.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(this, 1, "fad07.dat", 6, 100, 100);
-    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(this, 2, "fad15.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, "fad05.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, "fad07.dat", 6, 100, 100);
+    private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, "fad15.dat", 6, 100, 100);
 
     public FoilSelectionConfigSubFrame(AbstractButton _caller) {
         super(_caller);
@@ -51,31 +51,20 @@ public class FoilSelectionConfigSubFrame extends ExternalFrame {
         foilSelect.add(foil2);
         foilSelect.setForegroundAt(2, Color.green.darker());
         getContentPane().add(foilSelect);
-        updateModelXfoilConfig();
-        changeFoil();
-        pack();
-    }
-
-    public void changeFoil() {
-        String s0 = foil0.getSelectedFoil();
-        String s1 = foil1.getSelectedFoil();
-        String s2 = foil2.getSelectedFoil();
-        //update tabs title
-        foilSelect.setTitleAt(0, s0);
-        foilSelect.setTitleAt(1, s1);
-        foilSelect.setTitleAt(2, s2);
-    }
-
-    public final void updateModelXfoilConfig() {
-        //update model config
-        drawableModel.getXfoilConfig().setFoilConfig(0, foil0);
-        drawableModel.getXfoilConfig().setFoilConfig(1, foil1);
-        drawableModel.getXfoilConfig().setFoilConfig(2, foil2);
-        XFoil_Frame.getInstance().refreshGraphs();
+        setSize(350, 160);
+        updateModel(predimrc.PredimRC.getInstanceDrawableModel());
     }
 
     @Override
     public void save() {
         //nothing to do
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        //  System.out.println("update tabs title:" + m.getXfoilConfig().getFoilName(0) + m.getXfoilConfig().getFoilName(1) + m.getXfoilConfig().getFoilName(2));
+        foilSelect.setTitleAt(0, m.getXfoilConfig().getFoilName(0));
+        foilSelect.setTitleAt(1, m.getXfoilConfig().getFoilName(1));
+        foilSelect.setTitleAt(2, m.getXfoilConfig().getFoilName(2));
     }
 }

@@ -24,8 +24,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
+import predimrc.controller.ModelController;
 import predimrc.gui.ExternalFrame;
-import predimrc.gui.frame.XFoil_Frame;
 
 /**
  *
@@ -44,7 +44,8 @@ public class ReynoldsConfig extends ExternalFrame {
     private static ActionListener check = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            XFoil_Frame.getInstance().setReynolds(getConfig());
+            PredimRC.getInstanceDrawableModel().getXfoilConfig().setReynolds(getConfig());
+            ModelController.applyChange();
         }
     };
 

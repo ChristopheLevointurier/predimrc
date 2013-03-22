@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
+import predimrc.controller.ModelController;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigSubFrame;
@@ -24,6 +25,7 @@ import predimrc.gui.frame.subframe.FreeChartPanel;
 import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.PolarDataBase;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
 /**
@@ -46,7 +48,6 @@ public class XFoil_Frame extends ExternalFrame {
     private static JMenuItem foilsBut = new JMenuItem("Select foils");
     private JMenuItem viewFoilsBut = new JMenuItem("View foils");
     private XfoilConfig xfoilconfig;
-    private FoilRenderer foilRenderer;
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
@@ -79,20 +80,17 @@ public class XFoil_Frame extends ExternalFrame {
         JPanel user_panel = new JPanel();
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
 
-
-
         mainPanel.add(cZAlphaPanel);
         mainPanel.add(cXcZPanel);
         mainPanel.add(cMcz);
         mainPanel.add(new FreeChartPanel("", "bla", "tructruc"));
 
         getContentPane().add(mainPanel);
-
         JMenuBar menu = new JMenuBar();
 
-        menu.add(reynoldsBut);
         menu.add(foilsBut);
         menu.add(viewFoilsBut);
+        menu.add(reynoldsBut);
         menu.add(create);
         menu.add(modif);
         menu.add(del);
@@ -110,18 +108,35 @@ public class XFoil_Frame extends ExternalFrame {
         foilsBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new FoilSelectionConfigSubFrame(foilsBut);
+                ModelController.addModelListener(new FoilSelectionConfigSubFrame(foilsBut));
             }
         });
         viewFoilsBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                foilRenderer = new FoilRenderer(viewFoilsBut, xfoilconfig);
+                ModelController.addModelListener(new FoilRenderer(viewFoilsBut));
             }
         });
+        updateModel(predimrc.PredimRC.getInstanceDrawableModel());
     }
 
-    public void refreshGraphs() {
+    public ArrayList<Boolean> getReynolds() {
+        return xfoilconfig.getReynolds();
+    }
+
+    @Override
+    public void save() {
+        predimrc.PredimRC.logln("Save from " + title);
+        PredimRC.saveModel();
+    }
+
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
@@ -134,36 +149,5 @@ public class XFoil_Frame extends ExternalFrame {
                 cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());
             }
         }
-    }
-
-    public void setReynolds(ArrayList<Boolean> r) {
-        xfoilconfig.setReynolds(r);
-        refreshGraphs();
-    }
-
-    public ArrayList<Boolean> getReynolds() {
-        return xfoilconfig.getReynolds();
-    }
-
-    public final void changeFoil(String s0, String s1, String s2) {
-
-        //update foilRenderer
-        if (null != foilRenderer) {
-            foilRenderer.setS0(s0);
-            foilRenderer.setS1(s1);
-            foilRenderer.setS2(s2);
-            foilRenderer.updateChart();
-        }
-    }
-
-    @Override
-    public void save() {
-        predimrc.PredimRC.logln("Save from " + title);
-        PredimRC.saveModel();
-    }
-
-    @Override
-    public void setSize(int width, int height) {
-        super.setSize(width, height);
     }
 }

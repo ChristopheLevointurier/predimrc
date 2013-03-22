@@ -23,8 +23,8 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.*;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
-import predimrc.model.element.XfoilConfig;
 
 /**
  *
@@ -45,24 +45,12 @@ public class FoilRenderer extends ExternalFrame {
         listColor.add(Color.green.darker());
     }
 
-    public FoilRenderer(AbstractButton _caller, XfoilConfig xfoilconfig) {
+    public FoilRenderer(AbstractButton _caller) {
         super(_caller);
-        title = "Reynolds Panels";
+        title = "Foil Viewer";
         setTitle(title);
-        s0 = xfoilconfig.getFoilName(0);
-        s1 = xfoilconfig.getFoilName(1);
-        s2 = xfoilconfig.getFoilName(2);
         setSize(800, 200);
-        updateChart();
-    }
-
-    public final void updateChart() {
-        getContentPane().removeAll();
-        chart = createChart(createDataset());
-        chart.setPreferredSize(new Dimension(480, 110));
-        chart.setMouseWheelEnabled(true);
-        getContentPane().add(chart);
-        chart.repaint();
+        updateModel(predimrc.PredimRC.getInstanceDrawableModel());
     }
 
     private XYSeriesCollection createDataset() {
@@ -98,20 +86,22 @@ public class FoilRenderer extends ExternalFrame {
         return chartPanel;
     }
 
-    public void setS0(String s0) {
-        this.s0 = s0;
-    }
-
-    public void setS1(String s1) {
-        this.s1 = s1;
-    }
-
-    public void setS2(String s2) {
-        this.s2 = s2;
-    }
-
     @Override
     public void save() {
         //nothing to do
+    }
+
+    @Override
+    public void updateModel(DrawableModel m) {
+        getContentPane().removeAll();
+        s0 = drawableModel.getXfoilConfig().getFoilName(0);
+        s1 = drawableModel.getXfoilConfig().getFoilName(1);
+        s2 = drawableModel.getXfoilConfig().getFoilName(2);
+        chart = createChart(createDataset());
+        chart.setPreferredSize(new Dimension(480, 70));
+        chart.setMouseWheelEnabled(true);
+        getContentPane().add(chart);
+        chart.repaint();
+        setVisible(true);
     }
 }
