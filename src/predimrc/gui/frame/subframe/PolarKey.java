@@ -33,6 +33,7 @@ public class PolarKey {
     private int xtrt = 0;
     private int xtrb = 0;
     private int colIndex = 0;
+    private String keyString="";
 
     public PolarKey(String _foilName, int _cIndex, int _ncrit, int _xtrt, int _xtrb, int _reynoldsIndex) {
         foilName = _foilName;
@@ -45,6 +46,7 @@ public class PolarKey {
     }
 
     public PolarKey(String key) {
+        keyString=key;
         StringTokenizer tok = new StringTokenizer(key, XfoilConfig.DELIM);
 
         foilName = tok.nextToken();

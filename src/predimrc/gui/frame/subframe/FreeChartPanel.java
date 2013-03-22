@@ -61,7 +61,7 @@ public class FreeChartPanel extends JPanel {
         chartPanel.repaint();
     }
 
-    public void addSeries(Color col, int indexReynolds, String key, ArrayList<DrawablePoint> l) {
+    public void addSeries(Color col, int indexReynolds, ArrayList<DrawablePoint> l) {
         XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
         for (DrawablePoint p : l) {
             series.add(p.getFloatX(), p.getFloatY());

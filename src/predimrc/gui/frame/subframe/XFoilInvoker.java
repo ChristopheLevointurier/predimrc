@@ -23,8 +23,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import predimrc.PredimRC;
+import predimrc.common.StreamProcessReader;
 import predimrc.common.Utils;
-import predimrc.controller.IBusy;
+import predimrc.gui.frame.XFoil_Frame;
 
 /**
  *
@@ -33,7 +34,7 @@ import predimrc.controller.IBusy;
  * @see
  * @since
  */
-public class XFoilInvoker implements IBusy {
+public class XFoilInvoker implements Runnable {
 
     private static final String filenameTag = "FILENAME_TO_MERGE";
     private static final String ncritTag = "NCRIT_TO_MERGE";
@@ -41,9 +42,14 @@ public class XFoilInvoker implements IBusy {
     private static final String xtrBotTag = "XTR_BOT_TO_MERGE";
     private static final String reynoldsTag = "REYNOLDS_TO_MERGE";
     private static final String filenameOutTag = "FILENAME_OUT_TO_MERGE";
-    private boolean busy = true;
+    private PolarKey k;
 
-    public XFoilInvoker(PolarKey k) {
+    public XFoilInvoker(PolarKey _k) {
+        k = _k;
+    }
+
+    @Override
+    public void run() {
         try {
             String temp = loadfile().toString();
             temp = temp.replace(filenameTag, "../../AirFoils/" + k.getFoilName());
@@ -57,7 +63,7 @@ public class XFoilInvoker implements IBusy {
             switch (Utils.getOs()) {
                 case WINDOWS: {
                     writeFile(temp, "windows/" + k.getFile());
-                    cmd = "cmd /c start make.bat " + k.getFile();
+                    cmd = "cmd /c make.bat " + k.getFile();
                     break;
                 }
                 default: {
@@ -67,11 +73,13 @@ public class XFoilInvoker implements IBusy {
             }
             PredimRC.logln("xfoil call:" + cmd);
             Process p = Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
+            new StreamProcessReader(p.getErrorStream(), "ERROR").start();
+            new StreamProcessReader(p.getInputStream(), "OUTPUT").start();
             p.waitFor();
         } catch (InterruptedException | IOException ex) {
             PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
         }
-        busy = false;
+        XFoil_Frame.addPolar(PolarDataBase.getPolar(k, false));
     }
 
     private void writeFile(String content, String rep) throws IOException {
@@ -94,10 +102,5 @@ public class XFoilInvoker implements IBusy {
             Utils.closeStream(br);
         }
         return ret;
-    }
-
-    @Override
-    public boolean isBusy() {
-        return busy;
     }
 }

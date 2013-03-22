@@ -36,11 +36,7 @@ public class PolarData {
     private PolarKey key;
     private ArrayList<PolardataLine> data;
 
-    public PolarData(String _foilName, int _cIndex, int _ncrit, int _xtrt, int _xtrb, int _reynoldsIndex) throws MissingPolarDataException {
-        key = new PolarKey(_foilName, _cIndex, _ncrit, _xtrt, _xtrb, _reynoldsIndex);
-        loadPolarData();
-    }
-
+    
     public PolarData(PolarKey _key) throws MissingPolarDataException {
         key = _key;
         loadPolarData();

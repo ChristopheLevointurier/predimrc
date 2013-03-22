@@ -18,13 +18,13 @@ import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
-import predimrc.controller.Refresher;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigSubFrame;
 import predimrc.gui.frame.subframe.FreeChartPanel;
 import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.PolarDataBase;
+import predimrc.gui.frame.subframe.PolarKey;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
@@ -136,20 +136,23 @@ public class XFoil_Frame extends ExternalFrame {
         super.setSize(width, height);
     }
 
+    public static void addPolar(PolarData p) {
+        if (null != p && null != instance) {
+            instance.cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzCxData());
+            instance.cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzAlphaData());
+            instance.cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCmCzData());
+        }
+    }
+
     @Override
     public void updateModel(DrawableModel m) {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            PolarData p = PolarDataBase.getPolar(key);
-            if (null != p) {
-                predimrc.PredimRC.logDebugln("update xfoil:" + key);
-                cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzCxData());
-                cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCzAlphaData());
-                cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), key, p.getCmCzData());
-            }
+            //       predimrc.PredimRC.logDebugln("update xfoil:" + key);
+            PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
+            addPolar(p);
         }
-       // Refresher.refresh();
     }
 }
