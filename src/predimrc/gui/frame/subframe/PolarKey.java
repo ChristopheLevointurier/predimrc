@@ -46,6 +46,7 @@ public class PolarKey {
 
     public PolarKey(String key) {
         StringTokenizer tok = new StringTokenizer(key, XfoilConfig.DELIM);
+
         foilName = tok.nextToken();
         try {
             colIndex = Integer.parseInt(tok.nextToken());
@@ -60,8 +61,7 @@ public class PolarKey {
     }
 
     private void makeFile() {
-        file = "Polars/" + foilName + "_N" + ncrit + "_XTR-t" + xtrt + "_XTR-b" + xtrb + "_RE" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
-
+        file = "Polars/" + foilName.substring(0, foilName.lastIndexOf(".")) + "N" + ncrit + "X" + xtrt + "-" + xtrb + "R" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
     }
 
     public String getFile() {
