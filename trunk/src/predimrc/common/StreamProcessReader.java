@@ -12,7 +12,12 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.controller;
+package predimrc.common;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -21,7 +26,27 @@ package predimrc.controller;
  * @see
  * @since
  */
-public interface IBusy {
+public class StreamProcessReader extends Thread {
 
-    public boolean isBusy();
+    private InputStream is;
+    private String type;
+
+    public StreamProcessReader(InputStream _is, String _type) {
+        is = _is;
+        type = _type;
+    }
+
+    public void run() {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                if (type.equals("ERROR")) {
+                    System.out.println(type + " xfoil>" + line);
+                }
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 }

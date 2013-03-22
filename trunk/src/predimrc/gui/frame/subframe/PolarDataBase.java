@@ -16,7 +16,6 @@ package predimrc.gui.frame.subframe;
 
 import java.util.HashMap;
 import predimrc.common.exception.MissingPolarDataException;
-import predimrc.controller.Refresher;
 
 /**
  *
@@ -27,30 +26,23 @@ import predimrc.controller.Refresher;
  */
 public class PolarDataBase {
 
-    private static HashMap<String, PolarData> foilsDataBase = new HashMap<>();
+    private static HashMap<PolarKey, PolarData> foilsDataBase = new HashMap<>();
 
-    public static PolarData getPolar(String key) {
+    public static PolarData getPolar(PolarKey key, boolean firstPass) {
         if (!foilsDataBase.containsKey(key)) {
-            PolarKey k = new PolarKey(key);
             try {
-                foilsDataBase.put(key, new PolarData(k));
+                foilsDataBase.put(key, new PolarData(key));
             } catch (MissingPolarDataException ex) {
                 predimrc.PredimRC.logDebugln("Missing file:" + key);
-                XFoilInvoker invoker = new XFoilInvoker(k);  //call to xfoil
-                //Refresher.add(invoker);
-                Refresher.waitFor(invoker);
-                try {
-                    foilsDataBase.put(key, new PolarData(k));  //new PolarData
-                } catch (MissingPolarDataException ex2) {
-                    predimrc.PredimRC.logDebugln("Failed to add new polar:" + key);
+                if (firstPass) {
+                    new Thread(new XFoilInvoker(key)).start();  //call to xfoil
                 }
             }
-         }
-
+        }
         return foilsDataBase.get(key);
     }
 
-    public static void putPolar(String key, PolarData value) {
+    public static void putPolar(PolarKey key, PolarData value) {
         foilsDataBase.put(key, value);
     }
 }
