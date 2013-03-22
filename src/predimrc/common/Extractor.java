@@ -52,5 +52,8 @@ public class Extractor {
                 extractDirectory(dir + "/" + f);
             }
         }
+        if (files.length == 0) {
+            new File(PredimRC.appRep + dir).mkdirs();
+        }
     }
 }
