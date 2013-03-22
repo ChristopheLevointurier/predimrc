@@ -136,11 +136,11 @@ public class XFoil_Frame extends ExternalFrame {
         super.setSize(width, height);
     }
 
-    public static void addPolar(PolarData p) {
-        if (null != p && null != instance) {
-            instance.cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzCxData());
-            instance.cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzAlphaData());
-            instance.cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCmCzData());
+    public void addPolar(PolarData p) {
+        if (null != p) {
+            cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzCxData());
+            cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzAlphaData());
+            cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCmCzData());
         }
     }
 
