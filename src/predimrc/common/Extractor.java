@@ -14,11 +14,8 @@
  */
 package predimrc.common;
 
-import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import predimrc.PredimRC;
 
 /**
  * This class extract files from jar to user dir
@@ -49,49 +46,10 @@ public class Extractor {
         for (String f : files) {
             File fileToExtract = new File(predimrc.PredimRC.getResourceUrl(dir + "/" + f).getFile());
             if (fileToExtract.isFile()) {
-                extractFile(fileToExtract, dir + "/" + f);
+                Utils.extractFile(fileToExtract, new File(PredimRC.appRep + dir + "/" + f), overwrite);
             }
             if (fileToExtract.isDirectory()) {
                 extractDirectory(dir + "/" + f);
-            }
-        }
-    }
-
-    private static void extractFile(File fileInZip, String fileOutZipName) {
-        FileInputStream reader = null;
-        FileOutputStream writer = null;
-        try {
-            predimrc.PredimRC.logDebug("Writing :" + fileInZip.getName() + " to " + fileOutZipName + "...");
-            reader = new FileInputStream(fileInZip);
-            File out = new File(predimrc.PredimRC.appRep + fileOutZipName);
-            if (out.exists() && !overwrite) {
-                return;
-            }
-            out.getParentFile().mkdirs();
-            writer = new FileOutputStream(out);
-
-            final byte[] buf;
-            int i = 0;
-
-            buf = new byte[32768];
-            while ((i = reader.read(buf)) != -1) {
-                writer.write(buf, 0, i);
-            }
-            predimrc.PredimRC.logDebugln(" ok");
-        } catch (IOException ex) {
-            predimrc.PredimRC.logln("Error extracting :" + fileInZip.getName() + " to " + fileOutZipName);
-        } finally {
-            close(reader);
-            close(writer);
-        }
-    }
-
-    private static void close(final Closeable stream) {
-        if (stream != null) {
-            try {
-                stream.close();
-            } catch (final IOException ex) {
-                predimrc.PredimRC.logln(ex.getLocalizedMessage());
             }
         }
     }

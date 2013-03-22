@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 
@@ -40,41 +41,69 @@ public class XFoilInvoker {
     private static final String xtrBotTag = "XTR_BOT_TO_MERGE";
     private static final String reynoldsTag = "REYNOLDS_TO_MERGE";
     private static final String filenameOutTag = "FILENAME_OUT_TO_MERGE";
+    private static boolean available = true;
+    private static ConcurrentLinkedQueue<PolarKey> queue = new ConcurrentLinkedQueue<>();
 
-  //  public static void main(String[] uiobg) {
- //       new XFoilInvoker("bla", "blo", 4, 85, 75, 15000);
-  //  }
-
-    public XFoilInvoker(String fileIn, String fileOut, int ncrit, int xtrTop, int xtrBot, int reynolds) {
-        try {
-            String temp = loadfile().toString();
-            temp = temp.replace(filenameTag, "../../AirFoils/"+fileIn);
-            temp = temp.replace(ncritTag, "" + ncrit);
-            temp = temp.replace(xtrTopTag, "" + (float) (xtrTop / (float) 100));
-            temp = temp.replace(xtrBotTag, "" + (float) (xtrBot / (float) 100));
-            temp = temp.replace(reynoldsTag, "" + reynolds);
-            temp = temp.replace(filenameOutTag,"../../Polars/"+ fileOut);
-
-//call to xfoil
-            Runtime r = Runtime.getRuntime();
-            switch (Utils.getOs()) {
-                case WINDOWS: {
-                    System.out.println("xfoil call in windows mode");
-                    writeFile(temp, "windows/");
-                    r.exec("cmd /c start make", null, new File(PredimRC.appRep + "externalApp/Windows/"));
-                    break;
-                }
-                default: {
-                    PredimRC.log("Xfoil calls only for windows in v1.0");
-                    break;
-                }
-            }
-        } catch (IOException ex) {
-            PredimRC.logln("Error creating txt file for Xfoil");
+    public static void doXfoilInvocation(PolarKey k) {
+        queue.add(k);
+        if (available) {
+            launch();
         }
     }
 
-    private void writeFile(String content, String rep) throws IOException {
+    //  public static void main(String[] uiobg) {
+    //       new XFoilInvoker("bla", "blo", 4, 85, 75, 15000);
+    //  }
+    private XFoilInvoker() {
+    }
+
+    private static void launch() {
+        PolarKey k;
+        while (!queue.isEmpty()) {
+            while (!available) {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException p) {
+                }
+            }
+            available = false;
+            k = queue.poll();
+            try {
+                String temp = loadfile().toString();
+                temp = temp.replace(filenameTag, "../../AirFoils/" + k.getFoilName());
+                temp = temp.replace(ncritTag, "" + k.getNcrit());
+                temp = temp.replace(xtrTopTag, "" + (float) (k.getXtrt() / (float) 100));
+                temp = temp.replace(xtrBotTag, "" + (float) (k.getXtrb() / (float) 100));
+                temp = temp.replace(reynoldsTag, "" + ReynoldsConfig.reyValue.get(k.getReynoldsIndex()));
+                temp = temp.replace(filenameOutTag, "../../" + k.getFile());
+
+//call to xfoil
+                Runtime r = Runtime.getRuntime();
+                String[] cmd = new String[4];
+                switch (Utils.getOs()) {
+                    case WINDOWS: {
+                        System.out.println("xfoil call in windows mode");
+                        writeFile(temp, "windows/");
+                        cmd[0] = "cmd.exe";
+                        cmd[1] = "/C";
+                        cmd[2] = "start";
+                        cmd[3] = "make";
+                        break;
+                    }
+                    default: {
+                        PredimRC.log("Xfoil calls only for windows in v1.0");
+                        break;
+                    }
+                }
+                r.exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
+            } catch (IOException ex) {
+                PredimRC.logln("Error creating txt file for Xfoil");
+            }
+            available = true;
+        }
+    }
+
+    private static void writeFile(String content, String rep) throws IOException {
         File out = new File(PredimRC.appRep + "externalApp/" + rep + "CMD.txt");
         try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out)))) {
             br.write(content);
@@ -82,7 +111,7 @@ public class XFoilInvoker {
         }
     }
 
-    private StringBuilder loadfile() throws IOException {
+    private static StringBuilder loadfile() throws IOException {
         File in = new File(predimrc.PredimRC.getResourceUrl("externalApp/CMD.txt").getFile());
         StringBuilder ret = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(in)))) {

@@ -15,10 +15,7 @@
 package predimrc.common;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  *
@@ -29,46 +26,29 @@ import java.util.Properties;
  */
 public class About {
 
-    //  public static void main(String[] uiobg) {        new About();    }
+    //    public static void main(String[] uiobg) {        new About();    }
     public About() {
         File aboutFile = new File(predimrc.PredimRC.getResourceUrl("about.html").getFile());
-        File fileOut;
-        FileInputStream reader = null;
-        FileOutputStream writer = null;
         try {
+            File fileOut = File.createTempFile("" + System.currentTimeMillis(), ".html");
             predimrc.PredimRC.logDebug("Writing :" + aboutFile.getName());
-            fileOut = File.createTempFile("" + System.currentTimeMillis(), ".html");
             fileOut.deleteOnExit();
-            reader = new FileInputStream(aboutFile);
-            writer = new FileOutputStream(fileOut);
-            final byte[] buf;
-            int i = 0;
-            buf = new byte[32768];
-            while ((i = reader.read(buf)) != -1) {
-                writer.write(buf, 0, i);
-            }
 
-            Properties sys = System.getProperties();
-            String os = sys.getProperty("os.name");
-            System.out.println(os);
+            Utils.extractFile(aboutFile, fileOut, true);
+            ///   System.out.println(os);
             Runtime r = Runtime.getRuntime();
-
-            if (os.endsWith("NT") || os.endsWith("2000") || os.endsWith("XP") || os.contains("Windows")) {
-                r.exec("cmd /c start " + fileOut.getAbsolutePath());
-            } else {
-                r.exec("start " + fileOut.getAbsolutePath());
+            switch (Utils.getOs()) {
+                case WINDOWS: {
+                    r.exec("cmd /c start " + fileOut.getAbsolutePath());
+                    break;
+                }
+                default: {
+                    r.exec("start " + fileOut.getAbsolutePath());
+                    break;
+                }
             }
         } catch (IOException ex) {
             predimrc.PredimRC.logln("Error extracting :" + aboutFile.getName());
-        } finally {
-            try {
-                reader.close();
-            } catch (NullPointerException | IOException ex) {
-            }
-            try {
-                writer.close();
-            } catch (NullPointerException | IOException ex) {
-            }
         }
     }
 }

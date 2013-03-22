@@ -19,10 +19,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Properties;
 import javagl.jglcore.JGL_3DMesh;
 import javagl.jglcore.JGL_3DTriangle;
 import javagl.jglcore.JGL_3DVector;
@@ -161,6 +166,42 @@ public class Utils {
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) + (p1.z - p2.z) * (p1.z - p2.z));
     }
 
+    public static void extractFile(File fileIn, File fileOut, boolean overwrite) {
+        FileInputStream reader = null;
+        FileOutputStream writer = null;
+        try {
+            PredimRC.logDebug("Writing :" + fileIn.getName() + " to " + fileOut + "...");
+            reader = new FileInputStream(fileIn);
+            if (fileOut.exists() && !overwrite) {
+                return;
+            }
+            fileOut.getParentFile().mkdirs();
+            writer = new FileOutputStream(fileOut);
+            final byte[] buf;
+            int i = 0;
+            buf = new byte[32768];
+            while ((i = reader.read(buf)) != -1) {
+                writer.write(buf, 0, i);
+            }
+            PredimRC.logDebugln(" ok");
+        } catch (IOException ex) {
+            PredimRC.logln("Error copying :" + fileIn.getName() + " to " + fileOut);
+        } finally {
+            closeStream(reader);
+            closeStream(writer);
+        }
+    }
+
+    public static void closeStream(final Closeable stream) {
+        if (stream != null) {
+            try {
+                stream.close();
+            } catch (final IOException ex) {
+                predimrc.PredimRC.logln(ex.getLocalizedMessage());
+            }
+        }
+    }
+
     public static enum USED_FOR {
 
         FUSELAGE(Utils.DEFAULT_FUSELAGE_COLOR, "Fuselage"),
@@ -188,6 +229,11 @@ public class Utils {
     public static enum VIEW_TYPE {
 
         FRONT_VIEW, TOP_VIEW, LEFT_VIEW, GRAPH;
+    }
+
+    public static enum OS {
+
+        WINDOWS, UNIX, MAC, OTHERS;
     }
 
     public static void drawline(DrawablePoint a, DrawablePoint b, Graphics g) {
@@ -281,11 +327,21 @@ public class Utils {
                     reader.close();
                 }
             } catch (IOException | NullPointerException ex) {
-                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + " \n" + ex.getLocalizedMessage());
+                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + System.getProperty("line.separator") + ex.getLocalizedMessage());
             }
         } else {
             predimrc.PredimRC.logln(file + " don't seems to be a data file.");
         }
         return points;
+    }
+
+    public static OS getOs() {
+        Properties sys = System.getProperties();
+        String os = sys.getProperty("os.name");
+        if (os.endsWith("NT") || os.endsWith("2000") || os.endsWith("XP") || os.contains("Windows")) {
+            return OS.WINDOWS;
+        } else { //for now
+            return OS.OTHERS;
+        }
     }
 }
