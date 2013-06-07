@@ -59,6 +59,9 @@ public class PolarKey {
         } catch (java.lang.NumberFormatException e) {
             predimrc.PredimRC.logln("NumberFormatException:" + foilName + ":" + colIndex + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynoldsIndex);
         }
+         catch (java.util.NoSuchElementException pe) {
+            predimrc.PredimRC.logln("invalid token amounts for key:" + foilName + ":" + colIndex + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynoldsIndex);
+        }
         makeFile();
     }
 
