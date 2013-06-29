@@ -72,7 +72,6 @@ public class FreeChartPanel extends JPanel {
             }
             xylineandshaperenderer.setSeriesPaint(xyseriescollection.getSeriesCount(), col);
             xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
-
             xyseriescollection.addSeries(series);
         } finally {
             lock.unlock();
