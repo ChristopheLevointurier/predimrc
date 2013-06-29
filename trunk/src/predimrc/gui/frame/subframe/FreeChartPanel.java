@@ -18,6 +18,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -41,7 +42,8 @@ public class FreeChartPanel extends JPanel {
     private String x, y, title;
     private ChartPanel chartPanel;
     private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}, {50.0f, 50.0f}};
-  
+    private ReentrantLock lock = new ReentrantLock();
+
     public FreeChartPanel(String _title, String _x, String _y) {
         super();
         title = _title;
@@ -62,17 +64,22 @@ public class FreeChartPanel extends JPanel {
     }
 
     public void addSeries(Color col, int indexReynolds, ArrayList<DrawablePoint> l) {
-        XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
-        for (DrawablePoint p : l) {
-            series.add(p.getFloatX(), p.getFloatY());
+        lock.lock();
+        try {
+            XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
+            for (DrawablePoint p : l) {
+                series.add(p.getFloatX(), p.getFloatY());
+            }
+            xylineandshaperenderer.setSeriesPaint(xyseriescollection.getSeriesCount(), col);
+            xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
+
+            xyseriescollection.addSeries(series);
+        } finally {
+            lock.unlock();
         }
-        xylineandshaperenderer.setSeriesPaint(xyseriescollection.getSeriesCount(), col);
-        xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
-        xyseriescollection.addSeries(series);
-        chartPanel.repaint();
     }
-    
-    public void clean(){
+
+    public void clean() {
         xyseriescollection.removeAllSeries();
     }
 }
