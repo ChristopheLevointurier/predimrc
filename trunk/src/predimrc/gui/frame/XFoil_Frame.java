@@ -46,7 +46,7 @@ public class XFoil_Frame extends ExternalFrame {
      *
      */
     private JMenuItem reynoldsBut = new JMenuItem("Select reynolds");
-    private static JMenuItem foilsBut = new JMenuItem("Select foils");
+    private JMenuItem foilsBut = new JMenuItem("Select foils");
     private JMenuItem viewFoilsBut = new JMenuItem("View foils");
     private XfoilConfig xfoilconfig;
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
@@ -64,7 +64,6 @@ public class XFoil_Frame extends ExternalFrame {
     public static XFoil_Frame maketInstance(AbstractButton _caller, XfoilConfig _xfoilconfig) {
         ReynoldsConfig.initReynolds();
         instance = new XFoil_Frame(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME, _xfoilconfig);
-        foilsBut.doClick();
         return instance;
     }
 
@@ -119,6 +118,8 @@ public class XFoil_Frame extends ExternalFrame {
             }
         });
         updateModel(predimrc.PredimRC.getInstanceDrawableModel());
+        foilsBut.doClick();
+
     }
 
     public ArrayList<Boolean> getReynolds() {
