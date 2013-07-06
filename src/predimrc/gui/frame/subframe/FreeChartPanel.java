@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
@@ -41,6 +42,7 @@ import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 public class FreeChartPanel extends JPanel {
 
     private XYSeriesCollection xyseriescollection = new XYSeriesCollection();
+    private List<XYPointerAnnotation> annots = new ArrayList<>();
     private XYLineAndShapeRenderer xylineandshaperenderer;
     private String x, y, title;
     private ChartPanel chartPanel;
@@ -87,6 +89,10 @@ public class FreeChartPanel extends JPanel {
 
     public void clean() {
         xyseriescollection.removeAllSeries();
+        for (XYPointerAnnotation p : annots) {
+            ((XYPlot) chartPanel.getChart().getPlot()).removeAnnotation(p);
+        }
+        annots.clear();
     }
 
     @Override
@@ -99,6 +105,7 @@ public class FreeChartPanel extends JPanel {
 
     public void addPoint(double x, double y, String str) {
         XYPointerAnnotation pointer = new XYPointerAnnotation(str, x, y, 35.0);
+        annots.add(pointer);
         ((XYPlot) chartPanel.getChart().getPlot()).addAnnotation(pointer);
 
     }
