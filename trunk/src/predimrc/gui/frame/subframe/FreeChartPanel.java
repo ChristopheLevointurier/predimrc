@@ -17,6 +17,7 @@ package predimrc.gui.frame.subframe;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import predimrc.common.Utils;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
 /**
@@ -41,7 +43,7 @@ public class FreeChartPanel extends JPanel {
     private XYLineAndShapeRenderer xylineandshaperenderer;
     private String x, y, title;
     private ChartPanel chartPanel;
-    private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}, {50.0f, 50.0f}};
+    //private final static float[][] dashs = {{10.0f}, {5.0f, 10.0f}, {10.0f, 10.0f}, {10.0f, 20.0f}, {20.0f, 20.0f}, {50.0f, 20.0f}, {50.0f, 50.0f}};
     private ReentrantLock lock = new ReentrantLock();
 
     public FreeChartPanel(String _title, String _x, String _y) {
@@ -55,15 +57,19 @@ public class FreeChartPanel extends JPanel {
     private void updateChart() {
         removeAll();
         chartPanel = new ChartPanel(ChartFactory.createXYLineChart(title, x, y, xyseriescollection, PlotOrientation.VERTICAL, false, true, false));
+        chartPanel.setMinimumDrawWidth(0);
+        chartPanel.setMinimumDrawHeight(0);
+        chartPanel.setMaximumDrawWidth((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth());
+        chartPanel.setMaximumDrawHeight((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         xylineandshaperenderer = (XYLineAndShapeRenderer) chartPanel.getChart().getXYPlot().getRenderer();
         chartPanel.setMouseWheelEnabled(true);
-        chartPanel.setPreferredSize(new Dimension(480, 330));
+        chartPanel.setPreferredSize(new Dimension((int) (Utils.DEFAULT_X_FRAME / 2), (int) (Utils.DEFAULT_Y_FRAME / 2)));
         chartPanel.setMouseWheelEnabled(true);
         add(chartPanel);
         chartPanel.repaint();
     }
 
-    public void addSeries(Color col, int indexReynolds, ArrayList<DrawablePoint> l) {
+    public void addSeries(Color col,ArrayList<DrawablePoint> l) {
         lock.lock();
         try {
             XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
@@ -71,7 +77,7 @@ public class FreeChartPanel extends JPanel {
                 series.add(p.getFloatX(), p.getFloatY());
             }
             xylineandshaperenderer.setSeriesPaint(xyseriescollection.getSeriesCount(), col);
-            xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
+            // xylineandshaperenderer.setSeriesStroke(xyseriescollection.getSeriesCount(), new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND, 10.0f, dashs[indexReynolds], 0.0f));
             xyseriescollection.addSeries(series);
         } finally {
             lock.unlock();
@@ -80,5 +86,13 @@ public class FreeChartPanel extends JPanel {
 
     public void clean() {
         xyseriescollection.removeAllSeries();
+    }
+
+    @Override
+    public void repaint() {
+        super.repaint();
+        if (chartPanel != null) {
+            chartPanel.repaint();
+        }
     }
 }

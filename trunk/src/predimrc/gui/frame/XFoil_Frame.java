@@ -4,10 +4,15 @@
  */
 package predimrc.gui.frame;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -15,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
@@ -36,7 +42,7 @@ import predimrc.model.element.XfoilConfig;
  * @see
  * @since
  */
-public class XFoil_Frame extends ExternalFrame {
+public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     private JButton modif = new JButton("Edit a foil");
     private JButton create = new JButton("Import a foil");
@@ -52,10 +58,13 @@ public class XFoil_Frame extends ExternalFrame {
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
+    private FreeChartPanel todefine = new FreeChartPanel("gloup", "glop", "glup");
     /**
      *
      */
     private static XFoil_Frame instance;
+    public static final Color[] listColor = {new Color(105, 50, 0), new Color(0, 0, 135), new Color(0, 195, 50)};
+    private static final int[] alphas = {55, 88, 121, 154, 187, 220, 255};
 
     public static XFoil_Frame getInstance() {
         return instance;
@@ -72,20 +81,26 @@ public class XFoil_Frame extends ExternalFrame {
         title = "xFoil";
         setTitle(title);
         xfoilconfig = _xfoilconfig;
-        //setconfig
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(2, 2));
 
         // Reynolds panel
         JPanel user_panel = new JPanel();
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
 
-        mainPanel.add(cZAlphaPanel);
-        mainPanel.add(cXcZPanel);
-        mainPanel.add(cMcz);
-        mainPanel.add(new FreeChartPanel("", "bla", "tructruc"));
 
-        getContentPane().add(mainPanel);
+
+
+
+        JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel, cXcZPanel);
+        splitPaneTop.setOneTouchExpandable(true);
+        splitPaneTop.setResizeWeight(0.5);
+        JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cMcz, todefine);
+        splitPaneBot.setOneTouchExpandable(true);
+        splitPaneBot.setResizeWeight(0.5);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setResizeWeight(0.25);
+
+        getContentPane().add(splitPane);
         JMenuBar menu = new JMenuBar();
 
         menu.add(foilsBut);
@@ -117,9 +132,20 @@ public class XFoil_Frame extends ExternalFrame {
                 ModelController.addModelListener(new FoilRenderer(viewFoilsBut));
             }
         });
+
+
+        calc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //    updateCharts();
+            }
+        });
+
+
+
         updateModel(predimrc.PredimRC.getInstanceDrawableModel());
         foilsBut.doClick();
-
+        //    splitPane.addMouseListener(this);
     }
 
     public ArrayList<Boolean> getReynolds() {
@@ -137,11 +163,22 @@ public class XFoil_Frame extends ExternalFrame {
         super.setSize(width, height);
     }
 
+    public static Color getAppropriateColor(int s, int r) {
+        if (s >= 0 && r >= 0 && s < listColor.length && r < alphas.length) {
+            Color col = listColor[s];
+            return new Color(col.getRed() + r * 25, col.getGreen() + r * 10, col.getBlue() + r * 20, alphas[r]);
+        } else {
+            return Color.black;
+        }
+    }
+
     public void addPolar(PolarData p) {
         if (null != p) {
-            cXcZPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzCxData());
-            cZAlphaPanel.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCzAlphaData());
-            cMcz.addSeries(FoilRenderer.listColor.get(p.getColIndex()), p.getReynoldsIndex(), p.getCmCzData());
+            Color col = getAppropriateColor(p.getColIndex(), p.getReynoldsIndex());
+
+            cXcZPanel.addSeries(col, p.getCzCxData());
+            cZAlphaPanel.addSeries(col, p.getCzAlphaData());
+            cMcz.addSeries(col, p.getCmCzData());
         }
     }
 
@@ -155,5 +192,33 @@ public class XFoil_Frame extends ExternalFrame {
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //  throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //    throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        cZAlphaPanel.repaint();
+        cXcZPanel.repaint();
+        cMcz.repaint();
+        todefine.repaint();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //   throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //     throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -62,7 +62,7 @@ public class MainView extends JPanel implements MouseMotionListener {
         topSplitPane.setResizeWeight(0.25);
         add(topSplitPane, BorderLayout.CENTER);
         addMouseMotionListener(this);
-    }
+     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
