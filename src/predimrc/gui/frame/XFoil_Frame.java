@@ -32,6 +32,7 @@ import predimrc.gui.frame.subframe.PolarData;
 import predimrc.gui.frame.subframe.PolarDataBase;
 import predimrc.gui.frame.subframe.PolarKey;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
+import predimrc.gui.frame.subframe.XFoilResults;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
@@ -58,7 +59,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
-    private FreeChartPanel todefine = new FreeChartPanel("gloup", "glop", "glup");
+    private XFoilResults results = new XFoilResults();
     /**
      *
      */
@@ -93,7 +94,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel, cXcZPanel);
         splitPaneTop.setOneTouchExpandable(true);
         splitPaneTop.setResizeWeight(0.5);
-        JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cMcz, todefine);
+        JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cMcz, results);
         splitPaneBot.setOneTouchExpandable(true);
         splitPaneBot.setResizeWeight(0.5);
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
@@ -209,7 +210,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cZAlphaPanel.repaint();
         cXcZPanel.repaint();
         cMcz.repaint();
-        todefine.repaint();
+      //  results.repaint();
     }
 
     @Override
