@@ -36,6 +36,7 @@ import predimrc.gui.ExternalFrame;
 public class ReynoldsConfig extends ExternalFrame {
 
     public static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500, 5000};
+    public static final int reyRefForResults=5;
     public static final ArrayList<Integer> reyValue = new ArrayList<>();
     private static ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
     private static JPanel reynolds_panel = new JPanel();
@@ -56,7 +57,7 @@ public class ReynoldsConfig extends ExternalFrame {
         for (int i : reyIntValue) {
             reyValue.add(i);
             JCheckBox temp = new JCheckBox(i + " k", PredimRC.getInstanceDrawableModel().getXfoilConfig().getReynolds().get(reynolds_check.size()));
-            if (i == reyIntValue[5]) {
+            if (i == reyIntValue[reyRefForResults]) {
                 temp.setSelected(true);
                 temp.setEnabled(false);
             }

@@ -14,7 +14,6 @@
  */
 package predimrc.gui.frame.subframe;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -23,7 +22,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.annotations.XYPointerAnnotation;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -69,7 +70,7 @@ public class FreeChartPanel extends JPanel {
         chartPanel.repaint();
     }
 
-    public void addSeries(Color col,ArrayList<DrawablePoint> l) {
+    public void addSeries(Color col, ArrayList<DrawablePoint> l) {
         lock.lock();
         try {
             XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
@@ -94,5 +95,11 @@ public class FreeChartPanel extends JPanel {
         if (chartPanel != null) {
             chartPanel.repaint();
         }
+    }
+
+    public void addPoint(double x, double y, String str) {
+        XYPointerAnnotation pointer = new XYPointerAnnotation(str, x, y, 35.0);
+        ((XYPlot) chartPanel.getChart().getPlot()).addAnnotation(pointer);
+
     }
 }

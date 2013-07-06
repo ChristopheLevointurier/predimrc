@@ -4,15 +4,12 @@
  */
 package predimrc.gui.frame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -60,6 +57,8 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
     private XFoilResults results = new XFoilResults();
+    
+    public static boolean initDone=false;
     /**
      *
      */
@@ -74,6 +73,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     public static XFoil_Frame maketInstance(AbstractButton _caller, XfoilConfig _xfoilconfig) {
         ReynoldsConfig.initReynolds();
         instance = new XFoil_Frame(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME, _xfoilconfig);
+        initDone=true;
         return instance;
     }
 
@@ -138,7 +138,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         calc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //    updateCharts();
+                repaint();
             }
         });
 
@@ -176,10 +176,14 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     public void addPolar(PolarData p) {
         if (null != p) {
             Color col = getAppropriateColor(p.getColIndex(), p.getReynoldsIndex());
-
             cXcZPanel.addSeries(col, p.getCzCxData());
             cZAlphaPanel.addSeries(col, p.getCzAlphaData());
             cMcz.addSeries(col, p.getCmCzData());
+            if (p.getReynoldsIndex() == ReynoldsConfig.reyRefForResults) {
+                results.set0(p.getColIndex(), p.getCmCzData(), p.getCzAlphaData());
+                cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0, "Alpha 0");
+                cMcz.addPoint(0, results.getCm(p.getColIndex())," Cm 0");
+            }
         }
     }
 
@@ -193,6 +197,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }
+        PredimRC.log("udpdate charts");
     }
 
     @Override
@@ -210,7 +215,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cZAlphaPanel.repaint();
         cXcZPanel.repaint();
         cMcz.repaint();
-      //  results.repaint();
+        //  results.repaint();
     }
 
     @Override
