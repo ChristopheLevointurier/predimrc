@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
@@ -36,10 +35,11 @@ import predimrc.gui.ExternalFrame;
  */
 public class ReynoldsConfig extends ExternalFrame {
 
-    private static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500, 5000};
+    public static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500, 5000};
     public static final ArrayList<Integer> reyValue = new ArrayList<>();
     private static ArrayList<JCheckBox> reynolds_check = new ArrayList<>();
     private static JPanel reynolds_panel = new JPanel();
+    private static Legende legendePanel = new Legende();
     private static boolean init = false;
     private static ActionListener check = new ActionListener() {
         @Override
@@ -70,12 +70,12 @@ public class ReynoldsConfig extends ExternalFrame {
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.X_AXIS));
         content.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Selected Reynolds"));
-        JButton drawPanel = new JButton(PredimRC.getImageIcon("legende.png"));
         reynolds_panel.setLayout(new BoxLayout(reynolds_panel, BoxLayout.Y_AXIS));
-        content.add(drawPanel);
+        content.add(legendePanel);
         content.add(reynolds_panel);
-        this.getContentPane().add(content);
+        getContentPane().add(content);
         pack();
+
     }
 
     public static ArrayList<Boolean> getConfig() {

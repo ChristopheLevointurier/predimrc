@@ -23,6 +23,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.*;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 
@@ -37,13 +38,6 @@ public class FoilRenderer extends ExternalFrame {
 
     private ChartPanel chart;
     private String s0, s1, s2;
-    public static final ArrayList<Color> listColor = new ArrayList<>();
-
-    static {
-        listColor.add(Color.red);
-        listColor.add(Color.blue);
-        listColor.add(Color.green.darker());
-    }
 
     public FoilRenderer(AbstractButton _caller) {
         super(_caller);
@@ -77,9 +71,8 @@ public class FoilRenderer extends ExternalFrame {
         JFreeChart jfreechart = ChartFactory.createXYLineChart("", "", "", xydataset, PlotOrientation.VERTICAL, false, false, false);
         jfreechart.getXYPlot().getRangeAxis().setRange(-0.10, 0.10);
         XYLineAndShapeRenderer xylineandshaperenderer = (XYLineAndShapeRenderer) jfreechart.getXYPlot().getRenderer();
-
         for (int i = 0; i < 3; i++) {
-            xylineandshaperenderer.setSeriesPaint(i, listColor.get(i));
+            xylineandshaperenderer.setSeriesPaint(i, XFoil_Frame.listColor[i]);
         }
         ChartPanel chartPanel = new ChartPanel(jfreechart);
         chartPanel.setMouseWheelEnabled(true);
@@ -92,7 +85,7 @@ public class FoilRenderer extends ExternalFrame {
     }
 
     @Override
-    public void updateModel(DrawableModel m) {
+    public final void updateModel(DrawableModel m) {
         getContentPane().removeAll();
         s0 = drawableModel.getXfoilConfig().getFoilName(0);
         s1 = drawableModel.getXfoilConfig().getFoilName(1);
