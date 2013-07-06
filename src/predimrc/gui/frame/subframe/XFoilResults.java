@@ -14,10 +14,14 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import org.jfree.data.xy.XYSeries;
 import predimrc.gui.frame.XFoil_Frame;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.widget.MegaLabel;
 
 /**
@@ -29,52 +33,62 @@ import predimrc.gui.widget.MegaLabel;
  */
 public class XFoilResults extends JPanel {
 
-    private MegaLabel cm01 = new MegaLabel("Cm0");
-    private MegaLabel alpha01 = new MegaLabel("Alpha0");
-    private MegaLabel cm02 = new MegaLabel("Cm0");
-    private MegaLabel alpha02 = new MegaLabel("Alpha0");
-    private MegaLabel cm03 = new MegaLabel("Cm0");
-    private MegaLabel alpha03 = new MegaLabel("Alpha0");
+    private List<MegaLabel> cm0 = new ArrayList<MegaLabel>();
+    private List<MegaLabel> alpha0 = new ArrayList<MegaLabel>();
 
     public XFoilResults() {
         super();
-        cm01.setValueBackground(XFoil_Frame.getAppropriateColor(0, 6));
-        alpha01.setValueBackground(XFoil_Frame.getAppropriateColor(0, 6));
-        cm02.setValueBackground(XFoil_Frame.getAppropriateColor(1, 6));
-        alpha02.setValueBackground(XFoil_Frame.getAppropriateColor(1, 6));
-        cm03.setValueBackground(XFoil_Frame.getAppropriateColor(2, 6));
-        alpha03.setValueBackground(XFoil_Frame.getAppropriateColor(2, 6));
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Results:"));
-        add(cm01);
-        add(alpha01);
-        add(cm02);
-        add(alpha02);
-        add(cm03);
-        add(alpha03);
+
+
+        for (int i = 0; i < 3; i++) {
+            MegaLabel tempC = new MegaLabel("Cm0");
+            tempC.setValueBackground(XFoil_Frame.getAppropriateColor(i, 6));
+            MegaLabel tempA = new MegaLabel("Alpha0");
+            tempA.setValueBackground(XFoil_Frame.getAppropriateColor(i, 6));
+            cm0.add(tempC);
+            alpha0.add(tempA);
+            add(tempC);
+            add(tempA);
+        }
     }
 
-    public MegaLabel getCm01() {
-        return cm01;
+    public void set0(int indexSerie, List<DrawablePoint> cmSerie, List<DrawablePoint> alphaSerie) {
+        cm0.get(indexSerie).setValue("" + getInterpolated0(cmSerie, false));
+        alpha0.get(indexSerie).setValue("" + getInterpolated0(alphaSerie, true));
     }
 
-    public MegaLabel getAlpha01() {
-        return alpha01;
+    private double getInterpolated0(List<DrawablePoint> plist, boolean xSearched) {
+        DrawablePoint p1 = plist.get(0), p2 = plist.get(0);
+        if (xSearched) {
+            for (DrawablePoint p : plist) {
+                if ((p.getX() < 0 && p1.getX() > 0) || (p.getX() > 0 && p1.getX() < 0)) {
+                    p2 = p;
+                    break;
+                }
+                p1 = p;
+            }
+            return (p1.getX() - p1.getY()) * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY());
+        } else {
+            for (DrawablePoint p : plist) {
+                if ((p.getY() < 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() < 0)) {
+                    p2 = p;
+                    break;
+                }
+                p1 = p;
+            }
+            System.out.println(p1 + "    " + p2);
+            return (p1.getY() - p1.getX()) * (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
+        }
     }
 
-    public MegaLabel getCm02() {
-        return cm02;
+    public Double getCm(int colIndex) {
+        return new Double(cm0.get(colIndex).getValue());
     }
 
-    public MegaLabel getAlpha02() {
-        return alpha02;
-    }
-
-    public MegaLabel getCm03() {
-        return cm03;
-    }
-
-    public MegaLabel getAlpha03() {
-        return alpha03;
+    public Double getAlpha(int colIndex) {
+        return new Double(alpha0.get(colIndex).getValue());
     }
 }

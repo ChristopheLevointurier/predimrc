@@ -79,7 +79,9 @@ public class XFoilInvoker implements Runnable {
         } catch (InterruptedException | IOException ex) {
             PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
         }
-        XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
+        if (XFoil_Frame.initDone) {
+            XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
+        }
     }
 
     private void writeFile(String content, String rep) throws IOException {
