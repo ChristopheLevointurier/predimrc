@@ -56,6 +56,10 @@ public class ReynoldsConfig extends ExternalFrame {
         for (int i : reyIntValue) {
             reyValue.add(i);
             JCheckBox temp = new JCheckBox(i + " k", PredimRC.getInstanceDrawableModel().getXfoilConfig().getReynolds().get(reynolds_check.size()));
+            if (i == reyIntValue[5]) {
+                temp.setSelected(true);
+                temp.setEnabled(false);
+            }
             temp.addActionListener(check);
             reynolds_check.add(temp);
             reynolds_panel.add(temp);
