@@ -64,8 +64,12 @@ public class XFoilResults extends JPanel {
         DrawablePoint p1 = plist.get(0), p2 = plist.get(0);
         if (xSearched) {
             for (DrawablePoint p : plist) {
-                if ((p.getX() < 0 && p1.getX() > 0) || (p.getX() > 0 && p1.getX() < 0)) {
+        //        System.out.println("p.getX() :" + (p.getX()) + ", p1.getX() " + (p1.getX()));
+        //        System.out.println("p.getX() < 0:" + (p.getX() < 0) + ", p1.getX()>0 " + (p1.getX() > 0) + " donne " + (p.getX() < 0 && p1.getX() > 0));
+        //        System.out.println("p.getX() > 0:" + (p.getX() > 0) + ", p1.getX() < 0 " + (p1.getX() < 0) + " donne " + (p.getX() > 0 && p1.getX() < 0));
+                if ((p.getX() <= 0 && p1.getX() > 0) || (p.getX() > 0 && p1.getX() <= 0)) {
                     p2 = p;
+                    System.out.println("sur x :" + p1 + "    " + p2);
                     break;
                 }
                 p1 = p;
@@ -73,13 +77,13 @@ public class XFoilResults extends JPanel {
             return (p1.getX() - p1.getY()) * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY());
         } else {
             for (DrawablePoint p : plist) {
-                if ((p.getY() < 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() < 0)) {
+                if ((p.getY() <= 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() <= 0)) {
                     p2 = p;
+                    System.out.println("sur y :" + p1 + "    " + p2);
                     break;
                 }
                 p1 = p;
             }
-            System.out.println(p1 + "    " + p2);
             return (p1.getY() - p1.getX()) * (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
         }
     }
