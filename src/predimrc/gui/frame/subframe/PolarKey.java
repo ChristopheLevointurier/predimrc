@@ -33,7 +33,7 @@ public class PolarKey {
     private int xtrt = 0;
     private int xtrb = 0;
     private int colIndex = 0;
-    private String keyString="";
+    private String keyString = "";
 
     public PolarKey(String _foilName, int _cIndex, int _ncrit, int _xtrt, int _xtrb, int _reynoldsIndex) {
         foilName = _foilName;
@@ -46,7 +46,7 @@ public class PolarKey {
     }
 
     public PolarKey(String key) {
-        keyString=key;
+        keyString = key;
         StringTokenizer tok = new StringTokenizer(key, XfoilConfig.DELIM);
 
         foilName = tok.nextToken();
@@ -58,15 +58,14 @@ public class PolarKey {
             reynoldsIndex = Integer.parseInt(tok.nextToken());
         } catch (java.lang.NumberFormatException e) {
             predimrc.PredimRC.logln("NumberFormatException:" + foilName + ":" + colIndex + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynoldsIndex);
-        }
-         catch (java.util.NoSuchElementException pe) {
+        } catch (java.util.NoSuchElementException pe) {
             predimrc.PredimRC.logln("invalid token amounts for key:" + foilName + ":" + colIndex + ":" + ncrit + ":" + xtrt + ":" + xtrb + ":" + reynoldsIndex);
         }
         makeFile();
     }
 
     private void makeFile() {
-        file =  foilName.substring(0, foilName.lastIndexOf(".")) + "N" + ncrit + "X" + xtrt + "-" + xtrb + "R" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
+        file = foilName.substring(0, foilName.lastIndexOf(".")) + "N" + ncrit + "X" + xtrt + "-" + xtrb + "R" + ReynoldsConfig.reyValue.get(reynoldsIndex) + ".txt";
     }
 
     public String getFile() {
