@@ -64,9 +64,9 @@ public class XFoilResults extends JPanel {
         DrawablePoint p1 = plist.get(0), p2 = plist.get(0);
         if (xSearched) {
             for (DrawablePoint p : plist) {
-                //        System.out.println("p.getX() :" + (p.getX()) + ", p1.getX() " + (p1.getX()));
-                //        System.out.println("p.getX() < 0:" + (p.getX() < 0) + ", p1.getX()>0 " + (p1.getX() > 0) + " donne " + (p.getX() < 0 && p1.getX() > 0));
-                //        System.out.println("p.getX() > 0:" + (p.getX() > 0) + ", p1.getX() < 0 " + (p1.getX() < 0) + " donne " + (p.getX() > 0 && p1.getX() < 0));
+                       // System.out.println("p.getX() :" + (p.getX()) + ", p1.getX() " + (p1.getX()));
+                     //   System.out.println("p.getX() < 0:" + (p.getX() < 0) + ", p1.getX()>0 " + (p1.getX() > 0) + " donne " + (p.getX() < 0 && p1.getX() > 0));
+                   //     System.out.println("p.getX() > 0:" + (p.getX() > 0) + ", p1.getX() < 0 " + (p1.getX() < 0) + " donne " + (p.getX() > 0 && p1.getX() < 0));
                 if ((p.getY() <= 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() <= 0)) {
                     p2 = p;
                     System.out.println("Valeur cherchée sur x, pts select:" + p1 + "    " + p2);
@@ -74,7 +74,7 @@ public class XFoilResults extends JPanel {
                 }
                 p1 = p;
             }
-            return (p1.getX() - p1.getY()) * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY());
+            return (p1.getX() - p1.getY() * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY()));
         } else {
             for (DrawablePoint p : plist) {
               //  System.out.println("p.getY() :" + (p.getY()) + ", p1.getY() " + (p1.getY()));
@@ -87,7 +87,7 @@ public class XFoilResults extends JPanel {
                 }
                 p1 = p;
             }
-            return (p1.getY() - p1.getX()) * (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
+            return (p1.getY() - p1.getX() * (p2.getY() - p1.getY()) / (p2.getX() - p1.getX()));
         }
     }
 
