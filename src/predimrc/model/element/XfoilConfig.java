@@ -30,9 +30,9 @@ public class XfoilConfig implements Serializable {
 
     public static final String DELIM = "¤";
     private String reynolds = "false¤true¤true¤true¤true¤true¤false";
-    private String foil0Config = "fad15.dat¤2¤6¤100¤100";
-    private String foil1Config = "fad05.dat¤0¤6¤100¤100";
-    private String foil2Config = "fad07.dat¤1¤6¤100¤100";
+    private String foil0Config = "fad15.dat¤2¤6¤100¤100¤";
+    private String foil1Config = "fad05.dat¤0¤6¤100¤100¤";
+    private String foil2Config = "fad07.dat¤1¤6¤100¤100¤";
 
     public XfoilConfig() {
     }
