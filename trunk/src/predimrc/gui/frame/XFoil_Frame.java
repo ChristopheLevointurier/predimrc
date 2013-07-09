@@ -18,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import org.jfree.data.xy.XYSeriesCollection;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.controller.ModelController;
@@ -53,9 +54,9 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private JMenuItem foilsBut = new JMenuItem("Select foils");
     private JMenuItem viewFoilsBut = new JMenuItem("View foils");
     private XfoilConfig xfoilconfig;
-    private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz");
-    private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz");
-    private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm");
+    private FreeChartPanel cXcZPanel = new FreeChartPanel("", "Cx", "Cz", new XYSeriesCollection());
+    private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz", new XYSeriesCollection());
+    private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm", new XYSeriesCollection());
     private XFoilResults results = new XFoilResults();
     
     public static boolean initDone=false;
