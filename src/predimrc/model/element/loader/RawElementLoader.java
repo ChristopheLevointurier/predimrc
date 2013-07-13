@@ -66,7 +66,7 @@ public class RawElementLoader {
                 String line;
                 try {
                     title = reader.readLine();
-                    PredimRC.logln("opening" + file + ":" + title);
+                    PredimRC.logDebug("opening " + file + ":" + title);
                     while ((line = reader.readLine()) != null) {
                         float f1 = 0f, f2 = 0f, f3 = 0f;
                         int cpt = 0;

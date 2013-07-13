@@ -50,7 +50,7 @@ public class PolarData {
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {
-                    PredimRC.logln("opening" + key.getFile() + ":" + reader.readLine());
+                    PredimRC.logDebugln("opening" + key.getFile() + ":" + reader.readLine());
                     int cpt = 0;
                     while ((line = reader.readLine()) != null) {
                         cpt++;
@@ -59,7 +59,7 @@ public class PolarData {
                             data.add(new PolardataLine(datasInLine[1], datasInLine[2], datasInLine[3], datasInLine[4], datasInLine[5], datasInLine[6], datasInLine[7]));
                         }
                     }
-                    PredimRC.logln("points amount:" + data.size());
+                    PredimRC.logDebugln("points amount:" + data.size());
                 } catch (IOException ex) {
                     predimrc.PredimRC.logln("IOException:" + ex.getLocalizedMessage());
                 } finally {
