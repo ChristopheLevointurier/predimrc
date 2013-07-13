@@ -99,7 +99,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.89";
+    private static final String VERSION = "Alpha 0.90";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     private static final boolean DEBUG_MODE = false;
@@ -791,7 +791,7 @@ public class PredimRC extends JFrame {
             logln("fail to load " + path + " image");
             return java.awt.Toolkit.getDefaultToolkit().getImage("http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png");
         }
-        logln("load " + path + " image ok");
+        logDebugln("load " + path + " image ok");
         return java.awt.Toolkit.getDefaultToolkit().getImage(u);
     }
 
