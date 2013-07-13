@@ -626,7 +626,7 @@ public class PredimRC extends JFrame {
         final int returnVal = chooser.showOpenDialog(f);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             UserConfig.airfoilsDirectory = chooser.getSelectedFile().getAbsolutePath();
-            logln(" Selected rep:" + UserConfig.airfoilsDirectory);
+            logDebugln(" Selected rep:" + UserConfig.airfoilsDirectory);
         }
         f.dispose();
     }

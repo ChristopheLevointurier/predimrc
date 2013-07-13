@@ -58,8 +58,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private FreeChartPanel cZAlphaPanel = new FreeChartPanel("", "Alpha", "Cz", new XYSeriesCollection());
     private FreeChartPanel cMcz = new FreeChartPanel("", "Cz", "Cm", new XYSeriesCollection());
     private XFoilResults results = new XFoilResults();
-    
-    public static boolean initDone=false;
+    public static boolean initDone = false;
     /**
      *
      */
@@ -74,7 +73,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     public static XFoil_Frame maketInstance(AbstractButton _caller, XfoilConfig _xfoilconfig) {
         ReynoldsConfig.initReynolds();
         instance = new XFoil_Frame(_caller, predimrc.PredimRC.icon, Utils.DEFAULT_X_FRAME, Utils.DEFAULT_Y_FRAME, _xfoilconfig);
-        initDone=true;
+        initDone = true;
         return instance;
     }
 
@@ -156,7 +155,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     @Override
     public void save() {
-     //   PredimRC.saveModel();
+        //   PredimRC.saveModel();
     }
 
     @Override
@@ -182,7 +181,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             if (p.getReynoldsIndex() == ReynoldsConfig.reyRefForResults) {
                 results.set0(p.getColIndex(), p.getCmCzData(), p.getCzAlphaData());
                 cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0, "Alpha 0");
-                cMcz.addPoint(0, results.getCm(p.getColIndex())," Cm 0");
+                cMcz.addPoint(0, results.getCm(p.getColIndex()), " Cm 0");
             }
         }
     }
@@ -192,12 +191,12 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
+        PredimRC.logln("udpdate model:");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logDebugln("update xfoil:" + key);
+            predimrc.PredimRC.logln("update xfoil:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }
-        PredimRC.log("udpdate charts");
     }
 
     @Override

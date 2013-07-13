@@ -62,17 +62,17 @@ public class XFoilInvoker implements Runnable {
             String cmd = "";
             switch (Utils.getOs()) {
                 case WINDOWS: {
-                    PredimRC.logln("****Xfoil calls for "+k.getFoilName());
-                   writeFile(temp, "windows/" + k.getFile());
+                    PredimRC.logDebug("****Xfoil calls for " + k.getFoilName());
+                    writeFile(temp, "windows/" + k.getFile());
                     cmd = "cmd /c make.bat " + k.getFile();
+                    PredimRC.logDebugln(" cmd launched:" + cmd);
                     break;
                 }
                 default: {
-                    PredimRC.log("Xfoil calls only for windows in v1.0");
+                    PredimRC.logln("Xfoil calls only for windows in v1.0");
                     break;
                 }
             }
-            PredimRC.logln("xfoil call:" + cmd);
             Process p = Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
             new StreamProcessReader(p.getErrorStream(), true).start();
             new StreamProcessReader(p.getInputStream(), false).start();
