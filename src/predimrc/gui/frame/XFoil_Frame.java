@@ -156,8 +156,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     @Override
     public void save() {
-        predimrc.PredimRC.logln("Save from " + title);
-        PredimRC.saveModel();
+     //   PredimRC.saveModel();
     }
 
     @Override
@@ -194,7 +193,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cZAlphaPanel.clean();
         cMcz.clean();
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            //       predimrc.PredimRC.logDebugln("update xfoil:" + key);
+            predimrc.PredimRC.logDebugln("update xfoil:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }

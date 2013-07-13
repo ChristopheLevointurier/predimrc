@@ -84,15 +84,19 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
         screen.setVisible(true);
 
         screen.addMouseListener(new MouseListener() {
+            @Override
             public final void mouseClicked(MouseEvent e) {
             }
 
+            @Override
             public final void mouseEntered(MouseEvent e) {
             }
 
+            @Override
             public final void mouseExited(MouseEvent e) {
             }
 
+            @Override
             public final void mousePressed(MouseEvent e) {
                 mouseX = e.getX();
                 mouseY = e.getY();
@@ -105,6 +109,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
                  */
             }
 
+            @Override
             public final void mouseReleased(MouseEvent e) {
                 move = true;
                 moveVertex = false;
@@ -112,9 +117,11 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
         });
 
         screen.addMouseMotionListener(new MouseMotionListener() {
+            @Override
             public final void mouseMoved(MouseEvent e) {
             }
 
+            @Override
             public final void mouseDragged(MouseEvent e) {
 
                 if (moveVertex) {
@@ -237,7 +244,7 @@ public class The3D_Frame extends ExternalFrame implements Runnable {
     @Override
     public void save() {
         stop = true;
-          predimrc.PredimRC.logln("Save from " + title);
+          predimrc.PredimRC.logDebugln("Save from " + title);
     }
 
     @Override

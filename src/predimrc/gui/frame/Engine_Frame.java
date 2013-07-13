@@ -34,7 +34,7 @@ public class Engine_Frame extends ExternalFrame {
 
     @Override
     public void save() {
-        predimrc.PredimRC.logln("Save from " + title);
+        predimrc.PredimRC.logDebugln("Save from " + title);
     }
 
     @Override
