@@ -51,7 +51,7 @@ public class ModelController {
     }
 
     public static void updateModel(DrawableModel m) {
-        predimrc.PredimRC.logln("update of the model");
+        predimrc.PredimRC.logDebugln("update of the model");
         m.computePositions();
         for (IModelListener l : listeners) {
             l.updateModel(m);
