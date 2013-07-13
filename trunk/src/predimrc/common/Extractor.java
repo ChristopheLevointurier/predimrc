@@ -27,7 +27,7 @@ import predimrc.PredimRC;
  */
 public class Extractor {
 
-    private static boolean overwrite = false;
+    private static boolean overwrite = true;
     //public static void main(String[] uiobg) {        extract();    }
 
     public static void extract() {
