@@ -99,7 +99,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.90";
+    private static final String VERSION = "Alpha 0.91";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     private static final boolean DEBUG_MODE = false;
@@ -150,6 +150,7 @@ public class PredimRC extends JFrame {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
         getInstance();
         Extractor.extract();
         loadConfiguration();
@@ -426,11 +427,11 @@ public class PredimRC extends JFrame {
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             new About();
-             //   Object[] options = {"OK"};
-             //   int ret = JOptionPane.showOptionDialog(null, "PredimRC project\n  V " + VERSION + "\n\nhttps://code.google.com/p/predimrc/", "About",
-             //          JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-             //          null, options, options[0]);
+                new About();
+                //   Object[] options = {"OK"};
+                //   int ret = JOptionPane.showOptionDialog(null, "PredimRC project\n  V " + VERSION + "\n\nhttps://code.google.com/p/predimrc/", "About",
+                //          JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                //          null, options, options[0]);
             }
         });
 
