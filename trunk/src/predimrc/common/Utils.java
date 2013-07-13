@@ -280,7 +280,7 @@ public class Utils {
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {
-                    PredimRC.logln("opening" + file + ":" + reader.readLine());
+                    PredimRC.logDebugln("opening " + file + ":" + reader.readLine());
                     while ((line = reader.readLine()) != null) {
                         float f1 = 0f, f2 = 0f;
                         int cpt = 0;

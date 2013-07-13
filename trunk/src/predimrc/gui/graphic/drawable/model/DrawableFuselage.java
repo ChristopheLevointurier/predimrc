@@ -39,6 +39,7 @@ public class DrawableFuselage extends DrawableModelElement {
 
     private float widthY, widthZ;
     private float area = 0;
+    private final String DEFAULT_FUSE="fuse";
     private float kSf = 0.68f, kSMf = 0.68f, neutralPointRatio = 0.19f; //default value, defined in fuse.txt
     /**
      * *
@@ -81,10 +82,10 @@ public class DrawableFuselage extends DrawableModelElement {
         widthZ = 26;
         used_for = Utils.USED_FOR.FUSELAGE;
         setPosXYZ(Utils.defaultFuselageNose, false);
-        setFilename("fuse");
+        setFilename(DEFAULT_FUSE);
     }
-
-    public static DrawableFuselage makeFake() {
+    
+        public static DrawableFuselage makeFake() {
         return new DrawableFuselage();
     }
 
@@ -159,21 +160,21 @@ public class DrawableFuselage extends DrawableModelElement {
 
 
 
+        scalledShapeTop = new ArrayList<>();
         if (shapeTop.size() > 0) {
-            scalledShapeTop = new ArrayList<>();
             for (DrawablePoint p : shapeTop) {
                 scalledShapeTop.add(new DrawablePoint(p.getFloatY() * widthY + getyPos() - widthY / 2, p.getFloatX() * width + getxPos(), VIEW_TYPE.TOP_VIEW));
             }
         }
 
+        scalledShapeLeft = new ArrayList<>();
         if (shapeLeft.size() > 0) {
-            scalledShapeLeft = new ArrayList<>();
             for (DrawablePoint p : shapeLeft) {
                 scalledShapeLeft.add(new DrawablePoint(p.getFloatX() * width + getxPos(), Math.abs(1 - p.getFloatY()) * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.LEFT_VIEW));
             }
         }
+        scalledShapeFront = new ArrayList<>();
         if (shapeFront.size() > 0) {
-            scalledShapeFront = new ArrayList<>();
             for (DrawablePoint p : shapeFront) {
                 scalledShapeFront.add(new DrawablePoint(p.getFloatX() * widthY + getyPos() - widthY / 2, Math.abs(1 - p.getFloatY()) * widthZ + getzPos() - widthZ / 2, VIEW_TYPE.FRONT_VIEW));
             }
@@ -310,7 +311,7 @@ public class DrawableFuselage extends DrawableModelElement {
                 neutralPointRatio = Float.parseFloat(config.getProperty("xFf", "0.20"));
                 PredimRC.logDebugln("fuse values:kSf " + kSf + ", kSMf " + kSMf + " , neutralPointRatio " + neutralPointRatio);
             } catch (final IOException | NumberFormatException t) {
-                PredimRC.logln("IOException while attempting to load fuse File " + filename + "_coeff.txt "+System.getProperty("line.separator") + t.getLocalizedMessage());
+                PredimRC.logln("IOException while attempting to load fuse File " + filename + "_coeff.txt " + System.getProperty("line.separator") + t.getLocalizedMessage());
             }
         }
     }
