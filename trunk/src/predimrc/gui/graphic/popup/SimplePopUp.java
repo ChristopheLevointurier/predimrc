@@ -37,7 +37,7 @@ public class SimplePopUp {
     }
 
     private String getValue() {
-        predimrc.PredimRC.logln("Simple Pop up ");
+        predimrc.PredimRC.logDebugln("Simple Pop up ");
         return JOptionPane.showInputDialog(null, "Type exact value here:", input);
     }
 }

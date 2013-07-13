@@ -39,7 +39,7 @@ public class ConfigFuselage_PopUp extends ConfigPopUp {
     public ConfigFuselage_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("Fuselage Configuration", _usedfor);
         drawableBelongsTo = (DrawableFuselage) _drawableBelongsTo;
-        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
+        predimrc.PredimRC.logDebugln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
 
         switch (usedFor) {
             case FRONT_POINT: {

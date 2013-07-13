@@ -36,7 +36,7 @@ public class ConfigModel_PopUp extends ConfigPopUp {
     public ConfigModel_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("Model Configuration", _usedfor);
         drawableBelongsTo = (DrawableModel) _drawableBelongsTo;
-        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
+        predimrc.PredimRC.logDebugln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
 
         switch (usedFor) {
             case CG_POINT: {
