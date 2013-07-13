@@ -45,7 +45,7 @@ public class ConfigWing_PopUp extends ConfigPopUp {
     public ConfigWing_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("Wing Configuration", _usedfor);
         drawableBelongsTo = (DrawableWing) _drawableBelongsTo;
-        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
+        predimrc.PredimRC.logDebugln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
 
         switch (usedFor) {
             case FRONT_POINT: {

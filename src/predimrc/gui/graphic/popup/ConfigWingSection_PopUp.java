@@ -39,7 +39,7 @@ public class ConfigWingSection_PopUp extends ConfigPopUp {
     public ConfigWingSection_PopUp(DrawableModelElement _drawableBelongsTo, TYPE_MODIF _usedfor) {
         super("WingSection Configuration", _usedfor);
         drawableBelongsTo = (DrawableWingSection) _drawableBelongsTo;
-        predimrc.PredimRC.logln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
+        predimrc.PredimRC.logDebugln("Pop up for " + drawableBelongsTo + " usedFor:" + usedFor);
 
 
 
