@@ -83,7 +83,8 @@ public class FreeChartPanel extends ChartPanel {
     }
 
     public void addPoint(double x, double y, String str) {
-        XYPointerAnnotation pointer = new XYPointerAnnotation(str, x, y, 35.0);
+        XYPointerAnnotation pointer = new XYPointerAnnotation("", x, y, 200.0);
+        pointer.setBaseRadius(0);
         annots.add(pointer);
         ((XYPlot) getChart().getPlot()).addAnnotation(pointer);
 
