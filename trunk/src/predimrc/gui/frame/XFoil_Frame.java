@@ -191,9 +191,9 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
-        PredimRC.logln("udpdate model:");
+        //PredimRC.logln("udpdate model:");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logln("update xfoil:" + key);
+            predimrc.PredimRC.logDebugln("update xfoil:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }
