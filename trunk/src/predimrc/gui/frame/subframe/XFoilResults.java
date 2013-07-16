@@ -14,12 +14,14 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import org.jfree.data.xy.XYSeries;
+import predimrc.PredimRC;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.gui.widget.MegaLabel;
@@ -33,8 +35,7 @@ import predimrc.gui.widget.MegaLabel;
  */
 public class XFoilResults extends JPanel {
 
-    private List<MegaLabel> cm0 = new ArrayList<MegaLabel>();
-    private List<MegaLabel> alpha0 = new ArrayList<MegaLabel>();
+    private List<XFoilResultPanel> panels = new ArrayList<>();
 
     public XFoilResults() {
         super();
@@ -44,29 +45,23 @@ public class XFoilResults extends JPanel {
 
 
         for (int i = 0; i < 3; i++) {
-            MegaLabel tempC = new MegaLabel("Cm0");
-            tempC.setValueBackground(XFoil_Frame.getAppropriateColor(i, 6));
-            MegaLabel tempA = new MegaLabel("Alpha0");
-            tempA.setValueBackground(XFoil_Frame.getAppropriateColor(i, 6));
-            cm0.add(tempC);
-            alpha0.add(tempA);
-            add(tempC);
-            add(tempA);
+            XFoilResultPanel temp = new XFoilResultPanel(0, 0, "", XFoil_Frame.getAppropriateColor(i, 6));
+            panels.add(temp);
+            add(temp);
         }
     }
 
     public void set0(int indexSerie, List<DrawablePoint> cmSerie, List<DrawablePoint> alphaSerie) {
-        cm0.get(indexSerie).setValue("" + getInterpolated0(cmSerie, false));
-        alpha0.get(indexSerie).setValue("" + getInterpolated0(alphaSerie, true));
+        panels.get(indexSerie).update("" + getInterpolated0(cmSerie, false), "" + getInterpolated0(alphaSerie, true), PredimRC.getInstanceDrawableModel().getXfoilConfig().getFoilName(indexSerie));
     }
 
     private double getInterpolated0(List<DrawablePoint> plist, boolean xSearched) {
         DrawablePoint p1 = plist.get(0), p2 = plist.get(0);
         if (xSearched) {
             for (DrawablePoint p : plist) {
-                 if ((p.getY() <= 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() <= 0)) {
+                if ((p.getY() <= 0 && p1.getY() > 0) || (p.getY() > 0 && p1.getY() <= 0)) {
                     p2 = p;
-                //    System.out.println("Valeur cherchée sur x, pts select:" + p1 + "    " + p2);
+                    //    System.out.println("Valeur cherchée sur x, pts select:" + p1 + "    " + p2);
                     break;
                 }
                 p1 = p;
@@ -76,7 +71,7 @@ public class XFoilResults extends JPanel {
             for (DrawablePoint p : plist) {
                 if ((p.getX() <= 0 && p1.getX() > 0) || (p.getX() > 0 && p1.getX() <= 0)) {
                     p2 = p;
-               //     System.out.println("Valeur cherchée sur y, pts select:" + p1 + "    " + p2);
+                    //     System.out.println("Valeur cherchée sur y, pts select:" + p1 + "    " + p2);
                     break;
                 }
                 p1 = p;
@@ -86,10 +81,16 @@ public class XFoilResults extends JPanel {
     }
 
     public Double getCm(int colIndex) {
-        return new Double(cm0.get(colIndex).getValue());
+        return panels.get(colIndex).getCm0Value();
     }
 
     public Double getAlpha(int colIndex) {
-        return new Double(alpha0.get(colIndex).getValue());
+        return panels.get(colIndex).getAlpha0Value();
+    }
+
+    public void clear() {
+        for (XFoilResultPanel p : panels) {
+            p.clear();
+        }
     }
 }
