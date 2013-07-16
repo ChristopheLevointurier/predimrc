@@ -96,7 +96,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         splitPaneTop.setResizeWeight(0.5);
         JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cMcz, results);
         splitPaneBot.setOneTouchExpandable(true);
-        splitPaneBot.setResizeWeight(0.5);
+        splitPaneBot.setResizeWeight(0.75);
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.25);
@@ -153,7 +153,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         return xfoilconfig.getReynolds();
     }
 
-    @Override
+   @Override
     public void save() {
         //   PredimRC.saveModel();
     }
@@ -180,8 +180,8 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             cMcz.addSeries(col, p.getCmCzData());
             if (p.getReynoldsIndex() == ReynoldsConfig.reyRefForResults) {
                 results.set0(p.getColIndex(), p.getCmCzData(), p.getCzAlphaData());
-                cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0, "Alpha 0");
-                cMcz.addPoint(0, results.getCm(p.getColIndex()), " Cm 0");
+                cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0);
+                cMcz.addPoint(0, results.getCm(p.getColIndex()));
             }
         }
     }
@@ -191,6 +191,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         cXcZPanel.clean();
         cZAlphaPanel.clean();
         cMcz.clean();
+        results.clear();
         //PredimRC.logln("udpdate model:");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
             predimrc.PredimRC.logDebugln("update xfoil:" + key);
