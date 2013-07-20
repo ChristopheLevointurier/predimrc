@@ -25,15 +25,15 @@ import predimrc.common.exception.MissingPolarDataException;
  * @since
  */
 public class PolarDataBase {
-
+    
     private static HashMap<PolarKey, PolarData> foilsDataBase = new HashMap<>();
-
+    
     public static PolarData getPolar(PolarKey key, boolean firstPass) {
         if (!foilsDataBase.containsKey(key)) {
             try {
                 foilsDataBase.put(key, new PolarData(key));
             } catch (MissingPolarDataException ex) {
-                predimrc.PredimRC.logln("Missing file:" + key+ "firstPass="+firstPass);
+                predimrc.PredimRC.logln("Missing file:" + key + " :" + ex);//+ "firstPass="+firstPass);
                 if (firstPass) {
                     new Thread(new XFoilInvoker(key)).start();  //call to xfoil
                 }
@@ -41,7 +41,15 @@ public class PolarDataBase {
         }
         return foilsDataBase.get(key);
     }
-
+    
+    public static void removePolar(PolarKey key) {
+        if (foilsDataBase.containsKey(key)) {
+            predimrc.PredimRC.logln("trash " + key);
+            foilsDataBase.get(key).trashDataFile();
+            foilsDataBase.remove(key);
+        }
+    }
+    
     public static void putPolar(PolarKey key, PolarData value) {
         foilsDataBase.put(key, value);
     }
