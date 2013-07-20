@@ -66,7 +66,7 @@ public class PolarData {
                     reader.close();
                 }
             } catch (IOException | NullPointerException ex) {
-                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + key.getFile() + System.getProperty("line.separator") + ex.getLocalizedMessage());
+                predimrc.PredimRC.logDebugln("loadPolarData, IOException|NullPointerException while trying to read :" + key.getFile() + System.getProperty("line.separator") + ex.getLocalizedMessage());
                 throw new MissingPolarDataException();
             }
         } else {
