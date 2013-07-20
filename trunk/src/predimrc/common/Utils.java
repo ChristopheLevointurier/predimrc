@@ -327,7 +327,7 @@ public class Utils {
                     reader.close();
                 }
             } catch (IOException | NullPointerException ex) {
-                predimrc.PredimRC.logln("IOException|NullPointerException while trying to read :" + file + System.getProperty("line.separator") + ex.getLocalizedMessage());
+                predimrc.PredimRC.logln("loadDrawablePoints, IOException|NullPointerException while trying to read :" + file + System.getProperty("line.separator") + ex.getLocalizedMessage());
             }
         } else {
             predimrc.PredimRC.logln(file + " don't seems to be a data file.");

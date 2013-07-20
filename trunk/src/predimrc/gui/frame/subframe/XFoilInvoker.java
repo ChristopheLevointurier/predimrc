@@ -95,7 +95,7 @@ public class XFoilInvoker implements Runnable {
     }
 
     private StringBuilder loadfile() throws IOException {
-        File in = new File(predimrc.PredimRC.getResourceUrl("externalApp/CMD.txt").getFile());
+        File in = new File(PredimRC.appRep + "externalApp/CMD.txt");
         StringBuilder ret = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(in)))) {
             String ligne;
