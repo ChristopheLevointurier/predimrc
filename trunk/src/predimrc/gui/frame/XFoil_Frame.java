@@ -46,7 +46,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private JButton modif = new JButton("Edit a foil");
     private JButton create = new JButton("Import a foil");
     private JButton del = new JButton("Delete a foil");
-    private JButton calc = new JButton("Recaculate");
+    private JButton calc = new JButton("Recompute polars");
     /**
      *
      */
@@ -108,8 +108,8 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         menu.add(viewFoilsBut);
         menu.add(reynoldsBut);
         menu.add(create);
-        menu.add(modif);
-        menu.add(del);
+        // menu.add(modif);
+        // menu.add(del);
         menu.add(calc);
         setJMenuBar(menu);
         pack();
@@ -138,22 +138,22 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         calc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                repaint();
+                removePolars();
+                updateModel(PredimRC.getInstanceDrawableModel());
             }
         });
 
 
 
-        updateModel(predimrc.PredimRC.getInstanceDrawableModel());
-        foilsBut.doClick();
-        //    splitPane.addMouseListener(this);
+        updateModel(PredimRC.getInstanceDrawableModel());
+        foilsBut.doClick();  //opens the pane
     }
 
     public ArrayList<Boolean> getReynolds() {
         return xfoilconfig.getReynolds();
     }
 
-   @Override
+    @Override
     public void save() {
         //   PredimRC.saveModel();
     }
@@ -194,9 +194,16 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         results.clear();
         //PredimRC.logln("udpdate model:");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logDebugln("update xfoil:" + key);
+            predimrc.PredimRC.logln("update polardatabase:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
+        }
+    }
+
+    private void removePolars() {
+        for (String key : xfoilconfig.getConfigsToDisplay()) {
+            predimrc.PredimRC.logln("deleted polardatabase :" + key);
+            PolarDataBase.removePolar(new PolarKey(key));
         }
     }
 
