@@ -17,7 +17,7 @@ package predimrc.model.element;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import predimrc.gui.frame.subframe.FoilSelectionConfigPanel;
+import predimrc.gui.frame.subframe.panel.FoilSelectionConfigPanel;
 
 /**
  *

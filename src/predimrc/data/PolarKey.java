@@ -12,10 +12,11 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package predimrc.gui.frame.subframe;
+package predimrc.data;
 
 import java.util.Objects;
 import java.util.StringTokenizer;
+import predimrc.gui.frame.subframe.ReynoldsConfig;
 import predimrc.model.element.XfoilConfig;
 
 /**

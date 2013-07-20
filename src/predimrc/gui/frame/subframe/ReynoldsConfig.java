@@ -14,6 +14,7 @@
  */
 package predimrc.gui.frame.subframe;
 
+import predimrc.gui.frame.subframe.panel.Legende;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
