@@ -21,10 +21,11 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import predimrc.PredimRC;
 import predimrc.controller.ModelController;
-import predimrc.gui.ExternalFrame;
+import predimrc.gui.MiniFrame;
 
 /**
  *
@@ -33,7 +34,7 @@ import predimrc.gui.ExternalFrame;
  * @see
  * @since
  */
-public class ReynoldsConfig extends ExternalFrame {
+public class ReynoldsConfig extends MiniFrame {
 
     public static final int[] reyIntValue = {25, 50, 100, 200, 750, 1500, 5000};
     public static final int reyRefForResults=5;
@@ -68,8 +69,8 @@ public class ReynoldsConfig extends ExternalFrame {
         init = true;
     }
 
-    public ReynoldsConfig(AbstractButton _caller) {
-        super(_caller);
+    public ReynoldsConfig(AbstractButton _caller, JFrame _mother) {
+        super(_caller,  _mother);
         title = "Reynolds Panels";
         setTitle(title);
         JPanel content = new JPanel();
@@ -89,10 +90,5 @@ public class ReynoldsConfig extends ExternalFrame {
             ret.add(c.isSelected());
         }
         return ret;
-    }
-
-    @Override
-    public void save() {
-        //nothing to do
     }
 }

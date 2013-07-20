@@ -118,19 +118,19 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         reynoldsBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ReynoldsConfig(reynoldsBut);
+                new ReynoldsConfig(reynoldsBut, instance);
             }
         });
         foilsBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModelController.addModelListener(new FoilSelectionConfigSubFrame(foilsBut));
+                ModelController.addModelListener(new FoilSelectionConfigSubFrame(foilsBut, instance));
             }
         });
         viewFoilsBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModelController.addModelListener(new FoilRenderer(viewFoilsBut));
+                ModelController.addModelListener(new FoilRenderer(viewFoilsBut, instance));
             }
         });
 

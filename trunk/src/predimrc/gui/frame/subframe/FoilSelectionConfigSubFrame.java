@@ -16,8 +16,10 @@ package predimrc.gui.frame.subframe;
 
 import java.awt.Color;
 import javax.swing.AbstractButton;
+import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.MiniFrame;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
@@ -28,15 +30,15 @@ import predimrc.model.element.XfoilConfig;
  * @see
  * @since
  */
-public class FoilSelectionConfigSubFrame extends ExternalFrame {
+public class FoilSelectionConfigSubFrame extends MiniFrame {
 
     private JTabbedPane foilSelect = new JTabbedPane();
     private FoilSelectionConfigPanel foil0 = new FoilSelectionConfigPanel(0, "fad05.dat", 6, 100, 100);
     private FoilSelectionConfigPanel foil1 = new FoilSelectionConfigPanel(1, "fad07.dat", 6, 100, 100);
     private FoilSelectionConfigPanel foil2 = new FoilSelectionConfigPanel(2, "fad15.dat", 6, 100, 100);
 
-    public FoilSelectionConfigSubFrame(AbstractButton _caller) {
-        super(_caller);
+    public FoilSelectionConfigSubFrame(AbstractButton _caller, JFrame _mother) {
+        super(_caller, _mother);
         title = "Foil Selection Panels";
         setTitle(title);
         XfoilConfig xfoilconfig = drawableModel.getXfoilConfig();
@@ -53,11 +55,6 @@ public class FoilSelectionConfigSubFrame extends ExternalFrame {
         getContentPane().add(foilSelect);
         setSize(350, 160);
         updateModel(predimrc.PredimRC.getInstanceDrawableModel());
-    }
-
-    @Override
-    public void save() {
-        //nothing to do
     }
 
     @Override
