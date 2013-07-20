@@ -15,6 +15,7 @@
 package predimrc.gui.frame.subframe;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class PolarData {
     private PolarKey key;
     private ArrayList<PolardataLine> data;
 
-    
     public PolarData(PolarKey _key) throws MissingPolarDataException {
         key = _key;
         loadPolarData();
@@ -46,7 +46,7 @@ public class PolarData {
         data = new ArrayList<>();
         if (key.getFile().toLowerCase().endsWith(".txt")) {
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(predimrc.PredimRC.getDataResourceUrl("Polars/" + key.getFile()).openStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(PredimRC.getDataResourceUrl("Polars/" + key.getFile()).openStream()));
                 String line;
                 //  System.out.println("stream ok:" + file);
                 try {
@@ -105,5 +105,13 @@ public class PolarData {
 
     public int getReynoldsIndex() {
         return key.getReynoldsIndex();
+    }
+
+    public void trashDataFile() {
+        File toDelet = new File(PredimRC.getDataResourceUrl("Polars/" + key.getFile()).getFile());
+        if (toDelet.exists()) {
+            PredimRC.logDebugln("Deleting polar datafile: " + key.getFile());
+            toDelet.delete();
+        }
     }
 }
