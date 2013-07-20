@@ -17,12 +17,14 @@ package predimrc.gui.frame.subframe;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
+import javax.swing.JFrame;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.*;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.MiniFrame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
@@ -34,13 +36,13 @@ import predimrc.gui.graphic.drawable.tool.DrawablePoint;
  * @see
  * @since
  */
-public class FoilRenderer extends ExternalFrame {
+public class FoilRenderer extends MiniFrame {
 
     private ChartPanel chart;
     private String s0, s1, s2;
 
-    public FoilRenderer(AbstractButton _caller) {
-        super(_caller);
+    public FoilRenderer(AbstractButton _caller,JFrame _mother) {
+        super(_caller,_mother);
         title = "Foil Viewer";
         setTitle(title);
         setSize(800, 200);
@@ -79,10 +81,7 @@ public class FoilRenderer extends ExternalFrame {
         return chartPanel;
     }
 
-    @Override
-    public void save() {
-        //nothing to do
-    }
+   
 
     @Override
     public final void updateModel(DrawableModel m) {
