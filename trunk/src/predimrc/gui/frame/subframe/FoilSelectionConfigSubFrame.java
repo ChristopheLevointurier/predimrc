@@ -14,6 +14,7 @@
  */
 package predimrc.gui.frame.subframe;
 
+import predimrc.gui.frame.subframe.panel.FoilSelectionConfigPanel;
 import java.awt.Color;
 import javax.swing.AbstractButton;
 import javax.swing.JFrame;

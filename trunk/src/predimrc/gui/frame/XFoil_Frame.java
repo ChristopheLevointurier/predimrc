@@ -25,12 +25,12 @@ import predimrc.controller.ModelController;
 import predimrc.gui.ExternalFrame;
 import predimrc.gui.frame.subframe.FoilRenderer;
 import predimrc.gui.frame.subframe.FoilSelectionConfigSubFrame;
-import predimrc.gui.frame.subframe.FreeChartPanel;
-import predimrc.gui.frame.subframe.PolarData;
-import predimrc.gui.frame.subframe.PolarDataBase;
-import predimrc.gui.frame.subframe.PolarKey;
+import predimrc.gui.frame.subframe.panel.FreeChartPanel;
+import predimrc.data.PolarData;
+import predimrc.data.PolarDataBase;
+import predimrc.data.PolarKey;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
-import predimrc.gui.frame.subframe.XFoilResults;
+import predimrc.gui.frame.subframe.panel.XFoilResults;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
 import predimrc.model.element.XfoilConfig;
 
@@ -194,7 +194,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         results.clear();
         //PredimRC.logln("udpdate model:");
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logln("update polardatabase:" + key);
+            predimrc.PredimRC.logDebugln("update polardatabase:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
         }
@@ -202,7 +202,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     private void removePolars() {
         for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logln("deleted polardatabase :" + key);
+            predimrc.PredimRC.logDebugln("deleted polardatabase :" + key);
             PolarDataBase.removePolar(new PolarKey(key));
         }
     }
