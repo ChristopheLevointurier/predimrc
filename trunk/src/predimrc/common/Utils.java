@@ -72,6 +72,8 @@ public class Utils {
     public static final int DEFAULT_X_FRAME = 800;
     public static Dimension3D REF_POINT = new Dimension3D(0, TOP_SCREEN_X / 2, 0);
     public static final String FAKE_FILENAME = "EMPTY";
+    public static final int DEFAULT_X_MINI_FRAME = 300;
+    public static final int DEFAULT_Y_MINI_FRAME = 220;
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg);
