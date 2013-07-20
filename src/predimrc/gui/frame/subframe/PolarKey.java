@@ -14,6 +14,7 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.util.Objects;
 import java.util.StringTokenizer;
 import predimrc.model.element.XfoilConfig;
 
@@ -94,5 +95,25 @@ public class PolarKey {
 
     public int getColIndex() {
         return colIndex;
+    }
+
+    @Override
+    public String toString() {
+        return keyString;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (!(that instanceof PolarKey)) {
+            return false;
+        }
+        return (keyString.equals(((PolarKey) that).keyString));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.keyString);
+        return hash;
     }
 }
