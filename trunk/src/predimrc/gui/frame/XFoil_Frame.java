@@ -107,7 +107,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         menu.add(foilsBut);
         menu.add(viewFoilsBut);
         menu.add(reynoldsBut);
-        menu.add(create);
+        //menu.add(create);
         // menu.add(modif);
         // menu.add(del);
         menu.add(calc);
