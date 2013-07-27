@@ -121,6 +121,12 @@ public class XfoilConfig implements Serializable {
         }
     }
 
+    public ArrayList<String> getConfigs() {
+        ArrayList<String> ret = getConfigsToCompute();
+        ret.addAll(getConfigsToDisplay());
+        return ret;
+    }
+
     public ArrayList<String> getConfigsToCompute() {
         ArrayList<String> ret = new ArrayList<>();
         boolean f0 = getFoilName(0).length() > 1;
