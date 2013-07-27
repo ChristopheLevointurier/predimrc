@@ -14,8 +14,10 @@
  */
 package predimrc.data;
 
-import predimrc.data.PolarData;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+import predimrc.common.Utils;
 import predimrc.common.exception.MissingPolarDataException;
 
 /**
@@ -26,9 +28,36 @@ import predimrc.common.exception.MissingPolarDataException;
  * @since
  */
 public class PolarDataBase {
-    
+
     private static HashMap<PolarKey, PolarData> foilsDataBase = new HashMap<>();
-    
+    public static Semaphore sem;
+
+    public static void getPolars(List<String> keys) {
+        sem = new Semaphore(Utils.MAX_THREAD);
+        for (String key : keys) {
+            PolarKey polkey = new PolarKey(key);
+            if (!foilsDataBase.containsKey(polkey)) {
+                try {
+                    new PolarData(polkey);
+                } catch (MissingPolarDataException ex) {
+                    try {
+                        sem.acquire();
+                        predimrc.PredimRC.logln("Missing file:" + polkey + " :" + ex);
+                        System.out.println("launch " + sem.availablePermits());
+                        new Thread(new XFoilInvoker(polkey)).start();  //call to xfoil
+                    } catch (InterruptedException ex1) {
+                        predimrc.PredimRC.logln("InterruptedException");
+                    }
+                }
+            }
+        }
+        try {
+            sem.acquire(Utils.MAX_THREAD);
+        } catch (InterruptedException ex) {
+            predimrc.PredimRC.logln("InterruptedException in acquire all ");
+        }
+    }
+
     public static PolarData getPolar(PolarKey key, boolean firstPass) {
         if (!foilsDataBase.containsKey(key)) {
             try {
@@ -42,7 +71,7 @@ public class PolarDataBase {
         }
         return foilsDataBase.get(key);
     }
-    
+
     public static void removePolar(PolarKey key) {
         if (foilsDataBase.containsKey(key)) {
             predimrc.PredimRC.logln("trash " + key);
@@ -50,7 +79,7 @@ public class PolarDataBase {
             foilsDataBase.remove(key);
         }
     }
-    
+
     public static void putPolar(PolarKey key, PolarData value) {
         foilsDataBase.put(key, value);
     }

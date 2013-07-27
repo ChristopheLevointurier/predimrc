@@ -25,7 +25,6 @@ import java.io.OutputStreamWriter;
 import predimrc.PredimRC;
 import predimrc.common.StreamProcessReader;
 import predimrc.common.Utils;
-import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.frame.subframe.ReynoldsConfig;
 
 /**
@@ -81,9 +80,10 @@ public class XFoilInvoker implements Runnable {
         } catch (InterruptedException | IOException ex) {
             PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
         }
-        if (XFoil_Frame.initDone) {
-            XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
-        }
+        //  if (XFoil_Frame.initDone) {
+        //      XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
+        //  }
+        PolarDataBase.sem.release();
     }
 
     private void writeFile(String content, String rep) throws IOException {
