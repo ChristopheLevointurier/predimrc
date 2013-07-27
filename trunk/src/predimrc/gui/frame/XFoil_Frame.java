@@ -178,11 +178,6 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             cXcZPanel.addSeries(col, p.getCzCxData());
             cZAlphaPanel.addSeries(col, p.getCzAlphaData());
             cMcz.addSeries(col, p.getCmCzData());
-            if (p.getReynoldsIndex() == ReynoldsConfig.reyRefForResults) {
-                results.set0(p.getColIndex(), p.getCmCzData(), p.getCzAlphaData());
-                cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0);
-                cMcz.addPoint(0, results.getCm(p.getColIndex()));
-            }
         }
     }
 
@@ -197,6 +192,19 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             predimrc.PredimRC.logDebugln("update polardatabase:" + key);
             PolarData p = PolarDataBase.getPolar(new PolarKey(key), true);
             addPolar(p);
+        }
+
+        for (String key : xfoilconfig.getConfigsToCompute()) {
+            predimrc.PredimRC.logDebugln("update polardatabase calc:" + key);
+            PolarKey polkey = new PolarKey(key);
+            PolarData p = PolarDataBase.getPolar(polkey, true);
+            if (p != null) {
+                results.set0(p.getColIndex(), p.getCmCzData(), p.getCzAlphaData());
+                cZAlphaPanel.addPoint(results.getAlpha(p.getColIndex()), 0);
+                cMcz.addPoint(0, results.getCm(p.getColIndex()));
+            } else {
+                results.set0Error(polkey.getColIndex());
+            }
         }
     }
 

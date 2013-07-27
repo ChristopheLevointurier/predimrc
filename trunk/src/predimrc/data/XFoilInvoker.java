@@ -14,8 +14,6 @@
  */
 package predimrc.data;
 
-import predimrc.data.PolarKey;
-import predimrc.data.PolarDataBase;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
