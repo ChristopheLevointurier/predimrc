@@ -29,6 +29,7 @@ import predimrc.gui.frame.subframe.panel.FoilSelectionConfigPanel;
 public class XfoilConfig implements Serializable {
 
     public static final String DELIM = "¤";
+    public static final int reyRefIndexForResults = 5;
     private String reynolds = "false¤true¤true¤true¤true¤true¤false";
     private String foil0Config = "fad05.dat¤0¤6¤100¤100¤";
     private String foil1Config = "fad07.dat¤1¤6¤100¤100¤";
@@ -118,6 +119,15 @@ public class XfoilConfig implements Serializable {
                 foil2Config = setFoilConfig(foilConf.getSelectedFoil(), 2, foilConf.getCrit(), foilConf.getXtrTop(), foilConf.getXtrBot());
             default:
         }
+    }
+
+    public ArrayList<String> getConfigsToCompute() {
+        ArrayList<String> ret = new ArrayList<>();
+        boolean f0 = getFoilName(0).length() > 1;
+        boolean f1 = getFoilName(1).length() > 1;
+        boolean f2 = getFoilName(2).length() > 1;
+        addfoil(ret, "" + reyRefIndexForResults, f0, f1, f2);
+        return ret;
     }
 
     public ArrayList<String> getConfigsToDisplay() {

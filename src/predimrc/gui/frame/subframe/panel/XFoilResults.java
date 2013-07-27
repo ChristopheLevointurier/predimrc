@@ -14,18 +14,14 @@
  */
 package predimrc.gui.frame.subframe.panel;
 
-import predimrc.gui.frame.subframe.panel.XFoilResultPanel;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import org.jfree.data.xy.XYSeries;
 import predimrc.PredimRC;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.graphic.drawable.tool.DrawablePoint;
-import predimrc.gui.widget.MegaLabel;
 
 /**
  *
@@ -54,6 +50,10 @@ public class XFoilResults extends JPanel {
 
     public void set0(int indexSerie, List<DrawablePoint> cmSerie, List<DrawablePoint> alphaSerie) {
         panels.get(indexSerie).update("" + getInterpolated0(cmSerie, false), "" + getInterpolated0(alphaSerie, true), PredimRC.getInstanceDrawableModel().getXfoilConfig().getFoilName(indexSerie));
+    }
+
+    public void set0Error(int colIndex) {
+        panels.get(colIndex).update("waiting data", "waiting data", PredimRC.getInstanceDrawableModel().getXfoilConfig().getFoilName(colIndex));
     }
 
     private double getInterpolated0(List<DrawablePoint> plist, boolean xSearched) {
