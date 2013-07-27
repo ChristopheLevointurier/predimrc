@@ -74,7 +74,7 @@ public class Utils {
     public static final String FAKE_FILENAME = "EMPTY";
     public static final int DEFAULT_X_MINI_FRAME = 300;
     public static final int DEFAULT_Y_MINI_FRAME = 220;
-    public static final int MAX_THREAD = 5;
+    public static final int MAX_THREAD = Runtime.getRuntime().availableProcessors();
 
     public static Point2D.Float getCoordOnCircle(DrawablePoint center, float deg, float radius) {
         double angleRad = Math.toRadians(deg);
