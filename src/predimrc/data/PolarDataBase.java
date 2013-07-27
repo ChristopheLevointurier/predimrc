@@ -43,7 +43,6 @@ public class PolarDataBase {
                     try {
                         sem.acquire();
                         predimrc.PredimRC.logln("Missing file:" + polkey + " :" + ex);
-                        System.out.println("launch " + sem.availablePermits());
                         new Thread(new XFoilInvoker(polkey)).start();  //call to xfoil
                     } catch (InterruptedException ex1) {
                         predimrc.PredimRC.logln("InterruptedException");
