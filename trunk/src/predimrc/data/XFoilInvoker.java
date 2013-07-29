@@ -42,7 +42,9 @@ public class XFoilInvoker implements Runnable {
     private static final String xtrBotTag = "XTR_BOT_TO_MERGE";
     private static final String reynoldsTag = "REYNOLDS_TO_MERGE";
     private static final String filenameOutTag = "FILENAME_OUT_TO_MERGE";
+    private static final String pointsAmountTag = "POINTS_AMOUNT_TO_MERGE";
     private PolarKey k;
+    private boolean failed = false;
 
     public XFoilInvoker(PolarKey _k) {
         k = _k;
@@ -58,6 +60,8 @@ public class XFoilInvoker implements Runnable {
             temp = temp.replace(xtrBotTag, "" + (float) (k.getXtrb() / (float) 100));
             temp = temp.replace(reynoldsTag, "" + ReynoldsConfig.reyValue.get(k.getReynoldsIndex()));
             temp = temp.replace(filenameOutTag, "../../Polars/" + k.getFile());
+            temp = temp.replace(pointsAmountTag, "" + k.getPointsAmount());
+
 //call to xfoil
             String cmd = "";
             switch (Utils.getOs()) {
@@ -74,11 +78,21 @@ public class XFoilInvoker implements Runnable {
                 }
             }
             Process p = Runtime.getRuntime().exec(cmd, null, new File(PredimRC.appRep + "externalApp/Windows/"));
-            new StreamProcessReader(p.getErrorStream(), true).start();
+            StreamProcessReader fail = new StreamProcessReader(p.getErrorStream(), true);
+            fail.start();
             new StreamProcessReader(p.getInputStream(), false).start();
             p.waitFor();
-        } catch (InterruptedException | IOException ex) {
-            PredimRC.logln("Error creating txt file for Xfoil:" + ex.getLocalizedMessage());
+            failed = fail.isHadError();
+            k.incPointsAmount();
+        } catch (InterruptedException intExc) {
+            failed = true;
+        } catch (IOException ex) {
+            PredimRC.logln("Xfoil process, Error creating txt file for :" + k + ":" + ex.getLocalizedMessage());
+            failed = true;
+        }
+        if (failed) {
+            PredimRC.logln("Xfoil process, Error computing data for :" + k);
+            PolarDataBase.getFailed().add(k);
         }
         //  if (XFoil_Frame.initDone) {
         //      XFoil_Frame.getInstance().addPolar(PolarDataBase.getPolar(k, false));
