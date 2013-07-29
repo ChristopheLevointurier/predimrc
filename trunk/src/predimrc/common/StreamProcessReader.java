@@ -31,6 +31,11 @@ public class StreamProcessReader extends Thread {
 
     private InputStream is;
     private boolean error;
+    private boolean hadError = false;
+
+    public boolean isHadError() {
+        return hadError;
+    }
 
     public StreamProcessReader(InputStream _is, boolean _error) {
         is = _is;
@@ -38,12 +43,12 @@ public class StreamProcessReader extends Thread {
     }
 
     public void run() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             String line = null;
             while ((line = br.readLine()) != null) {
                 if (error) {
                     PredimRC.logln(" xfoil error >" + line);
+                    hadError = true;
                 }
                 //else {
                 //     System.out.println("" + line);
@@ -52,5 +57,6 @@ public class StreamProcessReader extends Thread {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
     }
 }
