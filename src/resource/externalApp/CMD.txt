@@ -5,7 +5,7 @@ PLOP
 G
 
 PPAR
-n 60
+n POINTS_AMOUNT_TO_MERGE
 _t 1.4
 _p .2
 
