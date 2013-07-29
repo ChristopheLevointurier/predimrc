@@ -36,6 +36,7 @@ public class PolarKey {
     private int xtrb = 0;
     private int colIndex = 0;
     private String keyString = "";
+    private int pointsAmount = 60;
 
     public PolarKey(String _foilName, int _cIndex, int _ncrit, int _xtrt, int _xtrb, int _reynoldsIndex) {
         foilName = _foilName;
@@ -98,6 +99,14 @@ public class PolarKey {
         return colIndex;
     }
 
+    public int getPointsAmount() {
+        return pointsAmount;
+    }
+
+    public void setPointsAmount(int pointsAmount) {
+        this.pointsAmount = pointsAmount;
+    }
+
     @Override
     public String toString() {
         return keyString;
@@ -116,5 +125,9 @@ public class PolarKey {
         int hash = 5;
         hash = 37 * hash + Objects.hashCode(this.keyString);
         return hash;
+    }
+
+    void incPointsAmount() {
+        pointsAmount++;
     }
 }
