@@ -20,7 +20,6 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.annotations.XYPointerAnnotation;
@@ -85,8 +84,14 @@ public class FreeChartPanel extends ChartPanel {
     public void addPoint(double x, double y) {
         XYPointerAnnotation pointer = new XYPointerAnnotation("", x, y, 200.0);
         pointer.setBaseRadius(0);
+        if (x != 0) {
+            pointer.setText("" + x);
+        }
+        if (y != 0) {
+            pointer.setText("" + y);
+        }
         annots.add(pointer);
         ((XYPlot) getChart().getPlot()).addAnnotation(pointer);
-
+        pointer.setToolTipText("ioji");
     }
 }

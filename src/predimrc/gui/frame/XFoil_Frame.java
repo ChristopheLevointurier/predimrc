@@ -91,13 +91,14 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
 
 
-        JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel, cXcZPanel);
+        JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel,cMcz );
         splitPaneTop.setOneTouchExpandable(true);
         splitPaneTop.setResizeWeight(0.5);
-        JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cMcz, results);
-        splitPaneBot.setOneTouchExpandable(true);
-        splitPaneBot.setResizeWeight(0.75);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
+       // JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cXcZPanel, results);
+       // splitPaneBot.setOneTouchExpandable(true);
+       // splitPaneBot.setResizeWeight(0.75);
+     //   JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, cXcZPanel);
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.25);
 
