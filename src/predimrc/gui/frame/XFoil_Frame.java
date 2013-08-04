@@ -88,7 +88,9 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
 
 
-
+cZAlphaPanel.fit(0.5, 0.5);
+cMcz.fit(0.5, 0.5);
+cXcZPanel.fit(0.5, 0.5);
 
 
         JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel,cMcz );
