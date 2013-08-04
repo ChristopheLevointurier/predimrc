@@ -54,7 +54,11 @@ public class FreeChartPanel extends ChartPanel {
         setMaximumDrawHeight((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         xylineandshaperenderer = (XYLineAndShapeRenderer) getChart().getXYPlot().getRenderer();
         setMouseWheelEnabled(true);
-        setPreferredSize(new Dimension((int) (Utils.DEFAULT_X_FRAME / 2), (int) (Utils.DEFAULT_Y_FRAME / 2)));
+
+    }
+
+    public void fit(double xratio, double yratio) {
+        setPreferredSize(new Dimension((int) (Utils.DEFAULT_X_FRAME * xratio), (int) (Utils.DEFAULT_Y_FRAME * yratio)));
         repaint();
     }
 
