@@ -74,6 +74,7 @@ import predimrc.gui.frame.Compare_Frame;
 import predimrc.gui.frame.Engine_Frame;
 import predimrc.gui.frame.Note_Frame;
 import predimrc.gui.frame.Optim_Frame;
+import predimrc.gui.frame.Perfo_Frame;
 import predimrc.gui.frame.The3D_Frame;
 import predimrc.gui.frame.Vlm_Frame;
 import predimrc.gui.frame.XFoil_Frame;
@@ -99,7 +100,7 @@ public class PredimRC extends JFrame {
     private static final String FILE_EXTENSION = "predimodel";
     private final static float dash1[] = {10.0f};
     public final static BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-    private static final String VERSION = "Alpha 0.98";
+    private static final String VERSION = "Alpha 0.981";
     private static final long serialVersionUID = -2615396482200960443L;    // private final static String saveFileName = "links.txt";
     public static final String appRep = System.getProperty("user.home") + "\\PredimRCFiles\\";
     private static final boolean DEBUG_MODE = false;
@@ -120,6 +121,7 @@ public class PredimRC extends JFrame {
     private JToggleButton vlmBut = new JToggleButton("VLM");
     private JToggleButton optimBut = new JToggleButton("Optim");
     private JMenuItem xFoilBut = new JMenuItem(getImageIcon("xfoil.png"));
+    private JMenuItem perfoBut = new JMenuItem("Perfos");
     private JMenuItem modelNoteBut = new JMenuItem(getImageIcon("note.png"));
     private JMenuItem the3DViewButton = new JMenuItem(getImageIcon("3d.png"));
     private JToggleButton compareBut = new JToggleButton("Compare Models");
@@ -166,6 +168,7 @@ public class PredimRC extends JFrame {
         mainView = new MainView();
         configView = new ConfigView();
         xFoilBut.setToolTipText("Foils performances");
+        perfoBut.setToolTipText("Model performances");
         the3DViewButton.setToolTipText("3 Dimension View");
         modelNoteBut.setToolTipText("Model's notes");
         save = new JMenuItem("Save model");
@@ -221,6 +224,7 @@ public class PredimRC extends JFrame {
 
         modelNoteBut.setMaximumSize(new Dimension(50, 75));
         xFoilBut.setMaximumSize(new Dimension(100, 75));
+        perfoBut.setMaximumSize(new Dimension(100, 75));
         savebut.setMaximumSize(new Dimension(50, 75));
 
         //  JMenu perfmenu = new JMenu("Performance");
@@ -253,6 +257,7 @@ public class PredimRC extends JFrame {
         //  menu.add(perfmenu);
         menu.add(modelNoteBut);
         menu.add(xFoilBut);
+        menu.add(perfoBut);
         // menu.add(the3DViewButton);
         menu.add(savebut);
         menu.add(helpMenu);
@@ -300,6 +305,13 @@ public class PredimRC extends JFrame {
             }
         });
 
+
+        perfoBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ModelController.addModelListener(Perfo_Frame.maketInstance(perfoBut));
+            }
+        });
 
 
         help.addActionListener(new ActionListener() {
