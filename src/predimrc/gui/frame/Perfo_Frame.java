@@ -20,6 +20,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import predimrc.PredimRC;
 import predimrc.common.Utils;
 import predimrc.gui.ExternalFrame;
+import predimrc.gui.frame.subframe.InterpolViewer;
 import predimrc.gui.frame.subframe.panel.FreeChartPanel;
 import predimrc.gui.frame.subframe.panel.PerfoResults;
 import predimrc.gui.graphic.drawable.model.DrawableModel;
@@ -102,7 +103,7 @@ public class Perfo_Frame extends ExternalFrame implements MouseListener {
         interpol.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //  new ReynoldsConfig(aeroContrib, instance);
+                  new InterpolViewer(interpol, instance);
             }
         });
 
