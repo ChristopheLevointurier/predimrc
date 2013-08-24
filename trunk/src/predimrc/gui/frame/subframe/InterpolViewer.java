@@ -43,7 +43,6 @@ public class InterpolViewer extends MiniFrame {
 
     private static FreeChartPanel chart = new FreeChartPanel("", "Cx", "Cz", new XYSeriesCollection());
     private static JSlider slider = new JSlider();
-    private static boolean init = false;
     private static PolarData data1;
     private static PolarData data2;
     private static ChangeListener slide = new ChangeListener() {
@@ -54,21 +53,17 @@ public class InterpolViewer extends MiniFrame {
     };
 
     public static void initViewer() {
-        if (init) {
-            return;
-        }
-        XfoilConfig conf = PredimRC.getInstanceDrawableModel().getXfoilConfig();
+         XfoilConfig conf = PredimRC.getInstanceDrawableModel().getXfoilConfig();
         if (conf.getConfigs().size() < 2) {
             chart.getChart().setTitle("XfoilConfig has less than 2 data to interpolate");
             return;
         }
         data1 = PolarDataBase.getPolar(new PolarKey(conf.getConfigs().get(0)), true);
         data2 = PolarDataBase.getPolar(new PolarKey(conf.getConfigs().get(1)), true);
-
+        chart.clean();
         chart.addSeries(XFoil_Frame.getAppropriateColor(data1.getColIndex(), ReynoldsConfig.getConfig().size() - 1), data1.getCzCxData());
         chart.addSeries(XFoil_Frame.getAppropriateColor(data2.getColIndex(), ReynoldsConfig.getConfig().size() - 1), data2.getCzCxData());
         //TODO computation of the interpolation
-        init = true;
     }
 
     public InterpolViewer(AbstractButton _caller, JFrame _mother) {
