@@ -50,7 +50,7 @@ public class PolarDataBase {
         waitForAll();
         predimrc.PredimRC.logln(failed.size() + " fails ");
         for (PolarKey polkey : failed) {
-            predimrc.PredimRC.logln("retrying " + polkey);
+            predimrc.PredimRC.logDebugln("retrying " + polkey);
             launchInvoker(polkey);
         }
         waitForAll();
@@ -81,7 +81,7 @@ public class PolarDataBase {
 
     public static void removePolar(PolarKey key) {
         if (foilsDataBase.containsKey(key)) {
-            predimrc.PredimRC.logln("trash " + key);
+            predimrc.PredimRC.logDebugln("trash " + key);
             foilsDataBase.get(key).trashDataFile();
             foilsDataBase.remove(key);
         }
