@@ -161,7 +161,7 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     @Override
     public void save() {
-        //   PredimRC.saveModel();
+        PredimRC.saveModel();
     }
 
     @Override
