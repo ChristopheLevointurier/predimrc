@@ -88,18 +88,18 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
         user_panel.setLayout(new BoxLayout(user_panel, BoxLayout.X_AXIS));
 
 
-cZAlphaPanel.fit(0.5, 0.5);
-cMcz.fit(0.5, 0.5);
-cXcZPanel.fit(0.5, 0.5);
+        cZAlphaPanel.fit(0.5, 0.5);
+        cMcz.fit(0.5, 0.5);
+        cXcZPanel.fit(0.5, 0.5);
 
 
-        JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel,cMcz );
+        JSplitPane splitPaneTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cZAlphaPanel, cMcz);
         splitPaneTop.setOneTouchExpandable(true);
         splitPaneTop.setResizeWeight(0.5);
-       // JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cXcZPanel, results);
-       // splitPaneBot.setOneTouchExpandable(true);
-       // splitPaneBot.setResizeWeight(0.75);
-     //   JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
+        // JSplitPane splitPaneBot = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cXcZPanel, results);
+        // splitPaneBot.setOneTouchExpandable(true);
+        // splitPaneBot.setResizeWeight(0.75);
+        //   JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, splitPaneBot);
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPaneTop, cXcZPanel);
         splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.25);
@@ -186,6 +186,7 @@ cXcZPanel.fit(0.5, 0.5);
 
     @Override
     public void updateModel(DrawableModel m) {
+        predimrc.PredimRC.logDebugln("XFoilFrame updateModel");
         PolarDataBase.getPolars(xfoilconfig.getConfigs());
         updateGraphsAndResults();
     }
@@ -199,8 +200,8 @@ cXcZPanel.fit(0.5, 0.5);
 
     public void updateGraphsAndResults() {
         cleanGraphsAndResults();
-        for (String key : xfoilconfig.getConfigsToDisplay()) {
-            predimrc.PredimRC.logDebugln("update polardatabase:" + key);
+           predimrc.PredimRC.logDebugln("update polardatabase:" + xfoilconfig.getConfigsToDisplay());
+         for (String key : xfoilconfig.getConfigsToDisplay()) {
             addPolar(PolarDataBase.getPolar(new PolarKey(key), true));
         }
 
