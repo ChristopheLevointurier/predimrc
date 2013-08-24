@@ -96,8 +96,10 @@ public class PolarDataBase {
     }
 
     private static void launchInvoker(PolarKey polkey) {
+            predimrc.PredimRC.logDebugln("launchInvoker "+polkey);
         try {
             sem.acquire();
+            predimrc.PredimRC.logDebugln("launchInvoker, sem.acquired"+polkey);
             new Thread(new XFoilInvoker(polkey)).start();  //call to xfoil
         } catch (InterruptedException ex1) {
             predimrc.PredimRC.logln("InterruptedException");
