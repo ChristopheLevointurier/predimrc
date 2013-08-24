@@ -51,6 +51,10 @@ public class ReynoldsConfig extends MiniFrame {
         }
     };
 
+    static {
+        initReynolds();
+    }
+
     public static void initReynolds() {
         if (init) {
             return;
