@@ -66,7 +66,7 @@ public class ReynoldsConfig extends MiniFrame {
     }
 
     public ReynoldsConfig(AbstractButton _caller, JFrame _mother) {
-        super(_caller,  _mother);
+        super(_caller, _mother);
         title = "Reynolds Panels";
         setTitle(title);
         JPanel content = new JPanel();
@@ -82,8 +82,13 @@ public class ReynoldsConfig extends MiniFrame {
 
     public static ArrayList<Boolean> getConfig() {
         ArrayList<Boolean> ret = new ArrayList<>();
+        int i = 0;
         for (JCheckBox c : reynolds_check) {
             ret.add(c.isSelected());
+            i++;
+        }
+        if (i == 0) {
+            PredimRC.log("No reynolds selected for xfoil frame.");
         }
         return ret;
     }

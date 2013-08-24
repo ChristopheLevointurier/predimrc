@@ -64,6 +64,7 @@ public class FreeChartPanel extends ChartPanel {
 
     public void addSeries(Color col, ArrayList<DrawablePoint> l) {
         lock.lock();
+        predimrc.PredimRC.logDebug("addSeries " + col + " size=" + l.size());
         try {
             XYSeries series = new XYSeries(xyseriescollection.getSeriesCount(), false, true);
             for (DrawablePoint p : l) {
