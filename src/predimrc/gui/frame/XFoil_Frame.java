@@ -67,6 +67,9 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
     private static final int[] alphas = {55, 88, 121, 154, 187, 220, 255};
 
     public static XFoil_Frame getInstance() {
+        if (!initDone) {
+            PredimRC.logln("Xfoil frame call before init!");
+        }
         return instance;
     }
 
@@ -200,8 +203,8 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
 
     public void updateGraphsAndResults() {
         cleanGraphsAndResults();
-           predimrc.PredimRC.logDebugln("update polardatabase:" + xfoilconfig.getConfigsToDisplay());
-         for (String key : xfoilconfig.getConfigsToDisplay()) {
+        predimrc.PredimRC.logDebugln("update polardatabase:" + xfoilconfig.getConfigsToDisplay());
+        for (String key : xfoilconfig.getConfigsToDisplay()) {
             addPolar(PolarDataBase.getPolar(new PolarKey(key), true));
         }
 
@@ -224,6 +227,10 @@ public class XFoil_Frame extends ExternalFrame implements MouseListener {
             predimrc.PredimRC.logDebugln("deleted polardatabase :" + key);
             PolarDataBase.removePolar(new PolarKey(key));
         }
+    }
+
+    public XfoilConfig getXfoilconfig() {
+        return xfoilconfig;
     }
 
     @Override
