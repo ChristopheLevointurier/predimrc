@@ -362,13 +362,13 @@ public class Utils {
         DrawablePoint ret = new DrawablePoint(Float.MAX_VALUE, Float.MAX_VALUE);
 
         for (DrawablePoint pt : lst) {
-            if (byX && (!upside && (pt.getX() <= wanted) || upside && (pt.getX() >= wanted))) {
+            if (byX && (!upside && (pt.getX() <= wanted) || upside && (pt.getX() > wanted))) {
                 if (Math.abs(ret.getX() - wanted) > Math.abs(pt.getX() - wanted)) {
                     ret = pt;
                 }
 
             }
-            if (!byX && (!upside && (pt.getY() <= wanted) || upside && (pt.getY() >= wanted))) {
+            if (!byX && (!upside && (pt.getY() <= wanted) || upside && (pt.getY() > wanted))) {
                 if (Math.abs(ret.getY() - wanted) > Math.abs(pt.getY() - wanted)) {
                     ret = pt;
                 }
