@@ -355,25 +355,27 @@ public class Utils {
      * @param lst
      * @param wanted
      * @param byX
-     * @param up
+     * @param upside
      * @return
      */
-    public DrawablePoint getnearestPoint(ArrayList<DrawablePoint> lst, double wanted, boolean byX, boolean up) {
-        DrawablePoint ret = new DrawablePoint(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    public static DrawablePoint getnearestPoint(ArrayList<DrawablePoint> lst, double wanted, boolean byX, boolean upside) {
+        DrawablePoint ret = new DrawablePoint(Float.MAX_VALUE, Float.MAX_VALUE);
 
         for (DrawablePoint pt : lst) {
-            if (byX && (!up && (pt.getX() <= wanted) || up && (pt.getX() >= wanted))) {
+            if (byX && (!upside && (pt.getX() <= wanted) || upside && (pt.getX() >= wanted))) {
                 if (Math.abs(ret.getX() - wanted) > Math.abs(pt.getX() - wanted)) {
                     ret = pt;
                 }
 
             }
-            if (!byX && (!up && (pt.getY() <= wanted) || up && (pt.getY() >= wanted))) {
+            if (!byX && (!upside && (pt.getY() <= wanted) || upside && (pt.getY() >= wanted))) {
                 if (Math.abs(ret.getY() - wanted) > Math.abs(pt.getY() - wanted)) {
                     ret = pt;
                 }
             }
+            //     System.out.println(" pt=" + pt + "ret=" + ret + " wanted " + wanted + " byX " + byX + " upside " + upside);
         }
+        //  System.out.println("EXIT  ret=" + ret + " wanted " + wanted);
         return ret;
     }
 }
