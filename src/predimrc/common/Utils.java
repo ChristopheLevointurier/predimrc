@@ -347,4 +347,33 @@ public class Utils {
             return OS.OTHERS;
         }
     }
+
+    /**
+     * get the nearest point from a list by x or y , from negatives or from
+     * positives values compare to wanted point
+     *
+     * @param lst
+     * @param wanted
+     * @param byX
+     * @param up
+     * @return
+     */
+    public DrawablePoint getnearestPoint(ArrayList<DrawablePoint> lst, double wanted, boolean byX, boolean up) {
+        DrawablePoint ret = new DrawablePoint(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+        for (DrawablePoint pt : lst) {
+            if (byX && (!up && (pt.getX() <= wanted) || up && (pt.getX() >= wanted))) {
+                if (Math.abs(ret.getX() - wanted) > Math.abs(pt.getX() - wanted)) {
+                    ret = pt;
+                }
+
+            }
+            if (!byX && (!up && (pt.getY() <= wanted) || up && (pt.getY() >= wanted))) {
+                if (Math.abs(ret.getY() - wanted) > Math.abs(pt.getY() - wanted)) {
+                    ret = pt;
+                }
+            }
+        }
+        return ret;
+    }
 }
