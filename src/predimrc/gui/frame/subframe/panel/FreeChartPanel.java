@@ -78,6 +78,12 @@ public class FreeChartPanel extends ChartPanel {
         }
     }
 
+    public void removeLastSerie() {
+        if (xyseriescollection.getSeriesCount() > 0) {
+            xyseriescollection.removeSeries(xyseriescollection.getSeriesCount() - 1);
+        }
+    }
+
     public void clean() {
         xyseriescollection.removeAllSeries();
         for (XYPointerAnnotation p : annots) {
