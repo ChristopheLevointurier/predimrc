@@ -14,6 +14,8 @@
  */
 package predimrc.gui.frame.subframe;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,12 +26,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.jfree.data.xy.XYSeriesCollection;
 import predimrc.PredimRC;
+import predimrc.common.Utils;
 import predimrc.data.PolarData;
 import predimrc.data.PolarDataBase;
 import predimrc.data.PolarKey;
 import predimrc.gui.MiniFrame;
 import predimrc.gui.frame.XFoil_Frame;
 import predimrc.gui.frame.subframe.panel.FreeChartPanel;
+import predimrc.gui.graphic.drawable.tool.DrawablePoint;
 import predimrc.model.element.XfoilConfig;
 
 /**
@@ -45,15 +49,29 @@ public class InterpolViewer extends MiniFrame {
     private static JSlider slider = new JSlider();
     private static PolarData data1;
     private static PolarData data2;
+    private static int re1 = 0;
+    private static int re2 = 0;
+    private static int reynoldVoulu = 0;
+    private static boolean computed = false;
     private static ChangeListener slide = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
             PredimRC.logln("slider value:" + slider.getValue());
+            re1 = ReynoldsConfig.reyIntValue[data1.getReynoldsIndex()];
+            re2 = ReynoldsConfig.reyIntValue[data2.getReynoldsIndex()];
+            if (re1 > re2) {
+                int temp = re1;
+                re1 = re2;
+                re2 = temp;
+            }
+            reynoldVoulu = re1 + ((slider.getValue() * (re2 - re1)) / 100);
+            //  System.out.println("revoulu=" + reynoldVoulu);
+            compute();
         }
     };
 
     public static void initViewer() {
-         XfoilConfig conf = PredimRC.getInstanceDrawableModel().getXfoilConfig();
+        XfoilConfig conf = PredimRC.getInstanceDrawableModel().getXfoilConfig();
         if (conf.getConfigs().size() < 2) {
             chart.getChart().setTitle("XfoilConfig has less than 2 data to interpolate");
             return;
@@ -86,5 +104,37 @@ public class InterpolViewer extends MiniFrame {
         content.add(slider);
         getContentPane().add(content);
         pack();
+    }
+
+    private static void compute() {
+        if (computed) {
+            chart.removeLastSerie();
+        }
+
+        ArrayList<DrawablePoint> res = new ArrayList<>();
+        for (double czVoulu = -0.4; czVoulu < 0.6; czVoulu += 0.1) {
+            //pts sur courbe 1
+            DrawablePoint p1 = Utils.getnearestPoint(data1.getCzCxData(), czVoulu, false, false);
+            DrawablePoint p2 = Utils.getnearestPoint(data1.getCzCxData(), czVoulu, false, true);
+
+            //pts sur courbe 2
+            DrawablePoint p3 = Utils.getnearestPoint(data2.getCzCxData(), czVoulu, false, false);
+            DrawablePoint p4 = Utils.getnearestPoint(data2.getCzCxData(), czVoulu, false, true);
+           // System.out.println("re1=" + re1 + " re2=" + re2 + " Points selectionnes p1=" + p1 + " p2=" + p2 + " p3=" + p3 + " p4=" + p4);
+
+
+            //     cxmoy1 = cx1 +       (czVoulu -   cz1)     * (cx2       - cx1) /       (cz2       - cz1);
+            double cxmoy1 = p1.getX() + (czVoulu - p1.getY()) * (p2.getX() - p1.getX()) / (p2.getY() - p1.getY());
+            //     cxmoy2 = cx3 +       (czVoulu - cz3)       * (cx4       - cx3)       / (cz4       - cz3);
+            double cxmoy2 = p3.getX() + (czVoulu - p3.getY()) * (p4.getX() - p3.getX()) / (p4.getY() - p3.getY());
+
+            double b = (cxmoy2 - cxmoy1) / (((double) 1 / (double) re2) - ((double) 1 / (double) re1));
+            double a = cxmoy2 - (b / re1);
+
+            res.add(new DrawablePoint(a + b / reynoldVoulu, czVoulu));
+         //   System.out.println("reynoldVoulu " + reynoldVoulu + " cxmoy1 " + cxmoy1 + " cxmoy2 " + cxmoy2 + " a= " + a + " b= " + b + " pt=" + res.get(0));
+        }
+        chart.addSeries(Color.BLACK, res);
+        computed = true;
     }
 }
