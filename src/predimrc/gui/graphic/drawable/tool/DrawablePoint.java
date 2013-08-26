@@ -47,10 +47,10 @@ public class DrawablePoint {
         view = VIEW_TYPE.TOP_VIEW;
     }
 
-    public DrawablePoint(int _x, int _y) {
+    public DrawablePoint(double _x, double _y) {
         this();
-        x = _x;
-        y = _y;
+        x = (float) _x;
+        y = (float) _y;
     }
 
     public DrawablePoint(Point2D.Float xy, VIEW_TYPE _view) {
