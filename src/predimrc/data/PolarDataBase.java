@@ -15,8 +15,10 @@
 package predimrc.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.Semaphore;
 import predimrc.common.Utils;
 import predimrc.common.exception.MissingPolarDataException;
@@ -31,11 +33,10 @@ import predimrc.common.exception.MissingPolarDataException;
 public class PolarDataBase {
 
     private static HashMap<PolarKey, PolarData> foilsDataBase = new HashMap<>();
-    public static Semaphore sem;
-    private static List<PolarKey> failed = new ArrayList<>();
+    public static Semaphore sem = new Semaphore(Utils.MAX_THREAD);
+    private static final List<PolarKey> failed = new ArrayList<>();
 
     public static void getPolars(List<String> keys) {
-        sem = new Semaphore(Utils.MAX_THREAD);
         for (String key : keys) {
             PolarKey polkey = new PolarKey(key);
             if (!foilsDataBase.containsKey(polkey)) {
@@ -49,14 +50,19 @@ public class PolarDataBase {
         }
         waitForAll();
         predimrc.PredimRC.logln(failed.size() + " fails ");
-        for (PolarKey polkey : failed) {
-            predimrc.PredimRC.logDebugln("retrying " + polkey);
-            launchInvoker(polkey);
+        synchronized (failed) {
+            for (PolarKey polkey : failed) {
+                predimrc.PredimRC.logDebugln("retrying " + polkey);
+                launchInvoker(polkey);
+            }
         }
         waitForAll();
     }
 
     private static void waitForAll() {
+        if (null == sem) {
+            return;
+        }
         try {
             sem.acquire(Utils.MAX_THREAD);
             sem.release(Utils.MAX_THREAD);
@@ -96,10 +102,10 @@ public class PolarDataBase {
     }
 
     private static void launchInvoker(PolarKey polkey) {
-            predimrc.PredimRC.logDebugln("launchInvoker "+polkey);
+        predimrc.PredimRC.logDebugln("launchInvoker " + polkey);
         try {
             sem.acquire();
-            predimrc.PredimRC.logDebugln("launchInvoker, sem.acquired"+polkey);
+            predimrc.PredimRC.logDebugln("launchInvoker, sem.acquired" + polkey);
             new Thread(new XFoilInvoker(polkey)).start();  //call to xfoil
         } catch (InterruptedException ex1) {
             predimrc.PredimRC.logln("InterruptedException");
