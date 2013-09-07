@@ -45,7 +45,7 @@ public class PolarKey {
         xtrt = _xtrt;
         xtrb = _xtrb;
         colIndex = _cIndex;
-        keyString = foilName + XfoilConfig.DELIM + colIndex + XfoilConfig.DELIM + ncrit + XfoilConfig.DELIM + xtrt + XfoilConfig.DELIM + xtrb + XfoilConfig.DELIM + reynoldsIndex;
+        keyString = foilName + XfoilConfig.DELIM + colIndex + XfoilConfig.DELIM + ncrit + XfoilConfig.DELIM + xtrt + XfoilConfig.DELIM + xtrb + XfoilConfig.DELIM + reynoldsIndex + XfoilConfig.DELIM;
         makeFile();
     }
 
