@@ -96,4 +96,12 @@ public class ReynoldsConfig extends MiniFrame {
         }
         return ret;
     }
+
+    public static int getRey(int i) {
+        return reyIntValue[i];
+    }
+
+    public static int getLastRey() {
+        return getRey(reyIntValue.length - 1);
+    }
 }
