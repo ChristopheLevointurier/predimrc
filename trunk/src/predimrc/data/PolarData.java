@@ -114,4 +114,8 @@ public class PolarData {
             toDelet.delete();
         }
     }
+
+    public String toString() {
+        return "PolarData of key " + key;
+    }
 }
