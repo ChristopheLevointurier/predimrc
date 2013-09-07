@@ -59,7 +59,7 @@ public class PolarDataBase {
         waitForAll();
     }
 
-    private static void waitForAll() {
+    public static void waitForAll() {
         if (null == sem) {
             return;
         }
@@ -72,6 +72,11 @@ public class PolarDataBase {
     }
 
     public static PolarData getPolar(PolarKey key, boolean firstPass) {
+        computePolar(key, firstPass);
+        return foilsDataBase.get(key);
+    }
+
+    public static void computePolar(PolarKey key, boolean firstPass) {
         if (!foilsDataBase.containsKey(key)) {
             try {
                 foilsDataBase.put(key, new PolarData(key));
@@ -82,7 +87,6 @@ public class PolarDataBase {
                 }
             }
         }
-        return foilsDataBase.get(key);
     }
 
     public static void removePolar(PolarKey key) {
